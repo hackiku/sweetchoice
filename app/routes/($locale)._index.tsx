@@ -8,7 +8,7 @@ import type {
 } from 'storefrontapi.generated';
 
 export const meta: MetaFunction = () => {
-  return [{title: 'Hydrogen | Home'}];
+  return [{title: 'Sweetchoice 🍫 Initial Commit'}];
 };
 
 export async function loader(args: LoaderFunctionArgs) {
