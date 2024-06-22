@@ -58,8 +58,13 @@ function loadDeferredData({context}: LoaderFunctionArgs) {
 export default function Homepage() {
   const data = useLoaderData<typeof loader>();
   return (
-    <div className="home">
-      <FeaturedCollection collection={data.featuredCollection} />
+		<div className="home">
+		<div style={{ marginBottom: '4em' }}>
+			<h1 style={{ marginLeft: '30vw', marginBottom: '0.5em'}}>Happy Easter Motherfuckers 🍫</h1>
+			{/* <p style={{ marginRight: '40em' }}>Welcome to Boca's kingdom.</p> */}
+			<p style={{ marginLeft: '30vw' }}>Welcome to Boca's kingdom. Needless to say, we do have candy.</p>
+		</div>
+			{/* <FeaturedCollection collection={data.featuredCollection} /> */}
       <RecommendedProducts products={data.recommendedProducts} />
     </div>
   );
