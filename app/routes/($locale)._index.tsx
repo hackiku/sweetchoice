@@ -55,20 +55,54 @@ function loadDeferredData({context}: LoaderFunctionArgs) {
   };
 }
 
+// ==================== HOMEPAGE ====================
 export default function Homepage() {
-  const data = useLoaderData<typeof loader>();
-  return (
+	const data = useLoaderData<typeof loader>();
+	return (
 		<div className="home">
-		<div style={{ marginBottom: '4em' }}>
-			<h1 style={{ marginLeft: '30vw', marginBottom: '0.5em'}}>Happy Easter Motherfuckers 🍫</h1>
-			{/* <p style={{ marginRight: '40em' }}>Welcome to Boca's kingdom.</p> */}
-			<p style={{ marginLeft: '30vw' }}>Welcome to Boca's kingdom. Needless to say, we do have candy.</p>
-		</div>
+			<div style={{
+				marginBottom: '4em',
+				textAlign: 'center',
+				padding: '2em'
+			}}>
+				<h1 style={{
+					marginBottom: '0.5em'
+				}}>Happy Easter Motherfuckers 🍫</h1>
+				<p style={{
+					marginBottom: '1em'
+				}}>Welcome to Boca's kingdom. Needless to say, we do have candy.</p>
+				<button style={{
+					backgroundColor: '#EF4F41', // Boca Hex
+					border: 'none',
+					padding: '1em 2em',
+					color: 'white',
+					fontSize: '1em',
+					cursor: 'pointer',
+					borderRadius: '5px'
+				}}>Business Inquiries</button>
+			</div>
 			{/* <FeaturedCollection collection={data.featuredCollection} /> */}
-      <RecommendedProducts products={data.recommendedProducts} />
-    </div>
-  );
+			<RecommendedProducts products={data.recommendedProducts} />
+		</div>
+	);
 }
+
+// export default function Homepage() {
+//   const data = useLoaderData<typeof loader>();
+//   return (
+// 		<div className="home">
+// 		<div style={{ marginBottom: '4em' }}>
+// 			<h1 style={{ marginLeft: '30vw', marginBottom: '0.5em'}}>Happy Easter Motherfuckers 🍫</h1>
+// 			{/* <p style={{ marginRight: '40em' }}>Welcome to Boca's kingdom.</p> */}
+// 			<p style={{ marginLeft: '30vw' }}>Welcome to Boca's kingdom. Needless to say, we do have candy.</p>
+// 			<button style={{ marginLeft: '30vw' }}>Business Inquiries</button>
+
+// 		</div>
+// 			{/* <FeaturedCollection collection={data.featuredCollection} /> */}
+//       <RecommendedProducts products={data.recommendedProducts} />
+//     </div>
+//   );
+// }
 
 function FeaturedCollection({
   collection,
