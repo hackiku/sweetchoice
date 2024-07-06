@@ -1,3 +1,5 @@
+// app / routes / ($locale).collections.$handle.tsx
+
 import {defer, redirect, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
 import {useLoaderData, Link, type MetaFunction} from '@remix-run/react';
 import {
@@ -76,7 +78,8 @@ export default function Collection() {
   return (
     <div className="collection">
       <h1>{collection.title}</h1>
-      <p className="collection-description">{collection.description}</p>
+      <p className="collection-description">{collection.description} diomerda!</p>
+			<span>diomerda span!</span>
       <Pagination connection={collection.products}>
         {({nodes, isLoading, PreviousLink, NextLink}) => (
           <>
