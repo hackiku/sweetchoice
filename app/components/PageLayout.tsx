@@ -1,3 +1,5 @@
+// app/components/PageLayout.tsx
+
 import {Await} from '@remix-run/react';
 import {Suspense} from 'react';
 import type {

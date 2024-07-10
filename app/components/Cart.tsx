@@ -1,3 +1,5 @@
+// app/components/Cart.tsx
+
 import {
   CartForm,
   Image,

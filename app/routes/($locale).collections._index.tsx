@@ -1,3 +1,5 @@
+// routes/($locale).collections._index.tsx
+
 import {useLoaderData, Link} from '@remix-run/react';
 import {defer, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
 import {Pagination, getPaginationVariables, Image} from '@shopify/hydrogen';
@@ -47,7 +49,7 @@ export default function Collections() {
   return (
     <div className="collections">
       <h1>Collections</h1>
-			<p>Omg im a dev</p>
+			<p>Discover all our offerings</p>
       <Pagination connection={collections}>
         {({nodes, isLoading, PreviousLink, NextLink}) => (
           <div>

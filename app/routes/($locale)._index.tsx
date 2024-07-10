@@ -1,3 +1,5 @@
+// app/routes/($locale)._index.tsx
+
 import {defer, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, Link, type MetaFunction} from '@remix-run/react';
 import {Suspense} from 'react';
@@ -56,53 +58,31 @@ function loadDeferredData({context}: LoaderFunctionArgs) {
 }
 
 // ==================== HOMEPAGE ====================
+
 export default function Homepage() {
 	const data = useLoaderData<typeof loader>();
 	return (
 		<div className="home">
-			<div style={{
-				marginBottom: '4em',
-				textAlign: 'center',
-				padding: '2em'
-			}}>
-				<h1 style={{
-					marginBottom: '0.5em'
-				}}>Happy Easter Motherfuckers 🍫</h1>
-				<p style={{
-					marginBottom: '1em'
-				}}>Welcome to Boca's kingdom. Needless to say, we do have candy.</p>
+			<div>
+				<h1>Happy Easter Motherfuckers 🍫</h1>
+				<p>Welcome to Boca's kingdom. Needless to say, we do have candy.</p>
 				<button style={{
 					backgroundColor: '#EF4F41', // Boca Hex
 					border: 'none',
 					padding: '1em 2em',
+					margin: '1em 0 4em 0',
 					color: 'white',
 					fontSize: '1em',
 					cursor: 'pointer',
 					borderRadius: '5px'
 				}}>Business Inquiries</button>
 			</div>
-			{/* <FeaturedCollection collection={data.featuredCollection} /> */}
+			{<FeaturedCollection collection={data.featuredCollection} />}
 			<RecommendedProducts products={data.recommendedProducts} />
 		</div>
 	);
 }
 
-// export default function Homepage() {
-//   const data = useLoaderData<typeof loader>();
-//   return (
-// 		<div className="home">
-// 		<div style={{ marginBottom: '4em' }}>
-// 			<h1 style={{ marginLeft: '30vw', marginBottom: '0.5em'}}>Happy Easter Motherfuckers 🍫</h1>
-// 			{/* <p style={{ marginRight: '40em' }}>Welcome to Boca's kingdom.</p> */}
-// 			<p style={{ marginLeft: '30vw' }}>Welcome to Boca's kingdom. Needless to say, we do have candy.</p>
-// 			<button style={{ marginLeft: '30vw' }}>Business Inquiries</button>
-
-// 		</div>
-// 			{/* <FeaturedCollection collection={data.featuredCollection} /> */}
-//       <RecommendedProducts products={data.recommendedProducts} />
-//     </div>
-//   );
-// }
 
 function FeaturedCollection({
   collection,
@@ -133,7 +113,7 @@ function RecommendedProducts({
 }) {
   return (
     <div className="recommended-products">
-      <h2>Recommended Products</h2>
+      <h2>Recommended</h2>
       <Suspense fallback={<div>Loading...</div>}>
         <Await resolve={products}>
           {(response) => (
