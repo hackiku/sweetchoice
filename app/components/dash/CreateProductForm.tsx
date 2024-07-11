@@ -2,9 +2,11 @@
 
 import { useState } from 'react';
 import { useFetcher } from '@remix-run/react';
-import { PRODUCT_CREATE_MUTATION } from '~/graphql/ProductCreateMutation';
+// import { PRODUCT_CREATE_MUTATION } from '~/graphql/ProductCreateMutation';
+import { PRODUCT_CREATE_MUTATION, UPDATE_PRODUCT_VARIANT_MUTATION, ADD_PRODUCT_TAGS_MUTATION } from '~/graphql/AddProduct';
 
-export function CreateProductForm() {
+
+const CreateProductForm = () => {
 	const fetcher = useFetcher();
 	const [title, setTitle] = useState('');
 	const [imageURL, setImageURL] = useState('');
@@ -51,4 +53,6 @@ export function CreateProductForm() {
 			{fetcher.data?.data?.productCreate?.product && <p>Product created successfully: {fetcher.data.data.productCreate.product.title}</p>}
 		</form>
 	);
-}
+};
+
+export default CreateProductForm;

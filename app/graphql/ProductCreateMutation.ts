@@ -1,21 +1,30 @@
-// app/graphql/ProductCreateMutation.ts
+// app/graphql/ProductUpdateMutations.ts
 
-export const PRODUCT_CREATE_MUTATION = `#graphql
-  mutation CreateProductWithNewMedia($input: ProductInput!, $media: [CreateMediaInput!]) {
-    productCreate(input: $input, media: $media) {
-      product {
+export const UPDATE_PRODUCT_VARIANT_MUTATION = `#graphql
+  mutation UpdateProductVariant($input: ProductVariantInput!) {
+    productVariantUpdate(input: $input) {
+      productVariant {
         id
-        title
-        media(first: 10) {
-          nodes {
-            alt
-            mediaContentType
-            preview {
-              status
-            }
-          }
-        }
+        sku
+        barcode
+        inventoryPolicy
+        fulfillmentService
+        inventoryManagement
+        inventoryQuantity
+        weight
+        weightUnit
       }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+` as const;
+
+export const ADD_PRODUCT_TAGS_MUTATION = `#graphql
+  mutation AddProductTags($id: ID!, $tags: [String!]!) {
+    tagsAdd(id: $id, tags: $tags) {
       userErrors {
         field
         message
