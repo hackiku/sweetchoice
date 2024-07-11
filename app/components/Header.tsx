@@ -110,6 +110,9 @@ export function HeaderMenu({
 					<div className="dropdown-container">
 						<span className="dropdown-trigger">More</span>
 						<div className="dropdown">
+							<NavLink className="dropdown-item" to="/dash">
+								Dash
+							</NavLink>
 							<NavLink className="dropdown-item" to="/policies">
 								Policies
 							</NavLink>

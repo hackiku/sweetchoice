@@ -21,7 +21,7 @@ export default function About() {
 				paragraph="Make someone's day sweeter."
 				buttonLabel="Contact Us"
 				// backgroundImage="assets/trees-drawing.png"
-				slotContent={<img src="assets/tree-drawing.png" alt="About sweetchoice" />}
+				// slotContent={<img src="assets/tree-drawing.png" alt="About sweetchoice" />}
 			/>
 
 			<section>
