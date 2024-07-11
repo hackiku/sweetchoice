@@ -1,7 +1,7 @@
-// // app/routes/($locale).dash.tsx
+// app/routes/($locale).dash.tsx
 
 import { useLoaderData, type MetaFunction } from '@remix-run/react';
-import CreateProductForm from '~/components/dash/CreateProductForm';
+import { CreateProductForm } from '~/components/dash/CreateProductForm';
 
 export const meta: MetaFunction = () => {
 	return [{ title: `Dashboard | Sweetchoice` }];

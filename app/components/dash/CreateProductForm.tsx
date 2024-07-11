@@ -1,10 +1,10 @@
 // app/components/CreateProductForm.tsx
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useFetcher } from '@remix-run/react';
 import { PRODUCT_CREATE_MUTATION } from '~/graphql/ProductCreateMutation';
 
-const CreateProductForm = () => {
+export function CreateProductForm() {
 	const fetcher = useFetcher();
 	const [title, setTitle] = useState('');
 	const [imageURL, setImageURL] = useState('');
@@ -51,6 +51,4 @@ const CreateProductForm = () => {
 			{fetcher.data?.data?.productCreate?.product && <p>Product created successfully: {fetcher.data.data.productCreate.product.title}</p>}
 		</form>
 	);
-};
-
-export default CreateProductForm;
+}
