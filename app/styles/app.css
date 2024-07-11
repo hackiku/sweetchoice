@@ -8,7 +8,7 @@
   --header-height: 64px;
   --color-dark: #000;
   --color-light: #fff;
-  --color-brand: #fff;
+  --color-brand: #ef4f41;
 }
 
 img {
@@ -56,7 +56,7 @@ img {
   color: white;
   font-size: 1em;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 12em;
 }
 
 .hero .slot-content {
@@ -259,6 +259,64 @@ button.reset:hover:not(:has(> *)) {
   grid-gap: 1rem;
   margin-left: auto;
 }
+
+
+
+/*---- DROPDOWN ----*/
+
+
+
+.header-menu-item-container {
+  display: inline-block;
+  padding: 0 16px; /* Adjust padding to match other items */
+}
+
+.header-menu-item {
+  text-decoration: none;
+  color: inherit;
+}
+
+.dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-trigger {
+  cursor: pointer;
+  padding: 16px;
+  font-size: 16px;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  background-color: white;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  min-width: 160px;
+}
+
+.dropdown-container:hover .dropdown {
+  display: block;
+}
+
+.dropdown-item {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-item:hover {
+  background-color: #f1f1f1;
+}
+
+
+
+
+
+
+
 
 /*
 * --------------------------------------------------
