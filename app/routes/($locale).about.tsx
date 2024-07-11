@@ -1,6 +1,11 @@
 // app/routes/($locale).about.tsx
 
+import { useLoaderData, type MetaFunction } from '@remix-run/react';
 import { Hero } from '~/components/Hero';
+
+export const meta: MetaFunction = () => {
+	return [{ title: `About us | Sweetchoice` }];
+};
 
 export default function About() {
 	return (
