@@ -260,20 +260,9 @@ button.reset:hover:not(:has(> *)) {
   margin-left: auto;
 }
 
-
-
-/*---- DROPDOWN ----*/
-
-
-
+/* Dropdown */
 .header-menu-item-container {
-  display: inline-block;
-  padding: 0 16px; /* Adjust padding to match other items */
-}
-
-.header-menu-item {
-  text-decoration: none;
-  color: inherit;
+  position: relative;
 }
 
 .dropdown-container {
@@ -311,8 +300,19 @@ button.reset:hover:not(:has(> *)) {
   background-color: #f1f1f1;
 }
 
-
-
+@media (max-width: 768px) {
+  .header-menu-desktop {
+    display: none;
+  }
+  .header-menu-mobile {
+    display: block;
+  }
+  .dropdown-container .dropdown {
+    position: relative;
+    display: block;
+    box-shadow: none;
+  }
+}
 
 
 

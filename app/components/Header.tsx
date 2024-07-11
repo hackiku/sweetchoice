@@ -33,31 +33,7 @@ export function Header({
 				primaryDomainUrl={header.shop.primaryDomain.url}
 				publicStoreDomain={publicStoreDomain}
 			/>
-			<div className="header-menu-item-container">
-				<NavLink
-					className="header-menu-item"
-					end
-					prefetch="intent"
-					style={activeLinkStyle}
-					to="/about"
-				>
-					About
-				</NavLink>
-			</div>
-			<div className="dropdown-container">
-				<span className="dropdown-trigger">More</span>
-				<div className="dropdown">
-					<NavLink className="dropdown-item" to="/policies">
-						Policies
-					</NavLink>
-					<NavLink className="dropdown-item" to="/collections">
-						Collections
-					</NavLink>
-					<NavLink className="dropdown-item" to="/gifts">
-						Gifts
-					</NavLink>
-				</div>
-			</div>
+			<HeaderMenuMobileToggle />
 			<HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
 		</header>
 	);
@@ -119,6 +95,34 @@ export function HeaderMenu({
 					</NavLink>
 				);
 			})}
+			{viewport === 'desktop' && (
+				<>
+					<NavLink
+						className="header-menu-item"
+						end
+						onClick={closeAside}
+						prefetch="intent"
+						style={activeLinkStyle}
+						to="/about"
+					>
+						About
+					</NavLink>
+					<div className="dropdown-container">
+						<span className="dropdown-trigger">More</span>
+						<div className="dropdown">
+							<NavLink className="dropdown-item" to="/policies">
+								Policies
+							</NavLink>
+							<NavLink className="dropdown-item" to="/collections">
+								Collections
+							</NavLink>
+							<NavLink className="dropdown-item" to="/gifts">
+								Gifts
+							</NavLink>
+						</div>
+					</div>
+				</>
+			)}
 		</nav>
 	);
 }
@@ -129,7 +133,6 @@ function HeaderCtas({
 }: Pick<HeaderProps, 'isLoggedIn' | 'cart'>) {
 	return (
 		<nav className="header-ctas" role="navigation">
-			<HeaderMenuMobileToggle />
 			<NavLink prefetch="intent" to="/account" style={activeLinkStyle}>
 				<Suspense fallback="Sign in">
 					<Await resolve={isLoggedIn} errorElement="Sign in">
