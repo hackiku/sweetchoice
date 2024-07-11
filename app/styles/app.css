@@ -8,11 +8,78 @@
   --header-height: 64px;
   --color-dark: #000;
   --color-light: #fff;
+  --color-brand: #fff;
 }
 
 img {
   border-radius: 4px;
 }
+
+
+/*   *   *   *   *   *   *   *   *   *   *   *   *   *   *   */
+
+/*
+* --------------------------------------------------
+* components/Hero
+* --------------------------------------------------
+*/
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem;
+  background: var(--color-light);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.hero-content {
+  max-width: 50%;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.hero button {
+  background-color: var(--color-brand);
+  border: none;
+  padding: 1em 2em;
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.hero .slot-content {
+  max-width: 45%;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-content, .hero .slot-content {
+    max-width: 100%;
+  }
+
+  .hero button {
+    margin-bottom: 2rem;
+  }
+}
+
+
+/*================================================================*/
 
 /*
 * --------------------------------------------------
