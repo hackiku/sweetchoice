@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useFetcher } from '@remix-run/react';
-import { PRODUCT_CREATE_MUTATION } from '~/graphql/dash/AddProduct';
 
 const AddProduct = ({ initialData }) => {
 	const fetcher = useFetcher();
@@ -34,25 +33,9 @@ const AddProduct = ({ initialData }) => {
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		const { tags, ...rest } = productData;
 		fetcher.submit(
-			{
-				query: PRODUCT_CREATE_MUTATION,
-				variables: JSON.stringify({
-					input: {
-						...rest,
-						tags: tags.split(','),
-					},
-					media: [
-						{
-							originalSource: productData.imageURL,
-							alt: 'Drunk Santa Claus Hat Festive',
-							mediaContentType: 'IMAGE',
-						},
-					],
-				}),
-			},
-			{ method: 'post', action: '/graphql' }
+			productData,
+			{ method: 'post', action: '/api/add-product' }
 		);
 	};
 
@@ -72,8 +55,8 @@ const AddProduct = ({ initialData }) => {
 				</div>
 			))}
 			<button type="submit" disabled={fetcher.state === 'submitting'}>Create Product</button>
-			{fetcher.data?.errors && <p>Error: {fetcher.data.errors[0].message}</p>}
-			{fetcher.data?.data?.productCreate?.product && <p>Product created successfully: {fetcher.data.data.productCreate.product.title}</p>}
+			{fetcher.data?.error && <p>Error: {fetcher.data.error}</p>}
+			{fetcher.data?.product && <p>Product created successfully: {fetcher.data.product.title}</p>}
 		</form>
 	);
 };
