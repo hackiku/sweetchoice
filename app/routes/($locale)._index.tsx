@@ -8,7 +8,10 @@ import type {
   FeaturedCollectionFragment,
   RecommendedProductsQuery,
 } from 'storefrontapi.generated';
-import 'styles/home-hero.css';
+import { BusinessSelector } from '../components/BusinessSelector';
+import '../styles/home-hero.css';
+import '../styles/business-selector.css';
+
 
 export const meta: MetaFunction = () => {
   return [{title: 'Sweetchoice 🍫 Home'}];
@@ -64,25 +67,25 @@ export default function Homepage() {
 	const data = useLoaderData<typeof loader>();
 	return (
 		<div className="home">
-			<div style={{ display: 'flex', flexDirection: 'column' }}>
-				<h1>Happy Easter Motherfuckers 🍫</h1>
-				<p>Welcome to Boca's kingdom. Needless to say, we do have candy.</p>
-				<button style={{
-					backgroundColor: '#EF4F41', // Boca Hex
-					border: 'none',
-					padding: '1em 2em',
-					margin: '1em 0 1em 0',
-					color: 'white',
-					fontSize: '1em',
-					cursor: 'pointer',
-					borderRadius: '5px'
-				}}>Business Inquiries</button>
-				<a href='https://admin.shopify.com/store/quickstart-a826c428/apps/sweetchoice-dash/app' target='_blank'>
-					Dash app →
-				</a>
+			<div className="home-hero">
+				<div className="home-hero-content">
+					<h1>CHRISTMAS EVERY DAY</h1>
+					<p>We wholesale sweet treats for the holidays.</p>
+					<button className="home-hero-button">Talk Business</button>
+					<a className="home-hero-link" href="/collections/all">Shop all →</a>
+					<div className="client-logos">
+						{/* <img src="https://www.atastars.rs/wp-content/uploads/2020/04/DIS-LOGO-300x179.jpg" alt="" /> */}
+						<div>Logo</div>
+						<div>Logo</div>
+						<div>Logo</div>
+						<div>Logo</div>
+					</div>
+				</div>
 			</div>
+			<hr />
 			{<FeaturedCollection collection={data.featuredCollection} />}
 			<RecommendedProducts products={data.recommendedProducts} />
+			<BusinessSelector />
 		</div>
 	);
 }

@@ -1,0 +1,39 @@
+/* app/styles/business-selector.css */
+
+/* app/styles/business-selector.css */
+
+.business-selector {
+	position: fixed;
+	bottom: 5em;
+	right: 5em;
+	display: flex;
+	align-items: center;
+	background: var(--color-light);
+	border: 1px solid var(--color-dark);
+	border-radius: 30px;
+	overflow: hidden;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	z-index: 1000;
+}
+
+.business-selector span {
+	padding: 0.5em 1.5em;
+	cursor: pointer;
+	font-size: 1.25em;
+	transition: background-color 0.3s, color 0.3s;
+}
+
+.business-selector span.active {
+	background-color: var(--color-brand);
+	color: white;
+}
+
+.business-selector span:not(.active) {
+	background-color: var(--color-light);
+	color: var(--color-dark);
+}
+
+.business-selector span:hover {
+	background-color: #d74236;
+	color: white;
+}

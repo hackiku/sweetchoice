@@ -1,6 +1,6 @@
 /* app/styles/home-hero.css */
 
-:root {
+/* :root {
   --aside-width: 400px;
   --cart-aside-summary-height-with-discount: 300px;
   --cart-aside-summary-height: 250px;
@@ -9,17 +9,14 @@
   --color-dark: #000;
   --color-light: #fff;
   --color-brand: #ef4f41;
-}
+} */
 
-img {
-  border-radius: 4px;
-}
 
 .home-hero {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding: 2rem;
+	padding: 0rem;
 	background: var(--color-light);
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -27,12 +24,14 @@ img {
 }
 
 .home-hero-content {
-	max-width: 50%;
+	max-width: 80%;
 }
 
 .home-hero h1 {
-	font-size: 3rem;
-	font-weight: bold;
+	font-size: 6rem;
+	font-weight: 500;
+	line-height: 1;
+	/* font-weight: bold; */
 	margin-bottom: 1.5rem;
 }
 
@@ -50,7 +49,7 @@ img {
 	cursor: pointer;
 	border-radius: 8px;
 	transition: background-color 0.3s;
-	margin-right: 1rem;
+	margin-right: 1.1rem;
 }
 
 .home-hero-button:hover {

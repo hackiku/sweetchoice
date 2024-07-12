@@ -86,6 +86,7 @@ img {
 * components/Aside
 * --------------------------------------------------
 */
+
 aside {
   background: var(--color-light);
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
@@ -221,7 +222,7 @@ button.reset:hover:not(:has(> *)) {
   background: #fff;
   display: flex;
   height: var(--header-height);
-  padding: 0 3rem;
+  padding: 0 3rem; /* !!! */
   position: sticky;
   top: 0;
   z-index: 1;
