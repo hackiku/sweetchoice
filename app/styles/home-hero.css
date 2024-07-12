@@ -1,6 +1,5 @@
 /* app/styles/home-hero.css */
 
-
 .home-hero {
 	display: flex;
 	align-items: center;
@@ -13,7 +12,8 @@
 }
 
 .home-hero-content {
-	max-width: 60%;
+	/* max-width: 80%; */
+	max-width: 80vw;
 }
 
 .home-hero h1 {
@@ -50,6 +50,7 @@
 	color: var(--color-dark);
 	text-decoration: none;
 	margin-left: 1rem;
+	font-weight: 550;
 }
 
 .home-hero-link:hover {
@@ -62,11 +63,13 @@
 	align-items: center;
 	justify-content: space-around;
 	margin: 3rem 1rem 1rem 0;
-	width: 100%;
+	width: 60%;
+	/* max-height: 4px; */
 }
 
 .client-logos img {
-	max-width: 100px;
+	max-height: 22px;
+	/* max-width: 100px; */
 	margin: 0 1rem;
 }
 

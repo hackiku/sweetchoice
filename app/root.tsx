@@ -1,21 +1,24 @@
-import {useNonce, getShopAnalytics, Analytics} from '@shopify/hydrogen';
-import {defer, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
+import { useNonce, getShopAnalytics, Analytics } from '@shopify/hydrogen';
+import { defer, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import {
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-  useRouteError,
-  useRouteLoaderData,
-  ScrollRestoration,
-  isRouteErrorResponse,
-  type ShouldRevalidateFunction,
+	Links,
+	Meta,
+	Outlet,
+	Scripts,
+	useRouteError,
+	useRouteLoaderData,
+	ScrollRestoration,
+	isRouteErrorResponse,
+	type ShouldRevalidateFunction,
 } from '@remix-run/react';
 import favicon from '~/assets/favicon.png';
 import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
-import {PageLayout} from '~/components/PageLayout';
-import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
+import businessSelectorStyles from '~/styles/business-selector.css?url';
+import collectionsStyles from '~/styles/collections.css?url';
+import homeHeroStyles from '~/styles/home-hero.css?url';
+import { PageLayout } from '~/components/PageLayout';
+import { FOOTER_QUERY, HEADER_QUERY } from '~/lib/fragments';
 
 export type RootLoader = typeof loader;
 
@@ -42,8 +45,11 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 
 export function links() {
   return [
-    {rel: 'stylesheet', href: resetStyles},
-    {rel: 'stylesheet', href: appStyles},
+		{ rel: 'stylesheet', href: resetStyles },
+		{ rel: 'stylesheet', href: appStyles },
+		{ rel: 'stylesheet', href: businessSelectorStyles },
+		{ rel: 'stylesheet', href: collectionsStyles },
+		{ rel: 'stylesheet', href: homeHeroStyles },
     {
       rel: 'preconnect',
       href: 'https://cdn.shopify.com',

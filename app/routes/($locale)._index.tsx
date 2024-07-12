@@ -60,15 +60,16 @@ export default function Homepage() {
 		<div className="home">
 			<div className="home-hero">
 				<div className="home-hero-content">
-					<h1>CHRISTMAS EVERY DAY</h1>
-					<p>Holiday season treats wholesale treats for holiday seasons. Trusted by leading supermarket chains in Serbia and the EU.</p>
+					<h1>SWEET CHRISTMAS EVERY DAY</h1>
+					<p><a href="/about">Holiday season treats wholesale. Trusted by leading supermarket chains.</a></p>
 					<button className="home-hero-button">Talk Business</button>
 					<a className="home-hero-link" href="/collections/all">Shop all →</a>
 					<div className="client-logos">
-						<div><a href="/about">About</a></div>
-						<div>Logo</div>
-						<div>Logo</div>
-						<div>Logo</div>
+						<div></div>
+						<img src="/assets/logos/dis-logo.png" alt="" />
+						<img src="/assets/logos/maxi-logo.svg" alt="Maxi logo" />
+						<img src="/assets/logos/idea-logo.svg" alt="Idea logo" />
+						<img src="/assets/logos/univerexport-logo.svg" alt="Univerexport logo" />
 					</div>
 				</div>
 			</div>
