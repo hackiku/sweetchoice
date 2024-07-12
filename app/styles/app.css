@@ -235,6 +235,21 @@ button.reset:hover:not(:has(> *)) {
   }
 }
 
+.nav-logo {
+	max-height: 64px;
+}
+
+.header .icon {
+	width: 24px;
+	height: 24px;
+	vertical-align: middle;
+}
+
+.icon-small {
+	width: 14px;
+	height: 14px;
+}
+
 .header-menu-mobile {
   display: flex;
   flex-direction: column;
@@ -247,7 +262,7 @@ button.reset:hover:not(:has(> *)) {
   @media (min-width: 45em) {
     display: flex;
     grid-gap: 1rem;
-    margin-left: 3rem;
+    margin-left: 2rem;
   }
 }
 
@@ -258,7 +273,7 @@ button.reset:hover:not(:has(> *)) {
 .header-ctas {
   align-items: center;
   display: flex;
-  grid-gap: 1rem;
+  grid-gap: 0.4rem;
   margin-left: auto;
 }
 

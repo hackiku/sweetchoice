@@ -60,21 +60,22 @@ export default function Homepage() {
 		<div className="home">
 			<div className="home-hero">
 				<div className="home-hero-content">
+					{/* <h1>IT'S SWEET <br></br>CHRISTMAS <br></br>EVERY DAY</h1> */}
 					<h1>SWEET CHRISTMAS EVERY DAY</h1>
-					<p><a href="/about">Holiday season treats wholesale. Trusted by leading supermarket chains.</a></p>
+					<p><a href="/about">Wholesome holiday treats, wholesale and retail. <br></br> Trusted by leading supermarket chains.</a></p>
 					<button className="home-hero-button">Talk Business</button>
 					<a className="home-hero-link" href="/collections/all">Shop all →</a>
 					<div className="client-logos">
-						<div></div>
-						<img src="/assets/logos/dis-logo.png" alt="" />
 						<img src="/assets/logos/maxi-logo.svg" alt="Maxi logo" />
+						<img style={{ height: '33px' }} src="/assets/logos/dis-logo.png" alt="" />
 						<img src="/assets/logos/idea-logo.svg" alt="Idea logo" />
 						<img src="/assets/logos/univerexport-logo.svg" alt="Univerexport logo" />
 					</div>
 				</div>
 			</div>
-			<hr />
-			<FeaturedCollection collection={data.featuredCollection} />
+			<hr style={{ marginBottom: '3em' }} />
+			
+			{/* <FeaturedCollection collection={data.featuredCollection} /> */}
 			<RecommendedProducts products={data.recommendedProducts} />
 			<BusinessSelector />
 			

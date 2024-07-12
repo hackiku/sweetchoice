@@ -5,6 +5,8 @@ import { Await, NavLink } from '@remix-run/react';
 import { type CartViewPayload, useAnalytics } from '@shopify/hydrogen';
 import type { HeaderQuery, CartApiQueryFragment } from 'storefrontapi.generated';
 import { useAside } from '~/components/Aside';
+import { UserIcon, MagnifyingGlassIcon, ShoppingCartIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+
 
 interface HeaderProps {
 	header: HeaderQuery;
@@ -25,7 +27,8 @@ export function Header({
 	return (
 		<header className="header">
 			<NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
-				<strong>Sweetchoice</strong>
+				{/* <strong>Sweetchoice</strong> */}
+				<img className='nav-logo' src="/assets/logos/sweetchoice-logo-main.png" alt="" />
 			</NavLink>
 			<HeaderMenu
 				menu={menu}
@@ -108,8 +111,11 @@ export function HeaderMenu({
 						About
 					</NavLink>
 					<div className="dropdown-container">
-						<span className="dropdown-trigger">More</span>
+						<span className="dropdown-trigger"><ChevronDownIcon className="icon-small" /> More</span>
 						<div className="dropdown">
+							<NavLink className="dropdown-item" to="/blogs">
+								Blogs
+							</NavLink>
 							<NavLink className="dropdown-item" to="/dash">
 								Dash
 							</NavLink>
@@ -139,7 +145,8 @@ function HeaderCtas({
 			<NavLink prefetch="intent" to="/account" style={activeLinkStyle}>
 				<Suspense fallback="Sign in">
 					<Await resolve={isLoggedIn} errorElement="Sign in">
-						{(isLoggedIn) => (isLoggedIn ? 'Account' : 'Sign in')}
+						{(isLoggedIn) => (isLoggedIn ? <UserIcon className="icon" /> : 'Sign in')}
+
 					</Await>
 				</Suspense>
 			</NavLink>
@@ -165,7 +172,7 @@ function SearchToggle() {
 	const { open } = useAside();
 	return (
 		<button className="reset" onClick={() => open('search')}>
-			Search
+			<MagnifyingGlassIcon className="icon" />
 		</button>
 	);
 }
@@ -188,7 +195,8 @@ function CartBadge({ count }: { count: number }) {
 				} as CartViewPayload);
 			}}
 		>
-			Cart {count}
+			<ShoppingCartIcon className="icon" /> {count}
+			{/* Cart {count} */}
 		</a>
 	);
 }
