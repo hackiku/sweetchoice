@@ -12,10 +12,10 @@ export function BusinessSelector() {
 	return (
 		<div className="business-selector">
 			<span className={isB2B ? 'active' : ''} onClick={handleToggle}>
-				B2B
+				Wholesale
 			</span>
 			<span className={!isB2B ? 'active' : ''} onClick={handleToggle}>
-				B2C
+				Retail
 			</span>
 		</div>
 	);

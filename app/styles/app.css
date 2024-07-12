@@ -9,6 +9,7 @@
   --color-dark: #000;
   --color-light: #fff;
   --color-brand: #ef4f41;
+  --color-secondary: #38a6a1;
 }
 
 img {
@@ -222,7 +223,7 @@ button.reset:hover:not(:has(> *)) {
   background: #fff;
   display: flex;
   height: var(--header-height);
-  padding: 0 3rem; /* !!! */
+  padding: 0 2rem; /* !!! */
   position: sticky;
   top: 0;
   z-index: 1;

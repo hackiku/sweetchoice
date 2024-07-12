@@ -5,8 +5,9 @@ body {
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   margin: 0;
   padding: 0;
-	
 }
+
+
 
 h1,
 h2,
@@ -24,10 +25,17 @@ h1 {
 }
 
 h2 {
-  font-size: 1.2rem;
+  font-size: 2rem;
   font-weight: 700;
   line-height: 1.4;
   margin-bottom: 1rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	font-weight: 700;
+	line-height: 1.4;
+	margin-bottom: 1rem;
 }
 
 h4 {
@@ -73,7 +81,7 @@ body {
 
 
 body > main {
-  margin: 0 3rem 1rem 3rem;
+  margin: 0 2rem 1rem 2rem;
 }
 
 section {
