@@ -86,8 +86,8 @@ export default function Homepage() {
 				{/* <img className="choco-background" src="/assets/graphics/choco-gradient.svg" alt="Chocolate background" /> */}
 				{/* <img className="choco-background" src="/assets/graphics/choco-grad-2.svg" alt="Chocolate background" /> */}
 				<div className="home-hero-content">
-					<h1>SWEET CHRISTMAS EVERY DAY</h1>
-					<p><a href="/about">Wholesome holiday treats, wholesale and retail. <br></br> Trusted by all the leading supermarket chains.</a></p>
+					<h1>SWEET HOLIDAYS, NOW EVERY DAY</h1>
+					<p><a href="/about">We sell wholesome holiday treats, wholesale and retail. <br></br> Trusted by the country's leading supermarket chains.</a></p>
 					<button className="home-hero-button">Talk Business</button>
 					<a className="home-hero-link" href="/collections/all">Shop all →</a>
 					<div className="client-logos">
