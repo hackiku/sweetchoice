@@ -100,6 +100,7 @@ export function HeaderMenu({
 			})}
 			{viewport === 'desktop' && (
 				<>
+					<div>|</div>
 					<NavLink
 						className="header-menu-item"
 						end

@@ -1,5 +1,6 @@
 // app/routes/($locale)._index.tsx
 
+import { useState, useEffect } from 'react';
 import { defer, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { Await, useLoaderData, Link, type MetaFunction } from '@remix-run/react';
 import { Suspense } from 'react';
@@ -54,41 +55,62 @@ function loadDeferredData({ context }: LoaderFunctionArgs) {
 	};
 }
 
+// ==================== HOMEPAGE ====================
+
+const heroAssets = [
+	"/assets/graphics/choco-gradient.svg",
+	"/assets/graphics/choco-grad-2.svg",
+];
+
+
+
 export default function Homepage() {
+
+	const [currentImage, setCurrentImage] = useState(heroAssets[0]);
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			setCurrentImage((prevImage) =>
+				prevImage === heroAssets[0] ? heroAssets[1] : heroAssets[0]
+			);
+		}, 1500);
+
+		return () => clearInterval(interval); // Cleanup interval on component unmount
+	}, []);
+
 	const data = useLoaderData<typeof loader>();
 	return (
 		<div className="home">
 			<div className="home-hero">
+				<img className="choco-background" src={currentImage} alt="Chocolate background" />
+				{/* <img className="choco-background" src="/assets/graphics/choco-gradient.svg" alt="Chocolate background" /> */}
+				{/* <img className="choco-background" src="/assets/graphics/choco-grad-2.svg" alt="Chocolate background" /> */}
 				<div className="home-hero-content">
-					{/* <h1>IT'S SWEET <br></br>CHRISTMAS <br></br>EVERY DAY</h1> */}
 					<h1>SWEET CHRISTMAS EVERY DAY</h1>
-					<p><a href="/about">Wholesome holiday treats, wholesale and retail. <br></br> Trusted by leading supermarket chains.</a></p>
+					<p><a href="/about">Wholesome holiday treats, wholesale and retail. <br></br> Trusted by all the leading supermarket chains.</a></p>
 					<button className="home-hero-button">Talk Business</button>
 					<a className="home-hero-link" href="/collections/all">Shop all →</a>
 					<div className="client-logos">
 						<img src="/assets/logos/maxi-logo.svg" alt="Maxi logo" />
-						<img style={{ height: '33px' }} src="/assets/logos/dis-logo.png" alt="" />
+						<img style={{ height: '33px' }} src="/assets/logos/dis-logo.png" alt="DIS logo" />
 						<img src="/assets/logos/idea-logo.svg" alt="Idea logo" />
 						<img src="/assets/logos/univerexport-logo.svg" alt="Univerexport logo" />
 					</div>
 				</div>
 			</div>
 			<hr style={{ marginBottom: '3em' }} />
-			
-			{/* <FeaturedCollection collection={data.featuredCollection} /> */}
+
 			<RecommendedProducts products={data.recommendedProducts} />
 			<BusinessSelector />
-			
-			{/* About Section */}
+
 			<section className="about-section">
-				<div>
-					<h2>About Us</h2>
-					<p>Learn more about our journey and values.</p>
-				</div>
+				<h2 style={{ fontSize: '3em' }}>About Us</h2>
+				<p>Learn more about our journey and values.</p>
 				<a className="about-link" href="/about">Read More</a>
 			</section>
+			
 			<ChristmasCollection collection={data.christmasCollection} />
-			<hr />
+		
 		</div>
 	);
 }

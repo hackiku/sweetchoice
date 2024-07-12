@@ -1,6 +1,7 @@
 /* app/styles/home-hero.css */
 
 .home-hero {
+	position: relative;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -12,15 +13,14 @@
 }
 
 .home-hero-content {
-	/* max-width: 80%; */
-	max-width: 80vw;
+	text-align: left;
+	z-index: 2;
 }
 
 .home-hero h1 {
-	font-size: 6rem;
+	font-size: calc(6vw + 2em);
 	font-weight: 500;
 	line-height: 1;
-	/* font-weight: bold; */
 	margin-bottom: 1.5rem;
 }
 
@@ -36,7 +36,6 @@
 	color: white;
 	font-size: 1.25em;
 	cursor: pointer;
-	/* border-radius: 8px; */
 	transition: background-color 0.3s;
 	margin-right: 1.1rem;
 }
@@ -64,14 +63,22 @@
 	justify-content: space-around;
 	margin: 3rem 1rem 1rem 0;
 	width: 60%;
-	/* max-height: 4px; */
 }
 
 .client-logos img {
 	max-height: 1.5em;
 	margin: 0 1rem;
-	/* max-height: 28px; */
-	/* max-width: 100px; */
+}
+
+.choco-background {
+	position: absolute;
+	bottom: 6vh;
+	top: 12vw;
+	right: 12vw;
+	width: 22vw;
+	/* Adjust as necessary */
+	z-index: 1;
+
 }
 
 hr {
