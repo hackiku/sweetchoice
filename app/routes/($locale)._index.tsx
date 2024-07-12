@@ -8,6 +8,7 @@ import type {
   FeaturedCollectionFragment,
   RecommendedProductsQuery,
 } from 'storefrontapi.generated';
+import 'styles/home-hero.css';
 
 export const meta: MetaFunction = () => {
   return [{title: 'Sweetchoice 🍫 Home'}];
@@ -63,19 +64,22 @@ export default function Homepage() {
 	const data = useLoaderData<typeof loader>();
 	return (
 		<div className="home">
-			<div>
+			<div style={{ display: 'flex', flexDirection: 'column' }}>
 				<h1>Happy Easter Motherfuckers 🍫</h1>
 				<p>Welcome to Boca's kingdom. Needless to say, we do have candy.</p>
 				<button style={{
 					backgroundColor: '#EF4F41', // Boca Hex
 					border: 'none',
 					padding: '1em 2em',
-					margin: '1em 0 4em 0',
+					margin: '1em 0 1em 0',
 					color: 'white',
 					fontSize: '1em',
 					cursor: 'pointer',
 					borderRadius: '5px'
 				}}>Business Inquiries</button>
+				<a href='https://admin.shopify.com/store/quickstart-a826c428/apps/sweetchoice-dash/app' target='_blank'>
+					Dash app →
+				</a>
 			</div>
 			{<FeaturedCollection collection={data.featuredCollection} />}
 			<RecommendedProducts products={data.recommendedProducts} />

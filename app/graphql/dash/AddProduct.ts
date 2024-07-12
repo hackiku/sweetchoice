@@ -1,4 +1,4 @@
-// app/graphql/AddProduct.ts
+// app/graphql/dash/AddProduct.ts
 
 export const PRODUCT_CREATE_MUTATION = `#graphql
   mutation CreateProductWithNewMedia($input: ProductInput!, $media: [CreateMediaInput!]) {

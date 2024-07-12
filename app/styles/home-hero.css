@@ -1,0 +1,104 @@
+/* app/styles/home-hero.css */
+
+:root {
+  --aside-width: 400px;
+  --cart-aside-summary-height-with-discount: 300px;
+  --cart-aside-summary-height: 250px;
+  --grid-item-width: 355px;
+  --header-height: 64px;
+  --color-dark: #000;
+  --color-light: #fff;
+  --color-brand: #ef4f41;
+}
+
+img {
+  border-radius: 4px;
+}
+
+.home-hero {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 2rem;
+	background: var(--color-light);
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.home-hero-content {
+	max-width: 50%;
+}
+
+.home-hero h1 {
+	font-size: 3rem;
+	font-weight: bold;
+	margin-bottom: 1.5rem;
+}
+
+.home-hero p {
+	font-size: 1.25rem;
+	margin-bottom: 2rem;
+}
+
+.home-hero-button {
+	background-color: var(--color-brand);
+	border: none;
+	padding: 1em 2em;
+	color: white;
+	font-size: 1.25em;
+	cursor: pointer;
+	border-radius: 8px;
+	transition: background-color 0.3s;
+	margin-right: 1rem;
+}
+
+.home-hero-button:hover {
+	background-color: #d74236;
+}
+
+.home-hero-link {
+	font-size: 1.25em;
+	color: var(--color-dark);
+	text-decoration: none;
+	margin-left: 1rem;
+}
+
+.home-hero-link:hover {
+	text-decoration: underline;
+}
+
+.client-logos {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-around;
+	margin-top: 2rem;
+	width: 100%;
+}
+
+.client-logos img {
+	max-width: 100px;
+	margin: 0 1rem;
+}
+
+hr {
+	width: 100%;
+	border: 1px solid var(--color-dark);
+	margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+	.home-hero {
+		flex-direction: column;
+		text-align: center;
+	}
+
+	.home-hero-content {
+		max-width: 100%;
+	}
+
+	.home-hero-button {
+		margin-bottom: 2rem;
+	}
+}
