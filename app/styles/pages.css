@@ -1,0 +1,53 @@
+/* app/styles/pages.css */
+
+.page-hero {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	padding: 2rem;
+	background: linear-gradient(to right, var(--color-brand), var(--color-secondary));
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	text-align: left;
+	height: 200px;
+	/* Adjust the height to make the gradient less tall */
+}
+
+.page-hero div {
+	flex: 1;
+}
+
+.page-hero h1 {
+	font-size: calc(4vw + 2em);
+	font-weight: 500;
+	line-height: 1;
+	margin-bottom: 0;
+	color: black;
+	/* Adjust color as needed */
+	text-transform: uppercase;
+	/* Make the title all caps */
+}
+
+.page-hero img {
+	width: 40vw;
+	position: relative;
+	right: -5%;
+	transform: rotate(10deg);
+	/* Rotate slightly if needed */
+}
+
+.collection-description {
+	/* max-width: 800px; */
+	max-width: 60vw;
+	margin: 2rem 0rem 6rem 2rem;
+	/* margin: 2rem auto; */
+	font-size: 1.25rem;
+	line-height: 1.5;
+	text-align: left;
+	/* Center align the paragraph */
+	color: black;
+	/* Adjust color as needed */
+}

@@ -11,9 +11,11 @@ import {
 } from '@shopify/hydrogen';
 import type {ProductItemFragment} from 'storefrontapi.generated';
 import {useVariantUrl} from '~/lib/variants';
+import '../styles/pages.css';
+
 
 export const meta: MetaFunction<typeof loader> = ({data}) => {
-  return [{title: `Hydrogen | ${data?.collection.title ?? ''} Collection`}];
+  return [{title: `Sweetchoice | ${data?.collection.title ?? ''} Collection`}];
 };
 
 export async function loader(args: LoaderFunctionArgs) {
@@ -77,8 +79,16 @@ export default function Collection() {
 
   return (
     <div className="collection">
-      <h1>{collection.title}</h1>
-      <p className="collection-description">{collection.description}</p>
+      
+			<div className='page-hero'>
+				<div>
+					<h1>{collection.title}</h1>
+				</div>
+				<img src="/catalog/christmas-placeholder.jpg" alt="" />
+			</div>
+			<p className="collection-description">{collection.description}</p>
+
+
       <Pagination connection={collection.products}>
         {({nodes, isLoading, PreviousLink, NextLink}) => (
           <>
