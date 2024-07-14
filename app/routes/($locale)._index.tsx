@@ -13,7 +13,7 @@ import '../styles/business-selector.css';
 import '../styles/collections.css';
 
 export const meta: MetaFunction = () => {
-	return [{ title: 'Sweetchoice 🍫 Home' }];
+	return [{ title: 'Sweetchoice | Home' }];
 };
 
 export async function loader(args: LoaderFunctionArgs) {
@@ -75,7 +75,7 @@ export default function Homepage() {
 			);
 		}, 1500);
 
-		return () => clearInterval(interval); // Cleanup interval on component unmount
+		return () => clearInterval(interval);
 	}, []);
 
 	const data = useLoaderData<typeof loader>();
@@ -86,8 +86,8 @@ export default function Homepage() {
 				{/* <img className="choco-background" src="/assets/graphics/choco-gradient.svg" alt="Chocolate background" /> */}
 				{/* <img className="choco-background" src="/assets/graphics/choco-grad-2.svg" alt="Chocolate background" /> */}
 				<div className="home-hero-content">
-					<h1>SWEET HOLIDAYS, NOW EVERY DAY</h1>
-					<p><a href="/about">We sell wholesome holiday treats, wholesale and retail. <br></br> Trusted by the country's leading supermarket chains.</a></p>
+					<h1>SWEET HOLIDAYS, ALL YEAR LONG</h1>
+					<p><a href="/about">We wholesale and retail wholesome holiday treats.<br></br> Trusted by leading supermarket chains.</a></p>
 					<button className="home-hero-button">Talk Business</button>
 					<a className="home-hero-link" href="/collections/all">Shop all →</a>
 					<div className="client-logos">
@@ -95,6 +95,7 @@ export default function Homepage() {
 						<img style={{ height: '33px' }} src="/assets/logos/dis-logo.png" alt="DIS logo" />
 						<img src="/assets/logos/idea-logo.svg" alt="Idea logo" />
 						<img src="/assets/logos/univerexport-logo.svg" alt="Univerexport logo" />
+						<img src="/assets/logos/tempo-logo.svg" alt="Tempo logo" />
 					</div>
 				</div>
 			</div>
@@ -104,9 +105,25 @@ export default function Homepage() {
 			<BusinessSelector />
 
 			<section className="about-section">
-				<h2 style={{ fontSize: '3em' }}>About Us</h2>
-				<p>Learn more about our journey and values.</p>
-				<a className="about-link" href="/about">Read More</a>
+				
+				<div>
+					<h2 style={{ fontSize: '3em' }}>Wholesale programs</h2>
+					<p>Explore our tailored holiday confectionery wholesale programs. <br></br>Making holidays colorful and sweet since 2013.</p>
+					<a className="about-link" href="/about">Learn more →</a>
+				</div>
+				{/* <img src="/assets/supermarket-lineart.png" alt="" /> */}
+				{/* <img src="/assets/supermarket-lineart.png" alt="Supermarket line art" style={{ width: '40%' }} /> */}
+				{/* <img src="/assets/shopping-cart.svg" alt="Supermarket line art" style={{ width: '15%' }} /> */}
+				<img src="/assets/shopping-cart.svg" alt="Supermarket line art" style={{
+					width: '15%',
+					transform: 'rotate(30deg)',
+					position: 'absolute',
+					right: '10%',
+					top: '-15%'
+				}} 
+ />
+
+
 			</section>
 			
 			<ChristmasCollection collection={data.christmasCollection} />
@@ -133,7 +150,10 @@ function FeaturedCollection({ collection }: { collection: FeaturedCollectionFrag
 function RecommendedProducts({ products }: { products: Promise<RecommendedProductsQuery | null> }) {
 	return (
 		<div className="recommended-products">
-			<h2>Recommended</h2>
+			<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+				<h2>Select gift packs</h2>
+				<p>Our top picks for you</p>
+			</div>
 			<Suspense fallback={<div>Loading...</div>}>
 				<Await resolve={products}>
 					{(response) => (

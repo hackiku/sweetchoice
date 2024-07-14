@@ -1,6 +1,5 @@
 /* app/styles/collections.css */
 
-
 /* .christmas-section,
 .easter-section,
 .about-section,
@@ -32,6 +31,7 @@
 .about-section {
 	display: flex;
 	justify-content: space-between;
+	position: relative;
 	background: linear-gradient(to right, var(--color-brand), var(--color-secondary));
 	padding: 2em 4em 2em 4em;
 	margin: 3em 0 3em 0;
