@@ -163,7 +163,7 @@ function RecommendedProducts({ products }: { products: Promise<RecommendedProduc
 	return (
 		<div className="recommended-products">
 			<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-				<h2>Select gift packs</h2>
+				<h2>Gift packs</h2>
 				<p>Our top picks for you</p>
 			</div>
 			<Suspense fallback={<div>Loading...</div>}>
