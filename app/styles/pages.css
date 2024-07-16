@@ -51,3 +51,33 @@
 	color: black;
 	/* Adjust color as needed */
 }
+
+/* Styles for product grid */
+.products-grid {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+	padding: 2rem;
+}
+
+.product-item {
+	flex: 1 1 calc(20% - 1rem);
+	box-sizing: border-box;
+	text-align: center;
+	margin-bottom: 1rem;
+}
+
+.product-item h4 {
+	margin-top: 0.5rem;
+	font-size: 1rem;
+}
+
+.product-item small {
+	display: block;
+	margin-top: 0.25rem;
+}
+
+.product-item img {
+	width: 100%;
+	height: auto;
+}

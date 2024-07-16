@@ -111,21 +111,33 @@ export default function Homepage() {
 					<p>Explore our tailored holiday confectionery wholesale programs. <br></br>Making holidays colorful and sweet since 2013.</p>
 					<a className="about-link" href="/about">Learn more →</a>
 				</div>
-				{/* <img src="/assets/supermarket-lineart.png" alt="" /> */}
-				{/* <img src="/assets/supermarket-lineart.png" alt="Supermarket line art" style={{ width: '40%' }} /> */}
-				{/* <img src="/assets/shopping-cart.svg" alt="Supermarket line art" style={{ width: '15%' }} /> */}
 				<img src="/assets/shopping-cart.svg" alt="Supermarket line art" style={{
 					width: '15%',
 					transform: 'rotate(30deg)',
 					position: 'absolute',
 					right: '10%',
 					top: '-15%'
-				}} 
- />
-
+				}} />
 
 			</section>
-			
+
+			<section>
+				<div className="blurbs">
+					<div className="blurb">
+						<img src="/assets/graphics/choco-gradient.svg" alt="Buyback guarantee" />
+						<h3><span className="highlight">Buyback guarantee</span> for all bulk purchases up to 1 month of shelf life</h3>
+					</div>
+					<div className="blurb">
+						<img src="/assets/graphics/choco-grad-2.svg" alt="Promotional Support" />
+						<h3><span className="highlight">Promotional support</span> to boost your holiday sales and engage customers</h3>
+					</div>
+					<div className="blurb">
+						<img src="/assets/graphics/choco-gradient.svg" alt="Custom Terms" />
+						<h3><span className="highlight">Flexible Terms</span> tailored to meet the unique needs of your business</h3>
+					</div>
+				</div>
+			</section>
+
 			<ChristmasCollection collection={data.christmasCollection} />
 		
 		</div>
