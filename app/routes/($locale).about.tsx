@@ -3,7 +3,8 @@
 import { useLoaderData, type MetaFunction } from '@remix-run/react';
 import { Image, Video } from '@shopify/hydrogen';
 import { Hero } from '~/components/Hero';
-
+import '../styles/home-hero.css';
+import '../styles/pages/about.css';
 
 export const meta: MetaFunction = () => {
 	return [{ title: `About us | Sweetchoice` }];
@@ -12,27 +13,23 @@ export const meta: MetaFunction = () => {
 const videoData = {
 	sources: [
 		{
-			// mimeType: 'video/webp',
-			// url: '/assets/choc-vid.webp',
 			mimeType: 'video/mp4',
 			url: '/assets/choc-vid.mp4',
 		},
 	],
 };
 
-
-// ------------------ ABOUT PAGE ------------------
-
 export default function About() {
 	return (
 		<div>
-			<Hero
-				title="We make the holidays sweeter"
-				paragraph="Learn more about Sweetchoice and our journey."
-				buttonLabel="Contact Us"
-				// backgroundImage="assets/trees-drawing.png"
-				slotContent={<img src="assets/tree-drawing.png" alt="About sweetchoice" />}
-			/>
+			<section className="hero">
+				<h1>We make the holidays sweeter</h1>
+				<p>Learn more about Sweetchoice and our journey.</p>
+			</section>
+
+			<section className="video-section">
+				<Video data={videoData} autoPlay muted loop playsInline />
+			</section>
 
 			<section>
 				<h2>Our History</h2>
@@ -61,27 +58,13 @@ export default function About() {
 					Our client list includes major supermarket chains and a large number of small retailers in Serbia and abroad.
 				</p>
 			</section>
+
 			<section>
-				
 				<h2>Our Team</h2>
 				<p>
 					Meet the passionate team behind Sweetchoice. We are dedicated to delivering the best chocolate treats for your holidays.
 				</p>
-				{/* <Image data={image} sizes="100vw" /> */}
-				{/* <Image
-					data={{
-						altText: 'Sweetchoice Team',
-						url: 'assets/team-photo.jpg',
-						width: 800,
-						height: 600,
-					}}
-				/> */}
 			</section>
-
-			<section>
-				<Video data={videoData} autoPlay muted loop playsInline />
-			</section>
-			
 		</div>
 	);
 }

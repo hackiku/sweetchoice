@@ -15,7 +15,7 @@ import '../styles/pages.css';
 
 
 export const meta: MetaFunction<typeof loader> = ({data}) => {
-  return [{title: `Sweetchoice | ${data?.collection.title ?? ''} Collection`}];
+  return [{title: `SweetChoice | ${data?.collection.title ?? ''} Collection`}];
 };
 
 export async function loader(args: LoaderFunctionArgs) {

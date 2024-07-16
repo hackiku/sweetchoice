@@ -96,7 +96,7 @@ export const CHRISTMAS_COLLECTION_QUERY = `#graphql
 
   query ChristmasCollection($country: CountryCode, $language: LanguageCode)
     @inContext(country: $country, language: $language) {
-    collections(first: 1, query: "title:Christmas") {
+    collections(first: 1, query: "title:New Year") {
       nodes {
         ...ChristmasCollection
       }
