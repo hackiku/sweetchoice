@@ -2,7 +2,8 @@
 
 import { useLoaderData, type MetaFunction } from '@remix-run/react';
 import { Image, Video } from '@shopify/hydrogen';
-import { Hero } from '~/components/Hero';
+import Eyebrow from '~/components/ui/Eyebrow';
+
 import '../styles/home-hero.css';
 import '../styles/pages/about.css';
 
@@ -23,6 +24,7 @@ export default function About() {
 	return (
 		<div>
 			<section className="hero">
+				<Eyebrow title="About us" />
 				<h1>We make the holidays sweeter</h1>
 				<p>Learn more about Sweetchoice and our journey.</p>
 			</section>
@@ -30,6 +32,8 @@ export default function About() {
 			<section className="video-section">
 				<Video data={videoData} autoPlay muted loop playsInline />
 			</section>
+			
+			{/* ----------------------------------------------------- */}
 
 			<section>
 				<h2>Our History</h2>
@@ -40,16 +44,29 @@ export default function About() {
 				<p>
 					In October 2013, Vesko’s sons Stanko and Vuk founded Sweetchoice, a company that honors the sweet passion they were raised in, but with the latest standards of industry excellence, innovation, and tech-savviness.
 				</p>
-				<p>
-					<strong>Statistics:</strong>
-					<ul>
-						<li>Founded: 2013</li>
-						<li>Employees: 50+</li>
-						<li>Clients: 100+ B2B partners</li>
-						<li>Products: 200+ chocolate items</li>
-					</ul>
-				</p>
 			</section>
+
+			{/* ----------------------------------------------------- */}
+			
+			<section>
+				<div className="blurbs">
+					<div className="blurb">
+						<img src="/assets/graphics/choco-gradient.svg" alt="Buyback guarantee" />
+						<h3><span className="highlight">Founded in 2013</span> as a family business</h3>
+					</div>
+					<div className="blurb">
+						<img src="/assets/graphics/choco-grad-2.svg" alt="Promotional Support" />
+						<h3><span className="highlight">Fastest growing</span> sweets & confectionery company in the Balkans</h3>
+					</div>
+					<div className="blurb">
+						<img src="/assets/graphics/choco-gradient.svg" alt="Custom Terms" />
+						<h3><span className="highlight">120+ B2B</span> partners</h3>
+					</div>
+				</div>
+			</section>
+
+			
+			{/* ----------------------------------------------------- */}
 
 			<section>
 				<h2>Our Mission</h2>
@@ -58,6 +75,8 @@ export default function About() {
 					Our client list includes major supermarket chains and a large number of small retailers in Serbia and abroad.
 				</p>
 			</section>
+			
+			{/* ----------------------------------------------------- */}
 
 			<section>
 				<h2>Our Team</h2>

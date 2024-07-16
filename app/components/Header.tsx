@@ -28,7 +28,7 @@ export function Header({
 		<header className="header">
 			<NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
 				{/* <strong>Sweetchoice</strong> */}
-				<img className='nav-logo' src="/assets/logos/sweetchoice-logo-main.png" alt="" />
+				<img className='nav-logo' src="/assets/logos/sc-logo.svg" alt="" />
 			</NavLink>
 			<HeaderMenu
 				menu={menu}

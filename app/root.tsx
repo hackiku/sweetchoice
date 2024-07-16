@@ -16,9 +16,13 @@ import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import businessSelectorStyles from '~/styles/business-selector.css?url';
 import collectionsStyles from '~/styles/collections.css?url';
+
 import pagesStyles from '~/styles/pages.css?url';
 import aboutStyles from '~/styles/pages/about.css?url';
 import homeHeroStyles from '~/styles/home-hero.css?url';
+
+import uiStyles from '~/styles/components/ui.css?url';
+
 import { PageLayout } from '~/components/PageLayout';
 import { FOOTER_QUERY, HEADER_QUERY } from '~/lib/fragments';
 
@@ -54,6 +58,7 @@ export function links() {
 		{ rel: 'stylesheet', href: pagesStyles },
 		{ rel: 'stylesheet', href: homeHeroStyles },
 		{ rel: 'stylesheet', href: aboutStyles },
+		{ rel: 'stylesheet', href: uiStyles },
     {
       rel: 'preconnect',
       href: 'https://cdn.shopify.com',

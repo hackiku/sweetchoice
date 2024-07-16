@@ -1,0 +1,115 @@
+/* app/styles/hero.css */
+
+.home-hero {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0rem;
+	background: var(--color-light);
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.home-hero-content {
+	text-align: left;
+	z-index: 2;
+}
+
+.home-hero h1 {
+	font-size: calc(6vw + 2em);
+	font-weight: 500;
+	line-height: 1;
+	margin-bottom: 1.5rem;
+}
+
+.home-hero p {
+	font-size: 1.25rem;
+	margin-bottom: 2rem;
+}
+
+.home-hero-button {
+	/* background-color: var(--color-brand); */
+	background-color: #EE1D23;
+	border: none;
+	padding: 1em 2em;
+	color: white;
+	font-size: 1.25em;
+	cursor: pointer;
+	transition: background-color 0.3s;
+	margin-right: 1.1rem;
+}
+
+.home-hero-button:hover {
+	background-color: #d74236;
+}
+
+.home-hero-link {
+	font-size: 1.25em;
+	color: var(--color-dark);
+	text-decoration: none;
+	margin-left: 1rem;
+	font-weight: 550;
+}
+
+.home-hero-link:hover {
+	text-decoration: underline;
+}
+
+.client-logos {
+	display: flex;
+	flex-direction: row;
+	align-items: start;
+	justify-content: flex-start;
+	/* Align logos to the left */
+	flex-wrap: wrap;
+	/* Allow wrapping */
+	margin: 3rem 1rem 1rem 0;
+	width: 70%;
+}
+
+.client-logos img {
+	max-height: 1.5em;
+	margin: 0 2rem 1rem 0;
+	/* Add bottom margin for spacing when wrapped */
+}
+
+.choco-background {
+	position: absolute;
+	bottom: 6vh;
+	top: 12vw;
+	right: 12vw;
+	width: 22vw;
+	/* Adjust as necessary */
+	/* z-index: 10; */
+
+}
+
+hr {
+	width: 100%;
+	border: 1px solid var(--color-dark);
+	margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+	.home-hero {
+		flex-direction: column;
+		text-align: center;
+	}
+
+	.home-hero-content {
+		max-width: 100%;
+	}
+
+	.home-hero-button {
+		margin-bottom: 2rem;
+	}
+
+	.client-logos {
+		width: 100%;
+		/* Adjust width for mobile */
+		justify-content: flex-start;
+		/* Center the logos on mobile */
+	}
+}

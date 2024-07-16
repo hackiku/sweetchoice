@@ -138,6 +138,8 @@ export default function Homepage() {
 				</div>
 			</section>
 
+			<hr></hr>
+
 			<ChristmasCollection collection={data.christmasCollection} />
 		
 		</div>
