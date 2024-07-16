@@ -164,7 +164,7 @@ function RecommendedProducts({ products }: { products: Promise<RecommendedProduc
 		<div className="recommended-products">
 			<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
 				<h2>Gift packs</h2>
-				<p>Our top picks for you</p>
+				<p>Make someone's day sweeter</p>
 			</div>
 			<Suspense fallback={<div>Loading...</div>}>
 				<Await resolve={products}>
