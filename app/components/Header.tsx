@@ -109,7 +109,17 @@ export function HeaderMenu({
 						style={activeLinkStyle}
 						to="/about"
 					>
-						About
+						Gifts (Retail)
+					</NavLink>
+					<NavLink
+						className="header-menu-item"
+						end
+						onClick={closeAside}
+						prefetch="intent"
+						style={activeLinkStyle}
+						to="/about"
+					>
+						Seasons (Wholesale)
 					</NavLink>
 					<div className="dropdown-container">
 						<span className="dropdown-trigger"><ChevronDownIcon className="icon-small" /> More</span>
