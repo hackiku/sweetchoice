@@ -1,4 +1,4 @@
-/* app/styles/hero.css */
+/* app/styles/hero-home.css */
 
 .home-hero {
 	position: relative;
@@ -10,11 +10,13 @@
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
+	z-index: 1;
+	/* Ensure the hero section has a lower z-index */
 }
 
 .home-hero-content {
 	text-align: left;
-	z-index: 2;
+	/* z-index: 20; */
 }
 
 .home-hero h1 {
@@ -83,7 +85,6 @@
 	width: 22vw;
 	/* Adjust as necessary */
 	/* z-index: 10; */
-
 }
 
 hr {
@@ -112,4 +113,12 @@ hr {
 		justify-content: flex-start;
 		/* Center the logos on mobile */
 	}
+}
+
+/* app/styles/header.css */
+
+.header {
+	position: relative;
+	z-index: 2;
+	/* Ensure the header has a higher z-index */
 }
