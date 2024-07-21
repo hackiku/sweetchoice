@@ -87,7 +87,9 @@ export default function Homepage() {
 				{/* <img className="choco-background" src="/assets/graphics/choco-grad-2.svg" alt="Chocolate background" /> */}
 				<div className="home-hero-content">
 					<h1>SWEET HOLIDAYS, ALL YEAR LONG</h1>
-					<p><a href="/about">We wholesale and retail wholesome holiday treats.<br></br> Trusted by leading supermarket chains.</a></p>
+					<p>We wholesale and retail wholesome holiday treats.<br></br> Trusted by leading supermarket chains.
+						<a target='blank' href="https://docs.google.com/spreadsheets/d/1sq8mcjEbsU1FJfUBehCM19C8hqdo8wz5gJ3GGRkNBDY/edit?gid=0#gid=0"> csv</a> 
+					</p>
 					<button className="home-hero-button">Talk Business</button>
 					<a className="home-hero-link" href="/collections/all">Shop all →</a>
 					<div className="client-logos">

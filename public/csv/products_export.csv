@@ -1,0 +1,39 @@
+Handle,Title,Body (HTML),Vendor,Product Category,Type,Tags,Published,Option1 Name,Option1 Value,Option1 Linked To,Option2 Name,Option2 Value,Option2 Linked To,Option3 Name,Option3 Value,Option3 Linked To,Variant SKU,Variant Grams,Variant Inventory Tracker,Variant Inventory Qty,Variant Inventory Policy,Variant Fulfillment Service,Variant Price,Variant Compare At Price,Variant Requires Shipping,Variant Taxable,Variant Barcode,Image Src,Image Position,Image Alt Text,Gift Card,SEO Title,SEO Description,Google Shopping / Google Product Category,Google Shopping / Gender,Google Shopping / Age Group,Google Shopping / MPN,Google Shopping / Condition,Google Shopping / Custom Product,Google Shopping / Custom Label 0,Google Shopping / Custom Label 1,Google Shopping / Custom Label 2,Google Shopping / Custom Label 3,Google Shopping / Custom Label 4,Flavor (product.metafields.shopify.flavor),Variant Image,Variant Weight Unit,Variant Tax Code,Cost per item,Included / Serbia,Price / Serbia,Compare At Price / Serbia,Included / International,Price / International,Compare At Price / International,Status
+santa,Choco Santa,"
+<p>The Chocolate Santa includes a beautifully crafted 10g milk chocolate figure, perfect for gifting or as a festive treat. The high-quality milk chocolate offers a creamy and delightful taste experience. Packaged attractively, it makes for an eye-catching product in any store display.</p>
+<ul>
+    <li>
+<strong>Weight:</strong> 10g</li>
+    <li>
+<strong>Ingredients:</strong> High-quality milk chocolate</li>
+    <li>
+<strong>Packaging:</strong> Attractive and festive packaging</li>
+    <li>
+<strong>Price:</strong> Affordable and great value for money</li>
+    <li>
+<strong>Brand:</strong> Sweet Choice</li>
+</ul>
+<h3>Why do business with us?</h3>
+<p>Order now and enjoy the delightful taste of Sweet Choice chocolate Santa. Perfect for all ages and any occasion!</p>
+",SweetChoice,"Food, Beverages & Tobacco > Food Items > Candy & Chocolate",Figure,chocolate santa,true,Weight,10g,,Chocolate,Dark,,,,,R0200-20,10.0,shopify,44,deny,manual,110.00,,true,false,5906868445913,https://cdn.shopify.com/s/files/1/0884/6753/8241/files/santa-claus-figure-10.png?v=1721138934,1,"",false,Chocolate Santa - Sweet Choice,Enjoy the festive season with our Chocolate Santa. A delightful treat for all ages.,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0884/6753/8241/files/santa-claus-figure-10_471b6f0b-2c14-4cc6-8a5d-dcea712dc580.png?v=1721138964,kg,,,true,,,true,,,active
+santa,,,,,,,,,20g,,,Dark,,,,,"",10.0,shopify,16,deny,manual,220.00,,true,false,"",https://cdn.shopify.com/s/files/1/0884/6753/8241/files/santa-claus-figure-10_471b6f0b-2c14-4cc6-8a5d-dcea712dc580.png?v=1721138964,2,"",,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0884/6753/8241/files/santa-claus-figure-20.png?v=1721138969,kg,,,,,,,,,
+santa,,,,,,,,,40g,,,Dark,,,,,"",10.0,shopify,12,deny,manual,440.00,,true,false,"",https://cdn.shopify.com/s/files/1/0884/6753/8241/files/santa-claus-figure-20.png?v=1721138969,3,"",,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0884/6753/8241/files/santa-claus-figure-40.png?v=1721138973,kg,,,,,,,,,
+santa,,,,,,,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0884/6753/8241/files/santa-claus-figure-40.png?v=1721138973,4,"",,,,,,,,,,,,,,,,,,,,,,,,,,
+net-coins,New Year Net,"<p>The New Year Net includes 10 pieces of 5g milk chocolate bars, perfect for gifting or sharing. The high-quality milk chocolate offers a creamy and delightful taste experience. Packaged attractively in a mesh, it makes for an eye-catching product in any store display.</p><ul>
+<li>
+<strong>Weight:</strong> 50g (10 pieces of 5g each)</li>
+<li>
+<strong>Ingredients:</strong> High-quality milk chocolate</li>
+<li>
+<strong>Packaging:</strong> Attractive mesh for visual appeal</li>
+<li>
+<strong>Price:</strong> Affordable and great value for money</li>
+<li>
+<strong>Brand:</strong> Sweet Choice</li>
+</ul><h3>Why do business with us?</h3><p>Order now and enjoy the delicious taste of Sweet Choice milk chocolates. Perfect for all ages and any occasion!</p>",SweetChoice,,Net,new year chocolate coins,true,Weight,43g,,,,,,,,R0426-30,43.0,shopify,11,deny,manual,111.00,,true,false,8606010026096,,,,false,New Year Net - Sweetchoice Christmas Lineup,{SEO description},,,,,,,,,,,,,,kg,,,true,,,true,,,active
+paketic,Paketic,"<p>Chocolate pack<br></p>
+<!---->",SweetChoice,Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements > Multivitamin Supplements,"","",true,Weight,32g,,Pakovanje,Komercijalno - 50x,,,,,"",0.0,shopify,30,deny,manual,400.00,500.00,true,true,"",https://cdn.shopify.com/s/files/1/0884/6753/8241/files/Picture1_57782030-dc8e-4f73-8881-3008621f3d70.png?v=1721142520,1,"",false,,,,,,,,,,,,,,blueberry; cherry,https://cdn.shopify.com/s/files/1/0884/6753/8241/files/Picture1_57782030-dc8e-4f73-8881-3008621f3d70.png?v=1721142520,kg,,,true,,,true,,,active
+paketic,,,,,,,,,32g,,,Paleta - 900x,,,,,"",0.0,shopify,0,deny,manual,400.00,500.00,true,true,"",https://cdn.shopify.com/s/files/1/0884/6753/8241/files/Picture2_09347878-f09e-4c29-b6f4-ef1ac5346f8a.png?v=1721142522,2,"",,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0884/6753/8241/files/Picture1_57782030-dc8e-4f73-8881-3008621f3d70.png?v=1721142520,kg,,,,,,,,,
+paketic,,,,,,,,,70g,,,Komercijalno - 50x,,,,,"",0.0,shopify,50,deny,manual,500.00,500.00,true,true,"",,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0884/6753/8241/files/Picture2_09347878-f09e-4c29-b6f4-ef1ac5346f8a.png?v=1721142522,kg,,,,,,,,,
+paketic,,,,,,,,,70g,,,Paleta - 900x,,,,,"",0.0,shopify,0,deny,manual,400.00,500.00,true,true,"",,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0884/6753/8241/files/Picture2_09347878-f09e-4c29-b6f4-ef1ac5346f8a.png?v=1721142522,kg,,,,,,,,,
+basket-premium,Premium Basket Set,"",SweetChoice,,Basket,gift basket,false,Title,Default Title,,,,,,,,R0413,1385.0,shopify,33,deny,manual,333.00,,true,false,8606107809724,https://cdn.shopify.com/s/files/1/0884/6753/8241/files/newyear-package-32.png?v=1721136730,1,"",false,,,,,,,,,,,,,,,,kg,,,true,,,true,,,active

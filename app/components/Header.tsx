@@ -53,6 +53,7 @@ export function HeaderMenu({
 	// Extract "Shop All" and "New Year" links from Shopify menu
 	const shopAllLink = header?.menu?.items?.find((item) => item.title === 'Shop All');
 	const newYearLink = header?.menu?.items?.find((item) => item.title === 'New Year');
+	const christmasLink = header?.menu?.items?.find((item) => item.title === 'Christmas');
 
 	return (
 		<nav className={className} role="navigation">
@@ -87,10 +88,10 @@ export function HeaderMenu({
 							Seasons <ChevronDownIcon className="icon-small" />
 						</span>
 						<div className="dropdown">
-							<NavLink className="dropdown-item" to="/seasons/christmas">
+							<NavLink className="dropdown-item" to="/collections/christmas">
 								Christmas
 							</NavLink>
-							<NavLink className="dropdown-item" to="/seasons/easter">
+							<NavLink className="dropdown-item" to="/collections/easter">
 								Easter
 							</NavLink>
 							{newYearLink && (
@@ -101,7 +102,7 @@ export function HeaderMenu({
 									New Year
 								</NavLink>
 							)}
-							<NavLink className="dropdown-item" to="/seasons/valentines">
+							<NavLink className="dropdown-item" to="/collections/valentines">
 								Valentine's Day
 							</NavLink>
 						</div>
