@@ -16,9 +16,10 @@ import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import businessSelectorStyles from '~/styles/business-selector.css?url';
 import collectionsStyles from '~/styles/collections.css?url';
-
+// pages
 import pagesStyles from '~/styles/pages.css?url';
 import aboutStyles from '~/styles/pages/about.css?url';
+import holidaysStyles from '~/styles/pages/holidays.css?url';
 import homeHeroStyles from '~/styles/home-hero.css?url';
 
 import uiStyles from '~/styles/components/ui.css?url';
@@ -55,9 +56,11 @@ export function links() {
 		{ rel: 'stylesheet', href: appStyles },
 		{ rel: 'stylesheet', href: businessSelectorStyles },
 		{ rel: 'stylesheet', href: collectionsStyles },
+		// pages
 		{ rel: 'stylesheet', href: pagesStyles },
 		{ rel: 'stylesheet', href: homeHeroStyles },
 		{ rel: 'stylesheet', href: aboutStyles },
+		{ rel: 'stylesheet', href: holidaysStyles },
 		{ rel: 'stylesheet', href: uiStyles },
     {
       rel: 'preconnect',

@@ -8,8 +8,9 @@
   --header-height: 64px;
   --color-dark: #000;
   --color-light: #fff;
-  --color-brand: #ef4f41;
+  --color-brand: #ED1C24;
   --color-secondary: #38a6a1;
+  --color-lightgray: #f4f4f4;
 }
 
 img {
@@ -25,6 +26,7 @@ img {
 * --------------------------------------------------
 */
 
+/*
 .hero {
   display: flex;
   align-items: center;
@@ -77,7 +79,8 @@ img {
   .hero button {
     margin-bottom: 2rem;
   }
-}
+} 
+*/
 
 
 /*================================================================*/
