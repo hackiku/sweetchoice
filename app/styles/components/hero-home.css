@@ -114,11 +114,3 @@ hr {
 		/* Center the logos on mobile */
 	}
 }
-
-/* app/styles/header.css */
-
-.header {
-	position: relative;
-	z-index: 2;
-	/* Ensure the header has a higher z-index */
-}

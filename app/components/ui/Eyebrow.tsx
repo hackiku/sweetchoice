@@ -1,6 +1,7 @@
 // app/components/ui/Eyebrow.tsx
 
-import '../../styles/components/ui.css';
+// import '../../styles/components/ui.css';
+import '../../styles/ui/eyebrow.css';
 
 interface EyebrowProps {
 	title: string;

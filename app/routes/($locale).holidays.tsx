@@ -22,15 +22,32 @@ export default function Holidays() {
 
             <hr />
 
+
+						{/* seasons ======================== */}
+
+						<section id="winter">
+							<Eyebrow title="{current season}" />
+							<h2>Christmas & New Year</h2>
+							<p>Winter treats and sweets.</p>
+						</section>
+
+            <hr />
+						
             <section id="spring">
-                <h2>Spring</h2>
-                <p>Spring treats and sweets.</p>
+								<div className='season-pill'> 
+									<Eyebrow title="spring" />
+								</div>
+
+                <h2>Saint Valentine's</h2>
+                <p>Sweet love's in the air.</p>
+								
             </section>
 
             <hr />
 
             <section id="summer">
-                <h2>Summer</h2>
+								<Eyebrow title="{current season}" />
+                <h2>/</h2>
                 <p>Summer treats and sweets.</p>
             </section>
 
