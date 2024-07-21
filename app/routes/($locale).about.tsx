@@ -25,8 +25,8 @@ export default function About() {
 		<div>
 			<section className="hero">
 				<Eyebrow title="About us" />
-				<h1>We make the holidays sweeter</h1>
-				<p>Learn more about Sweetchoice and our journey.</p>
+				<h1>We Have Candy</h1>
+				<p>Come to the sweet side.</p>
 			</section>
 
 			<section className="video-section">

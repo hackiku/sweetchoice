@@ -1,4 +1,4 @@
-/* app/styles/home-hero.css */
+/* app/styles/hero.css */
 
 .home-hero {
 	position: relative;
@@ -108,6 +108,8 @@ hr {
 
 	.client-logos {
 		width: 100%;
+		/* Adjust width for mobile */
 		justify-content: flex-start;
+		/* Center the logos on mobile */
 	}
 }

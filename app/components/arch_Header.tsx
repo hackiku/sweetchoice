@@ -22,12 +22,19 @@ export function Header({
 	cart,
 	publicStoreDomain,
 }: HeaderProps) {
+	const { shop, menu } = header;
 	return (
 		<header className="header">
 			<NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
+				{/* <strong>Sweetchoice</strong> */}
 				<img className='nav-logo' src="/assets/logos/sc-logo.svg" alt="" />
 			</NavLink>
-			<HeaderMenu header={header} viewport="desktop" />
+			<HeaderMenu
+				menu={menu}
+				viewport="desktop"
+				primaryDomainUrl={header.shop.primaryDomain.url}
+				publicStoreDomain={publicStoreDomain}
+			/>
 			<HeaderMenuMobileToggle />
 			<HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
 		</header>
@@ -35,11 +42,15 @@ export function Header({
 }
 
 export function HeaderMenu({
-	header,
+	menu,
+	primaryDomainUrl,
 	viewport,
+	publicStoreDomain,
 }: {
-	header: HeaderQuery;
+	menu: HeaderProps['header']['menu'];
+	primaryDomainUrl: HeaderProps['header']['shop']['primaryDomain']['url'];
 	viewport: Viewport;
+	publicStoreDomain: HeaderProps['publicStoreDomain'];
 }) {
 	const className = `header-menu-${viewport}`;
 
@@ -49,10 +60,6 @@ export function HeaderMenu({
 			window.location.href = event.currentTarget.href;
 		}
 	}
-
-	// Extract "Shop All" and "New Year" links from Shopify menu
-	const shopAllLink = header?.menu?.items?.find((item) => item.title === 'Shop All');
-	const newYearLink = header?.menu?.items?.find((item) => item.title === 'New Year');
 
 	return (
 		<nav className={className} role="navigation">
@@ -67,25 +74,39 @@ export function HeaderMenu({
 					Home
 				</NavLink>
 			)}
+			{(menu || FALLBACK_HEADER_MENU).items.map((item) => {
+				if (!item.url) return null;
+
+				const url = new URL(item.url).pathname;
+				return (
+					<NavLink
+						className="header-menu-item"
+						end
+						key={item.id}
+						onClick={closeAside}
+						prefetch="intent"
+						style={activeLinkStyle}
+						to={url}
+					>
+						{item.title}
+					</NavLink>
+				);
+			})}
 			{viewport === 'desktop' && (
 				<>
 					<div>|</div>
-					{shopAllLink && (
-						<NavLink
-							className="header-menu-item"
-							end
-							onClick={closeAside}
-							prefetch="intent"
-							style={activeLinkStyle}
-							to={new URL(shopAllLink.url).pathname}
-						>
-							Gifts
-						</NavLink>
-					)}
+					<NavLink
+						className="header-menu-item"
+						end
+						onClick={closeAside}
+						prefetch="intent"
+						style={activeLinkStyle}
+						to="/about"
+					>
+						Gifts
+					</NavLink>
 					<div className="dropdown-container">
-						<span className="dropdown-trigger">
-							Seasons <ChevronDownIcon className="icon-small" />
-						</span>
+						<span className="dropdown-trigger">Seasons <ChevronDownIcon className="icon-small" /></span>
 						<div className="dropdown">
 							<NavLink className="dropdown-item" to="/seasons/christmas">
 								Christmas
@@ -93,23 +114,16 @@ export function HeaderMenu({
 							<NavLink className="dropdown-item" to="/seasons/easter">
 								Easter
 							</NavLink>
-							{newYearLink && (
-								<NavLink
-									className="dropdown-item"
-									to={new URL(newYearLink.url).pathname}
-								>
-									New Year
-								</NavLink>
-							)}
+							<NavLink className="dropdown-item" to="/seasons/newyear">
+								New Year
+							</NavLink>
 							<NavLink className="dropdown-item" to="/seasons/valentines">
 								Valentine's Day
 							</NavLink>
 						</div>
 					</div>
 					<div className="dropdown-container">
-						<span className="dropdown-trigger">
-							More <ChevronDownIcon className="icon-small" />
-						</span>
+						<span className="dropdown-trigger">More <ChevronDownIcon className="icon-small" /></span>
 						<div className="dropdown">
 							<NavLink className="dropdown-item" to="/blogs">
 								Blogs
@@ -144,6 +158,7 @@ function HeaderCtas({
 				<Suspense fallback="Sign in">
 					<Await resolve={isLoggedIn} errorElement="Sign in">
 						{(isLoggedIn) => (isLoggedIn ? <UserIcon className="icon" /> : 'Sign in')}
+
 					</Await>
 				</Suspense>
 			</NavLink>
@@ -193,6 +208,7 @@ function CartBadge({ count }: { count: number }) {
 			}}
 		>
 			<ShoppingCartIcon className="icon" /> {count}
+			{/* Cart {count} */}
 		</a>
 	);
 }
