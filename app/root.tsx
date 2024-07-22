@@ -31,6 +31,7 @@ import buttonStyles from '~/styles/ui/button.css?url';
 import blurbsStyles from '~/styles/ui/blurbs.css?url';
 import sectionIntroStyles from '~/styles/ui/section-intro.css?url';
 import galleryStyles from '~/styles/ui/gallery.css?url';
+import breadcrumbsStyles from '~/styles/ui/breadcrumbs.css?url';
 
 import { PageLayout } from '~/components/PageLayout';
 import { FOOTER_QUERY, HEADER_QUERY } from '~/lib/fragments';
@@ -69,6 +70,7 @@ export function links() {
 		{ rel: 'stylesheet', href: businessSelectorStyles },
 		{ rel: 'stylesheet', href: sectionIntroStyles },
 		{ rel: 'stylesheet', href: galleryStyles },
+		{ rel: 'stylesheet', href: breadcrumbsStyles },
 		// pages
 		{ rel: 'stylesheet', href: homeStyles },
 		{ rel: 'stylesheet', href: holidayPageStyles },

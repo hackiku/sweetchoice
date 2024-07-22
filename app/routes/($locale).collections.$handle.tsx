@@ -6,6 +6,7 @@ import { Pagination, getPaginationVariables, Image, Money, Analytics } from '@sh
 import type { ProductItemFragment } from 'storefrontapi.generated';
 import { useVariantUrl } from '~/lib/variants';
 import Gallery from '~/components/ui/Gallery';
+import Breadcrumbs from '~/components/ui/Breadcrumbs';
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
 	return [{ title: `SweetChoice | ${data?.collection.title ?? ''} Collection` }];
@@ -54,6 +55,12 @@ async function loadCriticalData({ context, params, request }: LoaderFunctionArgs
 	};
 }
 
+
+export const handle = {
+	breadcrumb: 'Collections',
+};
+
+
 /**
  * Load data for rendering content below the fold. This data is deferred and will be
  * fetched after the initial page load. If it's unavailable, the page should still 200.
@@ -68,6 +75,7 @@ export default function Collection() {
 
 	return (
 		<div className="holiday">
+			<Breadcrumbs />
 			<div className="holiday-hero">
 				<div className="holiday-hero-content">
 					<h1 className="holiday-hero-title">{collection.title}</h1>
@@ -105,9 +113,7 @@ export default function Collection() {
 					},
 				}}
 			/>
-
-			<Gallery media={collection.products.nodes.map((product) => product.featuredImage)} />
-
+			
 		</div>
 	);
 }
@@ -121,7 +127,6 @@ function ProductsGrid({ products }: { products: ProductItemFragment[] }) {
 		</div>
 	);
 }
-
 
 function ProductItem({ product, loading }: { product: ProductItemFragment; loading?: 'eager' | 'lazy' }) {
 	const variant = product.variants.nodes[0];

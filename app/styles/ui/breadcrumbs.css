@@ -1,0 +1,47 @@
+/* app/styles/ui/breadcrumbs.css */
+
+.breadcrumbs {
+	display: flex;
+	align-items: center;
+	padding: 1rem 0;
+	font-size: 1rem;
+	color: var(--color-dark);
+	position: relative;
+	background-color: var(--color-light);
+	width: 100%;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.breadcrumb-link {
+	color: var(--color-brand);
+	text-decoration: none;
+	transition: color 0.3s;
+}
+
+.breadcrumb-link:hover {
+	color: var(--color-secondary);
+}
+
+.breadcrumb-item {
+	margin: 0 0.5rem;
+}
+
+.breadcrumb-separator {
+	margin: 0 0.5rem;
+	color: var(--color-lightgray);
+}
+
+@media (max-width: 768px) {
+	.breadcrumbs {
+		font-size: 0.875rem;
+		padding: 0.5rem 0;
+	}
+
+	.breadcrumb-item {
+		margin: 0 0.25rem;
+	}
+
+	.breadcrumb-separator {
+		margin: 0 0.25rem;
+	}
+}
