@@ -1,0 +1,29 @@
+/* app/styles/ui/section-intro.css */
+
+.section-intro {
+	display: flex;
+	justify-content: space-between;
+	position: relative;
+	background: linear-gradient(to right, var(--color-brand), var(--color-secondary));
+	padding: 2em 4em 2em 4em;
+	margin: 3em 0 3em 0;
+}
+
+.section-intro .about-link {
+	display: inline-block;
+	margin-top: 1rem;
+	color: white;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+/* .cta-section .cta-link {
+	background-color: var(--color-brand);
+	border: none;
+	padding: 1em 5em;
+	color: white;
+	font-size: 1em;
+	cursor: pointer;
+	border-radius: 5px;
+	text-decoration: none;
+} */

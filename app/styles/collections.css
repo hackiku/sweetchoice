@@ -1,56 +1,12 @@
 /* app/styles/collections.css */
 
-.secondary-button {
-	background-color: var(--color-secondary);
-	border: none;
-	padding: 1em 2em;
-	color: white;
-	font-size: 1em;
-	cursor: pointer;
-	border-radius: 5px;
-}
-
-.about-section {
-	display: flex;
-	justify-content: space-between;
-	position: relative;
-	background: linear-gradient(to right, var(--color-brand), var(--color-secondary));
-	padding: 2em 4em 2em 4em;
-	margin: 3em 0 3em 0;
-}
-
-.about-section .about-link {
-	display: inline-block;
-	margin-top: 1rem;
-	color: white;
-	text-decoration: underline;
-	cursor: pointer;
-}
-
-.features-section {
-	display: flex;
-	justify-content: space-around;
-	text-align: left;
-}
-
-.features-section .feature {
-	flex: 1;
-	margin: 0 1rem;
-}
-
-.cta-section .cta-link {
+/* .cta-section .cta-link {
 	background-color: var(--color-brand);
 	border: none;
-	padding: 1em 2em;
+	padding: 1em 5em;
 	color: white;
 	font-size: 1em;
 	cursor: pointer;
 	border-radius: 5px;
 	text-decoration: none;
-}
-
-
-
-
-/* ==================  blurbs ================== */
-
+} */

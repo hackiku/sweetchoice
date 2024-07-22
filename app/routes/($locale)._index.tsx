@@ -11,9 +11,10 @@ import { BusinessSelector } from '../components/BusinessSelector';
 import Logos from '../components/ui/Logos';
 import Button from '../components/ui/Button';
 import Blurbs from '../components/ui/Blurbs';
+import SectionIntro from '../components/ui/SectionIntro';
 import '../styles/pages/home.css';
-import '../styles/business-selector.css';
-import '../styles/collections.css';
+// import '../styles/business-selector.css';
+// import '../styles/collections.css';
 // import '../styles/ui/logos.css';
 
 export const meta: MetaFunction = () => {
@@ -133,12 +134,13 @@ export default function Homepage() {
 			<RecommendedProducts products={data.recommendedProducts} />
 			<BusinessSelector />
 
-			<section className="about-section">
-				<div>
-					<h2 style={{ fontSize: '2em' }}>Holiday confectionery wholesale</h2>
-					<p>Explore our tailored holiday confectionery wholesale programs. <br />Making holidays colorful and sweet since 2013.</p>
-					<a className="about-link" href="/about">Learn more →</a>
-				</div>
+
+			<SectionIntro
+				headline="Holiday confectionery wholesale"
+				description="Explore our tailored holiday confectionery wholesale programs. Making holidays colorful and sweet since 2013."
+				icon="🎉"
+			>
+				<a className="about-link" href="/about">Learn more →</a>
 				<img src="/assets/shopping-cart.svg" alt="Supermarket line art" style={{
 					width: '15%',
 					transform: 'rotate(30deg)',
@@ -146,33 +148,18 @@ export default function Homepage() {
 					right: '10%',
 					top: '-15%'
 				}} />
-			</section>
-
+			</SectionIntro>
 
 
 			<section>
 				
-				<Blurbs blurbs={blurbsData} />
+				<ChristmasCollection collection={data.christmasCollection} />
 
-				{/* <div className="blurbs">
-					<div className="blurb">
-						<img src="/assets/graphics/choco-gradient.svg" alt="Buyback guarantee" />
-						<h3><span className="highlight">Buyback guarantee</span> for all bulk purchases up to 1 month of shelf life</h3>
-					</div>
-					<div className="blurb">
-						<img src="/assets/graphics/choco-grad-2.svg" alt="Promotional Support" />
-						<h3><span className="highlight">Promotional support</span> to boost your holiday sales and engage customers</h3>
-					</div>
-					<div className="blurb">
-						<img src="/assets/graphics/choco-gradient.svg" alt="Custom Terms" />
-						<h3><span className="highlight">Flexible Terms</span> tailored to meet the unique needs of your business</h3>
-					</div>
-				</div> */}
 			</section>
 
 			<hr />
-
-			<ChristmasCollection collection={data.christmasCollection} />
+				<h1>Benefits & features</h1>
+				<Blurbs blurbs={blurbsData} />
 		</div>
 	);
 }

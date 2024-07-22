@@ -1,3 +1,5 @@
+// root.tsx
+
 import { useNonce, getShopAnalytics, Analytics } from '@shopify/hydrogen';
 import { defer, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import {
@@ -15,18 +17,18 @@ import favicon from '~/assets/favicon.png';
 import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import businessSelectorStyles from '~/styles/business-selector.css?url';
-import collectionsStyles from '~/styles/collections.css?url';
+// import collectionsStyles from '~/styles/collections.css?url';
 // pages
 import homeStyles from '~/styles/pages/home.css?url';
 import pagesStyles from '~/styles/pages.css?url';
 import aboutStyles from '~/styles/pages/about.css?url';
 import holidaysStyles from '~/styles/pages/holidays.css?url';
-// import homeHeroStyles from '~/styles/home-hero.css?url';
-import uiStyles from '~/styles/components/ui.css?url';
+import contactStyles from '~/styles/pages/contact.css?url';
 // ui
 import logosStyles from '~/styles/ui/logos.css?url';
 import buttonStyles from '~/styles/ui/button.css?url';
-import blurbsStyles from '~/styles/ui/blurbs.css';
+import blurbsStyles from '~/styles/ui/blurbs.css?url';
+import sectionIntroStyles from '~/styles/ui/section-intro.css?url';
 
 import { PageLayout } from '~/components/PageLayout';
 import { FOOTER_QUERY, HEADER_QUERY } from '~/lib/fragments';
@@ -58,19 +60,19 @@ export function links() {
   return [
 		{ rel: 'stylesheet', href: resetStyles },
 		{ rel: 'stylesheet', href: appStyles },
-		// components
-		{ rel: 'stylesheet', href: businessSelectorStyles },
-		{ rel: 'stylesheet', href: collectionsStyles },
-		{ rel: 'stylesheet', href: logosStyles },
+		// ui
 		{ rel: 'stylesheet', href: buttonStyles },
+		{ rel: 'stylesheet', href: logosStyles },
 		{ rel: 'stylesheet', href: blurbsStyles },
+		// { rel: 'stylesheet', href: collectionsStyles },
+		{ rel: 'stylesheet', href: businessSelectorStyles },
+		{ rel: 'stylesheet', href: sectionIntroStyles },
 		// pages
 		{ rel: 'stylesheet', href: homeStyles },
 		{ rel: 'stylesheet', href: pagesStyles },
-		// { rel: 'stylesheet', href: homeHeroStyles },
 		{ rel: 'stylesheet', href: aboutStyles },
 		{ rel: 'stylesheet', href: holidaysStyles },
-		{ rel: 'stylesheet', href: uiStyles },
+		{ rel: 'stylesheet', href: contactStyles },
 
     {
       rel: 'preconnect',
