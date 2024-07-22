@@ -4,13 +4,12 @@ import React from 'react';
 import { Link } from '@remix-run/react';
 import Eyebrow from '~/components/ui/Eyebrow';
 import { Image, Money } from '@shopify/hydrogen';
-// import './SeasonsSection.css';
 
 const seasons = [
-	{ id: 'spring', title: "Saint Valentine's", description: "Sweet love's in the air." },
-	{ id: 'summer', title: 'Summer', description: 'Summer treats and sweets.' },
-	{ id: 'autumn', title: 'Autumn', description: 'Autumn treats and sweets.' },
-	{ id: 'winter', title: 'Christmas & New Year', description: 'Winter treats and sweets.' },
+	{ id: 'spring', title: "Saint Valentine's", description: "Sweet love's in the air.", className: 'spring' },
+	{ id: 'summer', title: 'Summer', description: 'Summer treats and sweets.', className: 'summer' },
+	{ id: 'autumn', title: 'Autumn', description: 'Autumn treats and sweets.', className: 'autumn' },
+	{ id: 'winter', title: 'Christmas & New Year', description: 'Winter treats and sweets.', className: 'winter' },
 ];
 
 const mockProducts = [
@@ -34,7 +33,7 @@ const SeasonsSection = () => {
 	return (
 		<>
 			{seasons.map((season) => (
-				<section id={season.id} key={season.id}>
+				<section id={season.id} key={season.id} className={`season-card ${season.className}`}>
 					<Eyebrow title={season.title} />
 					<h2>{season.title}</h2>
 					<p>{season.description}</p>

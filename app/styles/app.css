@@ -11,12 +11,24 @@
   --color-brand: #ED1C24;
   --color-secondary: #38a6a1;
   --color-lightgray: #f4f4f4;
+	
+	--spring-color: rgba(152, 251, 152, 0.2);
+	--summer-color: rgba(255, 215, 0, 0.2);
+	--autumn-color: rgba(255, 140, 0, 0.2);
+	--winter-color: rgba(0, 191, 255, 0.2);
+
+	--spring-color-full: #98FB98;
+	--summer-color-full: #FFD700;
+	--autumn-color-full: #FF8C00;
+	--winter-color-full: #00BFFF;
+	/* --background-opacity: 0.9; */
 }
+
 
 img {
   border-radius: 4px;
 }
-
+§
 
 /*   *   *   *   *   *   *   *   *   *   *   *   *   *   *   */
 

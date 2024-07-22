@@ -1,8 +1,6 @@
 /** styles/pages/holidays.css */
 
 
-
-
 /* ================ HERO OVERRIDES ================= */
 
 .hero {
@@ -13,9 +11,6 @@
 	justify-content: center;
 	padding: 2rem;
 	background: var(--color-lightgray);
-	/* background: linear-gradient(to right, var(--color-brand), var(--color-secondary)); */
-	/* background-size: cover; */
-	/* background-repeat: no-repeat; */
 	background-position: center;
 	text-align: center;
 	height: 50vh;
@@ -39,7 +34,6 @@
 	margin-bottom: 2rem;
 }
 
-
 @media (max-width: 768px) {
 	.hero {
 		padding: 1rem;
@@ -55,63 +49,143 @@
 	}
 }
 
+/* ============================================================================ */
+/* ================================= SEASONS ================================== */
 
-/* ================ SEASONS WHEEL ================= */
+html,
+body {
+	margin: 0;
+	padding: 0;
+	overflow-x: hidden;
+	/* Prevent horizontal overflow */
+}
 
-/* app/components/seasons/SeasonsWheel.css */
+.products-grid {
+	display: grid;
+	grid-gap: 1.5rem;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	margin-bottom: 2rem;
+}
+
+.product-item {
+	text-align: center;
+}
+
+.product-item img {
+	height: auto;
+	width: 100%;
+}
+
+.product-item h4 {
+	margin-top: 0.5rem;
+	font-size: 1.2rem;
+}
+
+.product-item small {
+	color: #777;
+}
 
 .seasons-wheel-container {
 	position: fixed;
-	bottom: 0;
+	bottom: 2em;
 	left: 50%;
 	transform: translateX(-50%);
-	z-index: 1000;
+	z-index: 100;
+}
+
+.season-card {
+	position: relative;
+	height: 60vh;
+	border-radius: 0em;
+	margin: 0rem -2rem;
+	padding: 4rem 4rem;
+	overflow: hidden;
+	z-index: 1;
+}
+
+.spring {
+	background-color: var(--spring-color);
+}
+
+.summer {
+	background-color: var(--summer-color);
+}
+
+.autumn {
+	background-color: var(--autumn-color);
+}
+
+.winter {
+	background-color: var(--winter-color);
+}
+
+/* Season button colors with full opacity */
+.season.spring {
+	background-color: var(--spring-color-full);
+}
+
+.season.summer {
+	background-color: var(--summer-color-full);
+}
+
+.season.autumn {
+	background-color: var(--autumn-color-full);
+}
+
+.season.winter {
+	background-color: var(--winter-color-full);
 }
 
 .seasons-wheel {
+	background-color: rgba(199, 199, 199, 0.3);
+	border-radius: 10em;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	padding: 1rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 200px;
-	height: 200px;
-	border-radius: 50%;
-	background-color: rgba(255, 255, 255, 0.8);
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	overflow: hidden;
 }
 
 .season {
-	width: 50px;
-	height: 50px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	text-align: center;
-	transform: rotate(45deg);
-	transform-origin: bottom right;
-	background-color: rgba(0, 0, 0, 0.1);
-	border-radius: 50%;
-	margin: 5px;
-	transition: background-color 0.3s, transform 0.3s;
+	width: 7em;
+	height: 3em;
+	margin: 0 1em;
+	transition: transform 0.3s, background-color 0.3s;
 }
 
-.season:hover {
-	background-color: rgba(0, 0, 0, 0.2);
-	transform: scale(2.1);
-}
-
-.spring {
+/* Use CSS variables for season button background colors */
+.spring-button {
 	background-color: #98FB98;
 }
 
-.summer {
+.summer-button {
 	background-color: #FFD700;
 }
 
-.autumn {
+.autumn-button {
 	background-color: #FF8C00;
 }
 
-.winter {
+.winter-button {
 	background-color: #00BFFF;
+}
+
+.season:hover {
+	transform: scale(1.1);
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+.scroll-depth {
+	position: fixed;
+	bottom: 0.5em;
+	left: 0.5em;
+	background: rgba(0, 0, 0, 0.5);
+	color: white;
+	padding: 5px 10px;
+	border-radius: 5px;
+	z-index: 300;
 }
