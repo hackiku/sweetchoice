@@ -43,7 +43,7 @@
 	margin-bottom: 2rem;
 }
 
-.home .hero .home-hero-button {
+/* .home .hero .home-hero-button {
 	background-color: var(--color-brand);
 	border: none;
 	padding: 1em 2em;
@@ -52,7 +52,7 @@
 	cursor: pointer;
 	transition: background-color 0.4s;
 	margin-right: 1.1rem;
-}
+} */
 
 .home .hero .home-hero-button:hover {
 	background-color: #7c36d7;
@@ -104,9 +104,9 @@
 	}
 
 
-	.home .hero .home-hero-button {
+	/* .home .hero .home-hero-button {
 		margin-bottom: 2rem;
-	}
+	} */
 
 	.hero .logos {
 		width: 100%;

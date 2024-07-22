@@ -9,10 +9,12 @@ import type { FeaturedCollectionFragment, RecommendedProductsQuery } from 'store
 import { FEATURED_COLLECTION_QUERY, RECOMMENDED_PRODUCTS_QUERY, CHRISTMAS_COLLECTION_QUERY } from '../graphql/queries';
 import { BusinessSelector } from '../components/BusinessSelector';
 import Logos from '../components/ui/Logos';
+import Button from '../components/ui/Button';
+import Blurbs from '../components/ui/Blurbs';
 import '../styles/pages/home.css';
 import '../styles/business-selector.css';
 import '../styles/collections.css';
-import '../styles/ui/logos.css';
+// import '../styles/ui/logos.css';
 
 export const meta: MetaFunction = () => {
 	return [{ title: 'Sweetchoice | Home' }];
@@ -71,6 +73,28 @@ const logos = [
 	{ src: "/assets/logos/aroma-logo.svg", alt: "Aroma logo" },
 ];
 
+const blurbsData = [
+	{
+		imgSrc: "/assets/graphics/choco-gradient.svg",
+		altText: "Buyback guarantee",
+		text: "Buyback guarantee for all bulk purchases up to 1 month of shelf life",
+		highlight: "Buyback guarantee",
+	},
+	{
+		imgSrc: "/assets/graphics/choco-grad-2.svg",
+		altText: "Promotional Support",
+		text: "Promotional support to boost your holiday sales and engage customers",
+		highlight: "Promotional support",
+	},
+	{
+		imgSrc: "/assets/graphics/choco-gradient.svg",
+		altText: "Custom Terms",
+		text: "Flexible Terms tailored to meet the unique needs of your business",
+		highlight: "Flexible Terms",
+	},
+];
+
+
 export default function Homepage() {
 	const [currentImage, setCurrentImage] = useState(heroAssets[0]);
 
@@ -95,8 +119,8 @@ export default function Homepage() {
 					<p>We wholesale and retail wholesome holiday treats.<br /> Trusted by leading supermarket chains.
 						<a target='blank' href="https://docs.google.com/spreadsheets/d/1sq8mcjEbsU1FJfUBehCM19C8hqdo8wz5gJ3GGRkNBDY/edit?gid=0#gid=0"> csv</a>
 					</p>
-					<button className="home-hero-button">Talk Business</button>
-					<a className="home-hero-link" href="/collections/all">Shop all →</a>
+					<Button type="primary" onClick={() => window.location.href = "/contact"}>Talk Business</Button>
+					<Button type="secondary" onClick={() => window.location.href = "/collections/all"}>Shop all →</Button>
 					
 					<div className='home-logos-container'>
 						<Logos logos={logos} />
@@ -111,7 +135,7 @@ export default function Homepage() {
 
 			<section className="about-section">
 				<div>
-					<h2 style={{ fontSize: '3em' }}>Wholesale programs</h2>
+					<h2 style={{ fontSize: '2em' }}>Holiday confectionery wholesale</h2>
 					<p>Explore our tailored holiday confectionery wholesale programs. <br />Making holidays colorful and sweet since 2013.</p>
 					<a className="about-link" href="/about">Learn more →</a>
 				</div>
@@ -124,8 +148,13 @@ export default function Homepage() {
 				}} />
 			</section>
 
+
+
 			<section>
-				<div className="blurbs">
+				
+				<Blurbs blurbs={blurbsData} />
+
+				{/* <div className="blurbs">
 					<div className="blurb">
 						<img src="/assets/graphics/choco-gradient.svg" alt="Buyback guarantee" />
 						<h3><span className="highlight">Buyback guarantee</span> for all bulk purchases up to 1 month of shelf life</h3>
@@ -138,7 +167,7 @@ export default function Homepage() {
 						<img src="/assets/graphics/choco-gradient.svg" alt="Custom Terms" />
 						<h3><span className="highlight">Flexible Terms</span> tailored to meet the unique needs of your business</h3>
 					</div>
-				</div>
+				</div> */}
 			</section>
 
 			<hr />

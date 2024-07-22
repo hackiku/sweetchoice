@@ -25,6 +25,8 @@ import holidaysStyles from '~/styles/pages/holidays.css?url';
 import uiStyles from '~/styles/components/ui.css?url';
 // ui
 import logosStyles from '~/styles/ui/logos.css?url';
+import buttonStyles from '~/styles/ui/button.css?url';
+import blurbsStyles from '~/styles/ui/blurbs.css';
 
 import { PageLayout } from '~/components/PageLayout';
 import { FOOTER_QUERY, HEADER_QUERY } from '~/lib/fragments';
@@ -60,6 +62,8 @@ export function links() {
 		{ rel: 'stylesheet', href: businessSelectorStyles },
 		{ rel: 'stylesheet', href: collectionsStyles },
 		{ rel: 'stylesheet', href: logosStyles },
+		{ rel: 'stylesheet', href: buttonStyles },
+		{ rel: 'stylesheet', href: blurbsStyles },
 		// pages
 		{ rel: 'stylesheet', href: homeStyles },
 		{ rel: 'stylesheet', href: pagesStyles },
