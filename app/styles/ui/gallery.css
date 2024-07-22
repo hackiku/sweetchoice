@@ -12,11 +12,10 @@
 	flex: 1 1 calc(1.618 * 100px);
 	/* Golden ratio */
 	max-width: calc(1.618 * 200px);
-	/* Adjust max-width as needed */
 	background-color: #d3d3d3;
-	/* Light gray background */
-	padding: 1rem;
+	padding: 3rem;
 	box-sizing: border-box;
+	border-radius: 1.618em;
 }
 
 .gallery-item img {
