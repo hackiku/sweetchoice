@@ -1,1 +1,119 @@
 /** styles/pages/home.css */
+
+/* Global styles for the home page */
+.home {
+	/* You can add global styles for the home page here */
+}
+
+/* Hero section styles */
+.home .hero {
+	position: relative;
+	/* Adjust for the navbar height */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	/* Ensure the hero section takes up full viewport height */
+	padding: 0rem;
+	background: var(--color-light);
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.home .hero-content {
+	text-align: left;
+	margin-bottom: 1rem;
+	z-index: 2;
+}
+
+.home .hero h1 {
+	color: black;
+	font-size: calc(5vw + 2em);
+	font-weight: 500;
+	line-height: 1;
+	margin-bottom: 1.5rem;
+	text-transform: uppercase;
+}
+
+.home .hero p {
+	color: black;
+	text-align: left;
+	font-size: 1.25rem;
+	margin-bottom: 2rem;
+}
+
+.home .hero .home-hero-button {
+	background-color: var(--color-brand);
+	border: none;
+	padding: 1em 2em;
+	color: white;
+	font-size: 1.25em;
+	cursor: pointer;
+	transition: background-color 0.4s;
+	margin-right: 1.1rem;
+}
+
+.home .hero .home-hero-button:hover {
+	background-color: #7c36d7;
+}
+
+.home .hero .home-hero-link {
+	font-size: 1.25em;
+	color: var(--color-dark);
+	text-decoration: none;
+	margin-left: 1rem;
+	font-weight: 550;
+}
+
+.hero .home-hero-link:hover {
+	text-decoration: underline;
+	color: var(--color-brand);
+}
+
+.choco-background {
+	position: absolute;
+	bottom: 16vh;
+	top: 12vw;
+	right: 12vw;
+	width: 22vw;
+	/* Adjust as necessary */
+	/* z-index: 10; */
+}
+
+/* Logos grid styles */
+.home-logos-container {
+	margin: 4em 0 0 0;
+}
+
+.home .hero .logos img {
+	max-height: 1.5em;
+	margin: 0 2rem 1rem 0;
+}
+
+@media (max-width: 768px) {
+
+	.home .hero h1 {
+		font-size: calc(6vw + 1em);
+		/* margin-top: 1em; */
+	}
+
+	.home .hero p {
+		font-size: 1.0em;
+		/* margin-top: 1em; */
+	}
+
+
+	.home .hero .home-hero-button {
+		margin-bottom: 2rem;
+	}
+
+	.hero .logos {
+		width: 100%;
+		justify-content: flex-start;
+	}
+
+	.hero .choco-background {
+		display: none;
+	}
+}

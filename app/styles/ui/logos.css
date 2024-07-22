@@ -1,0 +1,20 @@
+/* app/styles/ui/logos.css */
+
+.logos-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+	grid-gap: 1rem;
+	justify-items: center;
+	align-items: center;
+	padding: 0rem;
+}
+
+.logos-grid img {
+	max-width: 5em;
+	height: auto;
+	transition: transform 0.3s ease-in-out;
+}
+
+.logos-grid img:hover {
+	transform: scale(1.1);
+}

@@ -17,12 +17,14 @@ import appStyles from '~/styles/app.css?url';
 import businessSelectorStyles from '~/styles/business-selector.css?url';
 import collectionsStyles from '~/styles/collections.css?url';
 // pages
+import homeStyles from '~/styles/pages/home.css?url';
 import pagesStyles from '~/styles/pages.css?url';
 import aboutStyles from '~/styles/pages/about.css?url';
 import holidaysStyles from '~/styles/pages/holidays.css?url';
-import homeHeroStyles from '~/styles/home-hero.css?url';
-
+// import homeHeroStyles from '~/styles/home-hero.css?url';
 import uiStyles from '~/styles/components/ui.css?url';
+// ui
+import logosStyles from '~/styles/ui/logos.css?url';
 
 import { PageLayout } from '~/components/PageLayout';
 import { FOOTER_QUERY, HEADER_QUERY } from '~/lib/fragments';
@@ -54,14 +56,18 @@ export function links() {
   return [
 		{ rel: 'stylesheet', href: resetStyles },
 		{ rel: 'stylesheet', href: appStyles },
+		// components
 		{ rel: 'stylesheet', href: businessSelectorStyles },
 		{ rel: 'stylesheet', href: collectionsStyles },
+		{ rel: 'stylesheet', href: logosStyles },
 		// pages
+		{ rel: 'stylesheet', href: homeStyles },
 		{ rel: 'stylesheet', href: pagesStyles },
-		{ rel: 'stylesheet', href: homeHeroStyles },
+		// { rel: 'stylesheet', href: homeHeroStyles },
 		{ rel: 'stylesheet', href: aboutStyles },
 		{ rel: 'stylesheet', href: holidaysStyles },
 		{ rel: 'stylesheet', href: uiStyles },
+
     {
       rel: 'preconnect',
       href: 'https://cdn.shopify.com',

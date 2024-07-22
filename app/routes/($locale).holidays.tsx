@@ -21,6 +21,10 @@ export default function Holidays() {
 			<SeasonsSection />
 			
 			<SeasonsWheel />
+
+			<section>
+				<h1>Our story</h1>
+			</section>
 		</div>
 	);
 }

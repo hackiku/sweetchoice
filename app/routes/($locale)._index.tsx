@@ -8,9 +8,11 @@ import { Image, Money } from '@shopify/hydrogen';
 import type { FeaturedCollectionFragment, RecommendedProductsQuery } from 'storefrontapi.generated';
 import { FEATURED_COLLECTION_QUERY, RECOMMENDED_PRODUCTS_QUERY, CHRISTMAS_COLLECTION_QUERY } from '../graphql/queries';
 import { BusinessSelector } from '../components/BusinessSelector';
-import '../styles/home-hero.css';
+import Logos from '../components/ui/Logos';
+import '../styles/pages/home.css';
 import '../styles/business-selector.css';
 import '../styles/collections.css';
+import '../styles/ui/logos.css';
 
 export const meta: MetaFunction = () => {
 	return [{ title: 'Sweetchoice | Home' }];
@@ -55,17 +57,21 @@ function loadDeferredData({ context }: LoaderFunctionArgs) {
 	};
 }
 
-// ==================== HOMEPAGE ====================
-
 const heroAssets = [
 	"/assets/graphics/choco-gradient.svg",
 	"/assets/graphics/choco-grad-2.svg",
 ];
 
-
+const logos = [
+	{ src: "/assets/logos/maxi-logo.svg", alt: "Maxi logo" },
+	{ src: "/assets/logos/dis-logo.png", alt: "DIS logo", style: { height: '20px' } },
+	{ src: "/assets/logos/idea-logo.svg", alt: "Idea logo" },
+	{ src: "/assets/logos/univerexport-logo.svg", alt: "Univerexport logo" },
+	{ src: "/assets/logos/tempo-logo.svg", alt: "Tempo logo" },
+	{ src: "/assets/logos/aroma-logo.svg", alt: "Aroma logo" },
+];
 
 export default function Homepage() {
-
 	const [currentImage, setCurrentImage] = useState(heroAssets[0]);
 
 	useEffect(() => {
@@ -79,26 +85,23 @@ export default function Homepage() {
 	}, []);
 
 	const data = useLoaderData<typeof loader>();
+
 	return (
 		<div className="home">
-			<div className="home-hero">
+			<div className="hero">
 				<img className="choco-background" src={currentImage} alt="Chocolate background" />
-				{/* <img className="choco-background" src="/assets/graphics/choco-gradient.svg" alt="Chocolate background" /> */}
-				{/* <img className="choco-background" src="/assets/graphics/choco-grad-2.svg" alt="Chocolate background" /> */}
-				<div className="home-hero-content">
+				<div className="hero-content">
 					<h1>SWEET HOLIDAYS, ALL YEAR LONG</h1>
-					<p>We wholesale and retail wholesome holiday treats.<br></br> Trusted by leading supermarket chains.
-						<a target='blank' href="https://docs.google.com/spreadsheets/d/1sq8mcjEbsU1FJfUBehCM19C8hqdo8wz5gJ3GGRkNBDY/edit?gid=0#gid=0"> csv</a> 
+					<p>We wholesale and retail wholesome holiday treats.<br /> Trusted by leading supermarket chains.
+						<a target='blank' href="https://docs.google.com/spreadsheets/d/1sq8mcjEbsU1FJfUBehCM19C8hqdo8wz5gJ3GGRkNBDY/edit?gid=0#gid=0"> csv</a>
 					</p>
 					<button className="home-hero-button">Talk Business</button>
 					<a className="home-hero-link" href="/collections/all">Shop all →</a>
-					<div className="client-logos">
-						<img src="/assets/logos/maxi-logo.svg" alt="Maxi logo" />
-						<img style={{ height: '33px' }} src="/assets/logos/dis-logo.png" alt="DIS logo" />
-						<img src="/assets/logos/idea-logo.svg" alt="Idea logo" />
-						<img src="/assets/logos/univerexport-logo.svg" alt="Univerexport logo" />
-						<img src="/assets/logos/tempo-logo.svg" alt="Tempo logo" />
+					
+					<div className='home-logos-container'>
+						<Logos logos={logos} />
 					</div>
+
 				</div>
 			</div>
 			<hr style={{ marginBottom: '3em' }} />
@@ -107,10 +110,9 @@ export default function Homepage() {
 			<BusinessSelector />
 
 			<section className="about-section">
-				
 				<div>
 					<h2 style={{ fontSize: '3em' }}>Wholesale programs</h2>
-					<p>Explore our tailored holiday confectionery wholesale programs. <br></br>Making holidays colorful and sweet since 2013.</p>
+					<p>Explore our tailored holiday confectionery wholesale programs. <br />Making holidays colorful and sweet since 2013.</p>
 					<a className="about-link" href="/about">Learn more →</a>
 				</div>
 				<img src="/assets/shopping-cart.svg" alt="Supermarket line art" style={{
@@ -120,7 +122,6 @@ export default function Homepage() {
 					right: '10%',
 					top: '-15%'
 				}} />
-
 			</section>
 
 			<section>
@@ -140,13 +141,13 @@ export default function Homepage() {
 				</div>
 			</section>
 
-			<hr></hr>
+			<hr />
 
 			<ChristmasCollection collection={data.christmasCollection} />
-		
 		</div>
 	);
 }
+
 
 function FeaturedCollection({ collection }: { collection: FeaturedCollectionFragment }) {
 	if (!collection) return null;
@@ -214,4 +215,3 @@ function ChristmasCollection({ collection }: { collection: FeaturedCollectionFra
 		</section>
 	);
 }
-
