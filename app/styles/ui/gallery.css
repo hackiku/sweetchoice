@@ -1,0 +1,26 @@
+/* app/styles/ui/gallery.css */
+
+.gallery-container {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+	padding: 1rem;
+	justify-content: center;
+}
+
+.gallery-item {
+	flex: 1 1 calc(1.618 * 100px);
+	/* Golden ratio */
+	max-width: calc(1.618 * 200px);
+	/* Adjust max-width as needed */
+	background-color: #d3d3d3;
+	/* Light gray background */
+	padding: 1rem;
+	box-sizing: border-box;
+}
+
+.gallery-item img {
+	width: 100%;
+	height: auto;
+	display: block;
+}

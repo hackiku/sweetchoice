@@ -158,7 +158,7 @@ export default function Homepage() {
 			</section>
 
 			<hr />
-				<h1>Benefits & features</h1>
+				<h1>Benefits</h1>
 				<Blurbs blurbs={blurbsData} />
 		</div>
 	);

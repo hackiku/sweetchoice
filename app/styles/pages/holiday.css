@@ -1,0 +1,110 @@
+/* app/styles/pages/holiday.css */
+
+.holiday-hero {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	padding: 2rem;
+	background: linear-gradient(to right, var(--color-brand), var(--color-secondary));
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	text-align: left;
+	height: 80vh;
+}
+
+.holiday-hero-content {
+	flex: 1;
+}
+
+.holiday-hero-title {
+	font-size: calc(4vw + 2em);
+	font-weight: 500;
+	line-height: 1;
+	margin-bottom: 0;
+	color: black;
+	text-transform: uppercase;
+}
+
+.holiday-hero-image {
+	width: 100%;
+	height: auto;
+	position: relative;
+	right: 0;
+	transform: rotate(0deg);
+	max-height: 80vh;
+}
+
+.holiday-collection-description {
+	max-width: 60vw;
+	margin: 2rem 0rem 6rem 2rem;
+	font-size: 1.25rem;
+	line-height: 1.5;
+	text-align: left;
+	color: black;
+}
+
+/* Styles for product grid */
+.holiday-products-grid {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2rem;
+	padding: 2rem;
+}
+
+.holiday-product-item {
+	flex: 1 1 calc(25% - 1rem);
+	box-sizing: border-box;
+	text-align: center;
+	margin-bottom: 1rem;
+}
+
+.holiday-product-title {
+	margin-top: 0.5rem;
+	font-size: 1rem;
+}
+
+.holiday-product-price {
+	display: block;
+	margin-top: 0.25rem;
+}
+
+.holiday-product-image {
+	width: 100%;
+	height: auto;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+	.holiday-hero {
+		flex-direction: column;
+		text-align: center;
+		height: auto;
+		padding: 2rem 1rem;
+	}
+
+	.holiday-hero-title {
+		font-size: calc(6vw + 1em);
+	}
+
+	.holiday-hero-image {
+		width: 100%;
+		height: auto;
+		transform: rotate(0deg);
+	}
+
+	.holiday-collection-description {
+		max-width: 100%;
+		margin: 2rem 1rem;
+	}
+
+	.holiday-products-grid {
+		gap: 1rem;
+	}
+
+	.holiday-product-item {
+		flex: 1 1 calc(50% - 1rem);
+	}
+}

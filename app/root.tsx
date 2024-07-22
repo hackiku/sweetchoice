@@ -20,15 +20,17 @@ import businessSelectorStyles from '~/styles/business-selector.css?url';
 // import collectionsStyles from '~/styles/collections.css?url';
 // pages
 import homeStyles from '~/styles/pages/home.css?url';
-import pagesStyles from '~/styles/pages.css?url';
+// import pagesStyles from '~/styles/pages.css?url';
 import aboutStyles from '~/styles/pages/about.css?url';
 import holidaysStyles from '~/styles/pages/holidays.css?url';
+import holidayPageStyles from '~/styles/pages/holiday.css?url';
 import contactStyles from '~/styles/pages/contact.css?url';
 // ui
 import logosStyles from '~/styles/ui/logos.css?url';
 import buttonStyles from '~/styles/ui/button.css?url';
 import blurbsStyles from '~/styles/ui/blurbs.css?url';
 import sectionIntroStyles from '~/styles/ui/section-intro.css?url';
+import galleryStyles from '~/styles/ui/gallery.css?url';
 
 import { PageLayout } from '~/components/PageLayout';
 import { FOOTER_QUERY, HEADER_QUERY } from '~/lib/fragments';
@@ -64,12 +66,13 @@ export function links() {
 		{ rel: 'stylesheet', href: buttonStyles },
 		{ rel: 'stylesheet', href: logosStyles },
 		{ rel: 'stylesheet', href: blurbsStyles },
-		// { rel: 'stylesheet', href: collectionsStyles },
 		{ rel: 'stylesheet', href: businessSelectorStyles },
 		{ rel: 'stylesheet', href: sectionIntroStyles },
+		{ rel: 'stylesheet', href: galleryStyles },
 		// pages
 		{ rel: 'stylesheet', href: homeStyles },
-		{ rel: 'stylesheet', href: pagesStyles },
+		{ rel: 'stylesheet', href: holidayPageStyles },
+		// { rel: 'stylesheet', href: pagesStyles },
 		{ rel: 'stylesheet', href: aboutStyles },
 		{ rel: 'stylesheet', href: holidaysStyles },
 		{ rel: 'stylesheet', href: contactStyles },

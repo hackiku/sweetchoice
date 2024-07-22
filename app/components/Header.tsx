@@ -85,7 +85,7 @@ export function HeaderMenu({
 					)}
 					<div className="dropdown-container">
 						<span className="dropdown-trigger">
-							<a href="./holidays">Holidays</a> <ChevronDownIcon className="icon-small" />
+							<a href="/holidays">Holidays</a> <ChevronDownIcon className="icon-small" />
 						</span>
 						<div className="dropdown">
 							<NavLink className="dropdown-item" to="/collections/christmas">
