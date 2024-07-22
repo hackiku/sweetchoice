@@ -123,6 +123,10 @@ export default function Homepage() {
 					<Button type="primary" onClick={() => window.location.href = "/contact"}>Talk Business</Button>
 					<Button type="secondary" onClick={() => window.location.href = "/collections/all"}>Shop all →</Button>
 					
+					<div className="bg-gray-500 w-22 h 12">
+						asd
+					</div>
+
 					<div className='home-logos-container'>
 						<Logos logos={logos} />
 					</div>

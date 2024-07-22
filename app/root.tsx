@@ -1,18 +1,22 @@
 // root.tsx
 
-import { useNonce, getShopAnalytics, Analytics } from '@shopify/hydrogen';
-import { defer, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
+import {useNonce, getShopAnalytics, Analytics} from '@shopify/hydrogen';
+import {defer, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
 import {
-	Links,
-	Meta,
-	Outlet,
-	Scripts,
-	useRouteError,
-	useRouteLoaderData,
-	ScrollRestoration,
-	isRouteErrorResponse,
-	type ShouldRevalidateFunction,
+  Links,
+  Meta,
+  Outlet,
+  Scripts,
+  useRouteError,
+  useRouteLoaderData,
+  ScrollRestoration,
+  isRouteErrorResponse,
+  type ShouldRevalidateFunction,
 } from '@remix-run/react';
+// tailwind
+import type {LinksFunction} from '@remix-run/node';
+import stylesheet from '~/styles/tailwind.css?url';
+
 import favicon from '~/assets/favicon.png';
 import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
@@ -33,8 +37,8 @@ import sectionIntroStyles from '~/styles/ui/section-intro.css?url';
 import galleryStyles from '~/styles/ui/gallery.css?url';
 import breadcrumbsStyles from '~/styles/ui/breadcrumbs.css?url';
 
-import { PageLayout } from '~/components/PageLayout';
-import { FOOTER_QUERY, HEADER_QUERY } from '~/lib/fragments';
+import {PageLayout} from '~/components/PageLayout';
+import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
 
 export type RootLoader = typeof loader;
 
@@ -61,23 +65,24 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 
 export function links() {
   return [
-		{ rel: 'stylesheet', href: resetStyles },
-		{ rel: 'stylesheet', href: appStyles },
-		// ui
-		{ rel: 'stylesheet', href: buttonStyles },
-		{ rel: 'stylesheet', href: logosStyles },
-		{ rel: 'stylesheet', href: blurbsStyles },
-		{ rel: 'stylesheet', href: businessSelectorStyles },
-		{ rel: 'stylesheet', href: sectionIntroStyles },
-		{ rel: 'stylesheet', href: galleryStyles },
-		{ rel: 'stylesheet', href: breadcrumbsStyles },
-		// pages
-		{ rel: 'stylesheet', href: homeStyles },
-		{ rel: 'stylesheet', href: holidayPageStyles },
-		// { rel: 'stylesheet', href: pagesStyles },
-		{ rel: 'stylesheet', href: aboutStyles },
-		{ rel: 'stylesheet', href: holidaysStyles },
-		{ rel: 'stylesheet', href: contactStyles },
+    {rel: 'stylesheet', href: stylesheet},
+    {rel: 'stylesheet', href: resetStyles},
+    {rel: 'stylesheet', href: appStyles},
+    // ui
+    {rel: 'stylesheet', href: buttonStyles},
+    {rel: 'stylesheet', href: logosStyles},
+    {rel: 'stylesheet', href: blurbsStyles},
+    {rel: 'stylesheet', href: businessSelectorStyles},
+    {rel: 'stylesheet', href: sectionIntroStyles},
+    {rel: 'stylesheet', href: galleryStyles},
+    {rel: 'stylesheet', href: breadcrumbsStyles},
+    // pages
+    {rel: 'stylesheet', href: homeStyles},
+    {rel: 'stylesheet', href: holidayPageStyles},
+    // { rel: 'stylesheet', href: pagesStyles },
+    {rel: 'stylesheet', href: aboutStyles},
+    {rel: 'stylesheet', href: holidaysStyles},
+    {rel: 'stylesheet', href: contactStyles},
 
     {
       rel: 'preconnect',
