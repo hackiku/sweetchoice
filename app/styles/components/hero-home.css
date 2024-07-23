@@ -77,15 +77,6 @@
 	/* Add bottom margin for spacing when wrapped */
 }
 
-.choco-background {
-	position: absolute;
-	bottom: 6vh;
-	top: 12vw;
-	right: 12vw;
-	width: 22vw;
-	/* Adjust as necessary */
-	/* z-index: 10; */
-}
 
 hr {
 	width: 100%;

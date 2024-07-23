@@ -120,8 +120,8 @@ export default function Homepage() {
 	return (
 		<div className="home">
 			<div className="hero">
-				<img 
-					className="choco-background h-72 w-auto object-contain transform [rotate:10deg]"
+				<img
+					className="absolute bottom-[6vh] top-[32vh] md:top-[18vh] right-[12vw] w-[22vw] h-[28vw] w-auto object-contain transform rotate-[10deg]"
 					src={heroAssets[currentImage]}
 					alt="Chocolate background" />
 				<div className="hero-content">
