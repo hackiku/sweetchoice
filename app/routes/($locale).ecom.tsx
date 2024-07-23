@@ -3,6 +3,7 @@
 import { Button, Footer, Tooltip } from "flowbite-react";
 import ShoppingCartDefault from "../components/ecom/ShoppingCartDefault";
 import Breadcrumb from "../components/ecom/Breadcrumb";
+import CardWithLink from "../components/ecom/CardWithLink";
 // import FooterCustom from "../FooterCustom";
 
 
@@ -20,6 +21,9 @@ export default function Ecom() {
 				</Button>
 			</Tooltip>
 			
+			<CardWithLink />
+			
+			{/* ---------------------------------------- */}
 			<ShoppingCartDefault />
 
 

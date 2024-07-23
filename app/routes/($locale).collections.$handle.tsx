@@ -5,8 +5,12 @@ import { useLoaderData, Link, type MetaFunction } from '@remix-run/react';
 import { Pagination, getPaginationVariables, Image, Money, Analytics } from '@shopify/hydrogen';
 import type { ProductItemFragment } from 'storefrontapi.generated';
 import { useVariantUrl } from '~/lib/variants';
+// ui
 import Gallery from '~/components/ui/Gallery';
 import Breadcrumbs from '~/components/ui/Breadcrumbs';
+// ecom
+import Breadcrumb from '~/components/ecom/Breadcrumb';
+import StoreNav from '~/components/ecom/StoreNav';
 
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -76,21 +80,25 @@ export default function Collection() {
 
 	return (
 		
-		<div className="holiday">
+		<div className="hsoliday">
 
-			<Breadcrumbs />
-			<div className="holiday-hero">
-				<div className="holiday-hero-content">
-					<h1 className="holiday-hero-title">{collection.title}</h1>
+			<StoreNav />
+			{/* <Breadcrumb /> */}
+			{/* <Breadcrumbs /> */}
+			<div className="flex flex-col space-between md:flex-row">
+				
+				<h1 className="text-6xl uppercase w-[20vw]">{collection.title}</h1>
+				
+				<div className="w-20 h-20">
+					{collection.image && (
+						<Image
+							alt={collection.image.altText || collection.title}
+							data={collection.image}
+							sizes="(min-width: 45em) 80vw, 100vw"
+						/>
+					)}
 				</div>
-				{collection.image && (
-					<Image
-						className="holiday-hero-image"
-						alt={collection.image.altText || collection.title}
-						data={collection.image}
-						sizes="(min-width: 45em) 80vw, 100vw"
-					/>
-				)}
+
 			</div>
 			<p className="holiday-collection-description">{collection.description}</p>
 

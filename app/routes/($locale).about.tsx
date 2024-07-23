@@ -3,7 +3,8 @@
 import { useLoaderData, type MetaFunction } from '@remix-run/react';
 import { Image, Video } from '@shopify/hydrogen';
 import Eyebrow from '~/components/ui/Eyebrow';
-
+import { Button, Timeline } from "flowbite-react";
+import { HiArrowNarrowRight } from "react-icons/hi";
 import '../styles/home-hero.css';
 import '../styles/pages/about.css';
 
@@ -35,15 +36,48 @@ export default function About() {
 			
 			{/* ----------------------------------------------------- */}
 
-			<section>
-				<h2>Our History</h2>
-				<p>
-					Sweetchoice is a growing company that distributes chocolate things crafted with love.
-					We are highly specialized in New Year’s and Easter programs, so whatever holiday treat you might need, we got it.
-				</p>
-				<p>
-					In October 2013, Vesko’s sons Stanko and Vuk founded Sweetchoice, a company that honors the sweet passion they were raised in, but with the latest standards of industry excellence, innovation, and tech-savviness.
-				</p>
+			<section className='px-20 mt-12'>
+				<h2 className='mb-8'>Our History</h2>
+				
+				<Timeline>
+					<Timeline.Item>
+						<Timeline.Point />
+						<Timeline.Content>
+							<Timeline.Time>February 2022</Timeline.Time>
+							<Timeline.Title>Application UI code in Tailwind CSS</Timeline.Title>
+							<Timeline.Body>
+								Get access to over 20+ pages including a dashboard layout, charts, kanban board, calendar, and pre-order
+								E-commerce & Marketing pages.
+							</Timeline.Body>
+							<Button color="gray">
+								Learn More
+								<HiArrowNarrowRight className="ml-2 h-3 w-3" />
+							</Button>
+						</Timeline.Content>
+					</Timeline.Item>
+					<Timeline.Item>
+						<Timeline.Point />
+						<Timeline.Content>
+							<Timeline.Time>March 2022</Timeline.Time>
+							<Timeline.Title>Marketing UI design in Figma</Timeline.Title>
+							<Timeline.Body>
+								All of the pages and components are first designed in Figma and we keep a parity between the two versions
+								even as we update the project.
+							</Timeline.Body>
+						</Timeline.Content>
+					</Timeline.Item>
+					<Timeline.Item>
+						<Timeline.Point />
+						<Timeline.Content>
+							<Timeline.Time>April 2022</Timeline.Time>
+							<Timeline.Title>E-Commerce UI code in Tailwind CSS</Timeline.Title>
+							<Timeline.Body>
+								Get started with dozens of web components and interactive elements built on top of Tailwind CSS.
+							</Timeline.Body>
+						</Timeline.Content>
+					</Timeline.Item>
+				</Timeline>
+
 			</section>
 
 			{/* ----------------------------------------------------- */}
