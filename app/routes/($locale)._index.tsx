@@ -119,8 +119,11 @@ export default function Homepage() {
 				<img className="choco-background" src={currentImage} alt="Chocolate background" />
 				<div className="hero-content">
 					<h1>SWEET HOLIDAYS, ALL YEAR LONG</h1>
-					<p>We wholesale and retail wholesome holiday treats.<br /> Trusted by leading supermarket chains.
-						<a target='blank' href="https://docs.google.com/spreadsheets/d/1sq8mcjEbsU1FJfUBehCM19C8hqdo8wz5gJ3GGRkNBDY/edit?gid=0#gid=0"> csv</a>
+					<p>
+						We wholesale and retail wholesome holiday treats.
+						<br />
+						Trusted by leading supermarket chains.&nbsp;
+						<a className="underline" target='blank' href="https://sweetchoice-a775574908f7afeeb9c6.o2.myshopify.dev/">Live →</a>
 					</p>
 					<Button type="primary" onClick={() => window.location.href = "/contact"}>Talk Business</Button>
 					<Button type="secondary" onClick={() => window.location.href = "/collections/all"}>Shop all →</Button>

@@ -135,6 +135,7 @@ export default function Collection() {
 			<section>
 				<h3>Trusted by leading supermarkets</h3>
 				<Logos logos={logos} />
+				
 			</section>
 
 		</div>
