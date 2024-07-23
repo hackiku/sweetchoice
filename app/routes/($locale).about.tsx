@@ -5,7 +5,7 @@ import { Image, Video } from '@shopify/hydrogen';
 import Eyebrow from '~/components/ui/Eyebrow';
 import { Button, Timeline } from "flowbite-react";
 import { HiArrowNarrowRight } from "react-icons/hi";
-import GalleryMasonry from '../components/ecom/GalleryMasonry';
+import GalleryMasonry from '../components/ui/GalleryMasonry';
 
 
 export const meta: MetaFunction = () => {
@@ -35,7 +35,7 @@ export default function About() {
 			
 			{/* ----------------------------------------------------- */}
 
-			<GalleryMasonry />
+			<GalleryMasonry numAssets={6} numTypes={3} />
 
 			{/* ----------------------------------------------------- */}
 			<section className='px-20 mt-12'>
