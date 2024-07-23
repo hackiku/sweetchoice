@@ -153,7 +153,7 @@ export default function Homepage() {
 			</SectionIntro>
 
 			<section className="hero">
-				<h1>Treats & Sweets for Every Season</h1>
+				<h2 className='text-[#30ed98]'>Treats & Sweets for Every Season</h2>
 			</section>
 
 			{/* <hr /> */}

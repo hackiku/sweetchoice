@@ -3,7 +3,9 @@ import flowbite from 'flowbite-react/tailwind';
 import type {Config} from 'tailwindcss';
 
 export default {
-  content: [
+	mode: 'jit',
+	purge: ['./app/**/*.{js,ts,jsx,tsx}'],
+	content: [
     './app/**/*.{js,jsx,ts,tsx}',
     'node_modules/flowbite-react/lib/esm/**/*.js',
     flowbite.content(),

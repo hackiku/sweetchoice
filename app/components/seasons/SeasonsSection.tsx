@@ -33,16 +33,16 @@ const SeasonsSection = () => {
 	return (
 		<>
 			{seasons.map((season) => (
-				<section id={season.id} key={season.id} className={`season-card ${season.className}`}>
+				<section id={season.id} key={season.id} className={`relative h-[60vh] rounded-none my-8 mx-[-2rem] py-16 px-16 overflow-hidden z-1 ${season.className}`}>
 					<Eyebrow title={season.title} />
-					<h2>{season.title}</h2>
-					<p>{season.description}</p>
-					<div className="products-grid">
+					<h2 className="mt-2 text-2xl font-bold">{season.title}</h2>
+					<p className="mt-1 text-lg text-gray-700">{season.description}</p>
+					<div className="grid gap-6 grid-cols-[repeat(auto-fit,minmax(200px,1fr))] mb-8">
 						{mockProducts.map((product) => (
-							<Link key={product.id} className="product-item" to={`/products/${product.handle}`}>
-								<Image data={product.images.nodes[0]} aspectRatio="1/1" sizes="(min-width: 45em) 20vw, 50vw" />
-								<h4>{product.title}</h4>
-								<small>
+							<Link key={product.id} className="text-center" to={`/products/${product.handle}`}>
+								<Image data={product.images.nodes[0]} className="w-full h-auto" aspectRatio="1/1" sizes="(min-width: 45em) 20vw, 50vw" />
+								<h4 className="mt-2 text-lg font-medium">{product.title}</h4>
+								<small className="text-gray-500">
 									<Money data={product.priceRange.minVariantPrice} />
 								</small>
 							</Link>
