@@ -7,7 +7,7 @@ import { Suspense } from 'react';
 import { Image, Money } from '@shopify/hydrogen';
 import type { FeaturedCollectionFragment, RecommendedProductsQuery } from 'storefrontapi.generated';
 import { FEATURED_COLLECTION_QUERY, RECOMMENDED_PRODUCTS_QUERY, CHRISTMAS_COLLECTION_QUERY } from '../graphql/queries';
-import { BusinessSelector } from '../components/BusinessSelector';
+// import { BusinessSelector } from '../components/BusinessSelector';
 
 import Logos from '../components/ui/Logos';
 import Button from '../components/ui/Button';
@@ -145,7 +145,8 @@ export default function Homepage() {
 			<hr style={{ marginBottom: '3em' }} />
 
 			<RecommendedProducts products={data.recommendedProducts} />
-			<BusinessSelector />
+			
+			{/* <BusinessSelector /> */}
 
 
 
