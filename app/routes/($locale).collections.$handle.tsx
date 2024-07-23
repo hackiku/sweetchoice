@@ -8,6 +8,7 @@ import { useVariantUrl } from '~/lib/variants';
 import Gallery from '~/components/ui/Gallery';
 import Breadcrumbs from '~/components/ui/Breadcrumbs';
 
+
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
 	return [{ title: `SweetChoice | ${data?.collection.title ?? ''} Collection` }];
 };
@@ -74,7 +75,9 @@ export default function Collection() {
 	const { collection } = useLoaderData<typeof loader>();
 
 	return (
+		
 		<div className="holiday">
+
 			<Breadcrumbs />
 			<div className="holiday-hero">
 				<div className="holiday-hero-content">
@@ -148,6 +151,7 @@ function ProductItem({ product, loading }: { product: ProductItemFragment; loadi
 				<Money data={product.priceRange.minVariantPrice} />
 			</small>
 		</Link>
+
 	);
 }
 
