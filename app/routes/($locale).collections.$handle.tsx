@@ -9,6 +9,7 @@ import { useVariantUrl } from '~/lib/variants';
 import Gallery from '~/components/ui/Gallery';
 import Breadcrumbs from '~/components/ui/Breadcrumbs';
 import Logos from '../components/ui/Logos';
+import Button from '../components/ui/Button';
 
 // ecom (flowbite)
 import Breadcrumb from '~/components/ecom/Breadcrumb';
@@ -99,8 +100,13 @@ export default function Collection() {
 	return (
 		<div>
 			<section className="flex flex-col md:flex-row justify-between mt-2 md:mt-4 gap-2 md:gap-44 lg:gap-72">
-				<StoreNav />
+				<div>
+					<StoreNav />
+					<a href="/catalog/catalog-sample.pdf" target="_blank" rel="noopener noreferrer">Get Catalog →</a>
+					{/* <Button type="primary" onClick={() => window.location.href = "/contact"}>Talk Business</Button> */}
+				</div>
 				<p className="md:pt-10">{collection.description}</p>
+
 			</section>
 
 			<hr />
@@ -135,7 +141,7 @@ export default function Collection() {
 			<section>
 				<h3>Trusted by leading supermarkets</h3>
 				<Logos logos={logos} />
-				
+
 			</section>
 
 		</div>

@@ -63,8 +63,13 @@ function loadDeferredData({ context }: LoaderFunctionArgs) {
 }
 
 const heroAssets = [
-	"/assets/graphics/choco-gradient.svg",
-	"/assets/graphics/choco-grad-2.svg",
+	// "/assets/graphics/choco-gradient.svg",
+	"/assets/animations/frame1.png",
+	"/assets/animations/frame2.png",
+	"/assets/animations/frame3.png",
+	"/assets/animations/frame4.png",
+	// "/assets/santa-eaten.png",
+	// "/assets/graphics/choco-grad-2.svg",
 ];
 
 const logos = [
@@ -99,14 +104,13 @@ const blurbsData = [
 
 
 export default function Homepage() {
-	const [currentImage, setCurrentImage] = useState(heroAssets[0]);
+	
+	const [currentImage, setCurrentImage] = useState(0);
 
 	useEffect(() => {
 		const interval = setInterval(() => {
-			setCurrentImage((prevImage) =>
-				prevImage === heroAssets[0] ? heroAssets[1] : heroAssets[0]
-			);
-		}, 1500);
+			setCurrentImage((prevImage) => (prevImage + 1) % heroAssets.length);
+		}, 500);
 
 		return () => clearInterval(interval);
 	}, []);
@@ -116,7 +120,10 @@ export default function Homepage() {
 	return (
 		<div className="home">
 			<div className="hero">
-				<img className="choco-background" src={currentImage} alt="Chocolate background" />
+				<img 
+					className="choco-background h-72 w-auto object-contain transform [rotate:10deg]"
+					src={heroAssets[currentImage]}
+					alt="Chocolate background" />
 				<div className="hero-content">
 					<h1>SWEET HOLIDAYS, ALL YEAR LONG</h1>
 					<p>
