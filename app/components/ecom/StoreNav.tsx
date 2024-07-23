@@ -55,7 +55,7 @@ const StoreNav: React.FC<StoreNavProps> = ({ breadcrumbs }) => {
 						))}
 					</ol>
 				</nav>
-				<h2 className="mt-3 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">{crumbs[crumbs.length - 1]?.name}</h2>
+				<h2 className="mt-3 text-4xl font-semibold text-gray-900 dark:text-white sm:text-5xl">{crumbs[crumbs.length - 1]?.name}</h2>
 			</div>
 		</div>
 	);

@@ -5,12 +5,14 @@ import { useLoaderData, Link, type MetaFunction } from '@remix-run/react';
 import { Pagination, getPaginationVariables, Image, Money, Analytics } from '@shopify/hydrogen';
 import type { ProductItemFragment } from 'storefrontapi.generated';
 import { useVariantUrl } from '~/lib/variants';
+
 // ui
 import Gallery from '~/components/ui/Gallery';
 import Breadcrumbs from '~/components/ui/Breadcrumbs';
-// ecom
+// ecom (flowbite)
 import Breadcrumb from '~/components/ecom/Breadcrumb';
 import StoreNav from '~/components/ecom/StoreNav';
+import ProductCard from "~/components/ecom/ProductCard";
 
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -80,27 +82,54 @@ export default function Collection() {
 
 	return (
 		
-		<div className="hsoliday">
+		<div className="">
 
-			<StoreNav />
-			{/* <Breadcrumb /> */}
-			{/* <Breadcrumbs /> */}
-			<div className="flex flex-col space-between md:flex-row">
-				
-				<h1 className="text-6xl uppercase w-[20vw]">{collection.title}</h1>
-				
-				<div className="w-20 h-20">
-					{collection.image && (
-						<Image
-							alt={collection.image.altText || collection.title}
-							data={collection.image}
-							sizes="(min-width: 45em) 80vw, 100vw"
-						/>
-					)}
-				</div>
-
+			<div className="flex flex-col md:flex-row
+				justify-between mt-10 gap-2 md:gap-44 lg:gap-72">
+					<StoreNav />
+					<p className="md:pt-10">{collection.description}</p>
 			</div>
-			<p className="holiday-collection-description">{collection.description}</p>
+
+			<hr />
+
+			<div className="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
+				<ProductCard
+					productName="Apple iMac 27, 1TB HDD, Retina 5K Display, M3 Max"
+				productLink="#"
+				imageUrl="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg"
+				imageAlt="Apple iMac"
+				discountLabel="Up to 35% off"
+				price="$1,699"
+				rating={5}
+				reviewCount={455}
+				features={["Fast Delivery", "Best Price"]}
+				darkImageUrl="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front-dark.svg"
+  			/>
+				<ProductCard
+					productName="Apple iPhone 15 5G phone, 256GB, Gold"
+					productLink="#"
+					imageUrl="https://flowbite.s3.amazonaws.com/blocks/e-commerce/iphone-light.svg"
+					imageAlt="Apple iPhone"
+					discountLabel="Up to 15% off"
+					price="$999"
+					rating={4}
+					reviewCount={128}
+					features={["Fast Delivery", "Best Price"]}
+					darkImageUrl="https://flowbite.s3.amazonaws.com/blocks/e-commerce/iphone-dark.svg"
+				/>
+				<ProductCard
+					productName="Apple Watch Series 8"
+					productLink="#"
+					imageUrl="https://flowbite.s3.amazonaws.com/blocks/e-commerce/apple-watch-light.svg"
+					imageAlt="Apple Watch"
+					discountLabel="Up to 10% off"
+					price="$399"
+					rating={4.5}
+					reviewCount={320}
+					features={["Fast Delivery", "Best Price"]}
+					darkImageUrl="https://flowbite.s3.amazonaws.com/blocks/e-commerce/apple-watch-dark.svg"
+				/>
+			</div>
 
 			<Pagination connection={collection.products}>
 				{({ nodes, isLoading, PreviousLink, NextLink }) => (
