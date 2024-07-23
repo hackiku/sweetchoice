@@ -12,6 +12,8 @@ import Logos from '../components/ui/Logos';
 import Button from '../components/ui/Button';
 import Blurbs from '../components/ui/Blurbs';
 import SectionIntro from '../components/ui/SectionIntro';
+import SeasonsWheel from '~/components/seasons/SeasonsWheel';
+import SeasonsSection from '~/components/seasons/SeasonsSection';
 
 // import { Button } from 'flowbite-react';
 
@@ -149,6 +151,16 @@ export default function Homepage() {
 					top: '-15%'
 				}} />
 			</SectionIntro>
+
+			<section className="hero">
+				<h1>Treats & Sweets for Every Season</h1>
+			</section>
+
+			{/* <hr /> */}
+
+			<SeasonsSection />
+
+			<SeasonsWheel />
 
 
 			<section>

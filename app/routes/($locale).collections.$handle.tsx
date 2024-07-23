@@ -14,6 +14,7 @@ import StoreNav from '~/components/ecom/StoreNav';
 import ProductCard from "~/components/ecom/ProductCard";
 import CustomProductCard from "~/components/ecom/CustomProductCard";
 import ProductCardFlowbite from "~/components/ecom/ProductCardFlowbite";
+import DropdownFilter from "~/components/ecom/DropdownFilter";
 
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -91,6 +92,8 @@ export default function Collection() {
 			</section>
 
 			<hr />
+
+			<DropdownFilter />
 
 			<Pagination connection={collection.products}>
 				{({ nodes, isLoading, PreviousLink, NextLink }) => (

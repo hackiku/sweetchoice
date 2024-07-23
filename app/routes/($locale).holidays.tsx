@@ -3,7 +3,6 @@
 import { type MetaFunction } from '@remix-run/react';
 import SeasonsWheel from '~/components/seasons/SeasonsWheel';
 import SeasonsSection from '~/components/seasons/SeasonsSection';
-import '../styles/pages/holidays.css';
 
 export const meta: MetaFunction = () => {
 	return [{ title: `Holidays | Sweetchoice` }];

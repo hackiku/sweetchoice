@@ -5,8 +5,8 @@ import { Image, Video } from '@shopify/hydrogen';
 import Eyebrow from '~/components/ui/Eyebrow';
 import { Button, Timeline } from "flowbite-react";
 import { HiArrowNarrowRight } from "react-icons/hi";
-import '../styles/home-hero.css';
-import '../styles/pages/about.css';
+import GalleryMasonry from '../components/ecom/GalleryMasonry';
+
 
 export const meta: MetaFunction = () => {
 	return [{ title: `About us | Sweetchoice` }];
@@ -30,12 +30,12 @@ export default function About() {
 				<p>Come to the sweet side.</p>
 			</section>
 
-			{/* <section className="video-section">
-				<Video data={videoData} autoPlay muted loop playsInline />
-			</section> */}
 			
 			{/* ----------------------------------------------------- */}
 
+			<GalleryMasonry />
+
+			{/* ----------------------------------------------------- */}
 			<section className='px-20 mt-12'>
 				<h2 className='mb-8'>Our History</h2>
 				
