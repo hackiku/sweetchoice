@@ -15,6 +15,8 @@ import {
 } from '@remix-run/react';
 // tailwind
 import type {LinksFunction} from '@remix-run/node';
+
+import {ThemeModeScript} from 'flowbite-react';
 import stylesheet from '~/styles/tailwind.css?url';
 
 import favicon from '~/assets/favicon.png';
@@ -188,6 +190,7 @@ function Layout({children}: {children?: React.ReactNode}) {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
+        <ThemeModeScript />
       </head>
       <body>
         {data ? (
