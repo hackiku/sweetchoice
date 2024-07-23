@@ -6,7 +6,6 @@ import { type CartViewPayload, useAnalytics } from '@shopify/hydrogen';
 import type { HeaderQuery, CartApiQueryFragment } from 'storefrontapi.generated';
 import { useAside } from '~/components/Aside';
 import { UserIcon, MagnifyingGlassIcon, ShoppingCartIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
-import { Dropdown } from 'flowbite-react';
 
 interface HeaderProps {
 	header: HeaderQuery;
@@ -24,9 +23,9 @@ export function Header({
 	publicStoreDomain,
 }: HeaderProps) {
 	return (
-		<header className="flex items-center justify-between py-4 px-8 bg-white shadow-md">
+		<header className="header">
 			<NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
-				<img className='w-16' src="/assets/logos/sc-logo.svg" alt="Logo" />
+				<img className='nav-logo' src="/assets/logos/sc-logo.svg" alt="" />
 			</NavLink>
 			<HeaderMenu header={header} viewport="desktop" />
 			<HeaderMenuMobileToggle />
@@ -42,10 +41,17 @@ export function HeaderMenu({
 	header: HeaderQuery;
 	viewport: Viewport;
 }) {
-	const className = `flex items-center space-x-4`;
+	const className = `header-menu-${viewport}`;
+
+	function closeAside(event: React.MouseEvent<HTMLAnchorElement>) {
+		if (viewport === 'mobile') {
+			event.preventDefault();
+			window.location.href = event.currentTarget.href;
+		}
+	}
 
 	// Extract "Shop All" and "New Year" links from Shopify menu
-	const retailLink = header?.menu?.items?.find((item) => item.title === 'Gifts');
+	const shopAllLink = header?.menu?.items?.find((item) => item.title === 'Shop All');
 	const newYearLink = header?.menu?.items?.find((item) => item.title === 'New Year');
 	const christmasLink = header?.menu?.items?.find((item) => item.title === 'Christmas');
 
@@ -54,6 +60,7 @@ export function HeaderMenu({
 			{viewport === 'mobile' && (
 				<NavLink
 					end
+					onClick={closeAside}
 					prefetch="intent"
 					style={activeLinkStyle}
 					to="/"
@@ -63,34 +70,62 @@ export function HeaderMenu({
 			)}
 			{viewport === 'desktop' && (
 				<>
-					{retailLink && (
+					<div>|</div>
+					{shopAllLink && (
 						<NavLink
-							className="text-gray-700 hover:text-primary-600"
+							className="header-menu-item"
 							end
+							onClick={closeAside}
 							prefetch="intent"
 							style={activeLinkStyle}
-							to={new URL(retailLink.url).pathname}
+							to={new URL(shopAllLink.url).pathname}
 						>
 							Gifts
 						</NavLink>
 					)}
-					<Dropdown label="Holidays" inline>
-						<Dropdown.Item href="/collections/christmas">Christmas</Dropdown.Item>
-						<Dropdown.Item href="/collections/valentines">Valentine's Day</Dropdown.Item>
-						<Dropdown.Item href="/collections/easter">Easter</Dropdown.Item>
-						<Dropdown.Item href="/collections/halloween">Halloween</Dropdown.Item>
-					</Dropdown>
-					<Dropdown label="All Year" inline>
-						<Dropdown.Item href="/collections/pick-mix">Pick & mix</Dropdown.Item>
-						<Dropdown.Item href="/collections/confectionery">Confectionery</Dropdown.Item>
-						<Dropdown.Item href="/collections/corporate-gifts">Corporate Gifts</Dropdown.Item>
-					</Dropdown>
-					<Dropdown label="More" inline>
-						<Dropdown.Item href="/about">About</Dropdown.Item>
-						<Dropdown.Item href="/blogs">Blogs</Dropdown.Item>
-						<Dropdown.Item href="/dash">Dash</Dropdown.Item>
-						<Dropdown.Item href="/collections">Collections</Dropdown.Item>
-					</Dropdown>
+					<div className="dropdown-container">
+						<span className="dropdown-trigger">
+							<a href="/holidays">Holidays</a> <ChevronDownIcon className="icon-small" />
+						</span>
+						<div className="dropdown">
+							<NavLink className="dropdown-item" to="/collections/christmas">
+								Christmas
+							</NavLink>
+							<NavLink className="dropdown-item" to="/collections/easter">
+								Easter
+							</NavLink>
+							{newYearLink && (
+								<NavLink
+									className="dropdown-item"
+									to={new URL(newYearLink.url).pathname}
+								>
+									New Year
+								</NavLink>
+							)}
+							<NavLink className="dropdown-item" to="/collections/valentines">
+								Valentine's Day
+							</NavLink>
+						</div>
+					</div>
+					<div className="dropdown-container">
+						<span className="dropdown-trigger">
+							More <ChevronDownIcon className="icon-small" />
+						</span>
+						<div className="dropdown">
+							<NavLink className="dropdown-item" to="/about">
+								About
+							</NavLink>
+							<NavLink className="dropdown-item" to="/blogs">
+								Blogs
+							</NavLink>
+							<NavLink className="dropdown-item" to="/dash">
+								Dash
+							</NavLink>
+							<NavLink className="dropdown-item" to="/collections">
+								Collections
+							</NavLink>
+						</div>
+					</div>
 				</>
 			)}
 		</nav>
@@ -102,11 +137,11 @@ function HeaderCtas({
 	cart,
 }: Pick<HeaderProps, 'isLoggedIn' | 'cart'>) {
 	return (
-		<nav className="flex items-center space-x-4">
+		<nav className="header-ctas" role="navigation">
 			<NavLink prefetch="intent" to="/account" style={activeLinkStyle}>
 				<Suspense fallback="Sign in">
 					<Await resolve={isLoggedIn} errorElement="Sign in">
-						{(isLoggedIn) => (isLoggedIn ? <UserIcon className="w-6 h-6 text-gray-700" /> : 'Sign in')}
+						{(isLoggedIn) => (isLoggedIn ? <UserIcon className="icon" /> : 'Sign in')}
 					</Await>
 				</Suspense>
 			</NavLink>
@@ -120,7 +155,7 @@ function HeaderMenuMobileToggle() {
 	const { open } = useAside();
 	return (
 		<button
-			className="lg:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+			className="header-menu-mobile-toggle reset"
 			onClick={() => open('mobile')}
 		>
 			<h3>☰</h3>
@@ -131,8 +166,8 @@ function HeaderMenuMobileToggle() {
 function SearchToggle() {
 	const { open } = useAside();
 	return (
-		<button className="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500" onClick={() => open('search')}>
-			<MagnifyingGlassIcon className="w-6 h-6 text-gray-700" />
+		<button className="reset" onClick={() => open('search')}>
+			<MagnifyingGlassIcon className="icon" />
 		</button>
 	);
 }
@@ -154,14 +189,8 @@ function CartBadge({ count }: { count: number }) {
 					url: window.location.href || '',
 				} as CartViewPayload);
 			}}
-			className="relative"
 		>
-			<ShoppingCartIcon className="w-6 h-6 text-gray-700" />
-			{count > 0 && (
-				<span className="absolute -top-2 -right-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
-					{count}
-				</span>
-			)}
+			<ShoppingCartIcon className="icon" /> {count}
 		</a>
 	);
 }
@@ -170,7 +199,7 @@ function CartToggle({ cart }: Pick<HeaderProps, 'cart'>) {
 	return (
 		<Suspense fallback={<CartBadge count={0} />}>
 			<Await resolve={cart}>
-				{cart => {
+				{(cart) => {
 					if (!cart) return <CartBadge count={0} />;
 					return <CartBadge count={cart.totalQuantity || 0} />;
 				}}

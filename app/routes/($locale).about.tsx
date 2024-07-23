@@ -30,9 +30,9 @@ export default function About() {
 				<p>Come to the sweet side.</p>
 			</section>
 
-			<section className="video-section">
+			{/* <section className="video-section">
 				<Video data={videoData} autoPlay muted loop playsInline />
-			</section>
+			</section> */}
 			
 			{/* ----------------------------------------------------- */}
 

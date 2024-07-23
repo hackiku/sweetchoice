@@ -4,7 +4,28 @@ import { Button, Footer, Tooltip } from "flowbite-react";
 import ShoppingCartDefault from "../components/ecom/ShoppingCartDefault";
 import Breadcrumb from "../components/ecom/Breadcrumb";
 import CardWithLink from "../components/ecom/CardWithLink";
-// import FooterCustom from "../FooterCustom";
+import ProductCardB2B from "~/components/ecom/ProductCardB2B";
+
+
+
+function ProductsGrid({ products }: { products: ProductItemFragment[] }) {
+	return (
+		<div className="holiday-products-grid">
+			{products.map((product, index) => (
+				<ProductCardB2B
+					key={product.id}
+					productName={product.title}
+					productLink={`/products/${product.handle}`}
+					imageUrl={product.featuredImage?.url || ''}
+					imageAlt={product.featuredImage?.altText || product.title}
+					price={`$${product.priceRange.minVariantPrice.amount}`}
+					features={["Fast Delivery", "Best Price"]}
+					darkImageUrl={product.featuredImage?.url || ''} // Assuming the same image for dark mode
+				/>
+			))}
+		</div>
+	);
+}
 
 
 export default function Ecom() {
@@ -22,11 +43,15 @@ export default function Ecom() {
 			</Tooltip>
 			
 			<CardWithLink />
-			
+
 			{/* ---------------------------------------- */}
 			<ShoppingCartDefault />
 
 
+			{/* ---------------------------------------- */}
+
+
+			{/* <ProductCardB2B /> */}
 
 			{/* FOOTER */}
 		<section className="fixed left-0 bottom-0 w-screen bg-gray-100">

@@ -85,7 +85,7 @@ export default function Collection() {
 
 	return (
 		<div>
-			<section className="flex flex-col md:flex-row justify-between mt-10 gap-2 md:gap-44 lg:gap-72">
+			<section className="flex flex-col md:flex-row justify-between mt-2 md:mt-4 gap-2 md:gap-44 lg:gap-72">
 				<StoreNav />
 				<p className="md:pt-10">{collection.description}</p>
 			</section>

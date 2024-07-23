@@ -9,17 +9,12 @@ import type { FeaturedCollectionFragment, RecommendedProductsQuery } from 'store
 import { FEATURED_COLLECTION_QUERY, RECOMMENDED_PRODUCTS_QUERY, CHRISTMAS_COLLECTION_QUERY } from '../graphql/queries';
 import { BusinessSelector } from '../components/BusinessSelector';
 import Logos from '../components/ui/Logos';
-// import Button from '../components/ui/Button';
+import Button from '../components/ui/Button';
 import Blurbs from '../components/ui/Blurbs';
 import SectionIntro from '../components/ui/SectionIntro';
-import '../styles/pages/home.css';
 
-import { Button } from 'flowbite-react';
+// import { Button } from 'flowbite-react';
 
-
-// import '../styles/business-selector.css';
-// import '../styles/collections.css';
-// import '../styles/ui/logos.css';
 
 export const meta: MetaFunction = () => {
 	return [{ title: 'Sweetchoice | Home' }];
@@ -127,11 +122,6 @@ export default function Homepage() {
 					<Button type="primary" onClick={() => window.location.href = "/contact"}>Talk Business</Button>
 					<Button type="secondary" onClick={() => window.location.href = "/collections/all"}>Shop all →</Button>
 					
-					<div className="bg-gray-500 w-22 p-8">
-						<Button >
-							Click me
-						</Button>
-					</div>
 
 					<div className='home-logos-container'>
 						<Logos logos={logos} />
