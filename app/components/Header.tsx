@@ -109,7 +109,6 @@ export function HeaderMenu({
 					<Dropdown label="About" inline className="flex items-center">
 						<Dropdown.Item href="/about">About</Dropdown.Item>
 						<Dropdown.Item href="/blogs">Blogs</Dropdown.Item>
-						<Dropdown.Item href="/dash">Dash</Dropdown.Item>
 						<Dropdown.Item href="/collections">Collections</Dropdown.Item>
 					</Dropdown>
 				</div>

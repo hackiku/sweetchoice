@@ -1,16 +1,16 @@
 // app/components/ui/Eyebrow.tsx
 
-// import '../../styles/components/ui.css';
-import '../../styles/ui/eyebrow.css';
+import React from 'react';
 
 interface EyebrowProps {
-	title: string;
+	text: string;
+	className?: string;
 }
 
-const Eyebrow: React.FC<EyebrowProps> = ({ title }) => {
+const Eyebrow: React.FC<EyebrowProps> = ({ text, className = '' }) => {
 	return (
-		<div className="eyebrow">
-			<span className="eyebrow-title">{title}</span>
+		<div className={`flex justify-center mb-4 ${className} text-white font-semibold px-3 py-1.5 rounded-full shadow` }>
+			{text}
 		</div>
 	);
 };

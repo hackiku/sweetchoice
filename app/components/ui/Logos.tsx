@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+
+
 interface LogosProps {
 	logos: Array<{ src: string; alt: string }>;
 }

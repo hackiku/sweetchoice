@@ -8,10 +8,11 @@ import { Image, Money } from '@shopify/hydrogen';
 import type { FeaturedCollectionFragment, RecommendedProductsQuery } from 'storefrontapi.generated';
 import { FEATURED_COLLECTION_QUERY, RECOMMENDED_PRODUCTS_QUERY, CHRISTMAS_COLLECTION_QUERY } from '../graphql/queries';
 import { BusinessSelector } from '../components/BusinessSelector';
+
 import Logos from '../components/ui/Logos';
 import Button from '../components/ui/Button';
 import Blurbs from '../components/ui/Blurbs';
-import SectionIntro from '../components/ui/SectionIntro';
+import Eyebrow from '../components/ui/Eyebrow';
 import SeasonsWheel from '~/components/seasons/SeasonsWheel';
 import SeasonsSection from '~/components/seasons/SeasonsSection';
 
@@ -137,26 +138,19 @@ export default function Homepage() {
 			<BusinessSelector />
 
 
-			<SectionIntro
-				headline="Holiday confectionery wholesale"
-				description="Explore our tailored holiday confectionery wholesale programs. Making holidays colorful and sweet since 2013."
-				icon="🎉"
-			>
-				<a className="about-link" href="/about">Learn more →</a>
-				<img src="/assets/shopping-cart.svg" alt="Supermarket line art" style={{
-					width: '15%',
-					transform: 'rotate(30deg)',
-					position: 'absolute',
-					right: '10%',
-					top: '-15%'
-				}} />
-			</SectionIntro>
 
-			<section className="hero">
-				<h2 className='text-[#30ed98]'>Treats & Sweets for Every Season</h2>
+			<hr />
+			
+			<section>
+				<div className="flex items-center gap-4">
+					<h2 className=''>Treats & Sweets for Every Season</h2>
+					<Eyebrow
+						text="wholesale"
+						className='text-xs bg-red-700'
+						/>
+				</div>
 			</section>
 
-			{/* <hr /> */}
 
 			<SeasonsSection />
 

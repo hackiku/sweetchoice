@@ -8,6 +8,8 @@ import { useVariantUrl } from '~/lib/variants';
 // ui
 import Gallery from '~/components/ui/Gallery';
 import Breadcrumbs from '~/components/ui/Breadcrumbs';
+import Logos from '../components/ui/Logos';
+
 // ecom (flowbite)
 import Breadcrumb from '~/components/ecom/Breadcrumb';
 import StoreNav from '~/components/ecom/StoreNav';
@@ -15,6 +17,16 @@ import ProductCard from "~/components/ecom/ProductCard";
 import CustomProductCard from "~/components/ecom/CustomProductCard";
 import ProductCardFlowbite from "~/components/ecom/ProductCardFlowbite";
 import DropdownFilter from "~/components/ecom/DropdownFilter";
+
+
+const logos = [
+	{ src: "/assets/logos/maxi-logo.svg", alt: "Maxi logo" },
+	{ src: "/assets/logos/dis-logo.png", alt: "DIS logo", style: { height: '20px' } },
+	{ src: "/assets/logos/idea-logo.svg", alt: "Idea logo" },
+	{ src: "/assets/logos/univerexport-logo.svg", alt: "Univerexport logo" },
+	{ src: "/assets/logos/tempo-logo.svg", alt: "Tempo logo" },
+	{ src: "/assets/logos/aroma-logo.svg", alt: "Aroma logo" },
+];
 
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -117,6 +129,14 @@ export default function Collection() {
 					},
 				}}
 			/>
+			
+			<hr />
+
+			<section>
+				<h3>Trusted by leading supermarkets</h3>
+				<Logos logos={logos} />
+			</section>
+
 		</div>
 	);
 }
