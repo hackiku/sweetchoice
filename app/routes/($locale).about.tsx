@@ -24,11 +24,13 @@ const videoData = {
 export default function About() {
 	return (
 		<div>
-			<section className="hero">
-				<Eyebrow title="About us" />
-				<h1>We Have Candy</h1>
-				<p>Come to the sweet side.</p>
+			<section className="md:w-5/6 lg:w-3/6 space-y-2 mt-6">
+				<Eyebrow text="About us" className='text-black w-24' />
+				<h1 className='text-5xl uppercase font-normal'>We Have Candy (And You Know It)</h1>
+			
 			</section>
+			
+			<hr className='border-[0.06em]'/>
 
 			
 			{/* ----------------------------------------------------- */}

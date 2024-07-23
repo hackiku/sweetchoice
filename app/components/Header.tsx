@@ -89,7 +89,8 @@ export function HeaderMenu({
 						className=""
 						label={
 							<span className="flex items-center text-center">
-								Holidays <Badge color="success" className="p-1 ml-1">B2B</Badge>
+								Holidays 
+								{/* <Badge color="" className="border rounded-full text-[0.6em] ml-1">B2B</Badge> */}
 							</span>
 						}
 						inline
