@@ -1,8 +1,8 @@
-// app/components/holidays/HolidaySection.tsx
+// app/components/holiday/HolidaySection.tsx
 
 import React from 'react';
-import { Link, useLoaderData } from '@remix-run/react';
-import { Image, Money } from '@shopify/hydrogen';
+import { Link } from '@remix-run/react';
+import { Money } from '@shopify/hydrogen';
 import ProductCard from '~/components/ecom/ProductCard';
 
 const holidays = [
@@ -12,7 +12,7 @@ const holidays = [
 	{ id: 'halloween', title: 'Halloween', mainColor: '#FFF5E6', secondaryColor: '#FFA500' },
 ];
 
-export function HolidaySection({ holidayCollections }) {
+const HolidaySection = ({ holidayCollections }) => {
 	return (
 		<div className="w-screen overflow-x-hidden">
 			{holidays.map((holiday) => {
@@ -47,9 +47,9 @@ export function HolidaySection({ holidayCollections }) {
 			})}
 		</div>
 	);
-}
+};
 
-function ProductsGrid({ products, secondaryColor }) {
+const ProductsGrid = ({ products, secondaryColor }) => {
 	return (
 		<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
 			{products.map((product) => (
@@ -67,6 +67,6 @@ function ProductsGrid({ products, secondaryColor }) {
 			))}
 		</div>
 	);
-}
+};
 
 export default HolidaySection;
