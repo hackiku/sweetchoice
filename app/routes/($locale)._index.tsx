@@ -7,7 +7,6 @@ import { Suspense } from 'react';
 import { Image, Money } from '@shopify/hydrogen';
 import type { FeaturedCollectionFragment, RecommendedProductsQuery } from 'storefrontapi.generated';
 import { FEATURED_COLLECTION_QUERY, RECOMMENDED_PRODUCTS_QUERY, CHRISTMAS_COLLECTION_QUERY } from '../graphql/queries';
-// import { BusinessSelector } from '../components/BusinessSelector';
 
 import Logos from '../components/ui/Logos';
 import Button from '../components/ui/Button';
@@ -68,7 +67,7 @@ const heroAssets = [
 	"/assets/animations/frame2.png",
 	"/assets/animations/frame3.png",
 	"/assets/animations/frame4.png",
-	// "/assets/santa-eaten.png",
+	"/assets/santa-eaten.png",
 	// "/assets/graphics/choco-grad-2.svg",
 ];
 
@@ -121,7 +120,7 @@ export default function Homepage() {
 		<div className="home">
 			<div className="hero">
 				<img
-					className="absolute bottom-[6vh] top-[32vh] md:top-[18vh] right-[12vw] w-[22vw] h-[28vw] w-auto object-contain transform rotate-[10deg]"
+					className="absolute bottom-[6vh] top-[32vh] md:top-[18vh] right-[12vw] w-[22vw] h-[28vw] object-contain transform rotate-[10deg]"
 					src={heroAssets[currentImage]}
 					alt="Chocolate background" />
 				<div className="hero-content">

@@ -15,9 +15,7 @@ import Button from '../components/ui/Button';
 import Breadcrumb from '~/components/ecom/Breadcrumb';
 import StoreNav from '~/components/ecom/StoreNav';
 import ProductCard from "~/components/ecom/ProductCard";
-import CustomProductCard from "~/components/ecom/CustomProductCard";
-import ProductCardFlowbite from "~/components/ecom/ProductCardFlowbite";
-import DropdownFilter from "~/components/ecom/DropdownFilter";
+// import DropdownFilter from "~/components/ecom/DropdownFilter";
 
 
 const logos = [
@@ -98,7 +96,7 @@ export default function Collection() {
 	const { collection } = useLoaderData<typeof loader>();
 
 	return (
-		<div>
+		<div >
 			<section className="flex flex-col md:flex-row justify-between mt-2 md:mt-4 gap-2 md:gap-44 lg:gap-72">
 				<div>
 					<StoreNav />
@@ -111,7 +109,7 @@ export default function Collection() {
 
 			<hr />
 
-			<DropdownFilter />
+			{/* <DropdownFilter /> */}
 
 			<Pagination connection={collection.products}>
 				{({ nodes, isLoading, PreviousLink, NextLink }) => (

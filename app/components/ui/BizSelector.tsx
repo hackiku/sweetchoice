@@ -10,7 +10,7 @@ export function BizSelector() {
 	};
 
 	return (
-		<div className="business-selector">
+		<div className="business-selecssstor">
 			<span className={isB2B ? 'active' : ''} onClick={handleToggle}>
 				Wholesale
 			</span>
