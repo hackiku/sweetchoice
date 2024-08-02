@@ -44,7 +44,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 			</div>
 			<div className="flex justify-between items-center mb-2">
 				<h2 className="text-xl mb-0 font-bold ">{productName}</h2>
-				<span className="text-md">{weight}99g</span>
+				<span className="text-md">{weight}</span>
 			</div>
 
 			<span className="text-lg font-bold block mb-6">{price}</span>

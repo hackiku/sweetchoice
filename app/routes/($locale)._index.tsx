@@ -7,14 +7,16 @@ import { Suspense } from 'react';
 import { Image, Money } from '@shopify/hydrogen';
 import type { FeaturedCollectionFragment, RecommendedProductsQuery } from 'storefrontapi.generated';
 import { FEATURED_COLLECTION_QUERY, RECOMMENDED_PRODUCTS_QUERY, CHRISTMAS_COLLECTION_QUERY } from '../graphql/queries';
-
+// ui
 import Logos from '../components/ui/Logos';
 import Button from '../components/ui/Button';
 import Blurbs from '../components/ui/Blurbs';
 import Eyebrow from '../components/ui/Eyebrow';
-import SeasonsWheel from '~/components/seasons/SeasonsWheel';
-import SeasonsSection from '~/components/seasons/SeasonsSection';
-
+// holiday
+import HolidayWheel from '~/components/holidays/HolidayWheel';
+// import SeasonsWheel from '~/components/seasons/SeasonsWheel';
+// import HolidaySection, { loader as holidayLoader } from '~/components/holidays/HolidaySection';
+import HolidaySection from '~/components/holidays/HolidaySection';
 // import { Button } from 'flowbite-react';
 
 
@@ -22,17 +24,81 @@ export const meta: MetaFunction = () => {
 	return [{ title: 'Sweetchoice | Home' }];
 };
 
+
+const COLLECTION_QUERY = `#graphql
+  query Collection($handle: String!) {
+    collection(handle: $handle) {
+      id
+      title
+      handle
+      description
+      products(first: 4) {
+        nodes {
+          id
+          title
+          handle
+          featuredImage {
+            url
+            altText
+          }
+          priceRange {
+            minVariantPrice {
+              amount
+              currencyCode
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+
+// ----------------------------------------------
+
+
 export async function loader(args: LoaderFunctionArgs) {
-	const deferredData = loadDeferredData(args);
+	const { context } = args;
+	const { storefront } = context;
+
+	const holidayCollections = await Promise.all(
+		['christmas', 'valentines', 'easter', 'halloween'].map(async (handle) => {
+			const { collection } = await storefront.query(COLLECTION_QUERY, {
+				variables: { handle },
+			});
+			return { [handle]: collection };
+		})
+	);
+
+	const holidayCollectionsData = Object.assign({}, ...holidayCollections);
+
 	const criticalData = await loadCriticalData(args);
-	const christmasCollection = await loadChristmasCollection(args);
+	const deferredData = loadDeferredData(args);
 
 	return defer({
-		...deferredData,
 		...criticalData,
-		...christmasCollection,
+		...deferredData,
+		holidayCollections: holidayCollectionsData,
 	});
 }
+
+
+// export async function loader(args: LoaderFunctionArgs) {
+// 	const deferredData = loadDeferredData(args);
+// 	const criticalData = await loadCriticalData(args);
+// 	const christmasCollection = await loadChristmasCollection(args);
+// 	// const holidayData = await holidayLoader(args);
+
+// 	return defer({
+// 		...deferredData,
+// 		...criticalData,
+// 		christmasCollection,
+// 		// ...christmasCollection,
+// 		// ...holidayData,
+// 	});
+// }
+
+
 
 async function loadCriticalData({ context }: LoaderFunctionArgs) {
 	const { collections } = await context.storefront.query(FEATURED_COLLECTION_QUERY);
@@ -147,8 +213,6 @@ export default function Homepage() {
 			
 			{/* <BusinessSelector /> */}
 
-
-
 			<hr />
 			
 			<section>
@@ -161,15 +225,21 @@ export default function Homepage() {
 				</div>
 			</section>
 
+			{/* ------------------------------------------------------------ */}
 
-			<SeasonsSection />
+			
+			{/* <HolidaySection /> */}
+			{/* <HolidaySection christmasCollection={data.christmasCollection} /> */}
+			<HolidaySection holidayCollections={data.holidayCollections} />
 
-			<SeasonsWheel />
+
+			<HolidayWheel />
 
 
 			<section>
+				<h2>Christmas Collection test</h2>
 				
-				<ChristmasCollection collection={data.christmasCollection} />
+				{/* <ChristmasCollection collection={data.christmasCollection} /> */}
 
 			</section>
 

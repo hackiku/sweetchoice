@@ -1,5 +1,41 @@
 // app/graphql/holidaysQueries.ts
 
+
+export const HOLIDAY_COLLECTION_QUERY = `#graphql
+  query HolidayCollection($handle: String!) {
+    collection(handle: $handle) {
+      id
+      title
+      handle
+      products(first: 4) {
+        nodes {
+          id
+          title
+          handle
+          priceRange {
+            minVariantPrice {
+              amount
+              currencyCode
+            }
+          }
+          images(first: 1) {
+            nodes {
+              id
+              url
+              altText
+              width
+              height
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+
+
+
 export const SPRING_COLLECTION_QUERY = `#graphql
   query SpringCollection {
     collections(first: 1, query: "title:Spring") {

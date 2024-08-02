@@ -10,7 +10,7 @@ const seasons = [
 	{ id: 'winter', title: 'Christmas & New Year', description: 'Winter treats and sweets.', className: 'bg-[#00BFFF] bg-opacity-30' },
 	{ id: 'spring', title: "Valentine's day", description: "Sweet love's in the air.", className: 'bg-[#98FB98] bg-opacity-30' },
 	{ id: 'summer', title: 'Summer', description: 'Summer treats and sweets.', className: 'bg-[#FFD700] bg-opacity-30' },
-	 { id: 'autumn', title: 'Autumn', description: 'Autumn treats and sweets.', className: 'bg-[#FF8C00] bg-opacity-30' },
+	{ id: 'autumn', title: 'Autumn', description: 'Autumn treats and sweets.', className: 'bg-[#FF8C00] bg-opacity-30' },
 ];
 
 const fakeProducts = [
