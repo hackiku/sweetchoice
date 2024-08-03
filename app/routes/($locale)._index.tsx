@@ -183,12 +183,13 @@ export default function Homepage() {
 	const data = useLoaderData<typeof loader>();
 
 	return (
-		<div className="home">
+		<main className="home">
 			<div className="hero">
 				<img
 					className="absolute bottom-[6vh] top-[32vh] md:top-[18vh] right-[12vw] w-[22vw] h-[28vw] object-contain transform rotate-[10deg]"
 					src={heroAssets[currentImage]}
-					alt="Chocolate background" />
+					alt="Chocolate background"
+				/>
 				<div className="hero-content">
 					<h1>SWEET HOLIDAYS, ALL YEAR LONG</h1>
 					<p>
@@ -247,7 +248,7 @@ export default function Homepage() {
 			<hr />
 				<h1>Benefits</h1>
 				<Blurbs blurbs={blurbsData} />
-		</div>
+		</main>
 	);
 }
 

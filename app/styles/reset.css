@@ -79,17 +79,18 @@ body {
   min-height: 100vh;
 }
 
-
+/* 
 body > main {
   margin: 0 2rem 1rem 2rem;
 }
+ */
 
-section {
+ /* section {
   padding: 1rem 0;
   @media (min-width: 768px) {
     padding: 1rem 0;
   }
-}
+} */
 
 fieldset {
   display: flex;

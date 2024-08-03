@@ -14,6 +14,7 @@ const holidays = [
 
 const HolidaySection = ({ holidayCollections }) => {
 	return (
+		// <div className="w-screen overflow-x-hidden">
 		<div className="w-screen overflow-x-hidden">
 			{holidays.map((holiday) => {
 				const collection = holidayCollections[holiday.id];
@@ -23,7 +24,7 @@ const HolidaySection = ({ holidayCollections }) => {
 					<section
 						id={holiday.id}
 						key={holiday.id}
-						className="px-8 py-16 md:p-20 w-full mx-[-2rem]"
+						className="px-8 py-16 md:p-20 w-full"
 						style={{ backgroundColor: holiday.mainColor }}
 					>
 						<div className="flex flex-col sm:flex-row justify-between sm:items-start gap-4 mb-6">
