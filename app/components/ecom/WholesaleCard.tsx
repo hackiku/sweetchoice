@@ -107,6 +107,7 @@ const WholesaleCard: React.FC<WholesaleCardProps> = ({
               </span>
             ))}
           </div>
+
         </div>
         <div className="w-1/4 pl-4 flex flex-col justify-between">
           <div className="text-right font-bold">{getQuantity()}</div>

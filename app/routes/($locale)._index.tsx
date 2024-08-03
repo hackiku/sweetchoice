@@ -169,7 +169,6 @@ const blurbsData = [
 
 
 export default function Homepage() {
-	
 	const [currentImage, setCurrentImage] = useState(0);
 
 	useEffect(() => {
@@ -201,57 +200,51 @@ export default function Homepage() {
 					<Button type="primary" onClick={() => window.location.href = "/contact"}>Talk Business</Button>
 					<Button type="secondary" onClick={() => window.location.href = "/collections/all"}>Shop all →</Button>
 					<Button type="secondary" onClick={() => window.location.href = "/holyshit"}>Holyshit</Button>
-					
 
 					<div className='home-logos-container'>
 						<Logos logos={logos} />
 					</div>
-
 				</div>
 			</div>
 			<hr style={{ marginBottom: '3em' }} />
 
 			<RecommendedProducts products={data.recommendedProducts} />
-			
+
 			{/* <BusinessSelector /> */}
 
 			<hr />
-			
+
 			<section>
 				<div className="flex items-center gap-4">
 					<h2 className=''>Treats & Sweets for Every Season</h2>
 					<Eyebrow
 						text="wholesale"
 						className='text-xs bg-red-700'
-						/>
+					/>
 				</div>
 			</section>
 
-			{/* ------------------------------------------------------------ */}
-
-			
-			{/* <HolidaySection /> */}
-			{/* <HolidaySection christmasCollection={data.christmasCollection} /> */}
+			{/* New HolidaySection component */}
 			<HolidaySection holidayCollections={data.holidayCollections} />
 
-
+			{/* New HolidayWheel component */}
 			<HolidayWheel />
 
+			{/* Commented out old sections */}
+			{/* <HolidaySection /> */}
+			{/* <HolidaySection christmasCollection={data.christmasCollection} /> */}
 
-			<section>
-				<h2>Christmas Collection test</h2>
-				
-				{/* <ChristmasCollection collection={data.christmasCollection} /> */}
-
-			</section>
+			{/* <section>
+        <h2>Christmas Collection test</h2>
+        <ChristmasCollection collection={data.christmasCollection} />
+      </section> */}
 
 			<hr />
-				<h1>Benefits</h1>
-				<Blurbs blurbs={blurbsData} />
+			<h1>Benefits</h1>
+			<Blurbs blurbs={blurbsData} />
 		</main>
 	);
 }
-
 
 function FeaturedCollection({ collection }: { collection: FeaturedCollectionFragment }) {
 	if (!collection) return null;

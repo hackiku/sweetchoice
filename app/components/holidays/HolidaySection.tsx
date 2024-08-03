@@ -98,19 +98,12 @@ const HolidaySection = ({ holidayCollections }) => {
 
 const WholesaleGrid = ({ products, secondaryColor }) => {
 	const [currentPage, setCurrentPage] = useState(0);
-	const [productsPerPage, setProductsPerPage] = useState(4);
+	const [productsPerPage, setProductsPerPage] = useState(3);
 
 	useEffect(() => {
-		const handleResize = () => {
-			if (window.innerWidth >= 1280) setProductsPerPage(8);
-			else if (window.innerWidth >= 768) setProductsPerPage(6);
-			else setProductsPerPage(4);
-		};
-
-		handleResize();
-		window.addEventListener('resize', handleResize);
-		return () => window.removeEventListener('resize', handleResize);
+		setProductsPerPage(3);
 	}, []);
+
 
 	const totalPages = Math.ceil(products.length / productsPerPage);
 
@@ -130,18 +123,6 @@ const WholesaleGrid = ({ products, secondaryColor }) => {
 				))}
 			</div>
 
-			<button
-				onClick={prevPage}
-				className="absolute -left-8 top-1/2 transform -translate-y-1/2 w-24 h-24 rounded-full bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center text-4xl hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-200"
-			>
-				←
-			</button>
-			<button
-				onClick={nextPage}
-				className="absolute -right-8 top-1/2 transform -translate-y-1/2 w-24 h-24 rounded-full bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center text-4xl hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-200"
-			>
-				→
-			</button>
 
 			<div className="absolute -bottom-8 right-0 flex gap-2">
 				{[...Array(totalPages)].map((_, index) => (
