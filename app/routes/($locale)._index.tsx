@@ -127,15 +127,6 @@ function loadDeferredData({ context }: LoaderFunctionArgs) {
 	};
 }
 
-const heroAssets = [
-	// "/assets/graphics/choco-gradient.svg",
-	"/assets/animations/frame1.png",
-	"/assets/animations/frame2.png",
-	"/assets/animations/frame3.png",
-	"/assets/animations/frame4.png",
-	// "/assets/santa-eaten.png",
-	// "/assets/graphics/choco-grad-2.svg",
-];
 
 const logos = [
 	{ src: "/assets/logos/maxi-logo.svg", alt: "Maxi logo" },
@@ -171,56 +162,54 @@ const blurbsData = [
 export default function Homepage() {
 	const [currentImage, setCurrentImage] = useState(0);
 
-	useEffect(() => {
-		const interval = setInterval(() => {
-			setCurrentImage((prevImage) => (prevImage + 1) % heroAssets.length);
-		}, 500);
-
-		return () => clearInterval(interval);
-	}, []);
 
 	const data = useLoaderData<typeof loader>();
 
 	return (
-		<main className="home">
-			<div className="hero">
-				<img
-					className="absolute bottom-[6vh] top-[32vh] md:top-[18vh] right-[12vw] w-[22vw] h-[28vw] object-contain transform rotate-[10deg]"
-					src={heroAssets[currentImage]}
-					alt="Chocolate background"
-				/>
-				<div className="hero-content">
-					<h1>SWEET HOLIDAYS, ALL YEAR LONG</h1>
-					<p>
-						We wholesale and retail wholesome holiday treats.
-						<br />
-						Trusted by leading supermarket chains.&nbsp;
-						<a className="underline" target='blank' href="https://sweetchoice-a775574908f7afeeb9c6.o2.myshopify.dev/">Live →</a>
-					</p>
-					<Button type="primary" onClick={() => window.location.href = "/contact"}>Talk Business</Button>
-					<Button type="secondary" onClick={() => window.location.href = "/collections/all"}>Shop all →</Button>
-					<Button type="secondary" onClick={() => window.location.href = "/holyshit"}>Holyshit</Button>
+		<main className="">
+			
+			<section className="p-6 sm:p-8 md:p-12">
+				<div className="w-full">
+					
+					<div className="md:w-3/5 mb-4 flex flex-col">
 
-					<div className='home-logos-container'>
+						<h1 className=' text-7xl font-semibold'>SWEET HOLIDAYS, ALL YEAR LONG</h1>
+						<p className='text-2xl'>
+							We wholesale and retail wholesome holiday treats. Trusted by leading supermarket chains.
+						</p>
+					</div>
+
+					<div className="flex gap-6">
+						<Link
+							to={`/contact`}
+							className="text-xl font-semibold px-6 py-2 border-2 border-black bg-[#AE7AFF] hover:bg-[#d71e97]
+
+											shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
+											transition-all duration-200
+											flex items-center justify-center"
+
+						>
+							Get a Quote →
+						</Link>
+						<Button type="secondary" onClick={() => window.location.href = "/collections/all"}>Shop all →</Button>
+					</div>
+
+				</div>
+
+					<div className='p-4 my-6 border-2 border-black rounded-full bg-white'>
 						<Logos logos={logos} />
 					</div>
-				</div>
-			</div>
+			</section>
 			<hr style={{ marginBottom: '3em' }} />
 
 			<RecommendedProducts products={data.recommendedProducts} />
 
-			{/* <BusinessSelector /> */}
 
 			<hr />
 
 			<section>
 				<div className="flex items-center gap-4">
 					<h2 className=''>Treats & Sweets for Every Season</h2>
-					<Eyebrow
-						text="wholesale"
-						className='text-xs bg-red-700'
-					/>
 				</div>
 			</section>
 
