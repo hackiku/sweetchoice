@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from '@remix-run/react';
 import { Money } from '@shopify/hydrogen';
-import ProductCard from '~/components/ecom/ProductCard';
+import WholesaleCard from '~/components/ecom/WholesaleCard';
 
 const holidays = [
 	{ id: 'christmas', title: 'Christmas', mainColor: '#F65A4D', secondaryColor: '#00FF00' },
@@ -16,7 +16,7 @@ const HolidaySection = ({ holidayCollections }) => {
 	const [orderSize, setOrderSize] = useState(50); // Default 50 kg
 
 	return (
-		<div className="flex flex-col items-center gap-12 overflow-x-hidden">
+		<div className="flex flex-col items-center gap-8 overflow-x-hidden">
 			{holidays.map((holiday) => {
 				const collection = holidayCollections[holiday.id];
 				if (!collection) return null;
@@ -25,8 +25,7 @@ const HolidaySection = ({ holidayCollections }) => {
 					<section
 						id={holiday.id}
 						key={holiday.id}
-						className="w-[95vw] rounded-[2em] border-4
-                     border-black px-6 py-8 md:p-16 relative"
+						className="w-[92vw] rounded-[2em] border-4 border-black px-8 py-12 md:p-16 relative"
 						style={{ backgroundColor: holiday.mainColor }}
 					>
 						{/* <ParallaxSnow /> */}
@@ -38,11 +37,12 @@ const HolidaySection = ({ holidayCollections }) => {
 							</div>
 						</div>
 
-						<ProductsGrid
+						<WholesaleGrid
 							products={collection.products.nodes}
 							secondaryColor={holiday.secondaryColor}
 						/>
-						<div className="mt-8 flex flex-cols justify-center items-center gap-8">
+						
+						<div className="mt-8 flex flex-col sm:flex-row justify-center items-center gap-8">
 							<div className="w-full max-w-md">
 								<label htmlFor="orderSize" className="block text-lg font-semibold mb-2">Typical Order Size: {orderSize} kg</label>
 								<input
@@ -60,13 +60,16 @@ const HolidaySection = ({ holidayCollections }) => {
 									<span>1000 kg</span>
 								</div>
 							</div>
-							<div className="flex flex-col sm:flex-row gap-4">
+							<div className="flex gap-6">
 								<Link
-									to={`/collections/${collection.handle}`}
-									className="text-3xl px-4 py-2 border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-200"
+									to={`/contact`}
+									className="text-xl px-6 py-2 border-2 border-black
+  									shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
+										transition-all duration-200
+										flex items-center justify-center"
 									style={{ backgroundColor: holiday.secondaryColor }}
 								>
-									{holiday.title} →
+									Get a Quote →
 								</Link>
 
 								<Link
@@ -80,15 +83,6 @@ const HolidaySection = ({ holidayCollections }) => {
 								</Link>
 							</div>
 						</div>
-
-						{/* secondary button */}
-						{/* <Link
-              to="/collections/all"
-              className="text-3xl px-4 py-2 border-2 border-black
-              bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-200"
-            >
-              All Collections →
-            </Link> */}
 					</section>
 				);
 			})}
@@ -96,8 +90,7 @@ const HolidaySection = ({ holidayCollections }) => {
 	);
 };
 
-
-const ProductsGrid = ({ products, secondaryColor }) => {
+const WholesaleGrid = ({ products, secondaryColor }) => {
 	const [currentPage, setCurrentPage] = useState(0);
 	const [productsPerPage, setProductsPerPage] = useState(4);
 
@@ -127,7 +120,7 @@ const ProductsGrid = ({ products, secondaryColor }) => {
 		<div className="relative">
 			<div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 xl:grid-cols-4 gap-4">
 				{currentProducts.map((product) => (
-					<ProductCardComponent key={product.id} product={product} secondaryColor={secondaryColor} />
+					<WholesaleCardComponent key={product.id} product={product} secondaryColor={secondaryColor} />
 				))}
 			</div>
 
@@ -157,14 +150,15 @@ const ProductsGrid = ({ products, secondaryColor }) => {
 		</div>
 	);
 };
-const ProductCardComponent = ({ product, secondaryColor }) => {
+
+const WholesaleCardComponent = ({ product, secondaryColor }) => {
 	const variantUrl = `/products/${product.handle}`;
 	const imageUrl = product.featuredImage?.url || '';
 	const imageAlt = product.featuredImage?.altText || product.title;
 	const price = <Money data={product.priceRange.minVariantPrice} />;
 
 	return (
-		<ProductCard
+		<WholesaleCard
 			productName={product.title}
 			productLink={variantUrl}
 			imageUrl={imageUrl}
@@ -173,41 +167,6 @@ const ProductCardComponent = ({ product, secondaryColor }) => {
 			weight="80g"
 			buttonBgColor={secondaryColor}
 		/>
-	);
-};
-
-const ParallaxSnow = () => {
-	const snowflakes = [
-		{ size: 24, top: '10%', left: '5%', delay: 0 },
-		{ size: 32, top: '20%', right: '10%', delay: 0.5 },
-		{ size: 40, bottom: '15%', left: '15%', delay: 1 },
-		{ size: 28, top: '40%', right: '20%', delay: 1.5 },
-		{ size: 36, bottom: '30%', right: '25%', delay: 2 },
-	];
-
-	return (
-		<>
-			{snowflakes.map((snowflake, index) => (
-				<div
-					key={index}
-					className="absolute z-0"
-					style={{
-						top: snowflake.top,
-						left: snowflake.left,
-						right: snowflake.right,
-						bottom: snowflake.bottom,
-						animation: `float 20s ease-in-out infinite ${snowflake.delay}s`,
-					}}
-				>
-					<img
-						src="/assets/holidays/snow.svg"
-						alt="Snowflake"
-						width={snowflake.size}
-						height={snowflake.size}
-					/>
-				</div>
-			))}
-		</>
 	);
 };
 

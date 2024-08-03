@@ -79,7 +79,7 @@ export default function Holyshit() {
 			<hr className='mb-6'/>
 
 				{/* <div className="m-6 w-5/6"> */}
-				<div className="w-[95vw]a">
+				<div className="XXXw-[95vw]">
 					<HolidaySection holidayCollections={holidayCollections} />
 				</div>
 				<HolidayWheel />
