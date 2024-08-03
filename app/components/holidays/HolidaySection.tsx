@@ -1,34 +1,35 @@
 // app/components/holidays/HolidaySection.tsx
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from '@remix-run/react';
 import { Money } from '@shopify/hydrogen';
 import ProductCard from '~/components/ecom/ProductCard';
 
 const holidays = [
-	{ id: 'christmas', title: 'Christmas', mainColor: '#E6F3FF', secondaryColor: '#FFD1DC' },
-	{ id: 'valentines', title: "Valentine's Day", mainColor: '#FFE6E6', secondaryColor: '#FF69B4' },
-	{ id: 'easter', title: 'Easter', mainColor: '#F0FFF0', secondaryColor: '#98FB98' },
-	{ id: 'halloween', title: 'Halloween', mainColor: '#FFF5E6', secondaryColor: '#FFA500' },
+	{ id: 'christmas', title: 'Christmas', mainColor: '#F65A4D', secondaryColor: '#00FF00' },
+	{ id: 'valentines', title: "Valentine's Day", mainColor: '#D8B3F8', secondaryColor: '#FF6B6B' },
+	{ id: 'easter', title: 'Easter', mainColor: '#FFDB58', secondaryColor: '#FF6B6B' },
+	{ id: 'halloween', title: 'Halloween', mainColor: '#FFA500', secondaryColor: '#00FF00' },
 ];
 
 const HolidaySection = ({ holidayCollections }) => {
 	return (
 		// <div className="w-screen overflow-x-hidden">
-		<div className="w-screen overflow-x-hidden">
+		<div className="w-[95vw] rounded-[2em] border-4 border-black  overflow-x-hidden">
 			{holidays.map((holiday) => {
 				const collection = holidayCollections[holiday.id];
 				if (!collection) return null;
 
 				return (
-					<section
+					<div
 						id={holiday.id}
 						key={holiday.id}
-						className="px-8 py-16 md:p-20 w-full"
+						className="px-8 py-16 md:p-20 w-full relative"
 						style={{ backgroundColor: holiday.mainColor }}
 					>
+						<ParallaxSnow />
 						<div className="flex flex-col sm:flex-row justify-between sm:items-start gap-4 mb-6">
-							<h2 className="text-4xl font-bold mb-4">{holiday.title}</h2>
+							<h2 className="text-6xl font-bold mb-4 relative z-10">{holiday.title}</h2>
 							<div className="w-full md:w-2/5">
 								<p className="text-lg mb-4">{collection.description || 'Holiday description placeholder'}</p>
 							</div>
@@ -51,8 +52,8 @@ const HolidaySection = ({ holidayCollections }) => {
 							>
 								All Collections →
 							</Link>
-						</div>					
-					</section>
+						</div>
+					</div>
 				);
 			})}
 		</div>
@@ -61,7 +62,20 @@ const HolidaySection = ({ holidayCollections }) => {
 
 const ProductsGrid = ({ products, secondaryColor }) => {
 	const [currentPage, setCurrentPage] = useState(0);
-	const productsPerPage = 3;
+	const [productsPerPage, setProductsPerPage] = useState(3);
+
+	useEffect(() => {
+		const handleResize = () => {
+			if (window.innerWidth >= 1280) setProductsPerPage(5);
+			else if (window.innerWidth >= 768) setProductsPerPage(4);
+			else setProductsPerPage(3);
+		};
+
+		handleResize();
+		window.addEventListener('resize', handleResize);
+		return () => window.removeEventListener('resize', handleResize);
+	}, []);
+
 	const totalPages = Math.ceil(products.length / productsPerPage);
 
 	const nextPage = () => setCurrentPage((prev) => (prev + 1) % totalPages);
@@ -74,7 +88,7 @@ const ProductsGrid = ({ products, secondaryColor }) => {
 
 	return (
 		<div className="relative">
-			<div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+			<div className="grid grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-4">
 				{currentProducts.map((product) => (
 					<ProductCardComponent key={product.id} product={product} secondaryColor={secondaryColor} />
 				))}
@@ -82,18 +96,18 @@ const ProductsGrid = ({ products, secondaryColor }) => {
 
 			<button
 				onClick={prevPage}
-				className="absolute left-0 top-1/2 transform -translate-y-1/2 w-12 h-12 rounded-full bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center text-2xl hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-200"
+				className="absolute -left-8 top-1/2 transform -translate-y-1/2 w-24 h-24 rounded-full bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center text-4xl hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-200"
 			>
 				←
 			</button>
 			<button
 				onClick={nextPage}
-				className="absolute right-0 top-1/2 transform -translate-y-1/2 w-12 h-12 rounded-full bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center text-2xl hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-200"
+				className="absolute -right-8 top-1/2 transform -translate-y-1/2 w-24 h-24 rounded-full bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center text-4xl hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-200"
 			>
 				→
 			</button>
 
-			<div className="absolute bottom-0 right-0 flex gap-2">
+			<div className="absolute -bottom-8 right-0 flex gap-2">
 				{[...Array(totalPages)].map((_, index) => (
 					<button
 						key={index}
@@ -123,6 +137,41 @@ const ProductCardComponent = ({ product, secondaryColor }) => {
 			weight="80g"
 			buttonBgColor={secondaryColor}
 		/>
+	);
+};
+
+const ParallaxSnow = () => {
+	const snowflakes = [
+		{ size: 24, top: '10%', left: '5%', delay: 0 },
+		{ size: 32, top: '20%', right: '10%', delay: 0.5 },
+		{ size: 40, bottom: '15%', left: '15%', delay: 1 },
+		{ size: 28, top: '40%', right: '20%', delay: 1.5 },
+		{ size: 36, bottom: '30%', right: '25%', delay: 2 },
+	];
+
+	return (
+		<>
+			{snowflakes.map((snowflake, index) => (
+				<div
+					key={index}
+					className="absolute z-0"
+					style={{
+						top: snowflake.top,
+						left: snowflake.left,
+						right: snowflake.right,
+						bottom: snowflake.bottom,
+						animation: `float 20s ease-in-out infinite ${snowflake.delay}s`,
+					}}
+				>
+					<img
+						src="/assets/holidays/snow.svg"
+						alt="Snowflake"
+						width={snowflake.size}
+						height={snowflake.size}
+					/>
+				</div>
+			))}
+		</>
 	);
 };
 

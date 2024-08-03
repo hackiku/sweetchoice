@@ -79,7 +79,9 @@ export default function Holyshit() {
 			<hr className='mb-6'/>
 
 			<section className="">
-				<HolidaySection holidayCollections={holidayCollections} />
+				<div className="">
+					<HolidaySection holidayCollections={holidayCollections} />
+				</div>
 				<HolidayWheel />
 			</section>
 
