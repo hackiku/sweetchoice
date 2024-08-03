@@ -44,12 +44,12 @@ const HolidaySection = ({ holidayCollections }) => {
 						
 						<Link
 							to={`#`}
-							className={`flex justify-center items-center
+							className={`mt-6 flex justify-center items-center
 										transition-all duration-300 
 										hover:scale-110 font-semibold
-										ws-full h-16 text-2xl border-3 border-black`}
+										h-16 text-2xl`}
 						>
-							Open page →
+							All {holiday.title}→
 						</Link>
 
 						<hr />
@@ -58,7 +58,7 @@ const HolidaySection = ({ holidayCollections }) => {
 							
 							
 							<div className="w-full max-w-md">
-								<label htmlFor="orderSize" className="block text-lg font-semibold mb-2">Typical Order Size: {orderSize} kg</label>
+								<label htmlFor="orderSize" className="block text-lg font-semibold mb-2">(Optional) Expected Order Size: {orderSize} kg</label>
 								<input
 									type="range"
 									id="orderSize"
