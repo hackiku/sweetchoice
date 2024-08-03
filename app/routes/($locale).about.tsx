@@ -1,8 +1,10 @@
 // app/routes/($locale).about.tsx
 
+
 import { useLoaderData, type MetaFunction } from '@remix-run/react';
 import { Image, Video } from '@shopify/hydrogen';
 import Eyebrow from '~/components/ui/Eyebrow';
+import ArrowButton from '~/components/ui/ArrowButton';
 import { Button, Timeline } from "flowbite-react";
 import { HiArrowNarrowRight } from "react-icons/hi";
 import GalleryMasonry from '../components/ui/GalleryMasonry';
@@ -22,9 +24,14 @@ const videoData = {
 };
 
 export default function About() {
+
+	const mockPrevPage = () => console.log('Previous page clicked');
+	const mockNextPage = () => console.log('Next page clicked');
+
 	return (
 		<div>
 			<section className="md:w-5/6 lg:w-3/6 space-y-2 mt-6">
+				
 				<Eyebrow text="About us" className='text-black w-24' />
 				<h1 className='text-5xl uppercase font-normal'>We Have Candy (And You Know It)</h1>
 			
@@ -34,8 +41,13 @@ export default function About() {
 
 			
 			{/* ----------------------------------------------------- */}
+			<section className="relative">
 
-			<GalleryMasonry numAssets={6} numTypes={3} />
+				<GalleryMasonry numAssets={6} numTypes={3} />
+				<ArrowButton direction="left" onClick={mockPrevPage} bgColor="#FFA6F6" />
+				<ArrowButton direction="right" onClick={mockNextPage} bgColor="#A6FAFF" />
+
+			</section>
 
 			{/* ----------------------------------------------------- */}
 			<section className='px-20 mt-12'>
