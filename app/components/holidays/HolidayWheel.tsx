@@ -1,4 +1,4 @@
-// app/components/seasons/SeasonsWheel.tsx
+// app/components/seasons/HolidayWheel.tsx
 
 import React, { useState } from 'react';
 import { Link } from '@remix-run/react';
@@ -7,10 +7,10 @@ const SeasonsWheel = () => {
 	const [isBusiness, setIsBusiness] = useState(false);
 
 	const seasons = [
-		{ name: 'Winter', color: '#00BFFF', angle: -90 },
-		{ name: 'Spring', color: '#98FB98', angle: -45 },
-		{ name: 'Summer', color: '#FFD700', angle: 45 },
-		{ name: 'Autumn', color: '#FF8C00', angle: 90 },
+		{ name: '🎅 Christmas', color: '#00BFFF', angle: -90 },
+		{ name: '💖 Valentine\'s Day', color: '#98FB98', angle: -45 },
+		{ name: '🐇 Easter', color: '#FFD700', angle: 45 },
+		{ name: '🎃 Halloween', color: '#FF8C00', angle: 90 },
 	];
 
 	return (

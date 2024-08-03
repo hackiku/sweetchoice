@@ -1,12 +1,14 @@
 // app/routes/($locale).holyshit.tsx
 
-// app/routes/($locale).holidays.tsx
-
 import { defer, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { useLoaderData, Link } from '@remix-run/react';
 import { Image, Money } from '@shopify/hydrogen';
 import HolidaySection from '~/components/holidays/HolidaySection';
 import HolidayWheel from '~/components/holidays/HolidayWheel';
+
+// import HolidaySection from '~/components/seasons/HolidaySection';
+import SeasonSection from '~/components/seasons/SeasonsSection';
+
 
 const COLLECTION_QUERY = `#graphql
   query Collection($handle: String!) {
@@ -68,6 +70,14 @@ export default function HolidaysRoute() {
 
 	return (
 		<div>
+			
+			
+			<button className="border-black border-2 rounded-full bg-[#FFA6F6] hover:bg-[#fa8cef] active:bg-[#f774ea] w-10 h-10">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M10.8425 24V0H13.1575V24H10.8425ZM0 13.1664V10.8336H24V13.1664H0Z" fill="black" />
+				</svg>
+			</button>
+
 			<h1 className="text-2xl font-bold mb-4">Easter Collection Test</h1>
 			{easterCollection ? (
 				<div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
@@ -95,6 +105,8 @@ export default function HolidaysRoute() {
 			)}
 
 			<h1 className="text-2xl font-bold mb-4">Holiday Collections</h1>
+			{/* <SeasonSection /> */}
+			{/* <HolidaySection /> */}
 			<HolidaySection holidayCollections={holidayCollections} />
 			<HolidayWheel />
 		</div>
