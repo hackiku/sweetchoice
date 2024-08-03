@@ -199,6 +199,7 @@ export default function Homepage() {
 					</p>
 					<Button type="primary" onClick={() => window.location.href = "/contact"}>Talk Business</Button>
 					<Button type="secondary" onClick={() => window.location.href = "/collections/all"}>Shop all →</Button>
+					<Button type="secondary" onClick={() => window.location.href = "/holyshit"}>Holyshit</Button>
 					
 
 					<div className='home-logos-container'>

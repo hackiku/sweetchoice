@@ -23,11 +23,15 @@ const HolidaySection = ({ holidayCollections }) => {
 					<section
 						id={holiday.id}
 						key={holiday.id}
-						className="p-8 w-full"
+						className="px-8 py-16 md:p-20 w-full mx-[-2rem]"
 						style={{ backgroundColor: holiday.mainColor }}
 					>
-						<h2 className="text-4xl font-bold mb-4">{holiday.title}</h2>
-						<p className="mb-4">{collection.description || 'Holiday description placeholder'}</p>
+						<div className="flex flex-col sm:flex-row justify-between sm:items-start gap-4 mb-6">
+							<h2 className="text-4xl font-bold mb-4">{holiday.title}</h2>
+							<div className="w-2/5">
+								<p className="text-lg mb-4">{collection.description || 'Holiday description placeholder'}</p>
+							</div>
+						</div>
 						<ProductsGrid
 							products={collection.products.nodes}
 							secondaryColor={holiday.secondaryColor}

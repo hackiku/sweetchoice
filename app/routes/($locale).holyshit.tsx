@@ -71,14 +71,7 @@ export default function HolidaysRoute() {
 	return (
 		<div>
 			
-			
-			<button className="border-black border-2 rounded-full bg-[#FFA6F6] hover:bg-[#fa8cef] active:bg-[#f774ea] w-10 h-10">
-				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path d="M10.8425 24V0H13.1575V24H10.8425ZM0 13.1664V10.8336H24V13.1664H0Z" fill="black" />
-				</svg>
-			</button>
-
-			<h1 className="text-2xl font-bold mb-4">Easter Collection Test</h1>
+			{/* <h1 className="text-2xl font-bold mb-4">Easter Collection Test</h1>
 			{easterCollection ? (
 				<div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
 					{easterCollection.products.nodes.map((product) => (
@@ -102,9 +95,18 @@ export default function HolidaysRoute() {
 				</div>
 			) : (
 				<p>No Easter collection found</p>
-			)}
+			)} */}
 
-			<h1 className="text-2xl font-bold mb-4">Holiday Collections</h1>
+			<section className='mb-2'>
+				<h1 className="text-6xl font-semibold">Holiday Collections</h1>
+				<button className="border-black border-2 rounded-full bg-[#FFA6F6] hover:bg-[#fa8cef] active:bg-[#f774ea] w-10 h-10">
+					<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M10.8425 24V0H13.1575V24H10.8425ZM0 13.1664V10.8336H24V13.1664H0Z" fill="black" />
+					</svg>
+				</button>
+			</section>
+			<hr className='mb-6'/>
+
 			{/* <SeasonSection /> */}
 			{/* <HolidaySection /> */}
 			<HolidaySection holidayCollections={holidayCollections} />
