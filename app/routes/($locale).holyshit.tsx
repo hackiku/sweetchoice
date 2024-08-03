@@ -78,12 +78,11 @@ export default function Holyshit() {
 			</section>
 			<hr className='mb-6'/>
 
-			<section className="">
-				<div className="">
+				{/* <div className="m-6 w-5/6"> */}
+				<div className="w-[95vw]a">
 					<HolidaySection holidayCollections={holidayCollections} />
 				</div>
 				<HolidayWheel />
-			</section>
 
 		</main>
 	);

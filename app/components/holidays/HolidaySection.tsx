@@ -14,26 +14,28 @@ const holidays = [
 
 const HolidaySection = ({ holidayCollections }) => {
 	return (
-		// <div className="w-screen overflow-x-hidden">
-		<div className="w-[95vw] rounded-[2em] border-4 border-black  overflow-x-hidden">
+		<div className="flex flex-col items-center gap-12 overflow-x-hidden">
 			{holidays.map((holiday) => {
 				const collection = holidayCollections[holiday.id];
 				if (!collection) return null;
 
 				return (
-					<div
+					<section
 						id={holiday.id}
 						key={holiday.id}
-						className="px-8 py-16 md:p-20 w-full relative"
+						className="w-[95vw] rounded-[2em] border-4
+										 border-black px-6 py-16 md:p-20 relative"
 						style={{ backgroundColor: holiday.mainColor }}
 					>
-						<ParallaxSnow />
+						{/* <ParallaxSnow /> */}
+
 						<div className="flex flex-col sm:flex-row justify-between sm:items-start gap-4 mb-6">
-							<h2 className="text-6xl font-bold mb-4 relative z-10">{holiday.title}</h2>
-							<div className="w-full md:w-2/5">
-								<p className="text-lg mb-4">{collection.description || 'Holiday description placeholder'}</p>
+							<h2 className="text-6xl font-bold mb-1 relative z-10">{holiday.title}</h2>
+							<div className="w-full md:w-3/6">
+								<p className="text-xl font-semibold mb-4">{collection.description || 'Holiday description placeholder'}</p>
 							</div>
 						</div>
+
 						<ProductsGrid
 							products={collection.products.nodes}
 							secondaryColor={holiday.secondaryColor}
@@ -53,7 +55,7 @@ const HolidaySection = ({ holidayCollections }) => {
 								All Collections →
 							</Link>
 						</div>
-					</div>
+					</section>
 				);
 			})}
 		</div>
