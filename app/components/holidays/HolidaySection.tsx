@@ -42,7 +42,21 @@ const HolidaySection = ({ holidayCollections }) => {
 							secondaryColor={holiday.secondaryColor}
 						/>
 						
+						<Link
+							to={`#`}
+							className={`flex justify-center items-center
+										transition-all duration-300 
+										hover:scale-110 font-semibold
+										ws-full h-16 text-2xl border-3 border-black`}
+						>
+							Open page →
+						</Link>
+
+						<hr />
+
 						<div className="mt-8 flex flex-col sm:flex-row justify-center items-center gap-8">
+							
+							
 							<div className="w-full max-w-md">
 								<label htmlFor="orderSize" className="block text-lg font-semibold mb-2">Typical Order Size: {orderSize} kg</label>
 								<input
@@ -72,15 +86,7 @@ const HolidaySection = ({ holidayCollections }) => {
 									Get a Quote →
 								</Link>
 
-								<Link
-									to={`#`}
-									className={`flex justify-center items-center rounded-full 
-                              border-4 border-black transition-all duration-300 
-                              hover:scale-110
-                              w-[64px] h-[64px] text-2xl bg-black text-white shadow-[4px_4px_0px_0px_#FFFFFF]`}
-								>
-									Hey
-								</Link>
+
 							</div>
 						</div>
 					</section>
@@ -166,6 +172,7 @@ const WholesaleCardComponent = ({ product, secondaryColor }) => {
 			price={price}
 			weight="80g"
 			buttonBgColor={secondaryColor}
+			tags={product.tags || []} // Add this line
 		/>
 	);
 };
