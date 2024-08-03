@@ -7,10 +7,10 @@ const SeasonsWheel = () => {
 	const [isBusiness, setIsBusiness] = useState(false);
 
 	const seasons = [
-		{ name: '🎅 Christmas', color: '#00BFFF', angle: -90 },
-		{ name: '💖 Valentine\'s Day', color: '#98FB98', angle: -45 },
-		{ name: '🐇 Easter', color: '#FFD700', angle: 45 },
-		{ name: '🎃 Halloween', color: '#FF8C00', angle: 90 },
+		{ name: 'Christmas', emoji: '🎅', color: '#00BFFF', angle: -90 },
+		{ name: 'Valentines', emoji: '💖', color: '#98FB98', angle: -45 },
+		{ name: 'Easter', emoji: '🐇', color: '#FFD700', angle: 45 },
+		{ name: 'Halloween', emoji: '🎃', color: '#FF8C00', angle: 90 },
 	];
 
 	return (
@@ -27,14 +27,13 @@ const SeasonsWheel = () => {
 							borderRadius: '50%',
 						}}
 					>
-						{season.name}
+						{season.emoji} {season.name}
 					</Link>
 				))}
 				<div className="absolute bottom-1 left-1/2 transform -translate-x-1/2">
 					<button
 						onClick={() => setIsBusiness(!isBusiness)}
-						className={`w-16 h-16 rounded-full text-sm font-bold transition-all duration-300 ${isBusiness ? 'bg-blue-500 text-white' : 'bg-green-500 text-white'
-							}`}
+						className={`w-16 h-16 rounded-full text-sm font-bold transition-all duration-300 ${isBusiness ? 'bg-blue-500 text-white' : 'bg-green-500 text-white'}`}
 					>
 						{isBusiness ? 'B2B' : 'B2C'}
 					</button>
