@@ -12,7 +12,8 @@ import Hero from '~/components/ui/Hero';
 import HolidaySection from '~/components/holidays/HolidaySection';
 import HolidayWheel from '~/components/holidays/HolidayWheel';
 
-import ContactModal from '~/components/ui/ContactModal';
+import ContactButton from '~/components/ui/ContactButton';
+import ContactSlideOver from '~/components/ui/ContactSlideOver';
 // import ProductCard from '~/components/ecom/ProductCard';
 
 
@@ -143,31 +144,20 @@ export default function Homepage() {
 		<main className="overflow-x-hidden">			
 		
 
-		<ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-
-			{/* Replace your existing Contact Us link with this: */}
-			<button
-				onClick={() => setIsModalOpen(true)}
-				className="ml-4 px-4 py-2 bg-[#AE7AFF] text-black font-semibold rounded-full sm:rounded-lg 
-                   shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] 
-                   transition-all duration-200 text-sm sm:text-base whitespace-nowrap"
-			>
-				Contact Us
-			</button>
-
-
+		<ContactSlideOver isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+			
 
 		{/* Hero Section */}
 			<Hero
 				title="SWEET HOLIDAYS ALL YEAR LONG"
 				subtitle="We wholesale wholesome holiday treats to supermarkets large and small."
-				ctaText="Get a Quote →"
-				ctaLink="/contact"
-				secondaryButtonText="Shop all →"
-				secondaryButtonLink="/collections/all"
+				ctaText="Shop all →"
+				ctaLink="/collections/all"
+				secondaryButtonText="Learn More"
+				secondaryButtonLink="/about"
 				logos={logos}
+				onContactClick={() => setIsModalOpen(true)}
 			/>
-
 			<div className="border-t-2 border-black my-8 mx-6 sm:mx-8 md:mx-12"></div>
 
 			{/* ==================================== */}
@@ -188,14 +178,10 @@ export default function Homepage() {
 			{isHolidaySelectorVisible && (
 				<div className="fixed bottom-4 left-0 right-0 z-10 px-6 sm:px-8 md:px-12 flex justify-between items-center">
 					<HolidayWheel />
-					<Link
-						to="/contact"
-						className="ml-4 px-4 py-2 bg-[#AE7AFF] text-black font-semibold rounded-full sm:rounded-lg 
-                       shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] 
-                       transition-all duration-200 text-sm sm:text-base whitespace-nowrap"
-					>
-						Contact Us
-					</Link>
+					<ContactButton
+						onClick={() => setIsModalOpen(true)}
+						shrinkOnMobile={true}
+					/>
 				</div>
 			)}
 

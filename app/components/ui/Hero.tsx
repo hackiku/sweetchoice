@@ -1,8 +1,8 @@
 // app/components/ui/Hero.tsx
-
 import React from 'react';
 import { Link } from '@remix-run/react';
 import Button from './Button';
+import ContactButton from './ContactButton';
 import Logos from './Logos';
 
 interface HeroProps {
@@ -13,6 +13,7 @@ interface HeroProps {
 	secondaryButtonText: string;
 	secondaryButtonLink: string;
 	logos: Array<{ src: string; alt: string; style?: React.CSSProperties }>;
+	onContactClick: () => void;
 }
 
 const Hero: React.FC<HeroProps> = ({
@@ -23,6 +24,7 @@ const Hero: React.FC<HeroProps> = ({
 	secondaryButtonText,
 	secondaryButtonLink,
 	logos,
+	onContactClick,
 }) => {
 	return (
 		<section className="min-h-[calc(100vh-4rem)] flex flex-col justify-between px-6 sm:px-8 md:px-12">
@@ -39,6 +41,16 @@ const Hero: React.FC<HeroProps> = ({
 				</div>
 
 				<div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mt-8">
+					<ContactButton
+						onClick={onContactClick}
+						className="w-full sm:w-auto text-xl"
+						text="Get a Quote →"
+						emoji="🚀"
+						bgColor="#FF3E3E"
+						// textColor="white"
+						hoverBgColor="#FF6B6B"
+						hoverTextColor="white"
+					/>
 					<Link
 						to={ctaLink}
 						className="text-xl font-semibold px-6 py-2 border-2 border-black bg-[#AE7AFF] hover:bg-[#d71e97]
@@ -47,13 +59,7 @@ const Hero: React.FC<HeroProps> = ({
 					>
 						{ctaText}
 					</Link>
-					<Button
-						type="secondary"
-						onClick={() => window.location.href = secondaryButtonLink}
-						className="w-full sm:w-auto"
-					>
-						{secondaryButtonText}
-					</Button>
+
 				</div>
 			</div>
 
