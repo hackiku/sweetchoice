@@ -139,7 +139,7 @@ export default function Homepage() {
 		{/* Hero Section */}
 			<Hero
 				title="SWEET HOLIDAYS ALL YEAR LONG"
-				subtitle="We wholesale and retail wholesome holiday treats. Trusted by leading supermarket chains."
+				subtitle="We wholesale wholesome holiday treats to supermarkets large and small."
 				ctaText="Get a Quote →"
 				ctaLink="/contact"
 				secondaryButtonText="Shop all →"
@@ -147,15 +147,21 @@ export default function Homepage() {
 				logos={logos}
 			/>
 
-			<div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:mx-12"></div>
+			<div className="border-t-2 border-black my-8 mx-6 sm:mx-8 md:mx-12"></div>
 
-			{/* Treats & Sweets Section */}
+			{/* ==================================== */}
 			<section ref={treatsSection} className="px-6 sm:px-8 md:px-12 mb-12">
-				<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">Treats & Sweets for Every Season</h2>
+				<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">Gift Packs</h2>
 				<RecommendedProducts products={data.recommendedProducts} />
 			</section>
 
-			{/* Holiday Section */}
+
+			{/* ==================================== */}
+			<section ref={treatsSection} className="px-6 sm:px-8 md:px-12 mb-12">
+				<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">Treats & Sweets for Every Season</h2>
+			</section>
+
+			{/* ==================================== */}
 			<HolidaySection holidayCollections={data.holidayCollections} />
 
 			{isHolidaySelectorVisible && (

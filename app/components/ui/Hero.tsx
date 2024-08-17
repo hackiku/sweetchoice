@@ -1,4 +1,4 @@
-// app/components/Hero.tsx
+// app/components/ui/Hero.tsx
 
 import React from 'react';
 import { Link } from '@remix-run/react';
@@ -25,20 +25,20 @@ const Hero: React.FC<HeroProps> = ({
 	logos,
 }) => {
 	return (
-		<section className="min-h-[calc(100vh-4rem)] flex flex-col justify-between pt-4 px-6 sm:px-8 md:px-12">
+		<section className="min-h-[calc(100vh-4rem)] flex flex-col justify-between px-6 sm:px-8 md:px-12">
 			<div className="flex-grow flex flex-col justify-start space-y-4 sm:space-y-6">
-				<div className="md:w-4/5">
-					<h1 className="text-[10vw] sm:text-[8vw] md:text-[6vw] font-bold leading-none mb-4">
+				<div className="w-full">
+					<h1 className="text-[14vw] sm:text-[10vw] md:text-[8vw] font-semibold leading-[1.1] mb-4 w-full">
 						{title.split(' ').map((word, index) => (
-							<span key={index} className="block">{word}</span>
+							<span key={index} className="inline-block mr-[0.1em]">{word}</span>
 						))}
 					</h1>
-					<p className="text-xl sm:text-2xl">
+					<p className="text-xl sm:text-2xl mt-4">
 						{subtitle}
 					</p>
 				</div>
 
-				<div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
+				<div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mt-8">
 					<Link
 						to={ctaLink}
 						className="text-xl font-semibold px-6 py-2 border-2 border-black bg-[#AE7AFF] hover:bg-[#d71e97]
