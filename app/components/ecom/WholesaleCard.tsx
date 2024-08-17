@@ -1,9 +1,12 @@
-// app/components/ecom/WholesaleCard.tsx
-
 import React, { useState } from 'react';
+import { useAside } from '~/components/Aside';
+import { CartForm, type OptimisticCartLine, useAnalytics } from '@shopify/hydrogen';
+import AddToCart from '~/components/ecom/AddToCart';
+import useProductVariant from '~/hooks/useProductVariant'; // Import the custom hook
 
 interface WholesaleCardProps {
   productName: string;
+  product_id: string;
   productLink: string;
   imageUrl: string;
   imageAlt: string;
@@ -19,6 +22,7 @@ interface WholesaleCardProps {
 
 const WholesaleCard: React.FC<WholesaleCardProps> = ({
   productName,
+  product_id,
   productLink,
   imageUrl,
   imageAlt,
@@ -33,6 +37,9 @@ const WholesaleCard: React.FC<WholesaleCardProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState('Single');
+  
+  // Use the custom hook
+  const { variantId, loading, error } = useProductVariant(product_id);
 
   const options = [
     { name: 'Single', emoji: '🍬' },
@@ -51,10 +58,29 @@ const WholesaleCard: React.FC<WholesaleCardProps> = ({
     }
   };
 
+  const { open } = useAside();
+  const { publish, shop, cart, prevCart } = useAnalytics();
+
   const handleOptionClick = (optionName: string) => {
     setSelectedOption(optionName);
     setIsOpen(false);
   };
+
+  const handleAddToCatalog = () => {
+    console.log(productLink);
+    open('cart');
+  };
+
+  // Define the cart line item for AddToCart
+  const lines: Array<OptimisticCartLine> = variantId ? [
+    {
+      merchandiseId: variantId, // Use the fetched variant ID
+      quantity: selectedOption === 'Single' ? singleQuantity : selectedOption === 'Box' ? boxQuantity : paletteQuantity,
+    },
+  ] : [];
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="bg-white border-2 border-black p-4 shadow-[4px_4px_0px_rgba(0,0,0,1)] 
@@ -103,7 +129,7 @@ const WholesaleCard: React.FC<WholesaleCardProps> = ({
           <div className="flex flex-wrap gap-2 mb-2">
             {tags.map((tag, index) => (
               <span key={index} className="px-2 py-1 bg-gray-200 text-sm rounded-full border-2 border-black">
-                {tag}asd
+                {tag}
               </span>
             ))}
           </div>
@@ -116,23 +142,16 @@ const WholesaleCard: React.FC<WholesaleCardProps> = ({
       </div>
 
       <div className="flex justify-between items-center mb-4">
-				<span className="text-lg font-bold">{tags}</span>
+        <span className="text-lg font-bold">{price}</span>
       </div>
 
-      <button
-        className={`w-full border-2 border-black py-2 px-4 font-bold 
-                    hover:shadow-[2px_2px_0px_rgba(0,0,0,1)] 
-                    transition-all`}
-        style={{
-          backgroundColor: buttonBgColor,
-        }}
-        onClick={(e) => {
-          e.preventDefault();
-          // Add to catalog logic here
-        }}
+      <AddToCart 
+        lines={lines} 
+        buttonBgColor={buttonBgColor}
+        onClick={handleAddToCatalog}
       >
         Add to Catalog
-      </button>
+      </AddToCart>
     </div>
   );
 };

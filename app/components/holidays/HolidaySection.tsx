@@ -31,9 +31,9 @@ const HolidaySection = ({ holidayCollections }) => {
 						{/* <ParallaxSnow /> */}
 
 						<div className="flex flex-col sm:flex-row justify-between sm:items-start gap-4 mb-6">
-							<h2 className="text-6xl font-bold mb-1 relative z-10">{holiday.title}</h2>
+							<h2 className="text-6xl font-bold mb-1 relative z-10 md-max:text-4xl">{holiday.title}</h2>
 							<div className="w-full md:w-3/6">
-								<p className="text-xl font-semibold mb-4">{collection.description || 'Holiday description placeholder'}</p>
+								<p className="text-xl font-semibold mb-4 md-max:text-base">{collection.description || 'Holiday description placeholder'}</p>
 							</div>
 						</div>
 
@@ -143,6 +143,7 @@ const WholesaleCardComponent = ({ product, secondaryColor }) => {
 	const imageUrl = product.featuredImage?.url || '';
 	const imageAlt = product.featuredImage?.altText || product.title;
 	const price = <Money data={product.priceRange.minVariantPrice} />;
+	const product_id = product.id; 
 
 	return (
 		<WholesaleCard
@@ -153,7 +154,8 @@ const WholesaleCardComponent = ({ product, secondaryColor }) => {
 			price={price}
 			weight="80g"
 			buttonBgColor={secondaryColor}
-			tags={product.tags || []} // Add this line
+			tags={product.tags || []}
+			product_id={product_id} // Passing firstVariant as a prop
 		/>
 	);
 };

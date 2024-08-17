@@ -167,52 +167,55 @@ export default function Homepage() {
 
 	return (
 		<main className="">
-			
-			<section className="p-6 sm:p-8 md:p-12">
-				<div className="w-full">
+			<div className='container mx-auto'>
+			<section className="p-6 sm:p-8 md:p-12 md-max:p-4 ">
+				<div className="w-full banner-img">
 					
-					<div className="md:w-3/5 mb-4 flex flex-col">
+					<div className=" mb-4 flex flex-col md-wax:w-full">
 
-						<h1 className=' text-7xl font-semibold'>SWEET HOLIDAYS, ALL YEAR LONG</h1>
-						<p className='text-2xl'>
+						<h1 className='text-7xl font-semibold  md-max:mt-0 md-max:mb-2 md-max:leading-tight sm-max:text-3xl sm-max:mt-5'>SWEET HOLIDAYS, ALL YEAR LONG</h1>
+						<p className='text-2xl md-max:text-xl'>
 							We wholesale and retail wholesome holiday treats. Trusted by leading supermarket chains.
 						</p>
 					</div>
 
-					<div className="flex gap-6">
+					<div className="flex gap-6 mt-16 md-max:mt-8 sm-max:block">
 						<Link
 							to={`/contact`}
-							className="text-xl font-semibold px-6 py-2 border-2 border-black bg-[#AE7AFF] hover:bg-[#d71e97]
+							className="text-xl font-semibold px-12 py-2 border-2 border-black 
 
-											shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
+											shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] 
 											transition-all duration-200
-											flex items-center justify-center"
+											flex items-center justify-center hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
 
 						>
-							Get a Quote →
+							Talk Business
 						</Link>
-						<Button type="secondary" onClick={() => window.location.href = "/collections/all"}>Shop all →</Button>
+						<div className='sm--max:w-full text-center'>
+						<Button type="secondary"  onClick={() => window.location.href = "/collections/all"}>Shop all →</Button>
+						</div>
 					</div>
 
 				</div>
 
-					<div className='p-4 my-6 border-2 border-black rounded-full bg-white'>
+					<div className='p-4 my-6 border-2 border-black rounded-full bg-white mt-48 sm-max:mt-4 md-max:rounded-xl sm-max:mt-0'>
 						<Logos logos={logos} />
 					</div>
 			</section>
-			<hr style={{ marginBottom: '3em' }} />
+			</div>
+			<hr className='mobile-hr'style={{ marginBottom: '3em' }} />
 
 			<RecommendedProducts products={data.recommendedProducts} />
 
 
 			<hr />
-
+			<div className='container mx-auto md-max:mt-6 md-max:p-3.5'>
 			<section>
 				<div className="flex items-center gap-4">
 					<h2 className=''>Treats & Sweets for Every Season</h2>
 				</div>
 			</section>
-
+			</div>
 			{/* New HolidaySection component */}
 			<HolidaySection holidayCollections={data.holidayCollections} />
 
@@ -229,8 +232,10 @@ export default function Homepage() {
       </section> */}
 
 			<hr />
+			<div className='container mx-auto md-max:p-3.5'>
 			<h1>Benefits</h1>
 			<Blurbs blurbs={blurbsData} />
+			</div>
 		</main>
 	);
 }
@@ -252,8 +257,9 @@ function FeaturedCollection({ collection }: { collection: FeaturedCollectionFrag
 
 function RecommendedProducts({ products }: { products: Promise<RecommendedProductsQuery | null> }) {
 	return (
-		<div className="recommended-products">
-			<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+		<div className="recommended-products md-max:p-3.5">
+			<div className='container mx-auto'>
+			<div className='mobile-view 'style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
 				<h2>Gift packs</h2>
 				<p>Make someone's day sweeter</p>
 			</div>
@@ -263,7 +269,7 @@ function RecommendedProducts({ products }: { products: Promise<RecommendedProduc
 						<div className="recommended-products-grid">
 							{response
 								? response.products.nodes.map((product) => (
-									<Link key={product.id} className="recommended-product" to={`/products/${product.handle}`}>
+									<Link key={product.id} className="recommended-product sm-max:text-center" to={`/products/${product.handle}`}>
 										<Image data={product.images.nodes[0]} aspectRatio="1/1" sizes="(min-width: 45em) 20vw, 50vw" />
 										<h4>{product.title}</h4>
 										<small>
@@ -277,6 +283,7 @@ function RecommendedProducts({ products }: { products: Promise<RecommendedProduc
 				</Await>
 			</Suspense>
 			<br />
+			</div>
 		</div>
 	);
 }

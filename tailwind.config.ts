@@ -27,6 +27,12 @@ export default {
           '950': '#172554',
         },
       },
+      screens: { 
+        'sm-max': { 'max': '575px' }, 
+        'md-max': { 'max': '767px' }, 
+        'lg-max': { 'max': '1200px' }, 
+        'xl-max': { 'max': '1500px' }, 
+      },
     },
     fontFamily: {
       body: [

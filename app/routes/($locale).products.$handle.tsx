@@ -33,6 +33,7 @@ export const meta: MetaFunction<typeof loader> = ({data}) => {
 };
 
 export async function loader(args: LoaderFunctionArgs) {
+  
   // Start fetching non-critical data without blocking time to first byte
   const deferredData = loadDeferredData(args);
 

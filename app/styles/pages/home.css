@@ -1,5 +1,5 @@
 /** styles/pages/home.css */
-
+@import url('app/styles/Inter_font/stylesheet.css');
 /* Global styles for the home page */
 .home {
 	/* You can add global styles for the home page here */

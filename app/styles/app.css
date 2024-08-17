@@ -366,22 +366,55 @@ button.reset:hover:not(:has(> *)) {
 * components/Footer
 * --------------------------------------------------
 */
-.footer {
-  background: var(--color-dark);
-  margin-top: auto;
+
+
+
+
+.footer-tag {position: relative;}
+
+.footer-tag:before {
+    content: "";
+    display: block;
+    background: #111111;
+    height: 12px;
+    width: 12px;
+    border-radius: 100%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.about-bg {
+  position: relative;
 }
 
-.footer-menu {
-  align-items: center;
-  display: flex;
-  grid-gap: 1rem;
-  padding: 1rem;
+.about-bg:before {
+  content: "";
+  position: absolute;
+  right: 10%;
+  background-image: url(/assets/new-bg-banner.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 850px;
+  width: 850px;
+  top: -30%;
+}
+.about-cab {
+  position: absolute;
+  right: initial;
+  left: 16.7%;
+  top: -31px;
 }
 
-.footer-menu a {
-  color: var(--color-light);
+.about-cab {
+  height: 158px;
+  width: 158px;
 }
 
+.about-cab img {
+  width: 100%;
+  height: 100%;
+}
 /*
 * --------------------------------------------------
 * components/Cart
@@ -436,11 +469,69 @@ button.reset:hover:not(:has(> *)) {
   align-items: center;
   display: flex;
 }
+.w-full.banner-img {
+  position: relative;
+}
+
+.w-full.banner-img:before {
+  content: "";
+  display: block;
+  height: 700px;
+  width: 700px;
+  background-image: url(/assets/banner-bg.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  right: 20px;
+  top: -80px;
+}
+
+.mobile-text{
+  font-size: 1.875rem !important;
+}
+
+@media only screen and (max-width: 991px) {
+  .w-full.banner-img:before{
+    display: none;
+  }
+}
+@media only screen and (max-width: 575px) {
+  .mobile-view {
+    flex-direction: column !important;
+    margin-bottom: 30px;
+}
+hr.mobile-hr {
+  margin: 20px 0 0 0 !important;
+}
+}
+
 /*
 * --------------------------------------------------
 * components/Search
 * --------------------------------------------------
 */
+.mineSearch .predictive-search-form input {
+  border: 1px solid red;
+  border-radius: 25px;
+}
+.mineSearch .predictive-search-form {
+  background: transparent;
+}
+.mineSearch .predictive-search {
+  height: auto;
+  overflow-y: auto;
+}
+
+.mineSearch .predictive-search-results {
+  position: absolute;
+  background: white;
+  padding: 10px 30px;
+  width: 100%;
+  margin: 0px 20px;
+  right: 0;
+  display: block;
+  max-width: 460px;
+}
 .predictive-search {
   height: calc(100vh - var(--header-height) - 40px);
   overflow-y: auto;
@@ -654,3 +745,4 @@ button.reset:hover:not(:has(> *)) {
 .account-logout {
   display: inline-block;
 }
+
