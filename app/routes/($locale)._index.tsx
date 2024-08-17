@@ -7,13 +7,14 @@ import { Suspense } from 'react';
 import { Image, Money } from '@shopify/hydrogen';
 import type { FeaturedCollectionFragment, RecommendedProductsQuery } from 'storefrontapi.generated';
 import { FEATURED_COLLECTION_QUERY, RECOMMENDED_PRODUCTS_QUERY, CHRISTMAS_COLLECTION_QUERY } from '../graphql/queries';
+
 import Hero from '~/components/ui/Hero';
-
-import Button from '../components/ui/Button';
-
 import HolidaySection from '~/components/holidays/HolidaySection';
 import HolidayWheel from '~/components/holidays/HolidayWheel';
-import ProductCard from '~/components/ecom/ProductCard';
+
+import ContactModal from '~/components/ui/ContactModal';
+// import ProductCard from '~/components/ecom/ProductCard';
+
 
 export const meta: MetaFunction = () => {
 	return [{ title: 'Sweetchoice | Home' }];
@@ -115,6 +116,9 @@ export default function Homepage() {
 	const treatsSection = useRef(null);
 	const blurbsSection = useRef(null);
 
+	// contact modal
+	const [isModalOpen, setIsModalOpen] = useState(false);
+
 	useEffect(() => {
 		const handleScroll = () => {
 			if (treatsSection.current && blurbsSection.current) {
@@ -133,9 +137,26 @@ export default function Homepage() {
 		return () => window.removeEventListener('scroll', handleScroll);
 	}, []);
 
+	// ==================================================================
+
 	return (
 		<main className="overflow-x-hidden">			
 		
+
+		<ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+
+			{/* Replace your existing Contact Us link with this: */}
+			<button
+				onClick={() => setIsModalOpen(true)}
+				className="ml-4 px-4 py-2 bg-[#AE7AFF] text-black font-semibold rounded-full sm:rounded-lg 
+                   shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] 
+                   transition-all duration-200 text-sm sm:text-base whitespace-nowrap"
+			>
+				Contact Us
+			</button>
+
+
+
 		{/* Hero Section */}
 			<Hero
 				title="SWEET HOLIDAYS ALL YEAR LONG"
