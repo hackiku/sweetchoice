@@ -136,7 +136,7 @@ const ContactSlideOver = ({ isOpen, onClose }) => {
 
 						<hr className='my-4 border-black border-2' />
 
-						<h3 className="text-2xl font-bold text-black mb-4">Catalog</h3>
+						<h3 className="text-2xl font-bold text-black mb-4">Your B2B Catalog</h3>
 
 						<div className="grid grid-cols-2 gap-4 mb-6">
 							{[...Array(4)].map((_, index) => (
@@ -149,8 +149,8 @@ const ContactSlideOver = ({ isOpen, onClose }) => {
 				<div className="p-4 border-t-4 border-black bg-[#AE7AFF]">
 					<form onSubmit={handleSubmit} className="space-y-1">
 						<div>
-							<label htmlFor="orderSize" className="block text-lg font-semibold text-black mb-2">
-								Order Weight (Optional)
+							<label htmlFor="orderSize" className="block text-xl font-bold text-black mb-2">
+								Ballpark Order Weight
 							</label>
 							<div className="relative h-8">
 								<div className="absolute top-1/2 transform -translate-y-1/2 w-full h-4 border-4 border-black rounded-full overflow-hidden">
@@ -167,10 +167,11 @@ const ContactSlideOver = ({ isOpen, onClose }) => {
 									className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
 								/>
 								<div
-									className="absolute top-1/2 left-0 transform -translate-y-1/2 w-12 h-12 bg-[#FF6B6B] border-4 border-black rounded-full flex items-center justify-center text-black font-bold"
+									className="absolute top-1/2 left-0 transform -translate-y-1/2 w-16 h-16 bg-[#FF6B6B] border-4 border-black rounded-full flex flex-col items-center justify-center text-black font-bold"
 									style={{ left: `calc(${(orderSize - 10) / 990 * 100}% - 24px)` }}
 								>
-									{orderSize}
+									<div>{orderSize}</div>
+									<div>Kg</div>
 								</div>
 							</div>
 							<div className="flex justify-between text-sm mt-1">
@@ -212,7 +213,7 @@ const ContactSlideOver = ({ isOpen, onClose }) => {
 							type="submit"
 							className="w-full bg-[#FF6B6B] text-black font-bold py-2 px-4 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] transition-all duration-200"
 						>
-							Get Catalog
+							Get Custom Catalog
 						</button>
 					</form>
 				</div>

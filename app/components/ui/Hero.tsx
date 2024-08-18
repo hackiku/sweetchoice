@@ -27,7 +27,7 @@ const Hero: React.FC<HeroProps> = ({
 	onContactClick,
 }) => {
 	return (
-		<section className="min-h-[calc(100vh-4rem)] flex flex-col justify-between px-6 sm:px-8 md:px-12">
+		<section className="mins-h-[calc(100vh-4rem)] flex flex-col justify-between px-6 sm:px-8 md:px-12">
 			<div className="flex-grow flex flex-col justify-start space-y-4 sm:space-y-6">
 				<div className="w-full">
 					<h1 className="text-[calc(14vw-0.1rem)] sm:text-[10vw] md:text-[6vw] font-semibold leading-[1.1] mb-4 w-full">

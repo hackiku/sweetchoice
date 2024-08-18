@@ -1,147 +1,127 @@
 // app/routes/($locale).about.tsx
+// This file contains the About page component for Sweetchoice
+// It includes a hero section, image slider placeholder, recommended products, a map placeholder, and stat blurbs
+
+import React from 'react';
 import { useLoaderData, type MetaFunction } from '@remix-run/react';
-import Eyebrow from '~/components/ui/Eyebrow';
-import ArrowButton from '~/components/ui/ArrowButton';
-import { Button, Timeline } from "flowbite-react";
-import { HiArrowNarrowRight } from "react-icons/hi";
-import GalleryMasonry from '../components/ui/GalleryMasonry';
+import { json, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
+import { Suspense } from 'react';
+import { Await, Link } from '@remix-run/react';
+import { Image, Money } from '@shopify/hydrogen';
+import type { RecommendedProductsQuery } from 'storefrontapi.generated';
+import { RECOMMENDED_PRODUCTS_QUERY } from '../graphql/queries';
 
 export const meta: MetaFunction = () => {
-    return [{ title: `About us | Sweetchoice` }];
+	return [{ title: `About us | Sweetchoice` }];
 };
 
-const videoData = {
-    sources: [
-        { mimeType: 'video/mp4', url: '/assets/choc-vid.mp4' },
-        { mimeType: 'video/mp4', url: '/assets/tiktok.mp4' },
-        { mimeType: 'video/mp4', url: '/assets/.mp4' },
-        { mimeType: 'video/mp4', url: '/assets/FULL-choc-vid.mp4' },
-    ],
-};
+export async function loader({ context }: LoaderFunctionArgs) {
+	const recommendedProducts = context.storefront.query(RECOMMENDED_PRODUCTS_QUERY);
+
+	return json({
+		recommendedProducts,
+	});
+}
 
 export default function About() {
-    const mockPrevPage = () => console.log('Previous page clicked');
-    const mockNextPage = () => console.log('Next page clicked');
-
-    // Populate the assets array with both images and videos
-    const assets = [
-        
-        { type: 'video', src: '/assets/tiktok.mp4' },
-		{ type: 'video', src: '/assets/tiktok.mp4' },
-		{ type: 'video', src: '/assets/tiktok.mp4' },
-		{ type: 'video', src: '/assets/tiktok.mp4' },
-		{ type: 'video', src: '/assets/tiktok.mp4' },
-		{ type: 'video', src: '/assets/tiktok.mp4' },
-        // Add more assets here if needed
-    ];
+	const { recommendedProducts } = useLoaderData<typeof loader>();
 
 	return (
 		<div>
-			<div className='container mx-auto  px-4 about-bg'>
-			<section className="md:w-5/6 space-y-2 mt-6 flex sm-max:m-0 lg-max:w-full">
-				
-			<div class="md:w-3/5 mb-4 flex flex-col lg-max:w-full"><h1 class=" text-7xl font-semibold max-w-lg leading-tight sm-max:text-3xl sm-max:mt-5 sm-max:mb-3 ">WE HAVE CANDY (and you know it)</h1><p class="text-2xl max-w-2xl leading-tight sm-max:text-base">Sweetchoice is the only company in South East Europe specialized in the import and distribution of seasonal confectionery products. </p></div>
-			<div className='about-cab sm-max:hidden md-max:hidden'>
-				<img src="/assets/about-cap.png" alt="" />
-			</div>
-			</section>
-			</div>
-			
-		
-			
-
-			<section className="relative mt-16 mb-16 sm-max:mt-8 sm-max:mb-8">
-                <GalleryMasonry numAssets={assets.length} numTypes={3} assets={assets} />
-                {/* <ArrowButton direction="left" onClick={mockPrevPage} bgColor="#FFA6F6" />
-                <ArrowButton direction="right" onClick={mockNextPage} bgColor="#A6FAFF" /> */}
-            </section>
-
-
-		
-			<div className='container mx-auto sm-max:px-4 md-max:px-4'>
-			<section className='mb-16 sm-max:mt-16'>
-				<h2 className='mb-8 sm-max:mb-2'>Our History</h2>
-				
-				<Timeline>
-					<Timeline.Item>
-						<Timeline.Point />
-						<Timeline.Content className='sm-max:mb-5 sm-max:mt-5 '>
-							<Timeline.Time>February 2022</Timeline.Time>
-							<Timeline.Title>Application UI code in Tailwind CSS</Timeline.Title>
-							<Timeline.Body>
-								Get access to over 20+ pages including a dashboard layout, charts, kanban board, calendar, and pre-order
-								E-commerce & Marketing pages.
-							</Timeline.Body>
-							<Button color="gray">
-								Learn More
-								<HiArrowNarrowRight className="ml-2 h-3 w-3" />
-							</Button>
-						</Timeline.Content>
-					</Timeline.Item>
-					<Timeline.Item>
-						<Timeline.Point />
-						<Timeline.Content className='sm-max:mb-5'>
-							<Timeline.Time>March 2022</Timeline.Time>
-							<Timeline.Title>Marketing UI design in Figma</Timeline.Title>
-							<Timeline.Body>
-								All of the pages and components are first designed in Figma and we keep a parity between the two versions
-								even as we update the project.
-							</Timeline.Body>
-						</Timeline.Content>
-					</Timeline.Item>
-					<Timeline.Item>
-						<Timeline.Point />
-						<Timeline.Content>
-							<Timeline.Time>April 2022</Timeline.Time>
-							<Timeline.Title>E-Commerce UI code in Tailwind CSS</Timeline.Title>
-							<Timeline.Body>
-								Get started with dozens of web components and interactive elements built on top of Tailwind CSS.
-							</Timeline.Body>
-						</Timeline.Content>
-					</Timeline.Item>
-				</Timeline>
-
+			{/* Hero Section */}
+			<section className="flex flex-col justify-center px-6 sm:px-8 md:px-12 mb-2">
+				<h1 className="text-[14vw] sm:text-[10vw] md:text-[8vw] font-semibold leading-[1.1] mb-4 w-full">
+					WE HAVE CANDY <br /> (and you know it)
+				</h1>
 			</section>
 
-
-			
-			<section className='mb-16'>
-				<div className="blurbs">
-					<div className="blurb sm-max:w-full">
-						<img src="/assets/graphics/choco-gradient.svg" alt="Buyback guarantee" />
-						<h3><span className="highlight">Founded in 2013</span><div className='sm-max:text-lg'>as a family business</div></h3>
-					</div>
-					<div className="blurb">
-						<img src="/assets/graphics/choco-grad-2.svg" alt="Promotional Support" />
-						<h3><span className="highlight">Fastest growing</span><div className='sm-max:text-lg'> sweets & confectionery company in the Balkans</div></h3>
-					</div>
-					<div className="blurb">
-						<img src="/assets/graphics/choco-gradient.svg" alt="Custom Terms" />
-						<h3><span className="highlight">120+ B2B</span> <div className='sm-max:text-lg'>partners</div></h3>
-					</div>
+			{/* Image Slider Placeholder */}
+			<section className="relative mb-6">
+				{/* TODO: Implement proper fullwidth, auto-scrolling, draggable image slider component */}
+				<div className="w-full h-[400px] bg-gray-200 flex items-center justify-center text-2xl font-bold">
+					Image Slider Placeholder
 				</div>
 			</section>
 
-			
-
-
-			<section className='mb-12'>
-				<h2>Our Mission</h2>
-				<p>
-					We aim to build and maintain efficient, transparent, and long-term relations with all our business partners.
-					Our client list includes major supermarket chains and a large number of small retailers in Serbia and abroad.
+			<section className="px-6 sm:px-8 md:px-12 mb-16">
+				<p className="text-2xl max-w-2xl leading-tight sm-max:text-base">
+					Sweetchoice is the only company in South East Europe specialized in the import and distribution of seasonal confectionery products.
 				</p>
 			</section>
-			
 
-
-			<section className='mb-12'>
-				<h2>Our Team</h2>
-				<p>
-					Meet the passionate team behind Sweetchoice. We are dedicated to delivering the best chocolate treats for your holidays.
-				</p>
+			{/* Recommended Products Section */}
+			<section className="px-6 sm:px-8 md:px-12 mb-16">
+				<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">Our Products</h2>
+				<RecommendedProducts products={recommendedProducts} />
 			</section>
-			</div>
+
+			{/* Map Placeholder Section */}
+			<section className="px-6 sm:px-8 md:px-12 mb-16">
+				<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">Our Reach</h2>
+				<div className="w-full h-[400px] bg-gray-200 flex items-center justify-center text-2xl font-bold">
+					Map of Europe Placeholder
+				</div>
+			</section>
+
+			{/* Stat Blurbs Section */}
+			<section className="px-6 sm:px-8 md:px-12 mb-16">
+				<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">Sweetchoice by the Numbers</h2>
+				<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+					<div className="p-6 border-4 border-black bg-[#FFD700] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]
+                        hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] transition-all duration-200
+                        transform hover:-translate-y-1 hover:-translate-x-1 hover:rotate-1">
+						<h3 className="text-6xl font-bold mb-2">2013</h3>
+						<h4 className="text-xl font-semibold">Year Sweetchoice was founded</h4>
+					</div>
+					<div className="p-6 border-4 border-black bg-[#FF69B4] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]
+                        hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] transition-all duration-200
+                        transform hover:-translate-y-1 hover:-translate-x-1 hover:rotate-1">
+						<h3 className="text-6xl font-bold mb-2">15+</h3>
+						<h4 className="text-xl font-semibold">Countries we distribute to</h4>
+					</div>
+					<div className="p-6 border-4 border-black bg-[#00CED1] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]
+                        hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] transition-all duration-200
+                        transform hover:-translate-y-1 hover:-translate-x-1 hover:rotate-1">
+						<h3 className="text-6xl font-bold mb-2">200+</h3>
+						<h4 className="text-xl font-semibold">Unique seasonal products</h4>
+					</div>
+				</div>
+			</section>
+		</div>
+	);
+}
+
+// RecommendedProducts component
+function RecommendedProducts({ products }: { products: Promise<RecommendedProductsQuery | null> }) {
+	return (
+		<div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+			<Suspense fallback={<div className="text-center py-10">Loading...</div>}>
+				<Await resolve={products}>
+					{(response) => (
+						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+							{response?.products?.nodes.map((product) => (
+								<Link
+									key={product.id}
+									className="group block border-2 border-black p-4 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-200"
+									to={`/products/${product.handle}`}
+								>
+									<div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 mb-4">
+										<Image
+											data={product.images.nodes[0]}
+											className="w-full h-full object-center object-cover group-hover:opacity-75"
+											sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+										/>
+									</div>
+									<h4 className="text-lg font-semibold mb-2">{product.title}</h4>
+									<p className="text-base font-bold">
+										<Money data={product.priceRange.minVariantPrice} />
+									</p>
+								</Link>
+							))}
+						</div>
+					)}
+				</Await>
+			</Suspense>
 		</div>
 	);
 }
