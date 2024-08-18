@@ -45,7 +45,7 @@ const Hero: React.FC<HeroProps> = ({
 						onClick={onContactClick}
 						className="w-full sm:w-auto text-xl"
 						text="Talk Biz →"
-						// bgColor="#ff0000"
+						bgColor="#ff0000"
 						hoverBgColor="#AE7AFF"
 					/>
 					<Link

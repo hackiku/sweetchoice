@@ -51,7 +51,7 @@ const ContactSlideOver = ({ isOpen, onClose }) => {
 			onClick: () => window.open('https://maps.google.com/?q=Belgrade,Serbia', '_blank')
 		},
 	];
-	
+
 	useEffect(() => {
 		const handleOutsideClick = (event) => {
 			if (slideOverRef.current && !slideOverRef.current.contains(event.target)) {
@@ -100,7 +100,14 @@ const ContactSlideOver = ({ isOpen, onClose }) => {
 				}}>
 					<div className="p-6">
 						<div className="flex justify-between items-center mb-6">
-							<h2 className="text-3xl font-bold text-black">Let's Talk Biz</h2>
+							<h2 className="text-4xl font-black text-orange-400 uppercase italic" style={{
+								WebkitTextStroke: '3px black',
+								textStroke: '3px black',
+								textShadow: '-0.1em 0.12em 0 #000',
+								filter: 'drop-shadow(0 0 1px black)'
+							}}>
+								LET'S TALK BIZ
+							</h2>							
 							<button
 								onClick={onClose}
 								className="p-2 hover:bg-[#FF6B6B] rounded-full transition-colors duration-200"
@@ -126,7 +133,7 @@ const ContactSlideOver = ({ isOpen, onClose }) => {
 								</button>
 							))}
 						</div>
-						
+
 						<hr className='my-4 border-black border-2' />
 
 						<h3 className="text-2xl font-bold text-black mb-4">Catalog</h3>
