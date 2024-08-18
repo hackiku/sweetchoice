@@ -1,118 +1,115 @@
-import React, { useEffect, useState } from 'react';
+// app/components/ui/GalleryMasonry.tsx
+
+import React, { useEffect, useState, useRef } from 'react';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import Slider from 'react-slick';
+import ToggleSwitch from '~/components/ui/ToggleSwitch';
 
-const ArrowButton = ({ className, style, onClick, direction }) => (
-    <button
-        className={`arrow-button absolute top-1/2 transform -translate-y-1/2 ${className}`}
-        style={{
-            ...style,
-            backgroundColor: direction === 'right' ? '#A6FAFF' : '#FFA6F6',
-            borderRadius: '50%',
-            width: '6%',
-            height: '10%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 1, // Ensure it is above other elements
-        }}
-        onClick={onClick}
-    >
-        {direction === 'right' ? '→' : '←'}
-    </button>
-);
+interface Asset {
+	type: 'image' | 'video';
+	src: string;
+}
 
+interface GalleryMasonryProps {
+	assets: Asset[];
+}
 
-const GalleryMasonry = ({ assets }) => {
-    const [Slider, setSlider] = useState(null);
+const GalleryMasonry: React.FC<GalleryMasonryProps> = ({ assets }) => {
+	const [isAutoScrolling, setIsAutoScrolling] = useState(true);
+	const [modalContent, setModalContent] = useState<Asset | null>(null);
+	const sliderRef = useRef<Slider | null>(null);
 
-    useEffect(() => {
-        import('react-slick').then((module) => {
-            setSlider(() => module.default);
-        });
-    }, []);
+	useEffect(() => {
+		const intervalId = setInterval(() => {
+			if (isAutoScrolling && sliderRef.current) {
+				sliderRef.current.slickNext();
+			}
+		}, 3000);
 
-    if (!Slider) {
-        return <p>Loading...</p>;
-    }
+		return () => clearInterval(intervalId);
+	}, [isAutoScrolling]);
 
-    const sliderSettings = {
+	const handleAssetClick = (asset: Asset) => {
+		setModalContent(asset);
+	};
+
+	const closeModal = () => {
+		setModalContent(null);
+	};
+
+	const sliderSettings = {
 		dots: false,
 		infinite: true,
 		speed: 500,
-		slidesToShow: 1,
+		slidesToShow: 3,
 		slidesToScroll: 1,
-		prevArrow: <ArrowButton direction="left" className="left-8 p-8" />,
-		nextArrow: <ArrowButton direction="right" className="right-8 p-8" />,
-        responsive: [
-            {
-                breakpoint: 768, 
-                settings: {
-                    arrows: false 
-                }
-            }
-        ]
+		variableWidth: true,
+		arrows: false,
+		responsive: [
+			{
+				breakpoint: 768,
+				settings: {
+					slidesToShow: 1,
+				}
+			}
+		]
 	};
-	
 
-    return (
-		<div className='container mx-auto'>
-        <div className="slider-container relative px-4">
-        <Slider {...sliderSettings}>
-                {assets.map((asset, index) => (
-					
-                    <div key={index} className="slider-item">
-                        <div className='flex justify-between gap-9 sm-max:gap-3'>
-                        <div className='video w-2/6 sm-max:w-full'>
-                            <div className='mb-7 h-[514px] sm-max:h-full sm-max:mb-2.5 '>
-                            <img src='rect-placeholder.png' className='h-full w-full max-w-full'/>
-                            </div>
-                            <div className='flex'>
-                                <div className='h-[155px] sm-max:h-full'>
-                                <img src='rect-placeholder.png' className='h-full w-full max-w-full' />
-                                </div>
-                                <div className='ml-10 sm-max:ml-2 h-[155px] sm-max:h-full '>
-                                <img src='rect-placeholder.png' className='h-full w-full max-w-full'/>
-                                </div>
-                            </div>
-                     
-                        </div>
-                        <div className='video h-[699px] w-[395px] sm-max:h-full sm-max:w-full'>
-                        {asset.type === 'video' && (
-                            <video
-                                className="max-w-full rounded-lg  "
-                                controls
-                                autoPlay
-                                muted
-                            >
-                                <source src={asset.src} type="video/mp4" className='w-full h-full' />
-                                Your browser does not support the video tag.
-                            </video>
-                        )}
-                        </div>
-                        <div className='video w-2/6 sm-max:w-full'>
-                            
-                            <div className='flex'>
-                                <div className='mb-7 h-[155px] sm-max:h-full sm-max:mb-2.5 '>
-                                <img src='rect-placeholder.png' className='h-full w-full max-w-full'/>
-                                </div>
-                                <div className='mb-7 ml-10 h-[155px] sm-max:h-full sm-max:ml-2 sm-max:mb-2.5'>
-                                <img src='rect-placeholder.png' className='h-full w-full max-w-full'/>
-                                </div>
-                            </div>
-                            <div className='h-[514px] sm-max:h-full'>
-                            <img src='rect-placeholder.png' className='h-full w-full max-w-full'/>
-                            </div>
-                     
-                        </div>
-                    </div>
+	return (
+		<div className="relative w-full">
+			<Slider ref={sliderRef} {...sliderSettings}>
+				{assets.map((asset, index) => (
+					<div key={index} className="px-2">
+						<div
+							className="cursor-pointer overflow-hidden rounded-lg shadow-lg"
+							onClick={() => handleAssetClick(asset)}
+							style={{ width: '300px', height: '400px' }}
+						>
+							{asset.type === 'image' ? (
+								<img
+									src={asset.src}
+									alt={`Gallery item ${index + 1}`}
+									className="w-full h-full object-cover"
+								/>
+							) : (
+								<video
+									src={asset.src}
+									className="w-full h-full object-cover"
+									muted
+									loop
+									playsInline
+								/>
+							)}
+						</div>
+					</div>
+				))}
+			</Slider>
 
-                    </div>
-                ))}
-            </Slider>
-        </div>
+			<div className="absolute bottom-4 right-4 z-10 flex flex-col items-center p-4 bg-white border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)]">
+				<span className="text-lg font-semibold mb-2">Scroll</span>
+				<ToggleSwitch checked={isAutoScrolling} onChange={setIsAutoScrolling} />
+			</div>
+
+			{modalContent && (
+				<div
+					className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
+					onClick={closeModal}
+				>
+					<div
+						className="max-w-4xl max-h-[80vh] overflow-auto"
+						onClick={(e) => e.stopPropagation()}
+					>
+						{modalContent.type === 'image' ? (
+							<img src={modalContent.src} alt="Enlarged view" className="w-full h-auto" />
+						) : (
+							<video src={modalContent.src} controls className="w-full h-auto" autoPlay />
+						)}
+					</div>
+				</div>
+			)}
 		</div>
-    );
+	);
 };
 
 export default GalleryMasonry;

@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useRef, createContext, useContext } from 'react';
 import { MdMail, MdPhone, MdLocationOn, MdPerson } from 'react-icons/md';
-import ContactButton from './ContactButton';
 
 const ContactSlideOverContext = createContext<{ openSlideOver: () => void }>({
 	openSlideOver: () => { }
