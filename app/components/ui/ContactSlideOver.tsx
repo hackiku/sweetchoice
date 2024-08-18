@@ -32,11 +32,26 @@ const ContactSlideOver = ({ isOpen, onClose }) => {
 	const scrollContainerRef = useRef(null);
 
 	const contactDetails = [
-		{ icon: MdMail, text: 'info@sweetchoice.com' },
-		{ icon: MdPhone, text: '+381 11 123 4567' },
-		{ icon: MdLocationOn, text: 'Belgrade, Serbia' },
+		{
+			icon: MdMail,
+			text: 'info@sweetchoice.com',
+			action: 'mailto:info@sweetchoice.com',
+			onClick: () => window.location.href = 'mailto:info@sweetchoice.com'
+		},
+		{
+			icon: MdPhone,
+			text: '+381 11 123 4567',
+			action: 'tel:+38111234567',
+			onClick: () => window.location.href = 'tel:+38111234567'
+		},
+		{
+			icon: MdLocationOn,
+			text: 'Belgrade, Serbia',
+			action: 'https://maps.google.com/?q=Belgrade,Serbia',
+			onClick: () => window.open('https://maps.google.com/?q=Belgrade,Serbia', '_blank')
+		},
 	];
-
+	
 	useEffect(() => {
 		const handleOutsideClick = (event) => {
 			if (slideOverRef.current && !slideOverRef.current.contains(event.target)) {
@@ -98,16 +113,23 @@ const ContactSlideOver = ({ isOpen, onClose }) => {
 
 						<div className="grid grid-cols-1 gap-4 mb-6">
 							{contactDetails.map((detail, index) => (
-								<div key={index} className="flex items-center">
-									<detail.icon className="w-6 h-6 mr-2" />
-									<span className="text-xl font-semibold">{detail.text}</span>
-								</div>
+								<button
+									key={index}
+									onClick={detail.onClick}
+									className="flex items-center w-full text-left transition-all duration-200 group"
+								>
+									<detail.icon className="w-8 h-8 mr-3 text-black transition-colors duration-200 group-hover:text-[#FF6B6B]" />
+									<span className="text-2xl md:text-xl font-semibold relative">
+										{detail.text}
+										<span className="absolute bottom-0 left-0 w-0 h-1 bg-[#FF6B6B] transition-all duration-200 group-hover:w-full"></span>
+									</span>
+								</button>
 							))}
 						</div>
-
+						
 						<hr className='my-4 border-black border-2' />
 
-						<h3 className="text-2xl font-bold text-black mb-4">Get Catalog</h3>
+						<h3 className="text-2xl font-bold text-black mb-4">Catalog</h3>
 
 						<div className="grid grid-cols-2 gap-4 mb-6">
 							{[...Array(4)].map((_, index) => (
@@ -118,7 +140,7 @@ const ContactSlideOver = ({ isOpen, onClose }) => {
 				</div>
 
 				<div className="p-4 border-t-4 border-black bg-[#AE7AFF]">
-					<form onSubmit={handleSubmit} className="space-y-4">
+					<form onSubmit={handleSubmit} className="space-y-1">
 						<div>
 							<label htmlFor="orderSize" className="block text-lg font-semibold text-black mb-2">
 								Order Weight (Optional)
@@ -159,7 +181,7 @@ const ContactSlideOver = ({ isOpen, onClose }) => {
 								onChange={(e) => setName(e.target.value)}
 								onFocus={() => setFocusedInput('name')}
 								onBlur={() => setFocusedInput(null)}
-								className="w-full border-black border-2 p-2 pl-10 focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] transition-all duration-200 font-semibold text-gray-800 italic"
+								className="w-full border-black border-2 p-2 pl-10 focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] transition-all duration-200 font-semibold text-gray-800"
 								required
 							/>
 							{focusedInput === 'name' && renderCursor(name)}
