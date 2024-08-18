@@ -1,7 +1,7 @@
 // app/components/ui/Hero.tsx
+
 import React from 'react';
 import { Link } from '@remix-run/react';
-import Button from './Button';
 import ContactButton from './ContactButton';
 import Logos from './Logos';
 
@@ -44,22 +44,18 @@ const Hero: React.FC<HeroProps> = ({
 					<ContactButton
 						onClick={onContactClick}
 						className="w-full sm:w-auto text-xl"
-						text="Get a Quote →"
-						emoji="🚀"
-						bgColor="#FF3E3E"
-						// textColor="white"
-						hoverBgColor="#FF6B6B"
-						hoverTextColor="white"
+						text="Talk Biz →"
+						// bgColor="#ff0000"
+						hoverBgColor="#AE7AFF"
 					/>
 					<Link
 						to={ctaLink}
-						className="text-xl font-semibold px-6 py-2 border-2 border-black bg-[#AE7AFF] hover:bg-[#d71e97]
-                      shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
+						className="text-xl font-semibold px-6 py-2 border-2 border-black bg-white hover:bg-[#d71e97]
+                      text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
                       transition-all duration-200 flex items-center justify-center w-full sm:w-auto"
 					>
 						{ctaText}
 					</Link>
-
 				</div>
 			</div>
 

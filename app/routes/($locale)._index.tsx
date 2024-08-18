@@ -147,7 +147,7 @@ export default function Homepage() {
 		<ContactSlideOver isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 			
 
-		{/* Hero Section */}
+		{/* ==================================== */}
 			<Hero
 				title="SWEET HOLIDAYS ALL YEAR LONG"
 				subtitle="We wholesale wholesome holiday treats to supermarkets large and small."
@@ -158,9 +158,9 @@ export default function Homepage() {
 				logos={logos}
 				onContactClick={() => setIsModalOpen(true)}
 			/>
+
 			<div className="border-t-2 border-black my-8 mx-6 sm:mx-8 md:mx-12"></div>
 
-			{/* ==================================== */}
 			<section ref={treatsSection} className="px-6 sm:px-8 md:px-12 mb-12">
 				<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">Gift Packs</h2>
 				<RecommendedProducts products={data.recommendedProducts} />

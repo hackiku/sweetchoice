@@ -18,9 +18,9 @@ const ContactButton: React.FC<ContactButtonProps> = ({
 	className = '',
 	text = 'Say Hi 👋',
 	emoji = '👋',
-	bgColor = '#AE7AFF',
+	bgColor = '#d71e97',
 	textColor = 'black',
-	hoverBgColor = '#d71e97',
+	hoverBgColor = '#AE7AFF',
 	hoverTextColor = 'black',
 	shrinkOnMobile = false
 }) => {
@@ -44,20 +44,17 @@ const ContactButton: React.FC<ContactButtonProps> = ({
 		? 'sm:hidden'
 		: 'hidden';
 
+	const colorClasses = `bg-[${bgColor}] hover:bg-[${hoverBgColor}] text-[${textColor}] hover:text-[${hoverTextColor}]`;
+
 	return (
 		<button
 			onClick={onClick}
 			className={`
         ${baseClasses}
         ${sizeClasses}
+        ${colorClasses}
         ${className}
-        hover:bg-[${hoverBgColor}]
-        hover:text-[${hoverTextColor}]
       `}
-			style={{
-				backgroundColor: bgColor,
-				color: textColor,
-			}}
 		>
 			<span className={textClasses}>{text}</span>
 			<span className={emojiClasses}>{emoji}</span>

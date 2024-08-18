@@ -1,7 +1,24 @@
-// app/components/ui/ContactSlideOver.tsx
-
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, createContext, useContext } from 'react';
 import ContactButton from './ContactButton';
+
+const ContactSlideOverContext = createContext<{ openSlideOver: () => void }>({
+	openSlideOver: () => { }
+});
+
+export const useContactSlideOver = () => useContext(ContactSlideOverContext);
+
+export const ContactSlideOverProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+	const [isOpen, setIsOpen] = useState(false);
+
+	const openSlideOver = () => setIsOpen(true);
+
+	return (
+		<ContactSlideOverContext.Provider value={{ openSlideOver }}>
+			{children}
+			<ContactSlideOver isOpen={isOpen} onClose={() => setIsOpen(false)} />
+		</ContactSlideOverContext.Provider>
+	);
+};
 
 const ContactSlideOver = ({ isOpen, onClose }) => {
 	const [name, setName] = useState('');
@@ -57,7 +74,7 @@ const ContactSlideOver = ({ isOpen, onClose }) => {
 			>
 				<div className="p-6">
 					<div className="flex justify-between items-center mb-6">
-						<h2 className="text-3xl font-bold text-black">Contact Us</h2>
+						<h2 className="text-3xl font-bold text-black">Hey There</h2>
 						<button
 							onClick={onClose}
 							className="p-2 hover:bg-[#FF6B6B] rounded-full transition-colors duration-200"
@@ -141,7 +158,7 @@ const ContactSlideOver = ({ isOpen, onClose }) => {
 								<span>1000 kg</span>
 							</div>
 						</div>
-						<ContactButton onClick={handleSubmit} className="w-full" />
+						<ContactButton onClick={handleSubmit} className="w-full" text="Send Message" />
 					</form>
 				</div>
 			</div>
