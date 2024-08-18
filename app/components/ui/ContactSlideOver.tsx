@@ -1,7 +1,7 @@
 // app/components/ui/ContactSlideOver.tsx
 
 import React, { useState, useEffect, useRef, createContext, useContext } from 'react';
-import { MdMail, MdPhone, MdLocationOn } from 'react-icons/md';
+import { MdMail, MdPhone, MdLocationOn, MdPerson } from 'react-icons/md';
 import ContactButton from './ContactButton';
 
 const ContactSlideOverContext = createContext<{ openSlideOver: () => void }>({
@@ -27,15 +27,9 @@ const ContactSlideOver = ({ isOpen, onClose }) => {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [orderSize, setOrderSize] = useState(50);
-	const [selectedOption, setSelectedOption] = useState('Single');
+	const [focusedInput, setFocusedInput] = useState(null);
 	const slideOverRef = useRef(null);
-	const nameInputRef = useRef(null);
-
-	const options = [
-		{ name: 'Single', emoji: '🍬' },
-		{ name: 'Box', emoji: '📦' },
-		{ name: 'Palette', emoji: '🎨' },
-	];
+	const scrollContainerRef = useRef(null);
 
 	const contactDetails = [
 		{ icon: MdMail, text: 'info@sweetchoice.com' },
@@ -52,7 +46,6 @@ const ContactSlideOver = ({ isOpen, onClose }) => {
 
 		if (isOpen) {
 			document.addEventListener('mousedown', handleOutsideClick);
-			nameInputRef.current?.focus();
 		}
 
 		return () => {
@@ -62,8 +55,15 @@ const ContactSlideOver = ({ isOpen, onClose }) => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		console.log({ name, email, selectedOption, orderSize });
+		console.log({ name, email, orderSize });
 		onClose();
+	};
+
+	const renderCursor = (inputValue) => {
+		if (inputValue.length === 0) {
+			return <div className="absolute left-10 top-1/2 transform -translate-y-1/2 w-[2px] h-5 bg-black animate-blink"></div>;
+		}
+		return null;
 	};
 
 	if (!isOpen) return null;
@@ -72,72 +72,59 @@ const ContactSlideOver = ({ isOpen, onClose }) => {
 		<div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-end">
 			<div
 				ref={slideOverRef}
-				className="bg-[#AE7AFF] w-full max-w-md rounded-l-3xl border-l-4 border-y-4 border-black shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 ease-in-out transform translate-x-0"
+				className="bg-[#AE7AFF] w-full max-w-md rounded-l-3xl border-l-4 border-y-4 border-black shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 ease-in-out transform translate-x-0 flex flex-col"
 				style={{
 					height: 'calc(100% - 2rem)',
 					marginTop: '1rem',
 					marginBottom: '1rem',
-					overflow: 'auto',
-					backgroundImage: 'radial-gradient(#000 1px, transparent 1px)',
-					backgroundSize: '20px 20px'
 				}}
 			>
-				<div className="p-6">
-					<div className="flex justify-between items-center mb-6">
-						<h2 className="text-3xl font-bold text-black">Let's Talk Biz</h2>
-						<button
-							onClick={onClose}
-							className="p-2 hover:bg-[#FF6B6B] rounded-full transition-colors duration-200"
-						>
-							<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-							</svg>
-						</button>
-					</div>
-
-					<div className="grid grid-cols-1 gap-4 mb-6">
-						{contactDetails.map((detail, index) => (
-							<div key={index} className="flex items-center">
-								<detail.icon className="w-6 h-6 mr-2" />
-								<span className="text-xl font-semibold">{detail.text}</span>
-							</div>
-						))}
-					</div>
-
-					<hr className='my-4 border-black border-2' />
-
-					<h3 className="text-2xl font-bold text-black mb-4">Get Catalog</h3>
-					<form onSubmit={handleSubmit} className="space-y-6">
-						<div className="relative">
-							<input
-								ref={nameInputRef}
-								type="text"
-								id="name"
-								placeholder='Willie Wonka'
-								value={name}
-								onChange={(e) => setName(e.target.value)}
-								className="w-full border-black border-2 p-2 focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] transition-all duration-200 font-semibold text-gray-800 italic pl-8"
-								required
-							/>
-							<div className="absolute left-2 top-1/2 transform -translate-y-1/2 w-1 h-6 bg-black animate-blink"></div>
+				<div ref={scrollContainerRef} className="flex-grow overflow-auto" style={{
+					backgroundImage: 'radial-gradient(#000 1px, transparent 1px)',
+					backgroundSize: '20px 20px'
+				}}>
+					<div className="p-6">
+						<div className="flex justify-between items-center mb-6">
+							<h2 className="text-3xl font-bold text-black">Let's Talk Biz</h2>
+							<button
+								onClick={onClose}
+								className="p-2 hover:bg-[#FF6B6B] rounded-full transition-colors duration-200"
+							>
+								<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+								</svg>
+							</button>
 						</div>
-						<div>
-							<input
-								type="email"
-								id="email"
-								placeholder='willie@disney.com'
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-								className="w-full border-black border-2 p-2 focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] transition-all duration-200 font-semibold text-gray-800 italic"
-								required
-							/>
+
+						<div className="grid grid-cols-1 gap-4 mb-6">
+							{contactDetails.map((detail, index) => (
+								<div key={index} className="flex items-center">
+									<detail.icon className="w-6 h-6 mr-2" />
+									<span className="text-xl font-semibold">{detail.text}</span>
+								</div>
+							))}
 						</div>
+
+						<hr className='my-4 border-black border-2' />
+
+						<h3 className="text-2xl font-bold text-black mb-4">Get Catalog</h3>
+
+						<div className="grid grid-cols-2 gap-4 mb-6">
+							{[...Array(4)].map((_, index) => (
+								<div key={index} className="aspect-square rounded-lg bg-[#FFF59F] border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)]"></div>
+							))}
+						</div>
+					</div>
+				</div>
+
+				<div className="p-4 border-t-4 border-black bg-[#AE7AFF]">
+					<form onSubmit={handleSubmit} className="space-y-4">
 						<div>
 							<label htmlFor="orderSize" className="block text-lg font-semibold text-black mb-2">
-								Approx Order Weight
+								Order Weight (Optional)
 							</label>
-							<div className="relative">
-								<div className="absolute top-1/2 transform -translate-y-1/2 w-full h-2 bg-transparent rounded-full overflow-hidden">
+							<div className="relative h-8">
+								<div className="absolute top-1/2 transform -translate-y-1/2 w-full h-4 border-4 border-black rounded-full overflow-hidden">
 									<div className="h-full bg-[#90EE90]" style={{ width: `${(orderSize - 10) / 990 * 100}%` }}></div>
 								</div>
 								<input
@@ -148,7 +135,7 @@ const ContactSlideOver = ({ isOpen, onClose }) => {
 									step="10"
 									value={orderSize}
 									onChange={(e) => setOrderSize(Number(e.target.value))}
-									className="w-full h-12 appearance-none bg-transparent cursor-pointer"
+									className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
 								/>
 								<div
 									className="absolute top-1/2 left-0 transform -translate-y-1/2 w-12 h-12 bg-[#FF6B6B] border-4 border-black rounded-full flex items-center justify-center text-black font-bold"
@@ -162,28 +149,42 @@ const ContactSlideOver = ({ isOpen, onClose }) => {
 								<span>1000 kg</span>
 							</div>
 						</div>
-						<div>
-							<div className="flex items-center mb-2">
-								<span className="text-lg font-semibold text-black mr-4">Get catalog</span>
-								<div className="relative">
-									<button
-										type="button"
-										onClick={() => setSelectedOption(prevOption => {
-											const currentIndex = options.findIndex(opt => opt.name === prevOption);
-											const nextIndex = (currentIndex + 1) % options.length;
-											return options[nextIndex].name;
-										})}
-										className="flex justify-center items-center rounded-full 
-                               border-4 border-black transition-all duration-300 
-                               hover:scale-110 w-12 h-12 text-xl bg-black text-white 
-                               shadow-[4px_4px_0px_0px_#FFFFFF]"
-									>
-										{options.find(opt => opt.name === selectedOption)?.emoji}
-									</button>
-								</div>
-							</div>
+						<div className="relative">
+							<MdPerson className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+							<input
+								type="text"
+								id="name"
+								placeholder='Willie Wonka'
+								value={name}
+								onChange={(e) => setName(e.target.value)}
+								onFocus={() => setFocusedInput('name')}
+								onBlur={() => setFocusedInput(null)}
+								className="w-full border-black border-2 p-2 pl-10 focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] transition-all duration-200 font-semibold text-gray-800 italic"
+								required
+							/>
+							{focusedInput === 'name' && renderCursor(name)}
 						</div>
-						<ContactButton onClick={handleSubmit} className="w-full" text="Send Message" />
+						<div className="relative">
+							<MdMail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+							<input
+								type="email"
+								id="email"
+								placeholder='willie@disney.com'
+								value={email}
+								onChange={(e) => setEmail(e.target.value)}
+								onFocus={() => setFocusedInput('email')}
+								onBlur={() => setFocusedInput(null)}
+								className="w-full border-black border-2 p-2 pl-10 focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] transition-all duration-200 font-semibold text-gray-800 italic"
+								required
+							/>
+							{focusedInput === 'email' && renderCursor(email)}
+						</div>
+						<button
+							type="submit"
+							className="w-full bg-[#FF6B6B] text-black font-bold py-2 px-4 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] transition-all duration-200"
+						>
+							Get Catalog
+						</button>
 					</form>
 				</div>
 			</div>
