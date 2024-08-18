@@ -7,7 +7,10 @@ import { Suspense } from 'react';
 import { Await, Link } from '@remix-run/react';
 import { Image, Money } from '@shopify/hydrogen';
 import type { RecommendedProductsQuery } from 'storefrontapi.generated';
+
 import GalleryMasonry from '~/components/ui/GalleryMasonry';
+import TestimonialSlider from '~/components/ui/TestimonialSlider';
+
 
 export const meta: MetaFunction = () => {
 	return [{ title: `About us | Sweetchoice` }];
@@ -119,9 +122,11 @@ export default function About() {
 				</div>
 			</section>
 
-			{/* Stat Blurbs Section */}
+			
+			
+			{/* Stat Blurbs */}
 			<section className="w-full px-6 sm:px-8 md:px-12 mb-16">
-				<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">Sweetchoice by the Numbers</h2>
+				{/* <h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">Sweetchoice by the Numbers</h2> */}
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 					<div className="p-6 border-4 border-black bg-[#FFD700] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]
               hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] transition-all duration-200
@@ -143,6 +148,16 @@ export default function About() {
 					</div>
 				</div>
 			</section>
+
+
+			<hr className="border-t-2 border-black my-8 w-full max-w-[calc(100%-3rem)] sm:max-w-[calc(100%-4rem)] md:max-w-[calc(100%-6rem)]" />
+
+			<section className="w-full px-6 sm:px-8 md:px-12 mb-16">
+				<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">What Our Partners Say</h2>
+				<TestimonialSlider />
+			</section>
+
+
 		</div>
 	);
 }
