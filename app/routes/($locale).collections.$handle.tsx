@@ -4,12 +4,10 @@ import React, { useState, useMemo, useCallback } from 'react';
 import { defer, redirect, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { useLoaderData, Link, type MetaFunction } from '@remix-run/react';
 import { Pagination, getPaginationVariables, Money, Analytics } from '@shopify/hydrogen';
-import ProductCard from "~/components/ecom/ProductCard";
+import WholesaleCard from "~/components/ecom/WholesaleCard";
 import type { ProductItemFragment } from 'storefrontapi.generated';
 import { useVariantUrl } from '~/lib/variants';
 import Logos from '~/components/ui/Logos';
-
-
 import ContactButton from '~/components/ui/ContactButton';
 import ContactModal from '~/components/ui/ContactModal';
 
@@ -107,35 +105,35 @@ export default function Collection() {
 	};
 
 	return (
-		<div className="container mx-auto">
-			<div className="w-full bg-[#fff8ee] pt-14 pb-10 px-6 md:px-12 mb-8"
+		<div className="w-full">
+			<div className="w-full bg-[#fff8ee] pt-14 pb-10 border-b-4 border-black"
 				style={{
 					backgroundImage: 'radial-gradient(#000 1px, transparent 1px)',
-					backgroundSize: '20px 20px'
+					backgroundSize: '20px 20px',
+					backgroundColor: seasonColor.main,
 				}}>
-				<h1 className="text-6xl font-bold mb-4">
-					{collection.title}
-				</h1>
-				{/* <p className="text-xl mb-8">{collection.description}</p> */}
-				<ContactButton
-					onClick={handleContactClick}
-					text="Get Catalog →"
-					bgColor={seasonColor.main}
-					hoverBgColor={seasonColor.secondary}
-					textColor="black"
-					hoverTextColor="white"
-					className="text-xl"
-				/>
-
+				<div className="container mx-auto px-6 md:px-12">
+					<h1 className="text-6xl font-bold mb-4">
+						{collection.title}
+					</h1>
+					<ContactButton
+						onClick={handleContactClick}
+						text="Get Catalog →"
+						bgColor={seasonColor.secondary}
+						hoverBgColor="black"
+						textColor="black"
+						hoverTextColor="white"
+						className="text-xl"
+					/>
+				</div>
 			</div>
 
-
-			<div className="flex flex-wrap gap-4 mt-8">
+			<div className="container mx-auto px-6 md:px-12 mt-8 flex flex-wrap justify-start gap-4">
 				<select
 					name="sort_by"
 					value={sortOption}
 					onChange={handleSortChange}
-					className="border-4 border-black p-2 font-bold bg-pink-300 cursor-pointer transform hover:scale-105 transition-transform"
+					className="border-4 border-black p-2 font-bold bg-pink-300 cursor-pointer transform hover:scale-105 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(237,28,36,1)]"
 				>
 					<option value="manual">Featured</option>
 					<option value="best-selling">Best selling</option>
@@ -151,7 +149,7 @@ export default function Collection() {
 					name="stock_filter"
 					value={stockFilter}
 					onChange={handleSortChange}
-					className="border-4 border-black p-2 font-bold bg-green-300 cursor-pointer transform hover:scale-105 transition-transform"
+					className="border-4 border-black p-2 font-bold bg-green-300 cursor-pointer transform hover:scale-105 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(237,28,36,1)]"
 				>
 					<option value="all">All products</option>
 					<option value="in-stock">In stock</option>
@@ -162,30 +160,31 @@ export default function Collection() {
 					name="grid_size"
 					value={gridSize}
 					onChange={handleSortChange}
-					className="border-4 border-black p-2 font-bold bg-blue-300 cursor-pointer transform hover:scale-105 transition-transform"
+					className="border-4 border-black p-2 font-bold bg-blue-300 cursor-pointer transform hover:scale-105 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(237,28,36,1)]"
 				>
-					<option value="2">2 products/line</option>
-					<option value="3">3 products/line</option>
-					<option value="4">4 products/line</option>
-					<option value="5">5 products/line</option>
-					<option value="6">6 products/line</option>
+					<option value="1">Grid: 1</option>
+					<option value="2">Grid: 2</option>
+					<option value="3">Grid: 3</option>
+					<option value="4">Grid: 4</option>
+					<option value="5">Grid: 5</option>
+					<option value="6">Grid: 6</option>
 				</select>
 			</div>
 
-			<div className="px-6 md:px-12">
+			<div className="container mx-auto px-6 md:px-12 mt-8">
 				<Pagination connection={collection.products}>
 					{({ nodes, isLoading, PreviousLink, NextLink }) => (
 						<>
 							<div className={`grid gap-4 grid-cols-${gridSize}`}>
 								{nodes.map((product) => (
-									<ProductCardComponent key={product.id} product={product} isB2B={true} />
+									<WholesaleCardComponent key={product.id} product={product} secondaryColor={seasonColor.secondary} />
 								))}
 							</div>
 							<div className="flex justify-between items-center mt-8">
-								<PreviousLink className="border-4 border-black p-2 font-bold bg-purple-300 transform hover:scale-105 transition-transform">
+								<PreviousLink className="border-4 border-black p-2 font-bold bg-purple-300 transform hover:scale-105 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(237,28,36,1)]">
 									{isLoading ? 'Loading...' : '← Previous'}
 								</PreviousLink>
-								<NextLink className="border-4 border-black p-2 font-bold bg-purple-300 transform hover:scale-105 transition-transform">
+								<NextLink className="border-4 border-black p-2 font-bold bg-purple-300 transform hover:scale-105 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(237,28,36,1)]">
 									{isLoading ? 'Loading...' : 'Next →'}
 								</NextLink>
 							</div>
@@ -204,28 +203,29 @@ export default function Collection() {
 	);
 }
 
-function ProductCardComponent({ product, isB2B }: { product: ProductItemFragment; isB2B: boolean }) {
+function WholesaleCardComponent({ product, secondaryColor }: { product: ProductItemFragment; secondaryColor: string }) {
 	const variant = product.variants.nodes[0];
 	const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
 	const productLink = variantUrl;
 	const imageUrl = product.featuredImage?.url || '';
 	const imageAlt = product.featuredImage?.altText || product.title;
 	const price = <Money data={product.priceRange.minVariantPrice} />;
+	const product_id = product.id;
 
 	return (
-		<ProductCard
+		<WholesaleCard
 			productName={product.title}
 			productLink={productLink}
-			product_id={product.id}
 			imageUrl={imageUrl}
 			imageAlt={imageAlt}
 			price={price}
-			weight="100g" // You might want to get this from your product data
-			isB2B={isB2B}
+			weight="80g" // You might want to get this from your product data
+			buttonBgColor={secondaryColor}
+			tags={product.tags || []}
+			product_id={product_id}
 		/>
 	);
 }
-
 
 const PRODUCT_ITEM_FRAGMENT = `#graphql
   fragment MoneyProductItem on MoneyV2 {
