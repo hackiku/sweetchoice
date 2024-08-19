@@ -1,23 +1,60 @@
 // app/components/ui/ContactModal.tsx
-import React, { useState, useEffect, useRef } from 'react';
 
-const ContactModal = ({ isOpen, onClose }) => {
+
+import React, { useState, useEffect, useRef, createContext, useContext } from 'react';
+import { MdMail, MdPhone, MdLocationOn, MdPerson } from 'react-icons/md';
+
+const ContactSlideOverContext = createContext<{ openSlideOver: () => void }>({
+	openSlideOver: () => { }
+});
+
+export const useContactSlideOver = () => useContext(ContactSlideOverContext);
+
+export const ContactSlideOverProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+	const [isOpen, setIsOpen] = useState(false);
+
+	const openSlideOver = () => setIsOpen(true);
+
+	return (
+		<ContactSlideOverContext.Provider value={{ openSlideOver }}>
+			{children}
+			<ContactSlideOver isOpen={isOpen} onClose={() => setIsOpen(false)} />
+		</ContactSlideOverContext.Provider>
+	);
+};
+
+const ContactSlideOver = ({ isOpen, onClose }) => {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
-	const [message, setMessage] = useState('');
 	const [orderSize, setOrderSize] = useState(50);
-	const [selectedOption, setSelectedOption] = useState('Single');
-	const modalRef = useRef(null);
+	const [focusedInput, setFocusedInput] = useState(null);
+	const slideOverRef = useRef(null);
+	const scrollContainerRef = useRef(null);
 
-	const options = [
-		{ name: 'Single', emoji: '🍬' },
-		{ name: 'Box', emoji: '📦' },
-		{ name: 'Palette', emoji: '🎨' },
+	const contactDetails = [
+		{
+			icon: MdMail,
+			text: 'info@sweetchoice.com',
+			action: 'mailto:info@sweetchoice.com',
+			onClick: () => window.location.href = 'mailto:info@sweetchoice.com'
+		},
+		{
+			icon: MdPhone,
+			text: '+381 11 123 4567',
+			action: 'tel:+38111234567',
+			onClick: () => window.location.href = 'tel:+38111234567'
+		},
+		{
+			icon: MdLocationOn,
+			text: 'Belgrade, Serbia',
+			action: 'https://maps.google.com/?q=Belgrade,Serbia',
+			onClick: () => window.open('https://maps.google.com/?q=Belgrade,Serbia', '_blank')
+		},
 	];
 
 	useEffect(() => {
 		const handleOutsideClick = (event) => {
-			if (modalRef.current && !modalRef.current.contains(event.target)) {
+			if (slideOverRef.current && !slideOverRef.current.contains(event.target)) {
 				onClose();
 			}
 		};
@@ -33,8 +70,15 @@ const ContactModal = ({ isOpen, onClose }) => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		console.log({ name, email, selectedOption, message, orderSize });
+		console.log({ name, email, orderSize });
 		onClose();
+	};
+
+	const renderCursor = (inputValue) => {
+		if (inputValue.length === 0) {
+			return <div className="absolute left-10 top-1/2 transform -translate-y-1/2 w-[2px] h-5 bg-black animate-blink"></div>;
+		}
+		return null;
 	};
 
 	if (!isOpen) return null;
@@ -42,110 +86,134 @@ const ContactModal = ({ isOpen, onClose }) => {
 	return (
 		<div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-end">
 			<div
-				ref={modalRef}
-				className="bg-[#AE7AFF] w-full max-w-md rounded-l-3xl border-l-4 border-y-4 border-black shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 ease-in-out transform translate-x-0"
+				ref={slideOverRef}
+				className="bg-[#AE7AFF] w-full max-w-md rounded-l-3xl border-l-4 border-y-4 border-black shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 ease-in-out transform translate-x-0 flex flex-col"
 				style={{
 					height: 'calc(100% - 2rem)',
 					marginTop: '1rem',
 					marginBottom: '1rem',
-					overflow: 'auto',
-					backgroundImage: 'radial-gradient(#000 1px, transparent 1px)',
-					backgroundSize: '20px 20px'
 				}}
 			>
-				<div className="p-6">
-					<div className="flex justify-between items-center mb-6">
-						<h2 className="text-3xl font-bold">Contact Us</h2>
-						<button
-							onClick={onClose}
-							className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
-						>
-							<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-							</svg>
-						</button>
+				<div ref={scrollContainerRef} className="flex-grow overflow-auto" style={{
+					backgroundImage: 'radial-gradient(#000 1px, transparent 1px)',
+					backgroundSize: '20px 20px'
+				}}>
+					<div className="p-6">
+						<div className="flex justify-between items-center mb-6">
+							<h2 className="text-4xl font-black text-orange-400 uppercase italic" style={{
+								WebkitTextStroke: '3px black',
+								textStroke: '3px black',
+								textShadow: '-0.1em 0.12em 0 #000',
+								filter: 'drop-shadow(0 0 1px black)'
+							}}>
+								LET'S TALK BIZ
+							</h2>
+							<button
+								onClick={onClose}
+								className="p-2 hover:bg-[#FF6B6B] rounded-full transition-colors duration-200"
+							>
+								<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+								</svg>
+							</button>
+						</div>
+
+						<div className="grid grid-cols-1 gap-4 mb-6">
+							{contactDetails.map((detail, index) => (
+								<button
+									key={index}
+									onClick={detail.onClick}
+									className="flex items-center w-full text-left transition-all duration-200 group"
+								>
+									<detail.icon className="w-8 h-8 mr-3 text-black transition-colors duration-200 group-hover:text-[#FF6B6B]" />
+									<span className="text-2xl md:text-xl font-semibold relative">
+										{detail.text}
+										<span className="absolute bottom-0 left-0 w-0 h-1 bg-[#FF6B6B] transition-all duration-200 group-hover:w-full"></span>
+									</span>
+								</button>
+							))}
+						</div>
+
+						<hr className='my-4 border-black border-2' />
+
+						<h3 className="text-2xl font-bold text-black mb-4">Your B2B Catalog</h3>
+
+						<div className="grid grid-cols-2 gap-4 mb-6">
+							{[...Array(4)].map((_, index) => (
+								<div key={index} className="aspect-square rounded-lg bg-[#FFF59F] border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)]"></div>
+							))}
+						</div>
 					</div>
-					<form onSubmit={handleSubmit} className="space-y-6">
+				</div>
+
+				<div className="p-4 border-t-4 border-black bg-[#AE7AFF]">
+					<form onSubmit={handleSubmit} className="space-y-1">
 						<div>
-							<label htmlFor="name" className="block text-lg font-semibold text-black mb-2">Name</label>
-							<input
-								type="text"
-								id="name"
-								value={name}
-								onChange={(e) => setName(e.target.value)}
-								className="w-full border-black border-2 p-2.5 focus:outline-none focus:shadow-[2px_2px_0px_rgba(0,0,0,1)] focus:bg-[#FFA6F6] active:shadow-[2px_2px_0px_rgba(0,0,0,1)]"
-								required
-							/>
-						</div>
-						<div>
-							<label htmlFor="email" className="block text-lg font-semibold text-black mb-2">Email</label>
-							<input
-								type="email"
-								id="email"
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-								className="w-full border-black border-2 p-2.5 focus:outline-none focus:shadow-[2px_2px_0px_rgba(0,0,0,1)] focus:bg-[#FFA6F6] active:shadow-[2px_2px_0px_rgba(0,0,0,1)]"
-								required
-							/>
-						</div>
-						<div>
-							<div className="flex items-center mb-2">
-								<span className="text-lg font-semibold text-black mr-4">Get catalog</span>
-								<div className="relative">
-									<button
-										type="button"
-										onClick={() => setSelectedOption(prevOption => {
-											const currentIndex = options.findIndex(opt => opt.name === prevOption);
-											const nextIndex = (currentIndex + 1) % options.length;
-											return options[nextIndex].name;
-										})}
-										className="flex justify-center items-center rounded-full 
-                               border-4 border-black transition-all duration-300 
-                               hover:scale-110 w-12 h-12 text-xl bg-black text-white 
-                               shadow-[4px_4px_0px_0px_#FFFFFF]"
-									>
-										{options.find(opt => opt.name === selectedOption)?.emoji}
-									</button>
+							<label htmlFor="orderSize" className="block text-xl font-bold text-black mb-2">
+								Ballpark Order Weight
+							</label>
+							<div className="relative h-8">
+								<div className="absolute top-1/2 transform -translate-y-1/2 w-full h-4 border-4 border-black rounded-full overflow-hidden">
+									<div className="h-full bg-[#90EE90]" style={{ width: `${(orderSize - 10) / 990 * 100}%` }}></div>
+								</div>
+								<input
+									type="range"
+									id="orderSize"
+									min="10"
+									max="1000"
+									step="10"
+									value={orderSize}
+									onChange={(e) => setOrderSize(Number(e.target.value))}
+									className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+								/>
+								<div
+									className="absolute top-1/2 left-0 transform -translate-y-1/2 w-16 h-16 bg-[#FF6B6B] border-4 border-black rounded-full flex flex-col items-center justify-center text-black font-bold"
+									style={{ left: `calc(${(orderSize - 10) / 990 * 100}% - 24px)` }}
+								>
+									<div>{orderSize}</div>
+									<div>Kg</div>
 								</div>
 							</div>
-						</div>
-						<div>
-							<label htmlFor="message" className="block text-lg font-semibold text-black mb-2">Message</label>
-							<textarea
-								id="message"
-								value={message}
-								onChange={(e) => setMessage(e.target.value)}
-								rows={4}
-								className="w-full border-black border-2 p-2.5 focus:outline-none focus:shadow-[2px_2px_0px_rgba(0,0,0,1)] focus:bg-[#FFA6F6] active:shadow-[2px_2px_0px_rgba(0,0,0,1)]"
-								required
-							/>
-						</div>
-						<div>
-							<label htmlFor="orderSize" className="block text-lg font-semibold text-black mb-2">
-								Expected Order Size: {orderSize} kg
-							</label>
-							<input
-								type="range"
-								id="orderSize"
-								min="10"
-								max="1000"
-								step="10"
-								value={orderSize}
-								onChange={(e) => setOrderSize(Number(e.target.value))}
-								className="w-full"
-							/>
-							<div className="flex justify-between text-xs mt-1">
+							<div className="flex justify-between text-sm mt-1">
 								<span>10 kg</span>
 								<span>1000 kg</span>
 							</div>
 						</div>
+						<div className="relative">
+							<MdPerson className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+							<input
+								type="text"
+								id="name"
+								placeholder='Willie Wonka'
+								value={name}
+								onChange={(e) => setName(e.target.value)}
+								onFocus={() => setFocusedInput('name')}
+								onBlur={() => setFocusedInput(null)}
+								className="w-full border-black border-2 p-2 pl-10 focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] transition-all duration-200 font-semibold text-gray-800"
+								required
+							/>
+							{focusedInput === 'name' && renderCursor(name)}
+						</div>
+						<div className="relative">
+							<MdMail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+							<input
+								type="email"
+								id="email"
+								placeholder='willie@disney.com'
+								value={email}
+								onChange={(e) => setEmail(e.target.value)}
+								onFocus={() => setFocusedInput('email')}
+								onBlur={() => setFocusedInput(null)}
+								className="w-full border-black border-2 p-2 pl-10 focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] transition-all duration-200 font-semibold text-gray-800 italic"
+								required
+							/>
+							{focusedInput === 'email' && renderCursor(email)}
+						</div>
 						<button
 							type="submit"
-							className="w-full px-4 py-2 border-2 border-black bg-[#AE7AFF] text-black font-bold 
-                         shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] 
-                         transition-all duration-200"
+							className="w-full bg-[#FF6B6B] text-black font-bold py-2 px-4 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] transition-all duration-200"
 						>
-							Send Message
+							Get Custom Catalog
 						</button>
 					</form>
 				</div>
@@ -154,4 +222,4 @@ const ContactModal = ({ isOpen, onClose }) => {
 	);
 };
 
-export default ContactModal;
+export default ContactSlideOver;
