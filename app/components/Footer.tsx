@@ -1,296 +1,182 @@
-import {Suspense} from 'react';
-import {Await, NavLink} from '@remix-run/react';
-import type {FooterQuery, HeaderQuery} from 'storefrontapi.generated';
+// Footer.tsx
+//
+// This component represents the footer of the Sweetchoice e-commerce website.
+// It includes a CTA with ContactButton, four columns of content (logo, holidays, shop, newsletter),
+// and follows the neo-brutalist style to match the brand aesthetic.
+//
+// Props:
+// - footer: Promise<FooterQuery | null> - Data for the footer content
+// - header: HeaderQuery - Header data (unused in this component, consider removing)
+// - publicStoreDomain: string - The public domain of the store
+
+import React, { useState } from 'react';
+import { Suspense } from 'react';
+import { Await, NavLink } from '@remix-run/react';
+import type { FooterQuery, HeaderQuery } from 'storefrontapi.generated';
+import ContactButton from '~/components/ui/ContactButton';
+import ContactModal from '~/components/ui/ContactModal';
 
 interface FooterProps {
-  footer: Promise<FooterQuery | null>;
-  header: HeaderQuery;
-  publicStoreDomain: string;
+	footer: Promise<FooterQuery | null>;
+	header: HeaderQuery;
+	publicStoreDomain: string;
 }
 
 export function Footer({
-  footer: footerPromise,
-  header,
-  publicStoreDomain,
+	footer: footerPromise,
+	header,
+	publicStoreDomain,
 }: FooterProps) {
-  return (
-   
-    <Suspense>
-      <Await resolve={footerPromise}>
-        {(footer) => (
-          <footer className="footer w-full bg-[#fff8ee] pt-14 pb-10 sm-max:pt-6 sm-max:px-4 md-max:px-4">
-            {/* {footer?.menu && header.shop.primaryDomain?.url && (
-              <FooterMenu
-                menu={footer.menu}
-                primaryDomainUrl={header.shop.primaryDomain.url}
-                publicStoreDomain={publicStoreDomain}
-              />
-            )} */}
-            <div className='container mx-auto'>
-              <div className='footer-logo text-center relative '>
-                <img src='/assets/logos/sc-logo.svg'  className='m-auto sm-max:w-24'/>
-              </div>
-              <div className='footer-tag '>
-                <hr className='border-black-200' />
-              </div>
-            <div className='footer-menu flex relative justify-between mt-5 sm-max:block md-max:block '>
-                <div className=''>
-                <h4 className="text-black text-xl font-extrabold">Company</h4>
-                <div className='secondary-footer-menu flex'>
-              
-                  <nav className="">
-          
-                    <NavLink
-                      to="/"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="block py-4 text-base text-black sm-max:p-0"
-                    >
-                      About Us
-                    </NavLink>
-                    <NavLink
-                      to="/"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="block py-4 text-base text-black sm-max:p-0"
-                    >
-                      Products
-                    </NavLink>
-                    <NavLink
-                      to="/"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="block py-4 text-base text-black sm-max:p-0"
-                    >
-                      Privacy Policy
-                    </NavLink>
-                    <NavLink
-                      to="/"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="block py-4 text-base text-black sm-max:p-0"
-                    >
-                      Terms Of Use
-                    </NavLink>
-
-                  </nav>
-             
-                </div>
-                </div>
-                <div className=''>
-                <h4 className="text-black text-xl font-extrabold">Collections</h4>
-                <div className='secondary-footer-menu flex'>
-
-                    <nav className="mr-20 lg-max:mr-8">
-
-                      <NavLink
-                        to="/collections"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="block py-4 block  text-base text-black sm-max:p-0"
-                      >
-                        Shop
-                      </NavLink>
-                      <NavLink
-                        to="/holidays"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="block py-4 block text-base sm-max:p-0"
-                      >
-                        Holidays
-                      </NavLink>
-                      <NavLink
-                        to="/about"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="block py-4 block  text-base text-black sm-max:p-0"
-                      >
-                        All Year 
-                      </NavLink>
-                      <NavLink
-                        to="/about"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="block py-4 block  text-base text-black sm-max:p-0"
-                      >
-                        About
-                      </NavLink>
-
-                    </nav>
-                    <nav className="">
-
-                        <NavLink
-                          to="/collections/christmas"
-                          onClick={() => setIsMobileMenuOpen(false)}
-                          className="block py-4 block  text-base text-black sm-max:p-0"
-                        >
-                          Christmas
-                        </NavLink>
-                        <NavLink
-                          to="/collections/valentines"
-                          onClick={() => setIsMobileMenuOpen(false)}
-                          className="block py-4 block  text-base text-black sm-max:p-0"
-                        >
-                          Valentine's Day
-                        </NavLink>
-                        <NavLink
-                          to="/collections/easter"
-                          onClick={() => setIsMobileMenuOpen(false)}
-                          className="block py-4 block  text-base text-black sm-max:p-0"
-                        >
-                          Easter
-                        </NavLink>
-                        <NavLink
-                          to="/collections/easter"
-                          onClick={() => setIsMobileMenuOpen(false)}
-                          className="block py-4 block  text-base text-black sm-max:p-0"
-                        >
-                          Halloween
-                        </NavLink>
-
-                      </nav>
-                </div>
-                </div>
-                <div className='sm-max:mt-5'>
-                <h4 className="text-black text-xl font-extrabold sm-max:m-0 ">Newsletter</h4>
-                <div className='secondary-footer-menu flex mt-6 sm-max:mt-0'>
-
-                    <nav className="">
-                        <p className='block py-2 block py-2 text-base text-black max-w-xs mb-6 sm-max:m-0'>Subscribe our Newsletter to get the latest 
-                        news and insights</p>
-                <div className='footer-form flex items-center gap-3 sm-max:block'>
-                     <div class="">
-                   <input type="email" id="email" name="email" placeholder="Enter your email"
-                    class="w-80 px-4 m-0 border border-black  focus:outline-none focus:border-black bg-transparent text-black placeholder-black lg-max:w-48"/>
-                    </div>
-                    <div className='submit-btn sm-max:mt-4'>
-                    <button type="submit" class="w-32 text-xl font-semibold px-12 py-2 border-2 border-black 
-                  text-black bg-transparent
-                  shadow-[4px_4px_0px_0px_rgba(0,0,0)] 
-                  transition-shadow duration-200 
-                  flex items-center justify-center 
-                  hover:shadow-[8px_8px_0px_0px_rgba(0,0,0)]">
-        Submit
-      </button>
-                    </div>
-                </div>
-                <div className='mt-10 sm-max:mt-4'>
-                  <p className='block py-2 block py-2 text-base text-black'>By subscribing, you accept the Privacy Policy
-                  </p>
-                </div>
-                      </nav>
-                </div>
-                </div>
-            
-             
-           
-            </div>
-            <div className='flex justify-between items-center relative mt-16 sm-max:block sm-max:mt-5'>
-              <div className=''>
-                <p className='block py-2 text-base text-black'>Copyright © 2024. All Rights Reserved</p>
-              </div>
-              <div className=''>
-                <ul className='flex items-center p-0 gap-3'>
-                  <li className='text-xl text-black font-extrabold uppercase sm-max:text-sm lg-max:text-base'>Facebook  - </li>
-                  <li className='text-xl text-black font-extrabold uppercase sm-max:text-sm lg-max:text-base'>Twitter  - </li>
-                  <li className='text-xl text-black font-extrabold uppercase sm-max:text-sm lg-max:text-base'>Insta  - </li>
-                  <li className='text-xl text-black font-extrabold uppercase sm-max:text-sm lg-max:text-base'>Youtube  - </li>
-                </ul>
-              </div>
-            </div>
-            </div>
-          </footer>
-        )}
-      </Await>
-    </Suspense>
-  );
+	return (
+		<Suspense fallback={<FooterSkeleton />}>
+			<Await resolve={footerPromise}>
+				{(footer) => <FooterContent footer={footer} publicStoreDomain={publicStoreDomain} />}
+			</Await>
+		</Suspense>
+	);
 }
 
-function FooterMenu({
-  menu,
-  primaryDomainUrl,
-  publicStoreDomain,
-}: {
-  menu: FooterQuery['menu'];
-  primaryDomainUrl: ['header']['shop']['primaryDomain']['url'];
-  publicStoreDomain: string;
-}) {
-  return (
-    <nav className="footer-menu" role="navigation">
-      {(menu || FALLBACK_FOOTER_MENU).items.map((item) => {
-        if (!item.url) return null;
-        // if the url is internal, we strip the domain
-        const url =
-          item.url.includes('myshopify.com') ||
-          item.url.includes(publicStoreDomain) ||
-          item.url.includes(primaryDomainUrl)
-            ? new URL(item.url).pathname
-            : item.url;
-        const isExternal = !url.startsWith('/');
-        return isExternal ? (
-          <a href={url} key={item.id} rel="noopener noreferrer" target="_blank">
-            {item.title}
-          </a>
-        ) : (
-          <NavLink
-            end
-            key={item.id}
-            prefetch="intent"
-            style={activeLinkStyle}
-            to={url}
-          >
-            {item.title}
-          </NavLink>
-        );
-      })}
-    </nav>
-  );
+function FooterContent({ footer, publicStoreDomain }: { footer: FooterQuery | null, publicStoreDomain: string }) {
+	const [email, setEmail] = useState('');
+	const [isModalOpen, setIsModalOpen] = useState(false);
+
+	const handleSubmit = (e: React.FormEvent) => {
+		e.preventDefault();
+		// TODO: Implement newsletter signup logic
+		console.log('Newsletter signup:', email);
+		setEmail('');
+	};
+
+	const handleContactClick = () => {
+		setIsModalOpen(true);
+	};
+
+	const holidays = [
+		{ name: 'Christmas', path: '/collections/christmas' },
+		{ name: "Valentine's Day", path: '/collections/valentines' },
+		{ name: 'Easter', path: '/collections/easter' },
+		{ name: 'Halloween', path: '/collections/halloween' },
+	];
+
+	const shopItems = [
+		{ name: 'Gifts', path: '/gifts' },
+		{ name: 'All Year', path: '/collections/all' },
+		{ name: 'About', path: '/about' },
+	];
+
+	return (
+		<footer className="w-full bg-[#fff8ee] pt-14 pb-10 px-6 md:px-12 border-t-4 border-black"
+			style={{
+				backgroundImage: 'radial-gradient(#000 1px, transparent 1px)',
+				backgroundSize: '20px 20px'
+			}}>
+			<div className="container mx-auto max-w-7xl">
+				<div className="mb-10 bg-[#FFA500] p-8 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+					<h2 className="text-4xl font-black mb-6 text-center">SWEETEN UP YOUR SHELVES</h2>
+					<div className="flex justify-center">
+						<ContactButton
+							onClick={handleContactClick}
+							text="Talk Biz →"
+							bgColor="#ff0000"
+							hoverBgColor="#AE7AFF"
+							textColor="white"
+							hoverTextColor="black"
+							className="text-xl"
+						/>
+					</div>
+				</div>
+
+				<div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
+					<div className="col-span-2 md:col-span-1 flex flex-col items-center md:items-start">
+						<img src="/assets/logos/sc-logo.svg" alt="Sweetchoice Logo" className="w-16 md:w-20 mb-4" />
+					</div>
+
+					<div className="space-y-4">
+						<h4 className="text-2xl font-black text-black uppercase">Holidays</h4>
+						<nav className="space-y-2">
+							{holidays.map((item) => (
+								<NavLink
+									key={item.name}
+									to={item.path}
+									className="block text-lg font-semibold text-black hover:text-[#ED1C24] hover:underline transition-colors"
+								>
+									{item.name}
+								</NavLink>
+							))}
+						</nav>
+					</div>
+
+					<div className="space-y-4">
+						<h4 className="text-2xl font-black text-black uppercase">Shop</h4>
+						<nav className="space-y-2">
+							{shopItems.map((item) => (
+								<NavLink
+									key={item.name}
+									to={item.path}
+									className="block text-lg font-semibold text-black hover:text-[#ED1C24] hover:underline transition-colors"
+								>
+									{item.name}
+								</NavLink>
+							))}
+						</nav>
+					</div>
+
+					<div className="col-span-2 md:col-span-1 space-y-4">
+						<h4 className="text-2xl font-black text-black uppercase">Newsletter</h4>
+						<form onSubmit={handleSubmit} className="space-y-4">
+							<input
+								type="email"
+								value={email}
+								onChange={(e) => setEmail(e.target.value)}
+								placeholder="Enter your email"
+								className="w-full px-4 py-2 text-lg border-4 border-black bg-transparent text-black placeholder-black focus:outline-none focus:ring-4 focus:ring-[#ED1C24]"
+								required
+							/>
+							<button
+								type="submit"
+								className="w-full md:w-auto text-xl font-black px-8 py-2 border-4 border-black 
+                           bg-[#ED1C24] text-black shadow-[4px_4px_0px_0px_rgba(0,0,0)] 
+                           transition-all duration-200 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0)]
+                           active:shadow-[2px_2px_0px_0px_rgba(0,0,0)] active:translate-x-[2px] active:translate-y-[2px]"
+							>
+								SUBSCRIBE
+							</button>
+						</form>
+					</div>
+				</div>
+
+				<div className="flex flex-col md:flex-row justify-between items-center border-t-4 border-black pt-6">
+					<div className="flex flex-wrap justify-center md:justify-start gap-2 mb-4 md:mb-0">
+						<span className="text-lg font-semibold text-black">© Sweetchoice 2024.</span>
+						<NavLink to="/terms" className="text-lg font-semibold text-black hover:text-[#ED1C24] hover:underline transition-colors">
+							Terms
+						</NavLink>
+						<span className="text-black">|</span>
+						<NavLink to="/privacy" className="text-lg font-semibold text-black hover:text-[#ED1C24] hover:underline transition-colors">
+							Privacy
+						</NavLink>
+					</div>
+					<ul className="flex items-center space-x-6">
+						{['LinkedIn', 'Infostud', 'Instagram'].map((social) => (
+							<li key={social} className="text-lg font-black text-black hover:text-[#ED1C24] transition-colors">
+								<a href={`https://${social.toLowerCase()}.com`} target="_blank" rel="noopener noreferrer">
+									{social.toUpperCase()}
+								</a>
+							</li>
+						))}
+					</ul>
+				</div>
+			</div>
+
+			<ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+		</footer>
+	);
 }
 
-const FALLBACK_FOOTER_MENU = {
-  id: 'gid://shopify/Menu/199655620664',
-  items: [
-    {
-      id: 'gid://shopify/MenuItem/461633060920',
-      resourceId: 'gid://shopify/ShopPolicy/23358046264',
-      tags: [],
-      title: 'Privacy Policy',
-      type: 'SHOP_POLICY',
-      url: '/policies/privacy-policy',
-      items: [],
-    },
-    {
-      id: 'gid://shopify/MenuItem/461633093688',
-      resourceId: 'gid://shopify/ShopPolicy/23358013496',
-      tags: [],
-      title: 'Refund Policy',
-      type: 'SHOP_POLICY',
-      url: '/policies/refund-policy',
-      items: [],
-    },
-    {
-      id: 'gid://shopify/MenuItem/461633126456',
-      resourceId: 'gid://shopify/ShopPolicy/23358111800',
-      tags: [],
-      title: 'Shipping Policy',
-      type: 'SHOP_POLICY',
-      url: '/policies/shipping-policy',
-      items: [],
-    },
-    {
-      id: 'gid://shopify/MenuItem/461633159224',
-      resourceId: 'gid://shopify/ShopPolicy/23358079032',
-      tags: [],
-      title: 'Terms of Service',
-      type: 'SHOP_POLICY',
-      url: '/policies/terms-of-service',
-      items: [],
-    },
-  ],
-};
-
-function activeLinkStyle({
-  isActive,
-  isPending,
-}: {
-  isActive: boolean;
-  isPending: boolean;
-}) {
-  return {
-    fontWeight: isActive ? 'bold' : undefined,
-    color: isPending ? 'grey' : 'white',
-  };
+function FooterSkeleton() {
+	return (
+		<footer className="w-full bg-[#fff8ee] pt-14 pb-10 px-6 md:px-12 border-t-4 border-black animate-pulse">
+			{/* Skeleton content */}
+		</footer>
+	);
 }
-
