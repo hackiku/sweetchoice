@@ -148,16 +148,16 @@ function FooterContent({ footer, publicStoreDomain }: { footer: FooterQuery | nu
 				<div className="flex flex-col md:flex-row justify-between items-center border-t-4 border-black pt-6">
 					<div className="flex flex-wrap justify-center md:justify-start gap-2 mb-4 md:mb-0">
 						<span className="text-lg font-semibold text-black">© Sweetchoice 2024.</span>
-						<NavLink to="/terms" className="text-lg font-semibold text-black hover:text-[#ED1C24] hover:underline transition-colors">
+						<NavLink to="/policies/terms-of-service" className="text-lg font-semibold text-black hover:text-[#ED1C24] hover:underline transition-colors">
 							Terms
 						</NavLink>
 						<span className="text-black">|</span>
-						<NavLink to="/privacy" className="text-lg font-semibold text-black hover:text-[#ED1C24] hover:underline transition-colors">
+						<NavLink to="/policies/privacy" className="text-lg font-semibold text-black hover:text-[#ED1C24] hover:underline transition-colors">
 							Privacy
 						</NavLink>
 					</div>
 					<ul className="flex items-center space-x-6">
-						{['LinkedIn', 'Infostud', 'Instagram'].map((social) => (
+						{['LinkedIn', 'Instagram'].map((social) => (
 							<li key={social} className="text-lg font-black text-black hover:text-[#ED1C24] transition-colors">
 								<a href={`https://${social.toLowerCase()}.com`} target="_blank" rel="noopener noreferrer">
 									{social.toUpperCase()}
@@ -168,6 +168,7 @@ function FooterContent({ footer, publicStoreDomain }: { footer: FooterQuery | nu
 				</div>
 			</div>
 
+			{/* <ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} /> */}
 			<ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 		</footer>
 	);
