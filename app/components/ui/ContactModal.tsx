@@ -106,7 +106,7 @@ const ContactSlideOver = ({ isOpen, onClose }) => {
 								textShadow: '-0.1em 0.12em 0 #000',
 								filter: 'drop-shadow(0 0 1px black)'
 							}}>
-								LET'S TALK BIZ
+								MODAL LET'S TALK BIZ
 							</h2>
 							<button
 								onClick={onClose}
