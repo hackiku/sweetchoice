@@ -5,13 +5,15 @@
 // The page displays product details, variant selection, and add-to-cart functionality.
 //
 // Key features:
-// - Responsive layout
+// - Responsive layout with improved mobile design
 // - Dynamic product information loading
+// - Order quantity selector
 // - Variant selection with visual feedback
-// - Add to cart functionality with analytics
+// - Add to catalog functionality with analytics
 // - Bold typography and high-contrast design elements
+// - Special pricing display for B2B products
 
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import { defer, redirect, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import {
 	Await,
@@ -79,14 +81,43 @@ export default function Product() {
 	const { selectedVariant } = product;
 
 	return (
-		<div className="product-page max-w-6xl mx-auto px-4 py-8">
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-				<ProductImage image={selectedVariant?.image} />
-				<ProductDetails
-					product={product}
-					selectedVariant={selectedVariant}
-					variants={variants}
-				/>
+		<div className="pt-12 border-t-4 border-black bg-indigo-200 bg-opacity-70">
+			<div className="mx-auto px-4 md:px-28">
+				<div className="md:grid md:grid-cols-2 md:gap-12 md:gap-24">
+					<div className="mb-8 md:mb-0">
+						<h1 className="text-5xl md:text-3xl font-bold md:hidden mb-12">{product.title}</h1>
+					
+						<ProductImage image={selectedVariant?.image} />
+					</div>
+					<div>
+						<h1 className="text-4xl md:text-5xl font-bold hidden md:block">{product.title}</h1>
+						<div className="border-t-4 border-black my-8"></div>
+						<ProductWeight product={product} selectedVariant={selectedVariant} />
+						<ProductPrice selectedVariant={selectedVariant} isB2B={product.productType === 'B2B'} />
+						<Suspense fallback={<div>Loading variants...</div>}>
+							<Await resolve={variants}>
+								{(data) => (
+									<ProductForm
+										product={product}
+										selectedVariant={selectedVariant}
+										variants={data?.product?.variants.nodes || []}
+									/>
+								)}
+							</Await>
+						</Suspense>
+						
+						<div className="border-t-4 border-black my-8"></div>
+
+
+						<div className="mt-8">
+							<h2 className="text-2xl font-bold mb-2">Description</h2>
+							<div
+								dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
+								className="prose prose-lg"
+							/>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	);
@@ -95,86 +126,90 @@ export default function Product() {
 function ProductImage({ image }: { image: ProductVariantFragment['image'] }) {
 	if (!image) {
 		return (
-			<div className="product-image bg-gray-200 border-4 border-black aspect-square flex items-center justify-center">
+			<div className="product-image bg-[#FFF9E5] border-4 border-black aspect-square flex items-center justify-center">
 				<span className="text-2xl font-bold">No Image Available</span>
 			</div>
 		);
 	}
 	return (
-		<div className="product-image border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+		<div className="product-image border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] bg-[#FFF9E5] aspect-square overflow-hidden">
 			<Image
 				alt={image.altText || 'Product Image'}
-				aspectRatio="1/1"
 				data={image}
 				key={image.id}
 				sizes="(min-width: 45em) 50vw, 100vw"
-				className="w-full h-full object-cover"
+				className="w-full h-full object-contain p-4"
 			/>
 		</div>
 	);
 }
 
-function ProductDetails({
-	product,
-	selectedVariant,
-	variants,
-}: {
-	product: ProductFragment;
-	selectedVariant: ProductFragment['selectedVariant'];
-	variants: Promise<ProductVariantsQuery | null>;
-}) {
-	const { title, descriptionHtml } = product;
-	const { open } = useAside();
-	const { publish, shop, cart, prevCart } = useAnalytics();
+function ProductWeight({ product, selectedVariant }) {
+	const [selectedWeight, setSelectedWeight] = useState('Box');
+	const weights = ['Box', 'Pallet', 'Transport'];
+
+	const defaultBoxWeight = 12;
+	const defaultPalletWeight = defaultBoxWeight * 48;
+	const defaultTransportWeight = defaultPalletWeight * 24;
+
+	const variantWeight = selectedVariant?.weight?.value || defaultBoxWeight;
+
+	const getWeight = (type) => {
+		switch (type) {
+			case 'Box':
+				return variantWeight;
+			case 'Pallet':
+				return variantWeight * 48;
+			case 'Transport':
+				return variantWeight * 48 * 24;
+			default:
+				return variantWeight;
+		}
+	};
 
 	return (
-		<div className="product-details">
-			<h1 className="text-4xl font-black mb-4">{title}</h1>
-			
-			<ProductWeight />
-			
-			<ProductPrice selectedVariant={selectedVariant} />
-
-			<Suspense fallback={<div>Loading variants...</div>}>
-				<Await resolve={variants}>
-					{(data) => (
-						<ProductForm
-							product={product}
-							selectedVariant={selectedVariant}
-							variants={data?.product?.variants.nodes || []}
-						/>
-					)}
-				</Await>
-			</Suspense>
-
-			<div className="mt-8">
-				<h2 className="text-2xl font-bold mb-2">Description</h2>
-				<div
-					dangerouslySetInnerHTML={{ __html: descriptionHtml }}
-					className="prose prose-lg"
-				/>
+		<div className="mb-6 bg-opacity-0">
+			<div className="flex space-x-2">
+				{weights.map((weight) => (
+					<button
+						key={weight}
+						onClick={() => setSelectedWeight(weight)}
+						className={`
+              px-4 py-2 border-2 border-black text-lg font-bold
+              ${selectedWeight === weight
+								? 'bg-black text-white'
+								: 'bg-white text-black hover:bg-gray-100'
+							}
+            `}
+					>
+						{weight}
+					</button>
+				))}
 			</div>
+			<p className="mt-4 text-3xl font-bold">
+				{getWeight(selectedWeight)} units
+			</p>
 		</div>
 	);
 }
 
-function ProductWeight({
-	}) {
-
-	return (
-		<div>
-			heyyy
-		</div>
-	)
-}
-
 function ProductPrice({
 	selectedVariant,
+	isB2B,
 }: {
 	selectedVariant: ProductFragment['selectedVariant'];
+	isB2B: boolean;
 }) {
+	if (isB2B) {
+		return (
+			<div className="product-price text-2xl font-bold mb-6">
+				Price upon request
+			</div>
+		);
+	}
+
 	return (
-		<div className="product-price text-2xl font-bold mb-4">
+		<div className="product-price text-2xl font-bold mb-6">
 			{selectedVariant?.compareAtPrice ? (
 				<>
 					<span className="text-red-600 mr-2">Sale</span>
@@ -240,7 +275,7 @@ function ProductForm({
 							: []
 					}
 				>
-					{selectedVariant?.availableForSale ? 'Add to catalog' : 'Sold out'}
+					{selectedVariant?.availableForSale ? '+ Add to catalog' : 'Sold out'}
 				</AddToCartButton>
 			</div>
 		</div>
@@ -309,7 +344,7 @@ function AddToCartButton({
               border-4 border-black
               ${disabled
 								? 'bg-gray-400 cursor-not-allowed'
-								: 'bg-[#ED1C24] hover:bg-[#FF4136]'
+								: 'bg-[#FF6B6B] hover:bg-[#FF8787]'
 							}
               transition-colors duration-200
               shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
@@ -361,6 +396,8 @@ const PRODUCT_VARIANT_FRAGMENT = `#graphql
       amount
       currencyCode
     }
+    weight
+    weightUnit
   }
 `;
 
@@ -388,6 +425,7 @@ const PRODUCT_FRAGMENT = `#graphql
       description
       title
     }
+    productType
   }
   ${PRODUCT_VARIANT_FRAGMENT}
 `;
