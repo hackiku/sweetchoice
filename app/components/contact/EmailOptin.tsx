@@ -50,7 +50,7 @@ const EmailOptin: React.FC = () => {
                      transition-all duration-200 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0)]
                      active:shadow-[2px_2px_0px_0px_rgba(0,0,0)] active:translate-x-[2px] active:translate-y-[2px]"
 					>
-						DISMISS
+						Alright 👍
 					</button>
 				</div>
 			) : (

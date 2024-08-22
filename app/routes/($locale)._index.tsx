@@ -189,7 +189,7 @@ export default function Homepage() {
 
 			{/* Blurbs Section */}
 			<section ref={blurbsSection} className="px-6 sm:px-8 md:px-12 mb-12">
-				<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">Sweetchoice by the Numbers</h2>
+				<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">Sweet choices in numbers</h2>
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 					<Link
 						to="/about"

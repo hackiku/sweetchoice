@@ -106,7 +106,7 @@ export default function Collection() {
 
 	return (
 		<div className="w-full">
-			<div className="w-full bg-[#fff8ee] pt-14 pb-10 border-b-4 border-black"
+			<div className="w-full bg-[#fff8ee] pt-14 pb-10 border-b-4 border-t-4 border-black"
 				style={{
 					backgroundImage: 'radial-gradient(#000 1px, transparent 1px)',
 					backgroundSize: '20px 20px',
