@@ -100,7 +100,7 @@ export default function Product() {
 						<div className="border-t-4 border-black my-8"></div>
 
 						<div className="mt-8">
-							<h2 className="text-2xl font-bold mb-2">Description</h2>
+							{/* <h2 className="text-2xl font-bold mb-2">Description</h2> */}
 							<div
 								dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
 								className="prose prose-lg"

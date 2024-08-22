@@ -166,10 +166,11 @@ export default function Homepage() {
 				<RecommendedProducts products={data.recommendedProducts} />
 			</section>
 
+			<div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:px-12"></div>
 
 			{/* ==================================== */}
 			<section ref={treatsSection} className="px-6 sm:px-8 md:px-12 mb-12">
-				<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">Treats & Sweets for Every Season</h2>
+				<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">Treats & Sweets <br></br> for Every Season</h2>
 			</section>
 
 			{/* ==================================== */}

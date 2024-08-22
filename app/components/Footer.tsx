@@ -71,7 +71,7 @@ function FooterContent({ footer, publicStoreDomain }: { footer: FooterQuery | nu
 					<div className="flex justify-center">
 						<ContactButton
 							onClick={handleContactClick}
-							text="Talk Biz →"
+							text="Business Inquiries →"
 							bgColor="#ff0000"
 							hoverBgColor="#AE7AFF"
 							textColor="white"
