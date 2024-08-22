@@ -1,19 +1,6 @@
 // app/routes/($locale).products.$handle.tsx
-//
-// This file contains the Product page component for the SweetChoice e-commerce website.
-// It implements a neo-brutalist design style consistent with the rest of the site.
-// The page displays product details, variant selection, and add-to-cart functionality.
-//
-// Key features:
-// - Responsive layout with improved mobile design
-// - Dynamic product information loading
-// - Order quantity selector
-// - Variant selection with visual feedback
-// - Add to catalog functionality with analytics
-// - Bold typography and high-contrast design elements
-// - Special pricing display for B2B products
 
-import { Suspense, useState } from 'react';
+import { Suspense, useState, useRef, useEffect } from 'react';
 import { defer, redirect, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import {
 	Await,
@@ -42,6 +29,7 @@ import {
 import type { SelectedOption } from '@shopify/hydrogen/storefront-api-types';
 import { getVariantUrl } from '~/lib/variants';
 import { useAside } from '~/components/Aside';
+import { RECOMMENDED_PRODUCTS_QUERY } from '~/graphql/recommendedProducts';
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
 	return [{ title: `SweetChoice | ${data?.product.title ?? ''}` }];
@@ -70,30 +58,33 @@ export async function loader(args: LoaderFunctionArgs) {
 		variables: { handle },
 	});
 
+	const recommendedProducts = storefront.query(RECOMMENDED_PRODUCTS_QUERY);
+
 	return defer({
 		product,
 		variants,
+		recommendedProducts,
 	});
 }
 
 export default function Product() {
-	const { product, variants } = useLoaderData<typeof loader>();
+	const { product, variants, recommendedProducts } = useLoaderData<typeof loader>();
 	const { selectedVariant } = product;
 
 	return (
-		<div className="pt-12 border-t-4 border-black bg-indigo-200 bg-opacity-70">
+		<div className="pt-[6vw] smd:pt-12 border-y-4 border-black bg-indigo-200 bg-opacity-70">
 			<div className="mx-auto px-4 md:px-28">
-				<div className="md:grid md:grid-cols-2 md:gap-12 md:gap-24">
+				<div className="md:grid md:grid-cols-2 md:gap-12 md:gap-28">
 					<div className="mb-8 md:mb-0">
-						<h1 className="text-5xl md:text-3xl font-bold md:hidden mb-12">{product.title}</h1>
-					
+						<h1 className="text-5xl md:text-3xl font-bold md:hidden mb-10">{product.title}</h1>
 						<ProductImage image={selectedVariant?.image} />
 					</div>
-					<div>
+
+					<div className='flex flex-col gap-1ss'>
 						<h1 className="text-4xl md:text-5xl font-bold hidden md:block">{product.title}</h1>
-						<div className="border-t-4 border-black my-8"></div>
 						<ProductWeight product={product} selectedVariant={selectedVariant} />
 						<ProductPrice selectedVariant={selectedVariant} isB2B={product.productType === 'B2B'} />
+
 						<Suspense fallback={<div>Loading variants...</div>}>
 							<Await resolve={variants}>
 								{(data) => (
@@ -105,9 +96,8 @@ export default function Product() {
 								)}
 							</Await>
 						</Suspense>
-						
-						<div className="border-t-4 border-black my-8"></div>
 
+						<div className="border-t-4 border-black my-8"></div>
 
 						<div className="mt-8">
 							<h2 className="text-2xl font-bold mb-2">Description</h2>
@@ -119,6 +109,18 @@ export default function Product() {
 					</div>
 				</div>
 			</div>
+
+
+			<div className="mt-16 px-4 pb-12 md:px-28 overflow-none">
+
+				<div className="border-t-4 border-black my-8"></div>
+				<h2 className="text-4xl md:5xl font-semibold mb-8">Recommended</h2>
+				<Suspense fallback={<div>Loading recommended products...</div>}>
+					<Await resolve={recommendedProducts}>
+						{(data) => <RecommendedProducts products={data.products} />}
+					</Await>
+				</Suspense>
+			</div>
 		</div>
 	);
 }
@@ -126,7 +128,7 @@ export default function Product() {
 function ProductImage({ image }: { image: ProductVariantFragment['image'] }) {
 	if (!image) {
 		return (
-			<div className="product-image bg-[#FFF9E5] border-4 border-black aspect-square flex items-center justify-center">
+			<div className="bg-[#FFF9E5] border-2 border-black aspect-square flex items-center justify-center w-1/3">
 				<span className="text-2xl font-bold">No Image Available</span>
 			</div>
 		);
@@ -186,7 +188,7 @@ function ProductWeight({ product, selectedVariant }) {
 					</button>
 				))}
 			</div>
-			<p className="mt-4 text-3xl font-bold">
+			<p className="mt-8 text-4xl font-bold">
 				{getWeight(selectedWeight)} units
 			</p>
 		</div>
@@ -430,6 +432,17 @@ const PRODUCT_FRAGMENT = `#graphql
   ${PRODUCT_VARIANT_FRAGMENT}
 `;
 
+
+
+
+
+
+
+
+// ------------- QUERIES -------------
+
+
+
 const PRODUCT_QUERY = `#graphql
   query Product(
     $country: CountryCode
@@ -460,3 +473,123 @@ const VARIANTS_QUERY = `#graphql
   }
   ${PRODUCT_VARIANT_FRAGMENT}
 `;
+
+
+
+function RecommendedProducts({ products }) {
+	const scrollRef = useRef(null);
+	const [showLeftArrow, setShowLeftArrow] = useState(false);
+	const [showRightArrow, setShowRightArrow] = useState(true);
+	const [isDragging, setIsDragging] = useState(false);
+	const [startX, setStartX] = useState(0);
+	const [scrollLeft, setScrollLeft] = useState(0);
+
+	useEffect(() => {
+		const handleScroll = () => {
+			if (scrollRef.current) {
+				const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+				setShowLeftArrow(scrollLeft > 0);
+				setShowRightArrow(scrollLeft < scrollWidth - clientWidth - 10);
+			}
+		};
+
+		if (scrollRef.current) {
+			scrollRef.current.addEventListener('scroll', handleScroll);
+		}
+
+		return () => {
+			if (scrollRef.current) {
+				scrollRef.current.removeEventListener('scroll', handleScroll);
+			}
+		};
+	}, []);
+
+	const scroll = (direction) => {
+		if (scrollRef.current) {
+			const { clientWidth } = scrollRef.current;
+			scrollRef.current.scrollBy({ left: direction * clientWidth, behavior: 'smooth' });
+		}
+	};
+
+	const handleMouseDown = (e) => {
+		setIsDragging(true);
+		setStartX(e.pageX - scrollRef.current.offsetLeft);
+		setScrollLeft(scrollRef.current.scrollLeft);
+	};
+
+	const handleMouseLeave = () => {
+		setIsDragging(false);
+	};
+
+	const handleMouseUp = () => {
+		setIsDragging(false);
+	};
+
+	const handleMouseMove = (e) => {
+		if (!isDragging) return;
+		e.preventDefault();
+		const x = e.pageX - scrollRef.current.offsetLeft;
+		const walk = (x - startX) * 2; // Adjust scrolling speed
+		scrollRef.current.scrollLeft = scrollLeft - walk;
+	};
+
+	return (
+		<div className="relative">
+			<div
+				ref={scrollRef}
+				className="flex overflow-x-auto scrollbar-hide gap-4 pb-4 md:cursor-grab active:cursor-grabbing"
+				style={{ scrollSnapType: 'x mandatory' }}
+				onMouseDown={handleMouseDown}
+				onMouseLeave={handleMouseLeave}
+				onMouseUp={handleMouseUp}
+				onMouseMove={handleMouseMove}
+			>
+				{products.nodes.map((product) => (
+					<div
+						key={product.id}
+						className="flex-none w-[calc(50%-8px)] md:w-[calc(25%-12px)] scroll-snap-align-start"
+					>
+						<Link
+							to={`/products/${product.handle}`}
+							className="group block border-4 border-black p-4 bg-white hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-200"
+						>
+							<div className="aspect-w-1 aspect-h-1 w-full overflow-hidden mb-4 border-2 border-black">
+								<Image
+									data={product.images.nodes[0]}
+									className="w-full h-full object-center object-cover group-hover:scale-105 transition-transform duration-200"
+									sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+								/>
+							</div>
+							<h4 className="text-lg font-bold mb-2">{product.title}</h4>
+							<p className="text-base font-bold">
+								<Money data={product.priceRange.minVariantPrice} />
+							</p>
+						</Link>
+					</div>
+				))}
+			</div>
+			{showLeftArrow && (
+				<button
+					onClick={() => scroll(-1)}
+					className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white border-4 border-black p-2 rounded-full shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-200"
+					aria-label="Scroll left"
+				>
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6">
+						<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+					</svg>
+				</button>
+			)}
+			{showRightArrow && (
+				<button
+					onClick={() => scroll(1)}
+					className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white border-4 border-black p-2 rounded-full shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-200"
+					aria-label="Scroll right"
+				>
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6">
+						<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+					</svg>
+				</button>
+			)}
+		</div>
+	);
+}

@@ -60,7 +60,7 @@ function FooterContent({ footer, publicStoreDomain }: { footer: FooterQuery | nu
 	];
 
 	return (
-		<footer className="w-full bg-[#fff8ee] pt-14 pb-10 px-6 md:px-12 border-t-4 border-black"
+		<footer className="w-full mt-12 bg-[#fff8ee] pt-14 pb-10 px-6 md:px-12 border-t-4 border-black"
 			style={{
 				backgroundImage: 'radial-gradient(#000 1px, transparent 1px)',
 				backgroundSize: '20px 20px'

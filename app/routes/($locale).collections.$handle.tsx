@@ -7,6 +7,7 @@ import { Pagination, getPaginationVariables, Money, Analytics } from '@shopify/h
 import WholesaleCard from "~/components/ecom/WholesaleCard";
 import type { ProductItemFragment } from 'storefrontapi.generated';
 import { useVariantUrl } from '~/lib/variants';
+
 import Logos from '~/components/ui/Logos';
 import ContactButton from '~/components/ui/ContactButton';
 import ContactModal from '~/components/ui/ContactModal';
