@@ -100,6 +100,8 @@ export default function Collection() {
 
 	return (
 		<div className="w-full">
+			
+			
 			<div className="w-full bg-[#fff8ee] pt-14 pb-10 border-y-4 border-black"
 				style={{
 					backgroundImage: 'radial-gradient(#000 1px, transparent 1px)',
@@ -108,16 +110,17 @@ export default function Collection() {
 				}}>
 				<div className="container mx-auto px-6 md:px-12">
 					<h1 className="text-6xl font-bold mb-4">
+						All Year <br />
 						All Products
 					</h1>
 					<ContactButton
 						onClick={handleContactClick}
 						text="Get Catalog →"
-						bgColor={seasonColor.secondary}
-						hoverBgColor="black"
-						textColor="black"
-						hoverTextColor="white"
-						className="text-xl"
+						bgColor="bg-[#39FF14]" // Wacky neon green color
+						hoverBgColor="hover:bg-[#00FFFF]" // Cool cyan color on hover
+						textColor="text-black"
+						hoverTextColor="hover:text-black"
+						className="text-xl font-bold border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-200"
 					/>
 				</div>
 			</div>
