@@ -1,35 +1,29 @@
 // ~/components/contact/EmailOptin.tsx
 
 import React, { useState } from 'react';
-import { Form, useActionData } from '@remix-run/react';
+import { useFetcher } from '@remix-run/react';
 
-/**
- * EmailOptin Component
- * 
- * This component renders an email opt-in form for newsletter subscriptions.
- * It handles its own state, submission logic, and displays a thank you message after submission.
- * 
- * @returns {JSX.Element} The rendered EmailOptin component
- */
 const EmailOptin: React.FC = () => {
 	const [email, setEmail] = useState('');
-	const actionData = useActionData();
+	const fetcher = useFetcher();
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		// Form submission is handled by Remix action
+		fetcher.submit(
+			{ email },
+			{ method: 'post', action: '/api/newsletter-signup' }
+		);
 	};
 
 	return (
 		<div className="space-y-4">
 			<h4 className="text-2xl font-black text-black uppercase">Join Newsletter</h4>
-			{actionData?.success ? (
+			{fetcher.data?.success ? (
 				<p className="text-green-600 font-semibold">Thanks for subscribing!</p>
 			) : (
-				<Form method="post" action="/api/subscribe" onSubmit={handleSubmit} className="space-y-4">
+				<form onSubmit={handleSubmit} className="space-y-4">
 					<input
 						type="email"
-						name="email"
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
 						placeholder="Enter your email"
@@ -38,17 +32,18 @@ const EmailOptin: React.FC = () => {
 					/>
 					<button
 						type="submit"
+						disabled={fetcher.state === 'submitting'}
 						className="w-full md:w-auto text-xl font-black px-8 py-2 border-4 border-black 
-                       bg-[#ED1C24] text-black shadow-[4px_4px_0px_0px_rgba(0,0,0)] 
-                       transition-all duration-200 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0)]
-                       active:shadow-[2px_2px_0px_0px_rgba(0,0,0)] active:translate-x-[2px] active:translate-y-[2px]"
+                     bg-[#ED1C24] text-black shadow-[4px_4px_0px_0px_rgba(0,0,0)] 
+                     transition-all duration-200 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0)]
+                     active:shadow-[2px_2px_0px_0px_rgba(0,0,0)] active:translate-x-[2px] active:translate-y-[2px]"
 					>
-						SUBSCRIBE
+						{fetcher.state === 'submitting' ? 'SUBSCRIBING...' : 'SUBSCRIBE'}
 					</button>
-				</Form>
+				</form>
 			)}
-			{actionData?.error && (
-				<p className="text-red-600 font-semibold">{actionData.error}</p>
+			{fetcher.data?.error && (
+				<p className="text-red-600 font-semibold">{fetcher.data.error}</p>
 			)}
 		</div>
 	);
