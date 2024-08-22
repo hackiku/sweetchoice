@@ -13,7 +13,8 @@ import HolidaySection from '~/components/holidays/HolidaySection';
 import HolidayWheel from '~/components/holidays/HolidayWheel';
 
 import ContactButton from '~/components/ui/ContactButton';
-import ContactSlideOver from '~/components/ui/ContactSlideOver';
+import ContactModal from '~/components/ui/ContactModal';
+// import ContactSlideOver from '~/components/ui/ContactSlideOver';
 // import ProductCard from '~/components/ecom/ProductCard';
 
 
@@ -144,7 +145,8 @@ export default function Homepage() {
 		<main className="overflow-x-hidden">			
 		
 
-		<ContactSlideOver isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+		{/* <ContactSlideOver isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} /> */}
+		<ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 			
 
 		{/* ==================================== */}

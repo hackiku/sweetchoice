@@ -1,15 +1,17 @@
-// Footer.tsx
+// app/components/Footer.tsx
 //
 // This component represents the footer of the Sweetchoice e-commerce website.
 // It includes a CTA with ContactButton, four columns of content (logo, holidays, shop, newsletter),
 // and follows the neo-brutalist style to match the brand aesthetic.
 //
 // The layout is adjusted to make the logo column narrower and the newsletter column wider.
+// The ContactButton now accepts custom props for easy testing and configuration.
 //
 // Props:
 // - footer: Promise<FooterQuery | null> - Data for the footer content
 // - header: HeaderQuery - Header data (unused in this component, consider removing)
 // - publicStoreDomain: string - The public domain of the store
+// - contactButtonProps: object - Custom props for the ContactButton
 
 import React, { useState } from 'react';
 import { Suspense } from 'react';
@@ -23,23 +25,48 @@ interface FooterProps {
 	footer: Promise<FooterQuery | null>;
 	header: HeaderQuery;
 	publicStoreDomain: string;
+	contactButtonProps?: {
+		text?: string;
+		bgColor?: string;
+		hoverBgColor?: string;
+		textColor?: string;
+		hoverTextColor?: string;
+		className?: string;
+		emoji?: string;
+		shrinkOnMobile?: boolean;
+	};
 }
 
 export function Footer({
 	footer: footerPromise,
 	header,
 	publicStoreDomain,
+	contactButtonProps = {},
 }: FooterProps) {
 	return (
 		<Suspense fallback={<FooterSkeleton />}>
 			<Await resolve={footerPromise}>
-				{(footer) => <FooterContent footer={footer} publicStoreDomain={publicStoreDomain} />}
+				{(footer) => (
+					<FooterContent
+						footer={footer}
+						publicStoreDomain={publicStoreDomain}
+						contactButtonProps={contactButtonProps}
+					/>
+				)}
 			</Await>
 		</Suspense>
 	);
 }
 
-function FooterContent({ footer, publicStoreDomain }: { footer: FooterQuery | null, publicStoreDomain: string }) {
+function FooterContent({
+	footer,
+	publicStoreDomain,
+	contactButtonProps,
+}: {
+	footer: FooterQuery | null;
+	publicStoreDomain: string;
+	contactButtonProps: FooterProps['contactButtonProps'];
+}) {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const handleContactClick = () => {
@@ -59,24 +86,32 @@ function FooterContent({ footer, publicStoreDomain }: { footer: FooterQuery | nu
 		{ name: 'About', path: '/about' },
 	];
 
+	const defaultButtonProps = {
+		text: "Business Inquiries →",
+		bgColor: "#ff0000",
+		hoverBgColor: "#AE7AFF",
+		textColor: "white",
+		hoverTextColor: "black",
+		className: "text-xl",
+	};
+
+	const mergedButtonProps = { ...defaultButtonProps, ...contactButtonProps };
+
 	return (
-		<footer className="w-full mt-12 bg-[#fff8ee] pt-14 pb-10 px-6 md:px-12 border-t-4 border-black"
+		<footer
+			className="w-full mt-12 bg-[#fff8ee] pt-14 pb-10 px-6 md:px-12 border-t-4 border-black"
 			style={{
 				backgroundImage: 'radial-gradient(#000 1px, transparent 1px)',
-				backgroundSize: '20px 20px'
-			}}>
+				backgroundSize: '20px 20px',
+			}}
+		>
 			<div className="container mx-auto max-w-7xl">
 				<div className="mb-10 bg-[#FFA500] p-8 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
 					<h2 className="text-4xl font-black mb-6 text-center">SWEETEN UP YOUR SHELVES</h2>
 					<div className="flex justify-center">
 						<ContactButton
 							onClick={handleContactClick}
-							text="Business Inquiries →"
-							bgColor="#ff0000"
-							hoverBgColor="#AE7AFF"
-							textColor="white"
-							hoverTextColor="black"
-							className="text-xl"
+							{...mergedButtonProps}
 						/>
 					</div>
 				</div>
@@ -124,11 +159,17 @@ function FooterContent({ footer, publicStoreDomain }: { footer: FooterQuery | nu
 				<div className="flex flex-col md:flex-row justify-between items-center border-t-4 border-black pt-6">
 					<div className="flex flex-wrap justify-center md:justify-start gap-2 mb-4 md:mb-0">
 						<span className="text-lg font-semibold text-black">© Sweetchoice 2024.</span>
-						<NavLink to="/policies/terms-of-service" className="text-lg font-semibold text-black hover:text-[#ED1C24] hover:underline transition-colors">
+						<NavLink
+							to="/policies/terms-of-service"
+							className="text-lg font-semibold text-black hover:text-[#ED1C24] hover:underline transition-colors"
+						>
 							Terms
 						</NavLink>
 						<span className="text-black">|</span>
-						<NavLink to="/policies/privacy" className="text-lg font-semibold text-black hover:text-[#ED1C24] hover:underline transition-colors">
+						<NavLink
+							to="/policies/privacy"
+							className="text-lg font-semibold text-black hover:text-[#ED1C24] hover:underline transition-colors"
+						>
 							Privacy
 						</NavLink>
 					</div>

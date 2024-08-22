@@ -1,12 +1,3 @@
-// app/routes/($locale).about.tsx
-//
-// This file contains the About page component for the SweetChoice e-commerce website.
-// It includes sections for a hero banner, gallery, company description, product slider,
-// map placeholder, statistics, and testimonials.
-//
-// The page features a gradient background with fading dots, a neo-brutalist design style,
-// and a responsive layout for various screen sizes.
-
 import React, { useState } from 'react';
 import { useLoaderData, type MetaFunction } from '@remix-run/react';
 import { json, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
@@ -17,6 +8,8 @@ import type { RecommendedProductsQuery } from 'storefrontapi.generated';
 
 import GalleryMasonry from '~/components/ui/GalleryMasonry';
 import TestimonialSlider from '~/components/ui/TestimonialSlider';
+import ContactButton from '~/components/ui/ContactButton';
+import ContactModal from '~/components/ui/ContactModal';
 
 export const meta: MetaFunction = () => {
 	return [{ title: `About us | SweetChoice` }];
@@ -57,6 +50,7 @@ export async function loader({ context }: LoaderFunctionArgs) {
 export default function About() {
 	const { recommendedProducts } = useLoaderData<typeof loader>();
 	const [currentProductIndex, setCurrentProductIndex] = useState(0);
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const galleryAssets = [
 		{ type: 'video' as const, src: '/assets/tiktok.mp4' },
@@ -79,6 +73,10 @@ export default function About() {
 		);
 	};
 
+	const handleContactClick = () => {
+		setIsModalOpen(true);
+	};
+
 	return (
 		<div className="flex flex-col items-center relative">
 			<div className="w-full bg-gradient-to-b from-[#00A86B] to-transparent pt-14 pb-[75vh] absolute top-0 left-0 z-0"
@@ -94,7 +92,7 @@ export default function About() {
 			<div className="w-full z-10">
 				{/* Hero Section */}
 				<section className="w-full flex flex-col justify-center px-6 sm:px-8 md:px-12 mb-12 mt-8 border-t-3 border-black">
-					<h1 className="text-[14vw] sm:text-[10vw] md:text-[8vw] font-semibold leading-[1.1] mb-4 w-full text-white" style={{ textShadow: '4px 4px 0px #000' }}>
+					<h1 className="text-[14vw] sm:text-[10vw] md:text-[8vw] font-semibold leading-[1.1] mb-4 w-full text-black" style={{ textShadow: '4px 4px 0px #ff0000' }}>
 						WE HAVE CANDY <br /> (and you know it)
 					</h1>
 				</section>
@@ -111,6 +109,19 @@ export default function About() {
 					<p className="text-2xl max-w-2xl font-bold leading-tight sm-max:text-base mt-4">
 						You've probably seen our sweets in your local supermarkets and stores around holiday time.
 					</p>
+
+					<div className="mt-8">
+						<ContactButton
+							onClick={handleContactClick}
+							text="Talk Business →"
+							// bgColor="bg-[#ED1C24]"
+							bgColor="bg-orange-400"
+							// textColor="text-white"
+							hoverBgColor="hover:bg-black"
+							hoverTextColor="hover:text-white"
+							className="text-xl"
+						/>
+					</div>
 				</section>
 
 				<div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:mx-12"></div>
@@ -196,6 +207,8 @@ export default function About() {
 					<TestimonialSlider />
 				</section>
 			</div>
+
+			<ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 		</div>
 	);
 }

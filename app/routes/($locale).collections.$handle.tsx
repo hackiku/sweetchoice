@@ -120,10 +120,12 @@ export default function Collection() {
 					<ContactButton
 						onClick={handleContactClick}
 						text="Get Catalog →"
-						bgColor={seasonColor.secondary}
-						hoverBgColor="black"
-						textColor="black"
-						hoverTextColor="white"
+						// bgColor={`bg-[${seasonColor.secondary}]`}
+						// bgColor={`${seasonColor.secondary}`}
+						bgColor={`bg-red-500`}
+						hoverBgColor="hover:bg-black"
+						textColor="text-black"
+						hoverTextColor="hover:text-white"
 						className="text-xl"
 					/>
 				</div>
