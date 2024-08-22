@@ -15,6 +15,7 @@ import { Await, NavLink } from '@remix-run/react';
 import type { FooterQuery, HeaderQuery } from 'storefrontapi.generated';
 import ContactButton from '~/components/ui/ContactButton';
 import ContactModal from '~/components/ui/ContactModal';
+import EmailOptin from '~/components/contact/EmailOptin';
 
 interface FooterProps {
 	footer: Promise<FooterQuery | null>;
@@ -121,28 +122,7 @@ function FooterContent({ footer, publicStoreDomain }: { footer: FooterQuery | nu
 						</nav>
 					</div>
 
-					<div className="col-span-2 md:col-span-1 space-y-4">
-						<h4 className="text-2xl font-black text-black uppercase">Newsletter</h4>
-						<form onSubmit={handleSubmit} className="space-y-4">
-							<input
-								type="email"
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-								placeholder="Enter your email"
-								className="w-full px-4 py-2 text-lg border-4 border-black bg-transparent text-black placeholder-black focus:outline-none focus:ring-4 focus:ring-[#ED1C24]"
-								required
-							/>
-							<button
-								type="submit"
-								className="w-full md:w-auto text-xl font-black px-8 py-2 border-4 border-black 
-                           bg-[#ED1C24] text-black shadow-[4px_4px_0px_0px_rgba(0,0,0)] 
-                           transition-all duration-200 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0)]
-                           active:shadow-[2px_2px_0px_0px_rgba(0,0,0)] active:translate-x-[2px] active:translate-y-[2px]"
-							>
-								SUBSCRIBE
-							</button>
-						</form>
-					</div>
+					<EmailOptin />
 				</div>
 
 				<div className="flex flex-col md:flex-row justify-between items-center border-t-4 border-black pt-6">
