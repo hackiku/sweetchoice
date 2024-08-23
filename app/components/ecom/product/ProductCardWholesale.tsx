@@ -1,6 +1,7 @@
 // app/components/ecom/product/ProductCardWholesale.tsx
 
 import React, { useState } from 'react';
+import { Link } from '@remix-run/react';
 import { useAside } from '~/components/Aside';
 import { CartForm, type OptimisticCartLine } from '@shopify/hydrogen';
 import AddToCart from '~/components/ecom/AddToCart';
@@ -16,6 +17,8 @@ interface WholesaleCardProps {
 	imageBgColor?: string;
 	buttonBgColor?: string;
 	tags?: string[];
+	seasonMainColor?: string;
+	seasonSecondaryColor?: string;
 }
 
 const WholesaleCard: React.FC<WholesaleCardProps> = ({
@@ -28,6 +31,8 @@ const WholesaleCard: React.FC<WholesaleCardProps> = ({
 	imageBgColor = '#FFF59F',
 	buttonBgColor = '#A6FAFF',
 	tags = [],
+	seasonMainColor,
+	seasonSecondaryColor,
 }) => {
 	const [selectedOption, setSelectedOption] = useState('Box');
 	const { variantId, loading, error } = useProductVariant(product_id);
@@ -50,7 +55,9 @@ const WholesaleCard: React.FC<WholesaleCardProps> = ({
 		}
 	};
 
-	const handleAddToCatalog = () => {
+	const handleAddToCatalog = (e: React.MouseEvent) => {
+		e.preventDefault();
+		e.stopPropagation();
 		console.log(productLink);
 		open('cart');
 	};
@@ -69,60 +76,68 @@ const WholesaleCard: React.FC<WholesaleCardProps> = ({
 	if (error) return <div>Error: {error}</div>;
 
 	return (
-		<div className="bg-white border-2 border-black p-4 shadow-[4px_4px_0px_rgba(0,0,0,1)] 
-                    hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] transition-all duration-200">
-			<div className={`mb-4 aspect-square overflow-hidden border-2 border-black relative`} style={{ backgroundColor: imageBgColor }}>
-				<img
-					src={imageUrl}
-					alt={imageAlt}
-					className="w-full h-full object-cover"
-				/>
-			</div>
-
-			<div className="flex flex-wrap items-center justify-between mb-2">
-				<h2 className="text-xl font-bold">{productName}</h2>
-				{weight && (
-					<span className="text-md font-semibold mb-4">{weight}</span>
-				)}
-			</div>
-
-			<div className="mb-4">
-				<div className="flex space-x-1">
-					{options.map((option) => (
-						<button
-							key={option.name}
-							onClick={() => setSelectedOption(option.name)}
-							className={`
-                flex-1 px-1 py-1 border-2 border-black text-xs font-bold
-                ${selectedOption === option.name
-									? 'bg-black text-white'
-									: 'bg-white text-black hover:bg-gray-100'
-								}
-              `}
-						>
-							<span className="hidden sm:inline">{option.name}</span>
-							<span className="sm:hidden">{option.emoji}</span>
-						</button>
-					))}
+		<Link to={productLink} className="block">
+			<div className="bg-white border-2 border-black p-4 shadow-[4px_4px_0px_rgba(0,0,0,1)] 
+                      hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] transition-all duration-200"
+				style={{ backgroundColor: seasonMainColor || 'white' }}>
+				<div className={`mb-4 aspect-square overflow-hidden border-2 border-black relative`} style={{ backgroundColor: imageBgColor }}>
+					<img
+						src={imageUrl}
+						alt={imageAlt}
+						className="w-full h-full object-cover"
+					/>
 				</div>
-				<p className="mt-2 text-lg font-bold">
-					{getQuantity()} units
-				</p>
-			</div>
 
-			<AddToCart
-				lines={lines}
-				buttonBgColor={buttonBgColor}
-				onClick={handleAddToCatalog}
-			>
-				<span className="flex flex-col items-center justify-between w-full">
-					Add to Catalog
-					<span className="text-sm opacity-50 font-semibold">
-						{(totalWeight / 1000).toFixed(2)} Kg
+				<div className="flex flex-wrap items-center justify-between mb-2">
+					<h2 className="text-xl font-bold">{productName}</h2>
+					{weight && (
+						<span className="text-md font-semibold mb-2">{weight}</span>
+					)}
+				</div>
+
+				<div className="mb-4">
+					<div className="flex space-x-1">
+						{options.map((option) => (
+							<button
+								key={option.name}
+								onClick={(e) => {
+									e.preventDefault();
+									e.stopPropagation();
+									setSelectedOption(option.name);
+								}}
+								className={`
+                  flex-1 px-1 py-1 border-2 border-black text-xs font-bold
+                  ${selectedOption === option.name
+										? 'bg-black text-white'
+										: `bg-white text-black hover:bg-gray-100`
+									}
+                `}
+								style={selectedOption === option.name ? { backgroundColor: 'black', color: 'white' } : { backgroundColor: seasonSecondaryColor || 'white', color: 'black' }}
+							>
+								<span className="hidden sm:inline">{option.name}</span>
+								<span className="sm:hidden">{option.emoji}</span>
+							</button>
+						))}
+					</div>
+					<p className="mt-2 text-lg font-bold">
+						{getQuantity()} units
+					</p>
+				</div>
+
+				<AddToCart
+					lines={lines}
+					buttonBgColor={buttonBgColor || seasonSecondaryColor}
+					onClick={handleAddToCatalog}
+				>
+					<span className="flex flex-col items-center justify-between w-full">
+						Add to Catalog
+						<span className="text-sm opacity-50 font-semibold">
+							{(totalWeight / 1000).toFixed(2)} Kg
+						</span>
 					</span>
-				</span>
-			</AddToCart>
-		</div>
+				</AddToCart>
+			</div>
+		</Link>
 	);
 };
 

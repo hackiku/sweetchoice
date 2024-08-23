@@ -1,17 +1,4 @@
 // app/components/Footer.tsx
-//
-// This component represents the footer of the Sweetchoice e-commerce website.
-// It includes a CTA with ContactButton, four columns of content (logo, holidays, shop, newsletter),
-// and follows the neo-brutalist style to match the brand aesthetic.
-//
-// The layout is adjusted to make the logo column narrower and the newsletter column wider.
-// The ContactButton now accepts custom props for easy testing and configuration.
-//
-// Props:
-// - footer: Promise<FooterQuery | null> - Data for the footer content
-// - header: HeaderQuery - Header data (unused in this component, consider removing)
-// - publicStoreDomain: string - The public domain of the store
-// - contactButtonProps: object - Custom props for the ContactButton
 
 import React, { useState } from 'react';
 import { Suspense } from 'react';
@@ -116,12 +103,12 @@ function FooterContent({
 					</div>
 				</div>
 
-				<div className="grid grid-cols-8 gap-10 mb-12">
-					<div className="col-span-1 flex flex-col items-center md:items-start">
+				<div className="grid grid-cols-2 md:grid-cols-8 gap-10 mb-12">
+					<div className="col-span-2 md:col-span-1 flex justify-center md:justify-start">
 						<img src="/assets/logos/sc-logo.svg" alt="Sweetchoice Logo" className="w-16 md:w-20 mb-4" />
 					</div>
 
-					<div className="col-span-2 space-y-4">
+					<div className="col-span-1 md:col-span-2 space-y-4">
 						<h4 className="text-2xl font-black text-black uppercase">Holidays</h4>
 						<nav className="space-y-2">
 							{holidays.map((item) => (
@@ -136,7 +123,7 @@ function FooterContent({
 						</nav>
 					</div>
 
-					<div className="col-span-2 space-y-4">
+					<div className="col-span-1 md:col-span-2 space-y-4">
 						<h4 className="text-2xl font-black text-black uppercase">Shop</h4>
 						<nav className="space-y-2">
 							{shopItems.map((item) => (
@@ -151,7 +138,7 @@ function FooterContent({
 						</nav>
 					</div>
 
-					<div className="col-span-3">
+					<div className="col-span-2 md:col-span-3">
 						<EmailOptin />
 					</div>
 				</div>

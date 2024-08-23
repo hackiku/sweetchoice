@@ -3,7 +3,7 @@
 import React from 'react';
 import { Link } from '@remix-run/react';
 import { Money } from '@shopify/hydrogen';
-import WholesaleCard from '~/components/ecom/WholesaleCard';
+import WholesaleCard from '~/components/ecom/product/ProductCardWholesale';
 
 const holidays = [
 	{ id: 'christmas', title: 'Christmas', mainColor: '#F65A4D', secondaryColor: '#00FF00' },
@@ -35,17 +35,18 @@ const HolidaySection = ({ holidayCollections }) => {
 
 						<WholesaleGrid
 							products={collection.products.nodes.slice(0, 3)}
+							mainColor={holiday.mainColor}
 							secondaryColor={holiday.secondaryColor}
 						/>
 
-						<div className="mt-8 flex flex-col sm:flex-row justify-center items-center gap-8">
+						<div className="mt-8 flex justify-end">
 							<Link
 								to={`/collections/${holiday.id}`}
-								className="text-xl px-6 py-2 border-2 border-black
-									shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
-									transition-all duration-200
-									flex items-center justify-center"
-								style={{ backgroundColor: holiday.secondaryColor }}
+								className="text-xl font-semibold px-6 py-2 border-2 border-black
+                  shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
+                  transition-all duration-200
+                  flex items-center justify-center"
+								// style={{ backgroundColor: holiday.secondaryColor }}
 							>
 								Explore {holiday.title} →
 							</Link>
@@ -57,22 +58,33 @@ const HolidaySection = ({ holidayCollections }) => {
 	);
 };
 
-const WholesaleGrid = ({ products, secondaryColor }) => {
+const WholesaleGrid = ({ products, mainColor, secondaryColor }) => {
 	return (
-		<div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 xl:grid-cols-3 gap-4">
+		<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-4">
 			{products.map((product) => (
-				<WholesaleCardComponent key={product.id} product={product} secondaryColor={secondaryColor} />
+				<WholesaleCardComponent
+					key={product.id}
+					product={product}
+					seasonMainColor={mainColor}
+					seasonSecondaryColor={secondaryColor}
+				/>
 			))}
 		</div>
 	);
 };
 
-const WholesaleCardComponent = ({ product, secondaryColor }) => {
+const WholesaleCardComponent = ({ product, seasonMainColor, seasonSecondaryColor }) => {
 	const variantUrl = `/products/${product.handle}`;
 	const imageUrl = product.featuredImage?.url || '';
 	const imageAlt = product.featuredImage?.altText || product.title;
 	const price = <Money data={product.priceRange.minVariantPrice} />;
 	const product_id = product.id;
+
+	// Extract weight from the first variant
+	const firstVariant = product.variants?.nodes[0];
+	const weight = firstVariant?.weight && firstVariant?.weightUnit
+		? `${firstVariant.weight}${firstVariant.weightUnit}`
+		: undefined;
 
 	return (
 		<WholesaleCard
@@ -81,10 +93,12 @@ const WholesaleCardComponent = ({ product, secondaryColor }) => {
 			imageUrl={imageUrl}
 			imageAlt={imageAlt}
 			price={price}
-			weight="80g"
-			buttonBgColor={secondaryColor}
+			weight={weight}
+			buttonBgColor={seasonSecondaryColor}
 			tags={product.tags || []}
 			product_id={product_id}
+			seasonMainColor={seasonMainColor}
+			seasonSecondaryColor={seasonSecondaryColor}
 		/>
 	);
 };
