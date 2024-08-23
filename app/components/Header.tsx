@@ -1,13 +1,13 @@
 // app/components/Header.tsx
 
-import { Suspense } from 'react';
+import React, { useState, Suspense } from 'react';
 import { Await, NavLink } from '@remix-run/react';
 import type { HeaderQuery, CartApiQueryFragment } from 'storefrontapi.generated';
 import { useAside } from '~/components/Aside';
-import { CartButton, SearchForm } from '~/components/CartButton';
-
-import { ChevronDownIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { CartButton } from '~/components/CartButton';
+import { ChevronDownIcon, XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { Dropdown } from "flowbite-react";
+import ContactModal from '~/components/ui/ContactModal';
 
 interface HeaderProps {
 	header: HeaderQuery;
@@ -24,21 +24,24 @@ export function Header({
 	cart,
 	publicStoreDomain,
 }: HeaderProps) {
+	const [isModalOpen, setIsModalOpen] = useState(false);
+
 	return (
-		<header className="py-4 px-6">
-			<div className="container mx-auto flex items-center justify-between">
+		<header className="py-4 px-6 sm:px-12">
+			<div className="container flex items-center justify-between">
 				<NavLink prefetch="intent" to="/" className="relative group" end>
 					<img className='w-20' src="/assets/logos/sc-logo.svg" alt="Logo" />
 					<span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#ED1C24] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200 ease-out"></span>
 				</NavLink>
 				<HeaderMenu header={header} viewport="desktop" />
 				<div className="flex items-center space-x-4">
-					<HeaderCtas cart={cart} />
+					<HeaderCtas cart={cart} onContactClick={() => setIsModalOpen(true)} />
 					<div className='md:hidden'>
 						<HeaderMenuMobileToggle />
 					</div>
 				</div>
 			</div>
+			<ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 		</header>
 	);
 }
@@ -50,7 +53,6 @@ export function HeaderMenu({
 	header: HeaderQuery;
 	viewport: Viewport;
 }) {
-	const retailLink = header?.menu?.items?.find((item) => item.title === 'Gifts');
 	const className = `flex items-center space-x-6 justify-center w-full max-w-max mx-auto`;
 
 	return (
@@ -69,21 +71,7 @@ export function HeaderMenu({
 				</div>
 			)}
 			{viewport === 'desktop' && (
-				<div className="hidden md:flex items-center space-x-6 text-xl font-bold">
-					{retailLink && (
-						<NavLink
-							end
-							prefetch="intent"
-							to={new URL(retailLink.url).pathname}
-							className={({ isActive }) =>
-								`relative text-black hover:text-[#ED1C24] transition-colors duration-200
-                 ${isActive ? 'after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-[#ED1C24]' : ''}`
-							}
-						>
-							Gifts
-						</NavLink>
-					)}
-
+				<div className="hidden md:flex items-start space-x-6 text-xl font-bold">
 					<Dropdown
 						className="bg-transparent p-0"
 						label={
@@ -125,10 +113,24 @@ export function HeaderMenu({
 
 function HeaderCtas({
 	cart,
-}: Pick<HeaderProps, 'cart'>) {
+	onContactClick,
+}: Pick<HeaderProps, 'cart'> & { onContactClick: () => void }) {
 	return (
 		<nav className="flex items-center space-x-4">
-			<SearchForm />
+			<button
+				className="rounded-full w-12 h-12 flex items-center justify-center bg-white text-black border-2 border-black hover:bg-black hover:text-white transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
+				onClick={() => {/* Implement search functionality */ }}
+			>
+				<MagnifyingGlassIcon className="w-6 h-6" />
+			</button>
+
+			<button
+				className="rounded-full text-2xl w-12 h-12 flex items-center justify-center bg-indigo-400 text-black border-2 border-black hover:bg-black hover:text-white transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
+				onClick={onContactClick}
+			>
+				👋
+			</button>
+
 			<CartToggle cart={cart} />
 		</nav>
 	);
@@ -188,16 +190,7 @@ function MobileMenu({ header }) {
 				>
 					Home
 				</NavLink>
-				<NavLink
-					to="/gifts"
-					onClick={() => close()}
-					className={({ isActive }) =>
-						`block py-2 text-[#ED1C24] hover:text-black transition-colors duration-200
-             ${isActive ? 'font-bold' : ''}`
-					}
-				>
-					Gifts
-				</NavLink>
+
 				<div className="py-2">
 					<h3 className="font-bold text-[#ED1C24]">Holidays</h3>
 					<NavLink to="/collections/christmas" onClick={() => close()} className="block py-1 pl-4 text-[#ED1C24] hover:text-black transition-colors duration-200">Christmas</NavLink>

@@ -1,35 +1,23 @@
 // app/components/ui/ContactModal.tsx
+// This file contains the ContactModal component, which has been updated to:
+// 1. Extend the form to the bottom of the viewport
+// 2. Add a larger, more stylized close button
+// 3. Improve the overall layout and styling for a more neo-brutalist look
 
-
-import React, { useState, useEffect, useRef, createContext, useContext } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { MdMail, MdPhone, MdLocationOn, MdPerson } from 'react-icons/md';
 
-const ContactSlideOverContext = createContext<{ openSlideOver: () => void }>({
-	openSlideOver: () => { }
-});
+interface ContactModalProps {
+	isOpen: boolean;
+	onClose: () => void;
+}
 
-export const useContactSlideOver = () => useContext(ContactSlideOverContext);
-
-export const ContactSlideOverProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-	const [isOpen, setIsOpen] = useState(false);
-
-	const openSlideOver = () => setIsOpen(true);
-
-	return (
-		<ContactSlideOverContext.Provider value={{ openSlideOver }}>
-			{children}
-			<ContactSlideOver isOpen={isOpen} onClose={() => setIsOpen(false)} />
-		</ContactSlideOverContext.Provider>
-	);
-};
-
-const ContactSlideOver = ({ isOpen, onClose }) => {
+const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [orderSize, setOrderSize] = useState(50);
-	const [focusedInput, setFocusedInput] = useState(null);
-	const slideOverRef = useRef(null);
-	const scrollContainerRef = useRef(null);
+	const [focusedInput, setFocusedInput] = useState<string | null>(null);
+	const modalRef = useRef<HTMLDivElement>(null);
 
 	const contactDetails = [
 		{
@@ -53,8 +41,8 @@ const ContactSlideOver = ({ isOpen, onClose }) => {
 	];
 
 	useEffect(() => {
-		const handleOutsideClick = (event) => {
-			if (slideOverRef.current && !slideOverRef.current.contains(event.target)) {
+		const handleOutsideClick = (event: MouseEvent) => {
+			if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
 				onClose();
 			}
 		};
@@ -68,13 +56,13 @@ const ContactSlideOver = ({ isOpen, onClose }) => {
 		};
 	}, [isOpen, onClose]);
 
-	const handleSubmit = (e) => {
+	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		console.log({ name, email, orderSize });
 		onClose();
 	};
 
-	const renderCursor = (inputValue) => {
+	const renderCursor = (inputValue: string) => {
 		if (inputValue.length === 0) {
 			return <div className="absolute left-10 top-1/2 transform -translate-y-1/2 w-[2px] h-5 bg-black animate-blink"></div>;
 		}
@@ -84,70 +72,55 @@ const ContactSlideOver = ({ isOpen, onClose }) => {
 	if (!isOpen) return null;
 
 	return (
-		<div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-end">
+		<div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-stretch justify-end">
 			<div
-				ref={slideOverRef}
-				className="bg-[#AE7AFF] w-full max-w-md rounded-l-3xl border-l-4 border-y-4 border-black shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 ease-in-out transform translate-x-0 flex flex-col"
-				style={{
-					height: 'calc(100% - 2rem)',
-					marginTop: '1rem',
-					marginBottom: '1rem',
-				}}
+				ref={modalRef}
+				className="bottom-8 md:bottom-0 md:top-12 bg-[#AE7AFF] w-5/6 max-w-2xl border-4 border-black shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 ease-in-out transform translate-x-0 flex flex-col"
 			>
-				<div ref={scrollContainerRef} className="flex-grow overflow-auto" style={{
+				<div className="flex-grow overflow-auto p-6" style={{
 					backgroundImage: 'radial-gradient(#000 1px, transparent 1px)',
 					backgroundSize: '20px 20px'
 				}}>
-					<div className="p-6">
-						<div className="flex justify-between items-center mb-6">
-							<h2 className="text-4xl font-black text-orange-400 uppercase italic" style={{
-								WebkitTextStroke: '3px black',
-								textStroke: '3px black',
-								textShadow: '-0.1em 0.12em 0 #000',
-								filter: 'drop-shadow(0 0 1px black)'
-							}}>
-								CONTACT & CATALOG
-							</h2>
+					<div className="flex justify-between items-center mb-6">
+						<h2 className="text-4xl font-black text-orange-400 uppercase italic" style={{
+							WebkitTextStroke: '3px black',
+							textStroke: '3px black',
+							textShadow: '-0.1em 0.12em 0 #000',
+							filter: 'drop-shadow(0 0 1px black)'
+						}}>
+							CONTACT & CATALOG
+						</h2>
+					</div>
+
+					<div className="grid grid-cols-1 gap-4 mb-6">
+						{contactDetails.map((detail, index) => (
 							<button
-								onClick={onClose}
-								className="p-2 hover:bg-[#FF6B6B] rounded-full transition-colors duration-200"
+								key={index}
+								onClick={detail.onClick}
+								className="flex items-center w-full text-left transition-all duration-200 group"
 							>
-								<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-								</svg>
+								<detail.icon className="w-8 h-8 mr-3 text-black transition-colors duration-200 group-hover:text-[#FF6B6B]" />
+								<span className="text-2xl md:text-xl font-semibold relative">
+									{detail.text}
+									<span className="absolute bottom-0 left-0 w-0 h-1 bg-[#FF6B6B] transition-all duration-200 group-hover:w-full"></span>
+								</span>
 							</button>
-						</div>
+						))}
+					</div>
 
-						<div className="grid grid-cols-1 gap-4 mb-6">
-							{contactDetails.map((detail, index) => (
-								<button
-									key={index}
-									onClick={detail.onClick}
-									className="flex items-center w-full text-left transition-all duration-200 group"
-								>
-									<detail.icon className="w-8 h-8 mr-3 text-black transition-colors duration-200 group-hover:text-[#FF6B6B]" />
-									<span className="text-2xl md:text-xl font-semibold relative">
-										{detail.text}
-										<span className="absolute bottom-0 left-0 w-0 h-1 bg-[#FF6B6B] transition-all duration-200 group-hover:w-full"></span>
-									</span>
-								</button>
-							))}
-						</div>
+					<hr className='my-4 border-black border-2' />
 
-						<hr className='my-4 border-black border-2' />
+					<h3 className="text-2xl font-bold text-black mb-4">Your B2B Catalog</h3>
 
-						<h3 className="text-2xl font-bold text-black mb-4">Your B2B Catalog</h3>
-
-						<div className="grid grid-cols-2 gap-4 mb-6">
-							{[...Array(4)].map((_, index) => (
-								<div key={index} className="aspect-square rounded-lg bg-[#FFF59F] border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)]"></div>
-							))}
-						</div>
+					<div className="grid grid-cols-2 gap-4 mb-6">
+						{[...Array(4)].map((_, index) => (
+							<div key={index} className="aspect-square rounded-lg bg-[#FFF59F] border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)]"></div>
+						))}
 					</div>
 				</div>
 
 				<div className="p-4 border-t-4 border-black bg-[#AE7AFF]">
-					<form onSubmit={handleSubmit} className="space-y-1">
+					<form onSubmit={handleSubmit} className="space-y-1ss">
 						<div>
 							<label htmlFor="orderSize" className="block text-xl font-bold text-black mb-2">
 								Ballpark Order Weight
@@ -211,15 +184,21 @@ const ContactSlideOver = ({ isOpen, onClose }) => {
 						</div>
 						<button
 							type="submit"
-							className="w-full bg-[#FF6B6B] text-black font-bold py-2 px-4 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] transition-all duration-200"
+							className="w-full bg-[#FF6B6B] text-black font-bold py-3 px-4 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] transition-all duration-200 text-xl"
 						>
 							Get Custom Catalog
 						</button>
 					</form>
 				</div>
 			</div>
+			<button
+				onClick={onClose}
+				className="absolute top-4 right-4 w-16 h-16 bg-[#FF6B6B] text-black font-bold text-2xl rounded-full border-4 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] transition-all duration-200 flex items-center justify-center"
+			>
+				×
+			</button>
 		</div>
 	);
 };
 
-export default ContactSlideOver;
+export default ContactModal;
