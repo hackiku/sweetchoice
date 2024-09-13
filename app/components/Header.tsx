@@ -117,12 +117,12 @@ function HeaderCtas({
 }: Pick<HeaderProps, 'cart'> & { onContactClick: () => void }) {
 	return (
 		<nav className="flex items-center space-x-4">
-			<button
+			{/* <button
 				className="rounded-full w-12 h-12 flex items-center justify-center bg-white text-black border-2 border-black hover:bg-black hover:text-white transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
-				onClick={() => {/* Implement search functionality */ }}
-			>
+				// onClick=
+			>				
 				<MagnifyingGlassIcon className="w-6 h-6" />
-			</button>
+			</button> */}
 
 			<button
 				className="rounded-full text-2xl w-12 h-12 flex items-center justify-center bg-indigo-400 text-black border-2 border-black hover:bg-black hover:text-white transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
