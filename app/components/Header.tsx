@@ -5,9 +5,11 @@ import { Await, NavLink } from '@remix-run/react';
 import type { HeaderQuery, CartApiQueryFragment } from 'storefrontapi.generated';
 import { useAside } from '~/components/Aside';
 import { CartButton } from '~/components/CartButton';
-import { ChevronDownIcon, XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { ChevronDownIcon, XMarkIcon, MagnifyingGlassIcon, ShoppingCartIcon } from '@heroicons/react/24/outline';
+
 import { Dropdown } from "flowbite-react";
 import ContactModal from '~/components/ui/ContactModal';
+
 
 interface HeaderProps {
 	header: HeaderQuery;
@@ -125,13 +127,14 @@ function HeaderCtas({
 			</button> */}
 
 			<button
-				className="rounded-full text-2xl w-12 h-12 flex items-center justify-center bg-indigo-400 text-black border-2 border-black hover:bg-black hover:text-white transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
+				className="rounded-full text-2xl w-12 h-12 flex items-center justify-center bg-orange-300 text-black border-2 border-black hover:bg-black hover:text-white transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
 				onClick={onContactClick}
 			>
-				👋
+				{/* 👋 */}
+				<ShoppingCartIcon className="w-6 h-6"/>	
 			</button>
 
-			<CartToggle cart={cart} />
+			{/* <CartToggle cart={cart} /> */}
 		</nav>
 	);
 }
