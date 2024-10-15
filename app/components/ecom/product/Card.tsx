@@ -12,6 +12,7 @@ interface CardProps {
 	imageAlt: string;
 	weight: number;
 	seasonColor: string;
+	buttonBgColor?: string;
 	boxQuantity?: number;
 }
 
@@ -48,10 +49,10 @@ const Card: React.FC<CardProps> = ({
 				<h2 className="text-xl font-bold mb-2 truncate">{productName}</h2>
 
 				<div className="flex justify-between items-center mb-4">
-					<div className="text-sm font-semibold">
+					<div className="text-lg font-semibold">
 						{weight} g
 					</div>
-					<div className="text-sm font-semibold">
+					<div className="text-lg font-semibold">
 						📦 {boxQuantity}×
 					</div>
 				</div>
@@ -59,8 +60,9 @@ const Card: React.FC<CardProps> = ({
 					<Tooltip content={isInCatalog ? "Remove from catalog" : "Add to catalog"}>
 						<button
 							onClick={handleAddToCatalog}
-							className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-200`}
-							style={{ backgroundColor: seasonColor }}
+							className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-200`}
+							// style={{ backgroundColor: buttonBgColor }} // add prop for button bg color like ProductCardWholesale
+							style={{ backgroundColor: seasonColor }} // add prop for button bg color like ProductCardWholesale
 						>
 							{isInCatalog ? (
 								<CheckIcon className="w-6 h-6 text-white" />
