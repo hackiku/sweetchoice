@@ -1,10 +1,10 @@
 // app/routes/($locale).collections.$handle.tsx
 
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { defer, redirect, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { useLoaderData, Link, type MetaFunction } from '@remix-run/react';
-import { Pagination, getPaginationVariables, Money, Analytics } from '@shopify/hydrogen';
-import WholesaleCard from "~/components/ecom/WholesaleCard";
+import { Pagination, getPaginationVariables, Money } from '@shopify/hydrogen';
+import Card from '~/components/ecom/product/Card';
 import type { ProductItemFragment } from 'storefrontapi.generated';
 import { useVariantUrl } from '~/lib/variants';
 
@@ -58,15 +58,34 @@ export default function Collection() {
 	const { collection } = useLoaderData<typeof loader>();
 	const [sortOption, setSortOption] = useState('manual');
 	const [stockFilter, setStockFilter] = useState('all');
-	const [gridSize, setGridSize] = useState(4);
+	const [gridSize, setGridSize] = useState(getDefaultGridSize());
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	const handleSortChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
+	function getDefaultGridSize() {
+		if (typeof window === 'undefined') return 4; // Default for SSR
+		const width = window.innerWidth;
+		if (width < 640) return 2;
+		if (width < 768) return 3;
+		if (width < 1024) return 4;
+		if (width < 1280) return 5;
+		return 6;
+	}
+
+	useEffect(() => {
+		const handleResize = () => {
+			setGridSize(getDefaultGridSize());
+		};
+
+		window.addEventListener('resize', handleResize);
+		return () => window.removeEventListener('resize', handleResize);
+	}, []);
+
+	const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		const { name, value } = event.target;
 		if (name === 'sort_by') setSortOption(value);
 		else if (name === 'stock_filter') setStockFilter(value);
 		else if (name === 'grid_size') setGridSize(Number(value));
-	}, []);
+	};
 
 	const filteredAndSortedProducts = useMemo(() => {
 		if (!collection.products) return [];
@@ -113,7 +132,9 @@ export default function Collection() {
 					backgroundSize: '20px 20px',
 					backgroundColor: seasonColor.main,
 				}}>
-				<div className="container mx-auto px-6 md:px-12">
+				<div className="container mx-auto px-6 md:px-12 mt-8 flex flex-wrap justify-start gap-4">
+
+
 					<h1 className="text-6xl font-bold mb-4">
 						{collection.title}
 					</h1>
@@ -165,7 +186,6 @@ export default function Collection() {
 					onChange={handleSortChange}
 					className="border-4 border-black p-2 font-bold bg-blue-300 cursor-pointer transform hover:scale-105 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(237,28,36,1)]"
 				>
-					<option value="1">Grid: 1</option>
 					<option value="2">Grid: 2</option>
 					<option value="3">Grid: 3</option>
 					<option value="4">Grid: 4</option>
@@ -180,7 +200,12 @@ export default function Collection() {
 						<>
 							<div className={`grid gap-4 grid-cols-${gridSize}`}>
 								{nodes.map((product) => (
-									<WholesaleCardComponent key={product.id} product={product} secondaryColor={seasonColor.secondary} />
+									<ProductCardComponent
+										key={product.id}
+										product={product}
+										secondaryColor={seasonColor.secondary}
+										onContactClick={handleContactClick}
+									/>
 								))}
 							</div>
 							<div className="flex justify-between items-center mt-8">
@@ -206,29 +231,30 @@ export default function Collection() {
 	);
 }
 
-function WholesaleCardComponent({ product, secondaryColor }: { product: ProductItemFragment; secondaryColor: string }) {
+function ProductCardComponent({ product, secondaryColor, onContactClick }: { product: ProductItemFragment; secondaryColor: string; onContactClick: () => void }) {
 	const variant = product.variants.nodes[0];
 	const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
-	const productLink = variantUrl;
 	const imageUrl = product.featuredImage?.url || '';
 	const imageAlt = product.featuredImage?.altText || product.title;
-	const price = <Money data={product.priceRange.minVariantPrice} />;
-	const product_id = product.id;
+	const weight = variant.weight || 0;
+	const weightUnit = variant.weightUnit || 'g';
 
 	return (
-		<WholesaleCard
+		<Card
 			productName={product.title}
-			productLink={productLink}
+			productLink={variantUrl}
 			imageUrl={imageUrl}
 			imageAlt={imageAlt}
-			price={price}
-			weight="80g" // You might want to get this from your product data
-			buttonBgColor={secondaryColor}
-			tags={product.tags || []}
-			product_id={product_id}
+			weight={weight}
+			weightUnit={weightUnit}
+			seasonColor={secondaryColor}
+			secondaryColor={secondaryColor}
+			boxQuantity={10} // You might want to get this from your product data
+			onContactClick={onContactClick}
 		/>
 	);
 }
+
 
 const PRODUCT_ITEM_FRAGMENT = `#graphql
   fragment MoneyProductItem on MoneyV2 {
