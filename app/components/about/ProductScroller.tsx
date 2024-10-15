@@ -1,4 +1,4 @@
-// app/components/ecom/RecommendedProducts.tsx
+// app/components/about/ProductScroller.tsx
 
 import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { Link } from '@remix-run/react';
@@ -19,11 +19,11 @@ interface Product {
 	};
 }
 
-interface RecommendedProductsProps {
+interface ProductScrollerProps {
 	products: Product[];
 }
 
-const RecommendedProducts: React.FC<RecommendedProductsProps> = ({ products }) => {
+const ProductScroller: React.FC<ProductScrollerProps> = ({ products }) => {
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
 	const [isAutoScrolling, setIsAutoScrolling] = useState(true);
 	const [isDragging, setIsDragging] = useState(false);
@@ -177,4 +177,4 @@ const RecommendedProducts: React.FC<RecommendedProductsProps> = ({ products }) =
 	);
 };
 
-export default RecommendedProducts;
+export default ProductScroller;

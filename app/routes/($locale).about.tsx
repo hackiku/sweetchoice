@@ -8,12 +8,13 @@ import { Await, Link } from '@remix-run/react';
 import type { RecommendedProductsQuery } from 'storefrontapi.generated';
 
 import GalleryMasonry from '~/components/about/GalleryMasonry';
+import MobileVideo from '~/components/about/MobileVideo';
 import EuropeMap from '~/components/about/EuropeMap';
-import FounderCEO from '~/components/about/FounderCEO';
 
 import TestimonialSlider from '~/components/ui/TestimonialSlider';
 import StatBlurbs from '~/components/ui/StatBlurbs';
-import RecommendedProducts from '~/components/ecom/RecommendedProducts';
+// import RecommendedProducts from '~/components/ecom/RecommendedProducts';
+import ProductScroller from '~/components/about/ProductScroller';
 
 import ContactButton from '~/components/ui/ContactButton';
 import ContactModal from '~/components/ui/ContactModal';
@@ -132,23 +133,22 @@ export default function About() {
 					<Suspense fallback={<div>Loading...</div>}>
 						<Await resolve={recommendedProducts}>
 							{(data) => (
-								<RecommendedProducts products={data.products.nodes} />
+								<ProductScroller products={data.products.nodes} />
 							)}
 						</Await>
 					</Suspense>
 				</section>
 
-				<div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:mx-12"></div>
 
 				{/* Map */}
-				<section id="map" className="w-full px-6 sm:px-8 md:px-12 mb-16">
+				{/* <section id="map" className="w-full px-6 sm:px-8 md:px-12 mb-16">
 					<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">All Around <br />Southeast Europe</h2>
 					<div className="w-full h-[400px] bg-gray-200 flex items-center justify-center text-2xl font-bold border-4 border-black shadow-[8px_8px_0px_rgba(0,0,0,1)]">
 						<EuropeMap />
 					</div>
-				</section>
+				</section> */}
 				{/* Stat Blurbs */}
-				<section className="w-full px-6 sm:px-8 md:px-12 mb-16">
+				<section className="w-full px-6 sm:px-8 md:px-12 mb-1">
 					<StatBlurbs />
 				</section>
 
