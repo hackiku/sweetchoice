@@ -13,7 +13,7 @@ import FounderCEO from '~/components/about/FounderCEO';
 
 import TestimonialSlider from '~/components/ui/TestimonialSlider';
 import StatBlurbs from '~/components/ui/StatBlurbs';
-import RecommendedProducts from '~/components/ecom/product/RecommendedProducts';
+import RecommendedProducts from '~/components/ecom/RecommendedProducts';
 
 import ContactButton from '~/components/ui/ContactButton';
 import ContactModal from '~/components/ui/ContactModal';
@@ -114,7 +114,7 @@ export default function About() {
 
 				{/* Recommended Products */}
 				<section className="w-full px-6 sm:px-8 md:px-12 mb-16">
-					<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">All About Holiday Treats</h2>
+					<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">All About <br /> Holiday Treats</h2>
 					<Suspense fallback={<div>Loading...</div>}>
 						<Await resolve={recommendedProducts}>
 							{(data) => (
@@ -126,31 +126,34 @@ export default function About() {
 
 				<div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:mx-12"></div>
 
-				{/* Testimonials */}
-				<section className="w-full px-6 sm:px-8 md:px-12 mb-16">
-					<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">From Our Partners</h2>
-					<TestimonialSlider />
-				</section>
-
-				{/* Stat Blurbs */}
-				<section className="w-full px-6 sm:px-8 md:px-12 mb-16">
-					<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">SweetChoice by the Numbers</h2>
-					<StatBlurbs />
-				</section>
-
 				{/* Map */}
 				<section id="map" className="w-full px-6 sm:px-8 md:px-12 mb-16">
-					<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">Our Reach</h2>
+					<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">All Around <br />Southeast Europe</h2>
 					<div className="w-full h-[400px] bg-gray-200 flex items-center justify-center text-2xl font-bold border-4 border-black shadow-[8px_8px_0px_rgba(0,0,0,1)]">
 						<EuropeMap />
 					</div>
 				</section>
+				{/* Stat Blurbs */}
+				<section className="w-full px-6 sm:px-8 md:px-12 mb-16">
+					<StatBlurbs />
+				</section>
+
+
+				<div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:mx-12"></div>
+
+				{/* Testimonials */}
+				<section className="w-full px-6 sm:px-8 md:px-12 mb-16">
+					<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">Hear It From <br />Our Partners</h2>
+					<TestimonialSlider />
+				</section>
+
+
 
 				{/* Founder */}
-				<section className="w-full px-6 sm:px-8 md:px-12 mb-16">
+				{/* <section className="w-full px-6 sm:px-8 md:px-12 mb-16">
 					<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">Meet Our Founder</h2>
 					<FounderCEO />
-				</section>
+				</section> */}
 
 			</div>
 
