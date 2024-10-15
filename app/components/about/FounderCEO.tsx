@@ -1,4 +1,4 @@
-// app/components/ui/FounderCEO.tsx
+// app/components/about/FounderCEO.tsx
 
 import React from 'react';
 

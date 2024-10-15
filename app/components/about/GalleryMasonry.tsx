@@ -1,14 +1,13 @@
 // app/components/ui/GalleryMasonry.tsx
 
 import React, { useEffect, useState, useRef } from 'react';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import Slider from 'react-slick';
 import ToggleSwitch from '~/components/ui/ToggleSwitch';
 
 interface Asset {
 	type: 'image' | 'video';
 	src: string;
+	width: number;
+	height: number;
 }
 
 interface GalleryMasonryProps {
@@ -18,14 +17,21 @@ interface GalleryMasonryProps {
 const GalleryMasonry: React.FC<GalleryMasonryProps> = ({ assets }) => {
 	const [isAutoScrolling, setIsAutoScrolling] = useState(true);
 	const [modalContent, setModalContent] = useState<Asset | null>(null);
-	const sliderRef = useRef<Slider | null>(null);
+	const scrollContainerRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		const intervalId = setInterval(() => {
-			if (isAutoScrolling && sliderRef.current) {
-				sliderRef.current.slickNext();
+		const scrollContainer = scrollContainerRef.current;
+		if (!scrollContainer || !isAutoScrolling) return;
+
+		const scrollStep = () => {
+			if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth - scrollContainer.clientWidth) {
+				scrollContainer.scrollLeft = 0;
+			} else {
+				scrollContainer.scrollLeft += 1;
 			}
-		}, 3000);
+		};
+
+		const intervalId = setInterval(scrollStep, 20);
 
 		return () => clearInterval(intervalId);
 	}, [isAutoScrolling]);
@@ -38,56 +44,44 @@ const GalleryMasonry: React.FC<GalleryMasonryProps> = ({ assets }) => {
 		setModalContent(null);
 	};
 
-	const sliderSettings = {
-		dots: false,
-		infinite: true,
-		speed: 500,
-		slidesToShow: 3,
-		slidesToScroll: 1,
-		variableWidth: true,
-		arrows: false,
-		responsive: [
-			{
-				breakpoint: 768,
-				settings: {
-					slidesToShow: 1,
-				}
-			}
-		]
-	};
-
 	return (
 		<div className="relative w-full">
-			<Slider ref={sliderRef} {...sliderSettings}>
-				{assets.map((asset, index) => (
-					<div key={index} className="px-2">
+			<div
+				ref={scrollContainerRef}
+				className="overflow-x-scroll whitespace-nowrap"
+				style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+			>
+				<div className="inline-flex">
+					{assets.concat(assets).map((asset, index) => (
 						<div
-							className="cursor-pointer overflow-hidden rounded-lg shadow-lg"
+							key={index}
+							className="inline-block p-2 cursor-pointer"
 							onClick={() => handleAssetClick(asset)}
-							style={{ width: '300px', height: '400px' }}
 						>
 							{asset.type === 'image' ? (
 								<img
 									src={asset.src}
 									alt={`Gallery item ${index + 1}`}
-									className="w-full h-full object-cover"
+									className="h-64 w-auto object-cover"
+									style={{ aspectRatio: `${asset.width} / ${asset.height}` }}
 								/>
 							) : (
 								<video
 									src={asset.src}
-									className="w-full h-full object-cover"
+									className="h-64 w-auto object-cover"
+									style={{ aspectRatio: `${asset.width} / ${asset.height}` }}
 									muted
 									loop
 									playsInline
 								/>
 							)}
 						</div>
-					</div>
-				))}
-			</Slider>
+					))}
+				</div>
+			</div>
 
-			<div className="absolute bottom-4 right-4 z-10 flex flex-col items-center p-4 bg-white border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)]">
-				<span className="text-lg font-semibold mb-2">Scroll</span>
+			<div className="absolute bottom-4 left-4 z-10 flex flex-col gap-2 items-center p-4 bg-white border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)]">
+				<span className="text-lg font-semibold mr-2">Scroll</span>
 				<ToggleSwitch checked={isAutoScrolling} onChange={setIsAutoScrolling} />
 			</div>
 

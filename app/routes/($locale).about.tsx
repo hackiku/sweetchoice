@@ -1,15 +1,19 @@
+// app/routes/($locale).about.tsx
+
 import React, { useState } from 'react';
 import { useLoaderData, type MetaFunction } from '@remix-run/react';
 import { json, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { Suspense } from 'react';
 import { Await, Link } from '@remix-run/react';
-import { Image, Money } from '@shopify/hydrogen';
 import type { RecommendedProductsQuery } from 'storefrontapi.generated';
 
-import GalleryMasonry from '~/components/ui/GalleryMasonry';
+import GalleryMasonry from '~/components/about/GalleryMasonry';
+import EuropeMap from '~/components/about/EuropeMap';
+import FounderCEO from '~/components/about/FounderCEO';
+
 import TestimonialSlider from '~/components/ui/TestimonialSlider';
 import StatBlurbs from '~/components/ui/StatBlurbs';
-import FounderCEO from '~/components/ui/FounderCEO';
+import RecommendedProducts from '~/components/ecom/product/RecommendedProducts';
 
 import ContactButton from '~/components/ui/ContactButton';
 import ContactModal from '~/components/ui/ContactModal';
@@ -19,18 +23,12 @@ export const meta: MetaFunction = () => {
 };
 
 const RECOMMENDED_PRODUCTS_QUERY = `#graphql
-  query recommendedProducts($count: Int = 6) {
+  query recommendedProducts($count: Int = 22) {
     products(first: $count, sortKey: BEST_SELLING) {
       nodes {
         id
         title
         handle
-        priceRange {
-          minVariantPrice {
-            amount
-            currencyCode
-          }
-        }
         images(first: 1) {
           nodes {
             url
@@ -52,29 +50,16 @@ export async function loader({ context }: LoaderFunctionArgs) {
 
 export default function About() {
 	const { recommendedProducts } = useLoaderData<typeof loader>();
-	const [currentProductIndex, setCurrentProductIndex] = useState(0);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const galleryAssets = [
-		{ type: 'video' as const, src: '/assets/tiktok.mp4' },
-		{ type: 'image' as const, src: 'https://picsum.photos/800/600' },
-		{ type: 'image' as const, src: 'https://picsum.photos/600/800' },
-		{ type: 'image' as const, src: 'https://picsum.photos/700/700' },
-		{ type: 'video' as const, src: '/assets/tiktok.mp4' },
-		{ type: 'image' as const, src: 'https://picsum.photos/900/600' },
+		{ type: 'video' as const, src: '/assets/tiktok.mp4', width: 1080, height: 1920 },
+		{ type: 'image' as const, src: 'https://picsum.photos/800/600', width: 800, height: 600 },
+		{ type: 'image' as const, src: 'https://picsum.photos/600/800', width: 600, height: 800 },
+		{ type: 'image' as const, src: 'https://picsum.photos/700/700', width: 700, height: 700 },
+		{ type: 'video' as const, src: '/assets/tiktok.mp4', width: 1080, height: 1920 },
+		{ type: 'image' as const, src: 'https://picsum.photos/900/600', width: 900, height: 600 },
 	];
-
-	const handlePrevProduct = () => {
-		setCurrentProductIndex((prevIndex) =>
-			prevIndex === 0 ? recommendedProducts.products.nodes.length - 4 : prevIndex - 1
-		);
-	};
-
-	const handleNextProduct = () => {
-		setCurrentProductIndex((prevIndex) =>
-			prevIndex === recommendedProducts.products.nodes.length - 4 ? 0 : prevIndex + 1
-		);
-	};
 
 	const handleContactClick = () => {
 		setIsModalOpen(true);
@@ -107,7 +92,7 @@ export default function About() {
 
 				<section className="w-full px-6 sm:px-8 md:px-12 mb-16">
 					<p className="text-2xl max-w-2xl font-bold leading-tight sm-max:text-base mt-4">
-						Sweetchoice is the only company in South East Europe specialized in the import and distribution of seasonal confectionery products.
+						SweetChoice is the only company in South East Europe specialized in the import and distribution of seasonal confectionery products.
 					</p>
 					<p className="text-2xl max-w-2xl font-bold leading-tight sm-max:text-base mt-4">
 						You've probably seen our sweets in your local supermarkets and stores around holiday time.
@@ -117,9 +102,7 @@ export default function About() {
 						<ContactButton
 							onClick={handleContactClick}
 							text="Talk Business →"
-							// bgColor="bg-[#ED1C24]"
 							bgColor="bg-orange-400"
-							// textColor="text-white"
 							hoverBgColor="hover:bg-black"
 							hoverTextColor="hover:text-white"
 							className="text-xl"
@@ -131,48 +114,16 @@ export default function About() {
 
 				{/* Recommended Products */}
 				<section className="w-full px-6 sm:px-8 md:px-12 mb-16">
+					<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">All About Holiday Treats</h2>
 					<Suspense fallback={<div>Loading...</div>}>
 						<Await resolve={recommendedProducts}>
 							{(data) => (
-								<>
-									<RecommendedProducts
-										products={data.products}
-										currentIndex={currentProductIndex}
-									/>
-									<div className="flex flex-row justify-between items-center mt-8">
-										<p className="text-2xl max-w-2xl font-bold leading-tight sm-max:text-base">
-											B2B holiday programs for supermarkets and mom & pop stores.
-										</p>
-										<div className="flex space-x-4">
-											<button
-												onClick={handlePrevProduct}
-												className="w-12 h-12 bg-[#FFA6F6] rounded-full flex items-center justify-center text-2xl border-4 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] transition-all duration-200"
-											>
-												←
-											</button>
-											<button
-												onClick={handleNextProduct}
-												className="w-12 h-12 bg-[#A6FAFF] rounded-full flex items-center justify-center text-2xl border-4 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] transition-all duration-200"
-											>
-												→
-											</button>
-										</div>
-									</div>
-									<div className="mt-8 text-center">
-										<Link
-											to="/collections/all"
-											className="inline-block px-8 py-3 text-2xl font-semibold border-4 border-black bg-[#ED1C24] shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] transition-all duration-200"
-										>
-											Products →
-										</Link>
-									</div>
-								</>
+								<RecommendedProducts products={data.products.nodes} />
 							)}
 						</Await>
 					</Suspense>
 				</section>
 
-				{/* -------------- */}
 				<div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:mx-12"></div>
 
 				{/* Testimonials */}
@@ -181,55 +132,29 @@ export default function About() {
 					<TestimonialSlider />
 				</section>
 
-
 				{/* Stat Blurbs */}
 				<section className="w-full px-6 sm:px-8 md:px-12 mb-16">
+					<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">SweetChoice by the Numbers</h2>
 					<StatBlurbs />
-
 				</section>
 
-
 				{/* Map */}
-				<section className="w-full px-6 sm:px-8 md:px-12 mb-16">
+				<section id="map" className="w-full px-6 sm:px-8 md:px-12 mb-16">
+					<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">Our Reach</h2>
 					<div className="w-full h-[400px] bg-gray-200 flex items-center justify-center text-2xl font-bold border-4 border-black shadow-[8px_8px_0px_rgba(0,0,0,1)]">
-						Map of Europe 😵
+						<EuropeMap />
 					</div>
 				</section>
 
 				{/* Founder */}
-				{/* <section className="w-full px-6 sm:px-8 md:px-12 mb-16">
+				<section className="w-full px-6 sm:px-8 md:px-12 mb-16">
+					<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">Meet Our Founder</h2>
 					<FounderCEO />
-				</section> */}
+				</section>
 
 			</div>
 
 			<ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-		</div>
-	);
-}
-
-function RecommendedProducts({ products, currentIndex }: { products: RecommendedProductsQuery['products'], currentIndex: number }) {
-	return (
-		<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-			{products.nodes.slice(currentIndex, currentIndex + 4).map((product) => (
-				<Link
-					key={product.id}
-					className="group block border-4 border-black p-4 bg-white hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-200 transform hover:-translate-y-1 hover:-translate-x-1"
-					to={`/products/${product.handle}`}
-				>
-					<div className="aspect-w-1 aspect-h-1 w-full overflow-hidden mb-4 border-2 border-black">
-						<Image
-							data={product.images.nodes[0]}
-							className="w-full h-full object-center object-cover group-hover:scale-105 transition-transform duration-200"
-							sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
-						/>
-					</div>
-					<h4 className="text-lg font-black mb-2">{product.title}</h4>
-					<p className="text-base font-bold">
-						<Money data={product.priceRange.minVariantPrice} />
-					</p>
-				</Link>
-			))}
 		</div>
 	);
 }
