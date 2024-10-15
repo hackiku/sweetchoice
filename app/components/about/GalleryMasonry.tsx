@@ -24,6 +24,17 @@ const GalleryMasonry: React.FC<GalleryMasonryProps> = ({ assets }) => {
 	const [startX, setStartX] = useState(0);
 	const [scrollLeft, setScrollLeft] = useState(0);
 
+	const imageAssets: Asset[] = [
+		{ type: 'image', src: '/about/image1.jpg', width: 800, height: 600 },
+		{ type: 'image', src: '/about/image2.jpg', width: 600, height: 800 },
+		{ type: 'image', src: '/about/image3.jpg', width: 700, height: 700 },
+		{ type: 'image', src: '/about/image4.jpg', width: 900, height: 600 },
+	];
+
+	const videoAsset: Asset = { type: 'video', src: '/about/tiktok.mp4', width: 1080, height: 1920 };
+
+	const galleryAssets = [...imageAssets, videoAsset, ...imageAssets];
+
 	useEffect(() => {
 		const scrollContainer = scrollContainerRef.current;
 		if (!scrollContainer || !isAutoScrolling) return;
@@ -75,13 +86,22 @@ const GalleryMasonry: React.FC<GalleryMasonryProps> = ({ assets }) => {
 	};
 
 	const handlePrevImage = () => {
-		setCurrentImageIndex((prev) => (prev === 0 ? assets.length - 1 : prev - 1));
-		setModalContent(assets[currentImageIndex]);
+		setCurrentImageIndex((prev) => (prev === 0 ? galleryAssets.length - 1 : prev - 1));
+		setModalContent(galleryAssets[currentImageIndex]);
 	};
 
 	const handleNextImage = () => {
-		setCurrentImageIndex((prev) => (prev === assets.length - 1 ? 0 : prev + 1));
-		setModalContent(assets[currentImageIndex]);
+		setCurrentImageIndex((prev) => (prev === galleryAssets.length - 1 ? 0 : prev + 1));
+		setModalContent(galleryAssets[currentImageIndex]);
+	};
+
+	const getRandomSize = () => {
+		const sizes = [56, 64, 72, 80];
+		return sizes[Math.floor(Math.random() * sizes.length)];
+	};
+
+	const getRandomOffset = () => {
+		return Math.floor(Math.random() * 16) - 8;
 	};
 
 	return (
@@ -89,31 +109,55 @@ const GalleryMasonry: React.FC<GalleryMasonryProps> = ({ assets }) => {
 			<div
 				ref={scrollContainerRef}
 				className="overflow-x-scroll whitespace-nowrap"
-				style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+				style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', userSelect: 'none' }}
 				onMouseDown={handleMouseDown}
 				onMouseLeave={handleMouseLeave}
 				onMouseUp={handleMouseUp}
 				onMouseMove={handleMouseMove}
+				onTouchStart={(e) => {
+					setIsDragging(true);
+					setIsAutoScrolling(false);
+					setStartX(e.touches[0].pageX - scrollContainerRef.current!.offsetLeft);
+					setScrollLeft(scrollContainerRef.current!.scrollLeft);
+				}}
+				onTouchMove={(e) => {
+					if (!isDragging) return;
+					const x = e.touches[0].pageX - scrollContainerRef.current!.offsetLeft;
+					const walk = (x - startX) * 2;
+					scrollContainerRef.current!.scrollLeft = scrollLeft - walk;
+				}}
+				onTouchEnd={() => {
+					setIsDragging(false);
+					setIsAutoScrolling(true);
+				}}
 			>
 				<div className="inline-flex">
-					{[...assets, ...assets].map((asset, index) => (
-						<div
-							key={index}
-							className="inline-block p-2 cursor-pointer"
-							onClick={() => handleAssetClick(asset, index % assets.length)}
-						>
-							{asset.type === 'image' ? (
-								<img
-									src={asset.src}
-									alt={`Gallery item ${index + 1}`}
-									className="h-64 w-auto object-cover"
-									style={{ aspectRatio: `${asset.width} / ${asset.height}` }}
-								/>
-							) : (
-								<MobileVideo src={asset.src} />
-							)}
-						</div>
-					))}
+					{galleryAssets.map((asset, index) => {
+						const size = getRandomSize();
+						const offsetX = getRandomOffset();
+						const offsetY = getRandomOffset();
+
+						return (
+							<div
+								key={index}
+								className={`inline-block p-2 cursor-pointer h-${size} w-${size}`}
+								style={{ transform: `translate(${offsetX}px, ${offsetY}px)` }}
+								onClick={() => handleAssetClick(asset, index % galleryAssets.length)}
+							>
+								{asset.type === 'image' ? (
+									<img
+										src={asset.src}
+										alt={`Gallery item ${index + 1}`}
+										className="w-full h-full object-cover"
+										style={{ aspectRatio: `${asset.width} / ${asset.height}` }}
+										draggable={false}
+									/>
+								) : (
+									<MobileVideo src={asset.src} />
+								)}
+							</div>
+						);
+					})}
 				</div>
 			</div>
 
