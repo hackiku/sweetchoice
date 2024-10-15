@@ -8,6 +8,7 @@ import type { ProductItemFragment } from 'storefrontapi.generated';
 import { useVariantUrl } from '~/lib/variants';
 
 import ProductCard from '~/components/ecom/product/ProductCard';
+// import ProductCard from '~/components/ecom/product/ProductCardCart';
 import ProductCardMini from '~/components/ecom/product/ProductCardMini';
 import ProductCardWholesale from '~/components/ecom/product/ProductCardWholesale';
 import ContactButton from '~/components/ui/ContactButton';
