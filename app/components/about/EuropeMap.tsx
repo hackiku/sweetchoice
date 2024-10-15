@@ -1,4 +1,4 @@
-// app/components/EuropeMap.tsx
+// app/components/about/EuropeMap.tsx
 
 import React from 'react';
 
