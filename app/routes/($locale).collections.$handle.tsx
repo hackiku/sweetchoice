@@ -218,7 +218,7 @@ export default function Collection() {
 				</Pagination>
 
 				<section className="mt-16">
-					<h3 className="text-2xl font-bold mb-4">Trusted by leading supermarkets</h3>
+					<h3 className="text-3xl font-bold mb-4 text-center">Trusted by leading supermarkets & retailers</h3>
 					<Logos logos={logos} />
 				</section>
 			</div>

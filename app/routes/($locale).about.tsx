@@ -8,6 +8,9 @@ import type { RecommendedProductsQuery } from 'storefrontapi.generated';
 
 import GalleryMasonry from '~/components/ui/GalleryMasonry';
 import TestimonialSlider from '~/components/ui/TestimonialSlider';
+import StatBlurbs from '~/components/ui/StatBlurbs';
+import FounderCEO from '~/components/ui/FounderCEO';
+
 import ContactButton from '~/components/ui/ContactButton';
 import ContactModal from '~/components/ui/ContactModal';
 
@@ -92,7 +95,7 @@ export default function About() {
 			<div className="w-full z-10">
 				{/* Hero Section */}
 				<section className="w-full flex flex-col justify-center px-6 sm:px-8 md:px-12 mb-12 mt-8 border-t-3 border-black">
-					<h1 className="text-[14vw] sm:text-[10vw] md:text-[8vw] font-semibold leading-[1.1] mb-4 w-full text-black" style={{ textShadow: '4px 4px 0px #ff0000' }}>
+					<h1 className="text-[14vw] sm:text-[10vw] md:text-[8vw] font-semibold leading-[1.1] mb-4 w-full text-orange-200" style={{ textShadow: '4px 4px 0px #000000' }}>
 						WE HAVE CANDY <br /> (and you know it)
 					</h1>
 				</section>
@@ -169,6 +172,23 @@ export default function About() {
 					</Suspense>
 				</section>
 
+				{/* -------------- */}
+				<div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:mx-12"></div>
+
+				{/* Testimonials */}
+				<section className="w-full px-6 sm:px-8 md:px-12 mb-16">
+					<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">From Our Partners</h2>
+					<TestimonialSlider />
+				</section>
+
+
+				{/* Stat Blurbs */}
+				<section className="w-full px-6 sm:px-8 md:px-12 mb-16">
+					<StatBlurbs />
+
+				</section>
+
+
 				{/* Map */}
 				<section className="w-full px-6 sm:px-8 md:px-12 mb-16">
 					<div className="w-full h-[400px] bg-gray-200 flex items-center justify-center text-2xl font-bold border-4 border-black shadow-[8px_8px_0px_rgba(0,0,0,1)]">
@@ -176,36 +196,11 @@ export default function About() {
 					</div>
 				</section>
 
-				{/* Stat Blurbs */}
-				<section className="w-full px-6 sm:px-8 md:px-12 mb-16">
-					<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-						<div className="p-6 border-4 border-black bg-[#FFD700] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]
-							hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] transition-all duration-200
-							transform hover:-translate-y-1 hover:-translate-x-1 hover:rotate-1">
-							<h3 className="text-6xl font-black mb-2">2013</h3>
-							<h4 className="text-xl font-bold">Year Sweetchoice was founded</h4>
-						</div>
-						<div className="p-6 border-4 border-black bg-[#FF69B4] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]
-							hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] transition-all duration-200
-							transform hover:-translate-y-1 hover:-translate-x-1 hover:rotate-1">
-							<h3 className="text-6xl font-black mb-2">15+</h3>
-							<h4 className="text-xl font-bold">Countries we distribute to</h4>
-						</div>
-						<div className="p-6 border-4 border-black bg-[#00CED1] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]
-							hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] transition-all duration-200
-							transform hover:-translate-y-1 hover:-translate-x-1 hover:rotate-1">
-							<h3 className="text-6xl font-black mb-2">200+</h3>
-							<h4 className="text-xl font-bold">Unique seasonal products</h4>
-						</div>
-					</div>
-				</section>
+				{/* Founder */}
+				{/* <section className="w-full px-6 sm:px-8 md:px-12 mb-16">
+					<FounderCEO />
+				</section> */}
 
-				<div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:mx-12"></div>
-
-				<section className="w-full px-6 sm:px-8 md:px-12 mb-16">
-					<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">From Our Partners</h2>
-					<TestimonialSlider />
-				</section>
 			</div>
 
 			<ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
