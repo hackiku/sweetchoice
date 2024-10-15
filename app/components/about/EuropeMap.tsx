@@ -1,5 +1,8 @@
 // app/components/about/EuropeMap.tsx
 
+// 48.8583, 2.2923 
+// Nemanjina 7 coords
+
 import React from 'react';
 
 const EuropeMap: React.FC = () => {

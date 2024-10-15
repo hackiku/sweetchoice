@@ -32,7 +32,7 @@ const ComingSoon: React.FC<ComingSoonProps> = ({
 						{eyebrow}
 					</span>
 				</div>
-				<h1 className="text-[14vw] sm:text-[10vw] md:text-[8vw] font-bold leading-tight mb-4 uppercase text-orange-400"
+				<h1 className="text-[12vw] sm:text-[10vw] md:text-[7vw] font-bold leading-tight mb-4 uppercase text-orange-400"
 					style={{
 						WebkitTextStroke: '3px black',
 						textStroke: '3px black',

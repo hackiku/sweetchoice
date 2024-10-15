@@ -79,10 +79,24 @@ export default function About() {
 
 			<div className="w-full z-10">
 				{/* Hero Section */}
-				<section className="w-full flex flex-col justify-center px-6 sm:px-8 md:px-12 mb-12 mt-8 border-t-3 border-black">
-					<h1 className="text-[14vw] sm:text-[10vw] md:text-[8vw] font-semibold leading-[1.1] mb-4 w-full text-orange-200" style={{ textShadow: '4px 4px 0px #000000' }}>
+				<section className="w-full flex flex-col justify-center px-6 sm:px-8 md:px-12 mb-12 mt-16 border-t-3 border-black">
+					
+					<span className="inline-block bg-black text-white text-2xl font-bold py-2 px-4 transform -rotate-2 uppercase whitespace-normal max-w-max"
+						style={{
+							boxShadow: '4px 4px 0px 0px rgba(255,255,255,1)',
+						}}>
+						About Us
+					</span>
+
+					<h1 className="text-[14vw] sm:text-[10vw] md:text-[8vw] font-bold leading-tight mb-4 text-orange-400"
+						style={{
+							WebkitTextStroke: '3px black',
+							textStroke: '3px black',
+							textShadow: '-0.1em 0.12em 0 #000',
+							filter: 'drop-shadow(0 0 1px black)'
+						}}>
 						WE HAVE CANDY <br /> (and you know it)
-					</h1>
+						</h1>
 				</section>
 
 				{/* Gallery Masonry */}
