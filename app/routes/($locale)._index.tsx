@@ -136,8 +136,8 @@ export default function Homepage() {
 			<ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
 			<Hero
-				title="SWEET HOLIDAYS ALL YEAR LONG"
-				subtitle="We wholesale wholesome holiday treats to supermarkets large and small."
+				// title="SWEET HOLIDAYS ALL YEAR LONG"
+				subtitle="We wholesale wholesome holiday treats to leading supermarkets & grocery stores."
 				ctaText="Shop all →"
 				ctaLink="/collections/all"
 				secondaryButtonText="Learn More"
