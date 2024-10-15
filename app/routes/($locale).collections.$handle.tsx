@@ -1,5 +1,6 @@
 // app/routes/($locale).collections.$handle.tsx
 
+
 import React, { useState, useMemo, useEffect } from 'react';
 import { defer, redirect, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { useLoaderData, Link, type MetaFunction } from '@remix-run/react';
@@ -12,7 +13,6 @@ import Logos from '~/components/ui/Logos';
 import ContactButton from '~/components/ui/ContactButton';
 import ContactModal from '~/components/ui/ContactModal';
 
-// Example logos data (replace with your actual data)
 const logos = [
 	{ src: "/assets/logos/maxi-logo.svg", alt: "Maxi logo" },
 	{ src: "/assets/logos/dis-logo.png", alt: "DIS logo", style: { height: '20px' } },
@@ -37,7 +37,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 export async function loader(args: LoaderFunctionArgs) {
 	const { handle } = args.params;
 	const { storefront } = args.context;
-	const paginationVariables = getPaginationVariables(args.request, { pageBy: 8 });
+	const paginationVariables = getPaginationVariables(args.request, { pageBy: 24 });
 
 	if (!handle) {
 		throw redirect('/collections');
@@ -58,33 +58,29 @@ export default function Collection() {
 	const { collection } = useLoaderData<typeof loader>();
 	const [sortOption, setSortOption] = useState('manual');
 	const [stockFilter, setStockFilter] = useState('all');
-	const [gridSize, setGridSize] = useState(getDefaultGridSize());
+	const [layout, setLayout] = useState({ columns: 4, products: 24 });
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	function getDefaultGridSize() {
-		if (typeof window === 'undefined') return 4; // Default for SSR
-		const width = window.innerWidth;
-		if (width < 640) return 2;
-		if (width < 768) return 3;
-		if (width < 1024) return 4;
-		if (width < 1280) return 5;
-		return 6;
-	}
-
 	useEffect(() => {
-		const handleResize = () => {
-			setGridSize(getDefaultGridSize());
+		const updateLayout = () => {
+			const width = window.innerWidth;
+			if (width < 640) setLayout({ columns: 2, products: 24 });
+			else if (width < 768) setLayout({ columns: 3, products: 24 });
+			else if (width < 1024) setLayout({ columns: 4, products: 24 });
+			else if (width < 1280) setLayout({ columns: 5, products: 24 });
+			else setLayout({ columns: 6, products: 24 });
 		};
 
-		window.addEventListener('resize', handleResize);
-		return () => window.removeEventListener('resize', handleResize);
+		updateLayout();
+		window.addEventListener('resize', updateLayout);
+		return () => window.removeEventListener('resize', updateLayout);
 	}, []);
 
 	const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		const { name, value } = event.target;
 		if (name === 'sort_by') setSortOption(value);
 		else if (name === 'stock_filter') setStockFilter(value);
-		else if (name === 'grid_size') setGridSize(Number(value));
+		else if (name === 'grid_size') setLayout(prev => ({ ...prev, columns: Number(value) }));
 	};
 
 	const filteredAndSortedProducts = useMemo(() => {
@@ -132,17 +128,13 @@ export default function Collection() {
 					backgroundSize: '20px 20px',
 					backgroundColor: seasonColor.main,
 				}}>
-				<div className="container mx-auto px-6 md:px-12 mt-8 flex flex-wrap justify-start gap-4">
-
-
+				<div className="container mx-auto px-6 md:px-12">
 					<h1 className="text-6xl font-bold mb-4">
 						{collection.title}
 					</h1>
 					<ContactButton
 						onClick={handleContactClick}
 						text="Get Catalog →"
-						// bgColor={`bg-[${seasonColor.secondary}]`}
-						// bgColor={`${seasonColor.secondary}`}
 						bgColor={`bg-red-500`}
 						hoverBgColor="hover:bg-black"
 						textColor="text-black"
@@ -182,7 +174,7 @@ export default function Collection() {
 
 				<select
 					name="grid_size"
-					value={gridSize}
+					value={layout.columns}
 					onChange={handleSortChange}
 					className="border-4 border-black p-2 font-bold bg-blue-300 cursor-pointer transform hover:scale-105 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(237,28,36,1)]"
 				>
@@ -198,8 +190,13 @@ export default function Collection() {
 				<Pagination connection={collection.products}>
 					{({ nodes, isLoading, PreviousLink, NextLink }) => (
 						<>
-							<div className={`grid gap-4 grid-cols-${gridSize}`}>
-								{nodes.map((product) => (
+							<div
+								className="grid gap-4"
+								style={{
+									gridTemplateColumns: `repeat(${layout.columns}, minmax(0, 1fr))`,
+								}}
+							>
+								{nodes.slice(0, layout.products).map((product) => (
 									<ProductCardComponent
 										key={product.id}
 										product={product}
@@ -254,6 +251,8 @@ function ProductCardComponent({ product, secondaryColor, onContactClick }: { pro
 		/>
 	);
 }
+
+// The PRODUCT_ITEM_FRAGMENT and COLLECTION_QUERY would go here
 
 
 const PRODUCT_ITEM_FRAGMENT = `#graphql
