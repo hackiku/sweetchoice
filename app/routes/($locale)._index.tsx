@@ -5,18 +5,14 @@ import { defer, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { Await, useLoaderData, Link, type MetaFunction } from '@remix-run/react';
 import { Suspense } from 'react';
 import { Image, Money } from '@shopify/hydrogen';
-import type { FeaturedCollectionFragment, RecommendedProductsQuery } from 'storefrontapi.generated';
-import { FEATURED_COLLECTION_QUERY, RECOMMENDED_PRODUCTS_QUERY, CHRISTMAS_COLLECTION_QUERY } from '../graphql/queries';
+import type { RecommendedProductsQuery } from 'storefrontapi.generated';
+import { FEATURED_COLLECTION_QUERY, RECOMMENDED_PRODUCTS_QUERY } from '../graphql/queries';
 
 import Hero from '~/components/ui/Hero';
 import HolidaySection from '~/components/holidays/HolidaySection';
 import HolidayWheel from '~/components/holidays/HolidayWheel';
-
 import ContactButton from '~/components/ui/ContactButton';
 import ContactModal from '~/components/ui/ContactModal';
-// import ContactSlideOver from '~/components/ui/ContactSlideOver';
-// import ProductCard from '~/components/ecom/ProductCard';
-
 
 export const meta: MetaFunction = () => {
 	return [{ title: 'Sweetchoice | Home' }];
@@ -42,6 +38,12 @@ const COLLECTION_QUERY = `#graphql
             minVariantPrice {
               amount
               currencyCode
+            }
+          }
+          variants(first: 1) {
+            nodes {
+              weight
+              weightUnit
             }
           }
         }
@@ -104,32 +106,22 @@ const logos = [
 	{ src: "/assets/logos/aroma-logo.svg", alt: "Aroma logo" },
 ];
 
-// Dummy data for ProductCard
-const dummyProducts = [
-	{ id: '1', title: 'Gift Pack 1', handle: 'gift-pack-1', price: '29.99', weight: '500g' },
-	{ id: '2', title: 'Gift Pack 2', handle: 'gift-pack-2', price: '39.99', weight: '750g' },
-	{ id: '3', title: 'Gift Pack 3', handle: 'gift-pack-3', price: '49.99', weight: '1kg' },
-	{ id: '4', title: 'Gift Pack 4', handle: 'gift-pack-4', price: '59.99', weight: '1.2kg' },
-];
-
 export default function Homepage() {
 	const data = useLoaderData<typeof loader>();
 	const [isHolidaySelectorVisible, setIsHolidaySelectorVisible] = useState(false);
-	const treatsSection = useRef(null);
-	const blurbsSection = useRef(null);
-
-	// contact modal
+	const holidaySection = useRef<HTMLDivElement>(null);
+	const blurbsSection = useRef<HTMLDivElement>(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	useEffect(() => {
 		const handleScroll = () => {
-			if (treatsSection.current && blurbsSection.current) {
-				const treatsRect = treatsSection.current.getBoundingClientRect();
+			if (holidaySection.current && blurbsSection.current) {
+				const holidayRect = holidaySection.current.getBoundingClientRect();
 				const blurbsRect = blurbsSection.current.getBoundingClientRect();
 				const windowHeight = window.innerHeight;
 
 				setIsHolidaySelectorVisible(
-					treatsRect.top <= windowHeight && blurbsRect.top > windowHeight
+					holidayRect.top <= windowHeight && blurbsRect.top > windowHeight
 				);
 			}
 		};
@@ -139,17 +131,10 @@ export default function Homepage() {
 		return () => window.removeEventListener('scroll', handleScroll);
 	}, []);
 
-	// ==================================================================
-
 	return (
-		<main className="overflow-x-hidden">			
-		
+		<main className="overflow-x-hidden">
+			<ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
-		{/* <ContactSlideOver isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} /> */}
-		<ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-			
-
-		{/* ==================================== */}
 			<Hero
 				title="SWEET HOLIDAYS ALL YEAR LONG"
 				subtitle="We wholesale wholesome holiday treats to supermarkets large and small."
@@ -161,36 +146,20 @@ export default function Homepage() {
 				onContactClick={() => setIsModalOpen(true)}
 			/>
 
-			{/* <div className="border-t-2 border-black my-8 mx-6 sm:mx-8 md:mx-12"></div> */}
-
-			{/* <section ref={treatsSection} className="px-6 sm:px-8 md:px-12 mb-12">
-				<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">Gift Packs</h2>
-				<RecommendedProducts products={data.recommendedProducts} />
-			</section> */}
-
 			<div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:px-12"></div>
 
-			{/* ==================================== */}
-			{/* <section ref={treatsSection} className="px-6 sm:px-8 md:px-12 mb-12">
-				<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">Treats & Sweets <br></br> for Every Season</h2>
-			</section> */}
-
-			{/* ==================================== */}
-			<HolidaySection holidayCollections={data.holidayCollections} />
+			<div ref={holidaySection}>
+				<HolidaySection holidayCollections={data.holidayCollections} />
+			</div>
 
 			{isHolidaySelectorVisible && (
 				<div className="fixed bottom-4 left-0 right-0 z-10 px-6 sm:px-8 md:px-12 flex justify-between items-center">
 					<HolidayWheel />
-					<ContactButton
-						onClick={() => setIsModalOpen(true)}
-						shrinkOnMobile={true}
-					/>
 				</div>
 			)}
 
 			<div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:px-12"></div>
 
-			{/* Blurbs Section */}
 			<section ref={blurbsSection} className="px-6 sm:px-8 md:px-12 mb-12">
 				<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">Sweet choices in numbers</h2>
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -226,45 +195,5 @@ export default function Homepage() {
 
 			<div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:px-12"></div>
 		</main>
-	);
-}
-
-function RecommendedProducts({ products }: { products: Promise<RecommendedProductsQuery | null> }) {
-	return (
-		<div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-			<div className="flex flex-col sm:flex-row justify-between items-center mb-8">
-				<h3 className="text-2xl font-bold mb-2 sm:mb-0">Gift packs</h3>
-				<p className="text-lg text-gray-600">Make someone's day sweeter</p>
-			</div>
-			<Suspense fallback={<div className="text-center py-10">Loading...</div>}>
-				<Await resolve={products}>
-					{(response) => (
-						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-							{response
-								? response.products.nodes.map((product) => (
-									<Link
-										key={product.id}
-										className="group block border-2 border-black p-4 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-200"
-										to={`/products/${product.handle}`}
-									>
-										<div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 mb-4">
-											<Image
-												data={product.images.nodes[0]}
-												className="w-full h-full object-center object-cover group-hover:opacity-75"
-												sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
-											/>
-										</div>
-										<h4 className="text-lg font-semibold mb-2">{product.title}</h4>
-										<p className="text-base font-bold">
-											<Money data={product.priceRange.minVariantPrice} />
-										</p>
-									</Link>
-								))
-								: null}
-						</div>
-					)}
-				</Await>
-			</Suspense>
-		</div>
 	);
 }

@@ -4,6 +4,7 @@ import React from 'react';
 import { Link } from '@remix-run/react';
 import { Money } from '@shopify/hydrogen';
 import WholesaleCard from '~/components/ecom/product/ProductCardWholesale';
+import ProductCard from '~/components/ecom/product/ProductCard';
 
 const holidays = [
 	{ id: 'christmas', title: 'Christmas', mainColor: '#F65A4D', secondaryColor: '#00FF00' },
