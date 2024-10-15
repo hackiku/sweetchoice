@@ -35,7 +35,7 @@ export const Tooltip: React.FC<TooltipProps> = ({ content, children }) => {
 			const childRect = childRef.current.getBoundingClientRect();
 			const tooltipRect = tooltipRef.current.getBoundingClientRect();
 
-			tooltipRef.current.style.left = `${childRect.left + (childRect.width / 2) - (tooltipRect.width / 2)}px`;
+			tooltipRef.current.style.left = `${childRect.left + (childRect.width / 2)}px`;
 			tooltipRef.current.style.top = `${childRect.top - tooltipRect.height - 10}px`;
 		}
 	}, [isVisible]);

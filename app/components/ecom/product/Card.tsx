@@ -1,6 +1,6 @@
 // app/components/ecom/product/Card.tsx
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from '@remix-run/react';
 import { PlusIcon, CheckIcon } from '@heroicons/react/24/solid';
 import { Tooltip } from '~/components/ui/Tooltip';
@@ -11,9 +11,10 @@ interface CardProps {
 	imageUrl: string;
 	imageAlt: string;
 	weight: number;
-	seasonColor: string;
-	buttonBgColor?: string;
+	seasonColor?: string;
+	secondaryColor?: string;
 	boxQuantity?: number;
+	onContactClick: () => void;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -23,15 +24,21 @@ const Card: React.FC<CardProps> = ({
 	imageAlt,
 	weight,
 	seasonColor,
+	secondaryColor = '#A6FAFF', // Default color if not in HolidaySection
 	boxQuantity = 9,
+	onContactClick,
 }) => {
 	const [isInCatalog, setIsInCatalog] = useState(false);
+	const [showSuccessTooltip, setShowSuccessTooltip] = useState(false);
 
 	const handleAddToCatalog = (e: React.MouseEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
 		setIsInCatalog(!isInCatalog);
-		// TODO: Implement actual catalog functionality
+		if (!isInCatalog) {
+			setShowSuccessTooltip(true);
+			setTimeout(() => setShowSuccessTooltip(false), 2000); // Show for 2 seconds
+		}
 	};
 
 	return (
@@ -57,30 +64,33 @@ const Card: React.FC<CardProps> = ({
 					</div>
 				</div>
 				<div className="flex justify-between items-center mb-4">
-					<Tooltip content={isInCatalog ? "Remove from catalog" : "Add to catalog"}>
+					<Tooltip content={showSuccessTooltip ? "Added to catalog!" : (isInCatalog ? "Remove from catalog" : "Add to catalog")}>
 						<button
 							onClick={handleAddToCatalog}
-							className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-200`}
-							// style={{ backgroundColor: buttonBgColor }} // add prop for button bg color like ProductCardWholesale
-							style={{ backgroundColor: seasonColor }} // add prop for button bg color like ProductCardWholesale
+							className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-200 border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]`}
+							style={{ backgroundColor: isInCatalog ? '#4B5563' : secondaryColor }}
 						>
 							{isInCatalog ? (
 								<CheckIcon className="w-6 h-6 text-white" />
 							) : (
-								<PlusIcon className="w-6 h-6 text-white" />
+								<PlusIcon className="w-6 h-6 text-black" />
 							)}
 						</button>
 					</Tooltip>
-				{isInCatalog && (
-					<Link
-						to="/catalog"
-						className={`text-sm font-semibold hover:text-[${seasonColor}] transition-colors duration-200`}
-					>
-						Catalog →
-					</Link>
-				)}
+					{isInCatalog && (
+						<button
+							onClick={(e) => {
+								e.preventDefault();
+								e.stopPropagation();
+								onContactClick();
+							}}
+							className={`text-sm font-semibold hover:text-black hover:underline transition-colors duration-200`}
+							style={{ color: secondaryColor }}
+						>
+							Catalog →
+						</button>
+					)}
 				</div>
-
 			</div>
 		</Link>
 	);
