@@ -1,3 +1,5 @@
+// app/components/holidays/HolidaySection.tsx
+
 import React, { useState, useEffect } from 'react';
 import { Link } from '@remix-run/react';
 import Card from '~/components/ecom/product/Card';
@@ -12,17 +14,9 @@ const holidays = [
 
 const HolidaySection = ({ holidayCollections }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [expandedHolidays, setExpandedHolidays] = useState({});
 
 	const handleContactClick = () => {
 		setIsModalOpen(true);
-	};
-
-	const toggleExpand = (holidayId) => {
-		setExpandedHolidays(prev => ({
-			...prev,
-			[holidayId]: !prev[holidayId]
-		}));
 	};
 
 	return (
@@ -30,9 +24,6 @@ const HolidaySection = ({ holidayCollections }) => {
 			{holidays.map((holiday) => {
 				const collection = holidayCollections[holiday.id];
 				if (!collection) return null;
-
-				const isExpanded = expandedHolidays[holiday.id];
-				const displayedProducts = isExpanded ? collection.products.nodes : collection.products.nodes.slice(0, 3);
 
 				return (
 					<section
@@ -49,29 +40,21 @@ const HolidaySection = ({ holidayCollections }) => {
 						</div>
 
 						<ProductGrid
-							products={displayedProducts}
+							products={collection.products.nodes}
 							mainColor={holiday.mainColor}
 							secondaryColor={holiday.secondaryColor}
 							onContactClick={handleContactClick}
 						/>
 
-						<div className="mt-8 flex flex-col sm:flex-row justify-center items-center gap-4">
-							<button
-								onClick={() => toggleExpand(holiday.id)}
-								className="text-xl font-semibold px-6 py-2 border-2 border-black bg-transparent
-                    shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
-                    transition-all duration-200 w-full sm:w-auto"
-							>
-								{isExpanded ? 'Show Less' : 'Show More'}
-							</button>
+						<div className="mt-8 flex justify-center">
 							<Link
 								to={`/collections/${holiday.id}`}
-								className="text-xl font-semibold px-6 py-2 border-2 border-black
+								className="text-xl font-semibold px-6 py-3 border-2 border-black
                     shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
-                    transition-all duration-200 w-full sm:w-auto sm:text-2xl sm:px-8 sm:py-3"
+                    transition-all duration-200 w-full sm:w-auto sm:text-2xl sm:px-8"
 								style={{ backgroundColor: holiday.secondaryColor }}
 							>
-								Explore {holiday.title}
+								Explore {holiday.title} →
 							</Link>
 						</div>
 					</section>
@@ -83,9 +66,33 @@ const HolidaySection = ({ holidayCollections }) => {
 };
 
 const ProductGrid = ({ products, mainColor, secondaryColor, onContactClick }) => {
+	const [layout, setLayout] = useState({ columns: 4, products: 8 });
+
+	useEffect(() => {
+		const updateLayout = () => {
+			const width = window.innerWidth;
+			if (width < 640) setLayout({ columns: 1, products: 5 });
+			else if (width < 768) setLayout({ columns: 2, products: 8 });
+			else if (width < 1024) setLayout({ columns: 3, products: 6 });
+			else if (width < 1280) setLayout({ columns: 4, products: 8 });
+			else setLayout({ columns: 5, products: 10 });
+		};
+
+		updateLayout();
+		window.addEventListener('resize', updateLayout);
+		return () => window.removeEventListener('resize', updateLayout);
+	}, []);
+
+	const displayedProducts = products.slice(0, layout.products);
+
 	return (
-		<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-			{products.map((product) => (
+		<div
+			className={`grid gap-4`}
+			style={{
+				gridTemplateColumns: `repeat(${layout.columns}, minmax(0, 1fr))`,
+			}}
+		>
+			{displayedProducts.map((product) => (
 				<ProductCardComponent
 					key={product.id}
 					product={product}

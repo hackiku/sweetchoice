@@ -25,7 +25,7 @@ const COLLECTION_QUERY = `#graphql
       title
       handle
       description
-      products(first: 4) {
+      products(first: 10) {
         nodes {
           id
           title
