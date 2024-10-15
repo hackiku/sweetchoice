@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Link } from '@remix-run/react';
-import { PlusIcon, CheckIcon, TruckIcon } from '@heroicons/react/24/solid';
+import { PlusIcon, CheckIcon } from '@heroicons/react/24/solid';
 import { Tooltip } from '~/components/ui/Tooltip';
 
 interface CardProps {
@@ -12,9 +12,7 @@ interface CardProps {
 	imageAlt: string;
 	weight: number;
 	seasonColor: string;
-	boxQuantity: number;
-	palletQuantity: number;
-	transportQuantity: number;
+	boxQuantity?: number;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -24,9 +22,7 @@ const Card: React.FC<CardProps> = ({
 	imageAlt,
 	weight,
 	seasonColor,
-	boxQuantity,
-	palletQuantity,
-	transportQuantity,
+	boxQuantity = 9,
 }) => {
 	const [isInCatalog, setIsInCatalog] = useState(false);
 
@@ -38,84 +34,53 @@ const Card: React.FC<CardProps> = ({
 	};
 
 	return (
-		<div className="bg-white border-2 border-black p-4 shadow-[4px_4px_0px_rgba(0,0,0,1)] 
-                    hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] transition-all duration-200">
-			<div className="mb-4 aspect-square overflow-hidden border-2 border-black relative">
-				<img
-					src={imageUrl}
-					alt={imageAlt}
-					className="w-full h-full object-cover"
-				/>
-			</div>
+		<Link to={productLink} className="block">
+			<div className="bg-white border-2 border-black p-4 shadow-[4px_4px_0px_rgba(0,0,0,1)] 
+                      hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] transition-all duration-200">
+				<div className="mb-4 aspect-square overflow-hidden border-2 border-black relative" style={{ backgroundColor: '#FFF59F' }}>
+					<img
+						src={imageUrl}
+						alt={imageAlt}
+						className="w-full h-full object-cover"
+					/>
+				</div>
 
-			<div className="flex items-center justify-between mb-2">
-				<h2 className="text-xl font-bold">{productName}</h2>
-				<span className="text-sm font-semibold">{weight} g</span>
-			</div>
+				<h2 className="text-xl font-bold mb-2 truncate">{productName}</h2>
 
-			<SizeTable
-				boxQuantity={boxQuantity}
-				palletQuantity={palletQuantity}
-				transportQuantity={transportQuantity}
-			/>
-
-			<div className="mt-4 flex items-center">
-				<Tooltip content={isInCatalog ? "Remove from catalog" : "Add to catalog"}>
-					<button
-						onClick={handleAddToCatalog}
-						className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-200`}
-						style={{ backgroundColor: seasonColor }}
-					>
-						{isInCatalog ? (
-							<CheckIcon className="w-6 h-6 text-white" />
-						) : (
-							<PlusIcon className="w-6 h-6 text-white" />
-						)}
-					</button>
-				</Tooltip>
+				<div className="flex justify-between items-center mb-4">
+					<div className="text-sm font-semibold">
+						{weight} g
+					</div>
+					<div className="text-sm font-semibold">
+						📦 {boxQuantity}×
+					</div>
+				</div>
+				<div className="flex justify-between items-center mb-4">
+					<Tooltip content={isInCatalog ? "Remove from catalog" : "Add to catalog"}>
+						<button
+							onClick={handleAddToCatalog}
+							className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-200`}
+							style={{ backgroundColor: seasonColor }}
+						>
+							{isInCatalog ? (
+								<CheckIcon className="w-6 h-6 text-white" />
+							) : (
+								<PlusIcon className="w-6 h-6 text-white" />
+							)}
+						</button>
+					</Tooltip>
 				{isInCatalog && (
 					<Link
 						to="/catalog"
-						className="ml-4 px-3 py-1 text-sm font-semibold border-2 border-black 
-                       shadow-[2px_2px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_rgba(0,0,0,1)] 
-                       transition-all duration-200"
+						className={`text-sm font-semibold hover:text-[${seasonColor}] transition-colors duration-200`}
 					>
-						Open catalog →
+						Catalog →
 					</Link>
 				)}
+				</div>
+
 			</div>
-		</div>
-	);
-};
-
-interface SizeTableProps {
-	boxQuantity: number;
-	palletQuantity: number;
-	transportQuantity: number;
-}
-
-const SizeTable: React.FC<SizeTableProps> = ({ boxQuantity, palletQuantity, transportQuantity }) => {
-	return (
-		<table className="w-full text-xs">
-			<tbody>
-				<tr>
-					<Tooltip content="Box quantity">
-						<td className="text-center">📦</td>
-					</Tooltip>
-					<Tooltip content="Pallet quantity">
-						<td className="text-center">🏗️</td>
-					</Tooltip>
-					<Tooltip content="Transport quantity">
-						<td className="text-center"><TruckIcon className="w-4 h-4 inline-block" /></td>
-					</Tooltip>
-				</tr>
-				<tr>
-					<td className="text-center">{boxQuantity}×</td>
-					<td className="text-center">{palletQuantity}×</td>
-					<td className="text-center">{transportQuantity}×</td>
-				</tr>
-			</tbody>
-		</table>
+		</Link>
 	);
 };
 
