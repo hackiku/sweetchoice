@@ -34,18 +34,18 @@ const StatBlurbs: React.FC = () => {
 		<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 			<StatBlurb
 				stat="2013"
-				description="Year SweetChoice was founded"
+				description="Year founded"
 				bgColor="bg-[#FFD700]"
 			/>
 			<StatBlurb
-				stat="15+"
-				description="Countries we distribute to"
+				stat="16+"
+				description="Partner countries"
 				link="/about#map"
 				bgColor="bg-[#FF69B4]"
 			/>
 			<StatBlurb
-				stat="200+"
-				description="Unique seasonal products"
+				stat="2.1M+"
+				description="Unique treats per year"
 				link="/collections/all"
 				bgColor="bg-[#00CED1]"
 			/>

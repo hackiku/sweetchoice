@@ -1,9 +1,8 @@
 // app/routes/($locale).collections.all.tsx
 
-import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
-import { defer, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { useLoaderData, type MetaFunction } from '@remix-run/react';
-import { Pagination, getPaginationVariables, Money } from '@shopify/hydrogen';
+import { json, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import type { ProductItemFragment } from 'storefrontapi.generated';
 import { useVariantUrl } from '~/lib/variants';
 
@@ -12,138 +11,39 @@ import SelectorRow from '~/components/ecom/SelectorRow';
 import ContactButton from '~/components/ui/ContactButton';
 import ContactModal from '~/components/ui/ContactModal';
 
-const ITEMS_PER_PAGE = 100;
+const INITIAL_LOAD = 8;
+const LOAD_MORE_COUNT = 8;
 
-const seasonColors = {
-	default: { main: '#FFF59F', secondary: '#A6FAFF' },
-	christmas: { main: '#F65A4D', secondary: '#00FF00' },
-	valentines: { main: '#D8B3F8', secondary: '#FF6B6B' },
-	easter: { main: '#FFDB58', secondary: '#FF6B6B' },
-	halloween: { main: '#FFA500', secondary: '#00FF00' },
-	all: { main: '#FFFFFF', secondary: '#000000' },
-};
-
-const seasons = ['All', 'Christmas', 'Valentine\'s', 'Easter', 'Halloween'];
-
-export const meta: MetaFunction<typeof loader> = () => {
+export const meta: MetaFunction = () => {
 	return [{ title: `SweetChoice | All Products` }];
 };
 
-export async function loader(args: LoaderFunctionArgs) {
-	const { context, request } = args;
+export async function loader({ context, request }: LoaderFunctionArgs) {
 	const { storefront } = context;
-	const paginationVariables = getPaginationVariables(request, {
-		pageBy: 24,
+	const { products } = await storefront.query(PRODUCTS_QUERY, {
+		variables: { first: 150 },
 	});
 
-	const { products } = await storefront.query(CATALOG_QUERY, {
-		variables: { ...paginationVariables },
-	});
-
-	return defer({ products });
+	return json({ products });
 }
 
-const ProductCard: React.FC<{ product: ProductItemFragment; seasonColor: { main: string; secondary: string }; onContactClick: () => void }> = ({ product, seasonColor, onContactClick }) => {
-	const variantUrl = useVariantUrl(product.handle, product.variants.nodes[0].selectedOptions);
-
-	return (
-		<Card
-			productName={product.title}
-			productLink={variantUrl}
-			imageUrl={product.featuredImage?.url || ''}
-			imageAlt={product.featuredImage?.altText || product.title}
-			weight={Math.floor(Math.random() * 500 + 50)}
-			weightUnit="g"
-			seasonColor={seasonColor.secondary}
-			secondaryColor={seasonColor.secondary}
-			boxQuantity={Math.floor(Math.random() * 20 + 5)}
-			onContactClick={onContactClick}
-		/>
-	);
-};
-
-export default function Collection() {
+export default function AllProducts() {
 	const { products } = useLoaderData<typeof loader>();
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [gridSize, setGridSize] = useState(4);
 	const [sortOption, setSortOption] = useState('manual');
 	const [stockFilter, setStockFilter] = useState('all');
-	const [gridSize, setGridSize] = useState(4);
-	const [selectedSeason, setSelectedSeason] = useState('All');
-	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [visibleProducts, setVisibleProducts] = useState(ITEMS_PER_PAGE);
-	const [isSticky, setIsSticky] = useState(false);
-	const tabsRef = useRef<HTMLDivElement>(null);
+	const [visibleProductCount, setVisibleProductCount] = useState(INITIAL_LOAD);
+
+	const handleContactClick = () => {
+		setIsModalOpen(true);
+	};
 
 	const handleSortChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
 		const { name, value } = event.target;
 		if (name === 'sort_by') setSortOption(value);
 		else if (name === 'stock_filter') setStockFilter(value);
 		else if (name === 'grid_size') setGridSize(Number(value));
-	}, []);
-
-	const handleSeasonClick = useCallback((season: string) => {
-		setSelectedSeason(season);
-		setVisibleProducts(ITEMS_PER_PAGE);
-	}, []);
-
-	const filteredAndSortedProducts = useMemo(() => {
-		if (!products.nodes) return [];
-		let filteredProducts = [...products.nodes];
-
-		if (stockFilter === 'in-stock') {
-			filteredProducts = filteredProducts.filter(product => product.variants.nodes.some(variant => variant.availableForSale));
-		} else if (stockFilter === 'out-of-stock') {
-			filteredProducts = filteredProducts.filter(product => product.variants.nodes.every(variant => !variant.availableForSale));
-		}
-
-		if (selectedSeason !== 'All') {
-			filteredProducts = filteredProducts.filter(product =>
-				product.title.toLowerCase().includes(selectedSeason.toLowerCase()) ||
-				product.tags.some(tag => tag.toLowerCase() === selectedSeason.toLowerCase())
-			);
-		}
-
-		switch (sortOption) {
-			case 'title-ascending':
-				return filteredProducts.sort((a, b) => a.title.localeCompare(b.title));
-			case 'title-descending':
-				return filteredProducts.sort((a, b) => b.title.localeCompare(a.title));
-			case 'price-ascending':
-				return filteredProducts.sort((a, b) => parseFloat(a.priceRange.minVariantPrice.amount) - parseFloat(b.priceRange.minVariantPrice.amount));
-			case 'price-descending':
-				return filteredProducts.sort((a, b) => parseFloat(b.priceRange.minVariantPrice.amount) - parseFloat(a.priceRange.minVariantPrice.amount));
-			case 'created-ascending':
-				return filteredProducts.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
-			case 'created-descending':
-				return filteredProducts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-			default:
-				return filteredProducts;
-		}
-	}, [products.nodes, sortOption, stockFilter, selectedSeason]);
-
-	const seasonColor = seasonColors[selectedSeason.toLowerCase() as keyof typeof seasonColors] || seasonColors.default;
-
-	const handleContactClick = () => {
-		setIsModalOpen(true);
-	};
-
-	const handleShowMore = () => {
-		setVisibleProducts(prev => Math.min(prev + ITEMS_PER_PAGE, filteredAndSortedProducts.length));
-	};
-
-	const handleShowLess = () => {
-		setVisibleProducts(ITEMS_PER_PAGE);
-	};
-
-	useEffect(() => {
-		const handleScroll = () => {
-			if (tabsRef.current) {
-				const tabsRect = tabsRef.current.getBoundingClientRect();
-				setIsSticky(tabsRect.top <= 0);
-			}
-		};
-
-		window.addEventListener('scroll', handleScroll);
-		return () => window.removeEventListener('scroll', handleScroll);
 	}, []);
 
 	useEffect(() => {
@@ -161,17 +61,63 @@ export default function Collection() {
 		return () => window.removeEventListener('resize', handleResize);
 	}, []);
 
+	const filteredAndSortedProducts = useMemo(() => {
+		let filteredProducts = products.nodes;
+
+		if (stockFilter === 'in-stock') {
+			filteredProducts = filteredProducts.filter(product =>
+				product.variants.nodes.some(variant => variant.availableForSale)
+			);
+		} else if (stockFilter === 'out-of-stock') {
+			filteredProducts = filteredProducts.filter(product =>
+				product.variants.nodes.every(variant => !variant.availableForSale)
+			);
+		}
+
+		switch (sortOption) {
+			case 'title-ascending':
+				return filteredProducts.sort((a, b) => a.title.localeCompare(b.title));
+			case 'title-descending':
+				return filteredProducts.sort((a, b) => b.title.localeCompare(a.title));
+			case 'price-ascending':
+				return filteredProducts.sort((a, b) =>
+					parseFloat(a.priceRange.minVariantPrice.amount) - parseFloat(b.priceRange.minVariantPrice.amount)
+				);
+			case 'price-descending':
+				return filteredProducts.sort((a, b) =>
+					parseFloat(b.priceRange.minVariantPrice.amount) - parseFloat(a.priceRange.minVariantPrice.amount)
+				);
+			case 'created-ascending':
+				return filteredProducts.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+			case 'created-descending':
+				return filteredProducts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+			default:
+				return filteredProducts;
+		}
+	}, [products.nodes, sortOption, stockFilter]);
+
+	const visibleProducts = filteredAndSortedProducts.slice(0, visibleProductCount);
+
+	const handleShowMore = () => {
+		setVisibleProductCount(prevCount => Math.min(prevCount + LOAD_MORE_COUNT, filteredAndSortedProducts.length));
+	};
+
+	const handleShowLess = () => {
+		setVisibleProductCount(INITIAL_LOAD);
+	};
+
 	return (
 		<div className="w-full">
-			<div className="w-full bg-[#fff8ee] pt-14 pb-10 border-y-4 border-black"
+			<div className="w-full bg-[#D8B3F8] pt-14 pb-10 border-y-4 border-black"
 				style={{
 					backgroundImage: 'radial-gradient(#000 1px, transparent 1px)',
 					backgroundSize: '20px 20px',
-					backgroundColor: seasonColor.main,
 				}}>
 				<div className="container mx-auto px-6 md:px-12">
-					<h1 className="text-6xl font-bold mb-4">
-						All Products
+					<h1 className="text-6xl font-bold mb-4 text-black">
+						<span className="block">All Products</span>
+						<span className="block ml-8">All Seasons</span>
+						<span className="block ml-16">All Year Long</span>
 					</h1>
 					<ContactButton
 						onClick={handleContactClick}
@@ -196,54 +142,40 @@ export default function Collection() {
 				<div className="border-t-4 border-black my-8"></div>
 
 				<div
-					ref={tabsRef}
-					className={`flex flex-wrap justify-start gap-4 mb-8 ${isSticky ? 'sticky top-0 bg-white z-10 py-4' : ''}`}
-				>
-					{seasons.map((season) => (
-						<button
-							key={season}
-							onClick={() => handleSeasonClick(season)}
-							className={`px-6 py-2 rounded-full font-bold border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all duration-200 ${selectedSeason === season
-								? 'bg-[#ED1C24] text-white'
-								: 'bg-gray-300 text-black hover:bg-gray-400'
-								}`}
-						>
-							{season}
-						</button>
-					))}
-				</div>
-
-				<div
 					className="grid gap-4"
 					style={{
 						gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))`,
 					}}
 				>
-					{filteredAndSortedProducts.slice(0, visibleProducts).map((product) => (
+					{visibleProducts.map((product) => (
 						<ProductCard
 							key={product.id}
 							product={product}
-							seasonColor={seasonColor}
 							onContactClick={handleContactClick}
 						/>
 					))}
 				</div>
 
 				<div className="flex justify-center mt-8">
-					{visibleProducts < filteredAndSortedProducts.length && (
+					{visibleProductCount < filteredAndSortedProducts.length ? (
 						<button
 							onClick={handleShowMore}
-							className="px-6 py-2 rounded-full font-bold border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all duration-200 bg-[#ED1C24] text-white mr-4"
+							className="px-6 py-2 text-xl font-bold border-4 border-black bg-[#D8B3F8] text-black 
+                         shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] 
+                         hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
+                         transition-all duration-200"
 						>
-							Show More
+							Show More ↓
 						</button>
-					)}
-					{visibleProducts > ITEMS_PER_PAGE && (
+					) : visibleProductCount > INITIAL_LOAD && (
 						<button
 							onClick={handleShowLess}
-							className="px-6 py-2 rounded-full font-bold border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all duration-200 bg-[#ED1C24] text-white"
+							className="px-6 py-2 text-xl font-bold border-4 border-black bg-[#D8B3F8] text-black 
+                         shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] 
+                         hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
+                         transition-all duration-200"
 						>
-							Show Less
+							Show Less ↑
 						</button>
 					)}
 				</div>
@@ -254,11 +186,25 @@ export default function Collection() {
 	);
 }
 
-const PRODUCT_ITEM_FRAGMENT = `#graphql
-  fragment MoneyProductItem on MoneyV2 {
-    amount
-    currencyCode
-  }
+function ProductCard({ product, onContactClick }: { product: ProductItemFragment, onContactClick: () => void }) {
+	const variant = product.variants.nodes[0];
+	const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
+
+	return (
+		<Card
+			productName={product.title}
+			productLink={variantUrl}
+			imageUrl={product.featuredImage?.url || ''}
+			imageAlt={product.featuredImage?.altText || product.title}
+			weight={variant.weight || 0}
+			weightUnit={variant.weightUnit || 'g'}
+			boxQuantity={10}
+			onContactClick={onContactClick}
+		/>
+	);
+}
+
+const PRODUCTS_QUERY = `#graphql
   fragment ProductItem on Product {
     id
     handle
@@ -270,57 +216,30 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
       width
       height
     }
-    priceRange {
-      minVariantPrice {
-        ...MoneyProductItem
-      }
-      maxVariantPrice {
-        ...MoneyProductItem
-      }
-    }
     variants(first: 1) {
       nodes {
         selectedOptions {
           name
           value
         }
+        weight
+        weightUnit
         availableForSale
       }
     }
-    tags
+    priceRange {
+      minVariantPrice {
+        amount
+        currencyCode
+      }
+    }
     createdAt
   }
-` as const;
-
-const CATALOG_QUERY = `#graphql
-  query Catalog(
-    $country: CountryCode
-    $language: LanguageCode
-    $first: Int
-    $last: Int
-    $startCursor: String
-    $endCursor: String
-  ) @inContext(country: $country, language: $language) {
-    products(first: $first, last: $last, before: $startCursor, after: $endCursor) {
+  query ProductsPage($first: Int!) {
+    products(first: $first) {
       nodes {
         ...ProductItem
       }
-      pageInfo {
-        hasPreviousPage
-        hasNextPage
-        startCursor
-        endCursor
-      }
     }
   }
-  ${PRODUCT_ITEM_FRAGMENT}
 ` as const;
-
-export function ErrorBoundary() {
-	return (
-		<div className="text-red-500">
-			<h1 className="text-2xl font-bold">Error</h1>
-			<p>There was an error loading the products. Please try again later.</p>
-		</div>
-	);
-}

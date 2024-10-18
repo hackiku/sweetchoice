@@ -169,8 +169,8 @@ export default function Homepage() {
                        hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] transition-all duration-200
                        transform hover:-translate-y-1 hover:-translate-x-1 hover:rotate-1"
 					>
-						<h3 className="text-6xl font-bold mb-2">10+</h3>
-						<h4 className="text-xl font-semibold">Years sweetening holidays across Europe</h4>
+						<h3 className="text-6xl font-bold mb-2">11+</h3>
+						<h4 className="text-xl font-semibold">Years sweetening holidays</h4>
 					</Link>
 					<Link
 						to="/about"
@@ -178,8 +178,8 @@ export default function Homepage() {
                        hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] transition-all duration-200
                        transform hover:-translate-y-1 hover:-translate-x-1 hover:rotate-1"
 					>
-						<h3 className="text-6xl font-bold mb-2">100+</h3>
-						<h4 className="text-xl font-semibold">B2B partners trusting our sweet offerings</h4>
+						<h3 className="text-6xl font-bold mb-2">16+</h3>
+						<h4 className="text-xl font-semibold">Partnering countries across Europe</h4>
 					</Link>
 					<Link
 						to="/about"
@@ -187,8 +187,8 @@ export default function Homepage() {
                        hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] transition-all duration-200
                        transform hover:-translate-y-1 hover:-translate-x-1 hover:rotate-1"
 					>
-						<h3 className="text-6xl font-bold mb-2">1M+</h3>
-						<h4 className="text-xl font-semibold">Smiles delivered through our holiday treats</h4>
+						<h3 className="text-6xl font-bold mb-2">2.1M+</h3>
+						<h4 className="text-xl font-semibold">Unique treats sold every year</h4>
 					</Link>
 				</div>
 			</section>
