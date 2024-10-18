@@ -1,9 +1,9 @@
 // app/routes/($locale).collections.all.tsx
 
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { defer, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { useLoaderData, type MetaFunction } from '@remix-run/react';
-import { Pagination, getPaginationVariables } from '@shopify/hydrogen';
+import { Pagination, getPaginationVariables, Money } from '@shopify/hydrogen';
 import type { ProductItemFragment } from 'storefrontapi.generated';
 import { useVariantUrl } from '~/lib/variants';
 
@@ -12,15 +12,18 @@ import SelectorRow from '~/components/ecom/SelectorRow';
 import ContactButton from '~/components/ui/ContactButton';
 import ContactModal from '~/components/ui/ContactModal';
 
+const ITEMS_PER_PAGE = 100;
+
 const seasonColors = {
 	default: { main: '#FFF59F', secondary: '#A6FAFF' },
 	christmas: { main: '#F65A4D', secondary: '#00FF00' },
 	valentines: { main: '#D8B3F8', secondary: '#FF6B6B' },
 	easter: { main: '#FFDB58', secondary: '#FF6B6B' },
 	halloween: { main: '#FFA500', secondary: '#00FF00' },
+	all: { main: '#FFFFFF', secondary: '#000000' },
 };
 
-const seasons = ['Christmas', 'Valentine\'s', 'Easter', 'Halloween'];
+const seasons = ['All', 'Christmas', 'Valentine\'s', 'Easter', 'Halloween'];
 
 export const meta: MetaFunction<typeof loader> = () => {
 	return [{ title: `SweetChoice | All Products` }];
@@ -64,8 +67,11 @@ export default function Collection() {
 	const [sortOption, setSortOption] = useState('manual');
 	const [stockFilter, setStockFilter] = useState('all');
 	const [gridSize, setGridSize] = useState(4);
-	const [selectedSeason, setSelectedSeason] = useState('');
+	const [selectedSeason, setSelectedSeason] = useState('All');
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [visibleProducts, setVisibleProducts] = useState(ITEMS_PER_PAGE);
+	const [isSticky, setIsSticky] = useState(false);
+	const tabsRef = useRef<HTMLDivElement>(null);
 
 	const handleSortChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
 		const { name, value } = event.target;
@@ -75,7 +81,8 @@ export default function Collection() {
 	}, []);
 
 	const handleSeasonClick = useCallback((season: string) => {
-		setSelectedSeason(prevSeason => prevSeason === season ? '' : season);
+		setSelectedSeason(season);
+		setVisibleProducts(ITEMS_PER_PAGE);
 	}, []);
 
 	const filteredAndSortedProducts = useMemo(() => {
@@ -88,8 +95,11 @@ export default function Collection() {
 			filteredProducts = filteredProducts.filter(product => product.variants.nodes.every(variant => !variant.availableForSale));
 		}
 
-		if (selectedSeason) {
-			filteredProducts = filteredProducts.filter(product => product.title.toLowerCase().includes(selectedSeason.toLowerCase()));
+		if (selectedSeason !== 'All') {
+			filteredProducts = filteredProducts.filter(product =>
+				product.title.toLowerCase().includes(selectedSeason.toLowerCase()) ||
+				product.tags.some(tag => tag.toLowerCase() === selectedSeason.toLowerCase())
+			);
 		}
 
 		switch (sortOption) {
@@ -115,6 +125,41 @@ export default function Collection() {
 	const handleContactClick = () => {
 		setIsModalOpen(true);
 	};
+
+	const handleShowMore = () => {
+		setVisibleProducts(prev => Math.min(prev + ITEMS_PER_PAGE, filteredAndSortedProducts.length));
+	};
+
+	const handleShowLess = () => {
+		setVisibleProducts(ITEMS_PER_PAGE);
+	};
+
+	useEffect(() => {
+		const handleScroll = () => {
+			if (tabsRef.current) {
+				const tabsRect = tabsRef.current.getBoundingClientRect();
+				setIsSticky(tabsRect.top <= 0);
+			}
+		};
+
+		window.addEventListener('scroll', handleScroll);
+		return () => window.removeEventListener('scroll', handleScroll);
+	}, []);
+
+	useEffect(() => {
+		const handleResize = () => {
+			const width = window.innerWidth;
+			if (width < 640) setGridSize(2);
+			else if (width < 768) setGridSize(3);
+			else if (width < 1024) setGridSize(4);
+			else if (width < 1280) setGridSize(5);
+			else setGridSize(6);
+		};
+
+		handleResize();
+		window.addEventListener('resize', handleResize);
+		return () => window.removeEventListener('resize', handleResize);
+	}, []);
 
 	return (
 		<div className="w-full">
@@ -148,16 +193,19 @@ export default function Collection() {
 					onSortChange={handleSortChange}
 				/>
 
-				<div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:mx-12"></div>
+				<div className="border-t-4 border-black my-8"></div>
 
-				<div className="flex flex-wrap justify-start gap-4 mb-8">
+				<div
+					ref={tabsRef}
+					className={`flex flex-wrap justify-start gap-4 mb-8 ${isSticky ? 'sticky top-0 bg-white z-10 py-4' : ''}`}
+				>
 					{seasons.map((season) => (
 						<button
 							key={season}
 							onClick={() => handleSeasonClick(season)}
 							className={`px-6 py-2 rounded-full font-bold border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all duration-200 ${selectedSeason === season
-									? 'bg-[#ED1C24] text-white'
-									: 'bg-gray-300 text-black hover:bg-gray-400'
+								? 'bg-[#ED1C24] text-white'
+								: 'bg-gray-300 text-black hover:bg-gray-400'
 								}`}
 						>
 							{season}
@@ -165,8 +213,13 @@ export default function Collection() {
 					))}
 				</div>
 
-				<div className={`grid gap-4 grid-cols-${gridSize}`}>
-					{filteredAndSortedProducts.map((product) => (
+				<div
+					className="grid gap-4"
+					style={{
+						gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))`,
+					}}
+				>
+					{filteredAndSortedProducts.slice(0, visibleProducts).map((product) => (
 						<ProductCard
 							key={product.id}
 							product={product}
@@ -174,6 +227,25 @@ export default function Collection() {
 							onContactClick={handleContactClick}
 						/>
 					))}
+				</div>
+
+				<div className="flex justify-center mt-8">
+					{visibleProducts < filteredAndSortedProducts.length && (
+						<button
+							onClick={handleShowMore}
+							className="px-6 py-2 rounded-full font-bold border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all duration-200 bg-[#ED1C24] text-white mr-4"
+						>
+							Show More
+						</button>
+					)}
+					{visibleProducts > ITEMS_PER_PAGE && (
+						<button
+							onClick={handleShowLess}
+							className="px-6 py-2 rounded-full font-bold border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all duration-200 bg-[#ED1C24] text-white"
+						>
+							Show Less
+						</button>
+					)}
 				</div>
 			</div>
 
@@ -215,6 +287,7 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
         availableForSale
       }
     }
+    tags
     createdAt
   }
 ` as const;
@@ -242,3 +315,12 @@ const CATALOG_QUERY = `#graphql
   }
   ${PRODUCT_ITEM_FRAGMENT}
 ` as const;
+
+export function ErrorBoundary() {
+	return (
+		<div className="text-red-500">
+			<h1 className="text-2xl font-bold">Error</h1>
+			<p>There was an error loading the products. Please try again later.</p>
+		</div>
+	);
+}
