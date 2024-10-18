@@ -1,11 +1,11 @@
 
 export default function Aaa() {
-	const dio = 'cane';
+	const dio = 'test';
 
 
 	return (
 		<div className="flex flex-col items-center">
-			Dio = {dio}
+			Test = {dio}
 		</div>
 	);
 }

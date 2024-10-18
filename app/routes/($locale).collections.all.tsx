@@ -2,21 +2,25 @@
 
 import React, { useState, useMemo, useCallback } from 'react';
 import { defer, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
-import { useLoaderData, Link, type MetaFunction } from '@remix-run/react';
-import { Pagination, getPaginationVariables, Money } from '@shopify/hydrogen';
+import { useLoaderData, type MetaFunction } from '@remix-run/react';
+import { Pagination, getPaginationVariables } from '@shopify/hydrogen';
 import type { ProductItemFragment } from 'storefrontapi.generated';
 import { useVariantUrl } from '~/lib/variants';
 
-import ProductCard from '~/components/ecom/product/ProductCard';
-// import ProductCard from '~/components/ecom/product/ProductCardCart';
-import ProductCardMini from '~/components/ecom/product/ProductCardMini';
-import ProductCardWholesale from '~/components/ecom/product/ProductCardWholesale';
+import Card from '~/components/ecom/product/Card';
+import SelectorRow from '~/components/ecom/SelectorRow';
 import ContactButton from '~/components/ui/ContactButton';
 import ContactModal from '~/components/ui/ContactModal';
 
 const seasonColors = {
 	default: { main: '#FFF59F', secondary: '#A6FAFF' },
+	christmas: { main: '#F65A4D', secondary: '#00FF00' },
+	valentines: { main: '#D8B3F8', secondary: '#FF6B6B' },
+	easter: { main: '#FFDB58', secondary: '#FF6B6B' },
+	halloween: { main: '#FFA500', secondary: '#00FF00' },
 };
+
+const seasons = ['Christmas', 'Valentine\'s', 'Easter', 'Halloween'];
 
 export const meta: MetaFunction<typeof loader> = () => {
 	return [{ title: `SweetChoice | All Products` }];
@@ -36,26 +40,42 @@ export async function loader(args: LoaderFunctionArgs) {
 	return defer({ products });
 }
 
+const ProductCard: React.FC<{ product: ProductItemFragment; seasonColor: { main: string; secondary: string }; onContactClick: () => void }> = ({ product, seasonColor, onContactClick }) => {
+	const variantUrl = useVariantUrl(product.handle, product.variants.nodes[0].selectedOptions);
+
+	return (
+		<Card
+			productName={product.title}
+			productLink={variantUrl}
+			imageUrl={product.featuredImage?.url || ''}
+			imageAlt={product.featuredImage?.altText || product.title}
+			weight={Math.floor(Math.random() * 500 + 50)}
+			weightUnit="g"
+			seasonColor={seasonColor.secondary}
+			secondaryColor={seasonColor.secondary}
+			boxQuantity={Math.floor(Math.random() * 20 + 5)}
+			onContactClick={onContactClick}
+		/>
+	);
+};
+
 export default function Collection() {
 	const { products } = useLoaderData<typeof loader>();
 	const [sortOption, setSortOption] = useState('manual');
 	const [stockFilter, setStockFilter] = useState('all');
 	const [gridSize, setGridSize] = useState(4);
-	const [cardType, setCardType] = useState('all');
+	const [selectedSeason, setSelectedSeason] = useState('');
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [visibleProducts, setVisibleProducts] = useState({
-		all: 8,
-		shop: 4,
-		wholesale: 4,
-		mini: 4,
-	});
 
 	const handleSortChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
 		const { name, value } = event.target;
 		if (name === 'sort_by') setSortOption(value);
 		else if (name === 'stock_filter') setStockFilter(value);
 		else if (name === 'grid_size') setGridSize(Number(value));
-		else if (name === 'card_type') setCardType(value);
+	}, []);
+
+	const handleSeasonClick = useCallback((season: string) => {
+		setSelectedSeason(prevSeason => prevSeason === season ? '' : season);
 	}, []);
 
 	const filteredAndSortedProducts = useMemo(() => {
@@ -66,6 +86,10 @@ export default function Collection() {
 			filteredProducts = filteredProducts.filter(product => product.variants.nodes.some(variant => variant.availableForSale));
 		} else if (stockFilter === 'out-of-stock') {
 			filteredProducts = filteredProducts.filter(product => product.variants.nodes.every(variant => !variant.availableForSale));
+		}
+
+		if (selectedSeason) {
+			filteredProducts = filteredProducts.filter(product => product.title.toLowerCase().includes(selectedSeason.toLowerCase()));
 		}
 
 		switch (sortOption) {
@@ -84,25 +108,16 @@ export default function Collection() {
 			default:
 				return filteredProducts;
 		}
-	}, [products.nodes, sortOption, stockFilter]);
+	}, [products.nodes, sortOption, stockFilter, selectedSeason]);
 
-	const seasonColor = seasonColors.default;
+	const seasonColor = seasonColors[selectedSeason.toLowerCase() as keyof typeof seasonColors] || seasonColors.default;
 
 	const handleContactClick = () => {
 		setIsModalOpen(true);
 	};
 
-	const handleShowMore = (section: keyof typeof visibleProducts) => {
-		setVisibleProducts(prev => ({
-			...prev,
-			[section]: prev[section] + 4
-		}));
-	};
-
 	return (
 		<div className="w-full">
-			
-			
 			<div className="w-full bg-[#fff8ee] pt-14 pb-10 border-y-4 border-black"
 				style={{
 					backgroundImage: 'radial-gradient(#000 1px, transparent 1px)',
@@ -111,14 +126,13 @@ export default function Collection() {
 				}}>
 				<div className="container mx-auto px-6 md:px-12">
 					<h1 className="text-6xl font-bold mb-4">
-						All Year <br />
 						All Products
 					</h1>
 					<ContactButton
 						onClick={handleContactClick}
 						text="Get Catalog →"
-						bgColor="bg-[#39FF14]" // Wacky neon green color
-						hoverBgColor="hover:bg-[#00FFFF]" // Cool cyan color on hover
+						bgColor="bg-[#39FF14]"
+						hoverBgColor="hover:bg-[#00FFFF]"
 						textColor="text-black"
 						hoverTextColor="hover:text-black"
 						className="text-xl font-bold border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-200"
@@ -126,145 +140,41 @@ export default function Collection() {
 				</div>
 			</div>
 
-			<div className="container mx-auto px-6 md:px-12 mt-8 flex flex-wrap justify-start gap-4">
-				<select
-					name="sort_by"
-					value={sortOption}
-					onChange={handleSortChange}
-					className="border-4 border-black p-2 font-bold bg-pink-300 cursor-pointer transform hover:scale-105 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(237,28,36,1)]"
-				>
-					<option value="manual">Featured</option>
-					<option value="best-selling">Best selling</option>
-					<option value="title-ascending">Alphabetically, A-Z</option>
-					<option value="title-descending">Alphabetically, Z-A</option>
-					<option value="price-ascending">Price, low to high</option>
-					<option value="price-descending">Price, high to low</option>
-					<option value="created-ascending">Date, old to new</option>
-					<option value="created-descending">Date, new to old</option>
-				</select>
-
-				<select
-					name="stock_filter"
-					value={stockFilter}
-					onChange={handleSortChange}
-					className="border-4 border-black p-2 font-bold bg-green-300 cursor-pointer transform hover:scale-105 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(237,28,36,1)]"
-				>
-					<option value="all">All products</option>
-					<option value="in-stock">In stock</option>
-					<option value="out-of-stock">Out of stock</option>
-				</select>
-
-				<select
-					name="grid_size"
-					value={gridSize}
-					onChange={handleSortChange}
-					className="border-4 border-black p-2 font-bold bg-blue-300 cursor-pointer transform hover:scale-105 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(237,28,36,1)]"
-				>
-					<option value="1">Grid: 1</option>
-					<option value="2">Grid: 2</option>
-					<option value="3">Grid: 3</option>
-					<option value="4">Grid: 4</option>
-					<option value="5">Grid: 5</option>
-					<option value="6">Grid: 6</option>
-				</select>
-
-				<select
-					name="card_type"
-					value={cardType}
-					onChange={handleSortChange}
-					className="border-4 border-black p-2 font-bold bg-yellow-300 cursor-pointer transform hover:scale-105 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(237,28,36,1)]"
-				>
-					<option value="all">All Cards</option>
-					<option value="shop">Shop Cards</option>
-					<option value="wholesale">Wholesale Cards</option>
-					<option value="mini">Mini Cards</option>
-				</select>
-			</div>
-
 			<div className="container mx-auto px-6 md:px-12 mt-8">
-				{(cardType === 'all' || cardType === 'shop') && (
-					<>
-						<h2 className="text-3xl font-bold mb-4">Shop Products</h2>
-						<div className={`grid gap-4 grid-cols-${gridSize}`}>
-							{filteredAndSortedProducts.slice(0, visibleProducts.shop).map((product) => (
-								<ProductCard
-									key={product.id}
-									productName={product.title}
-									productLink={useVariantUrl(product.handle, product.variants.nodes[0].selectedOptions)}
-									product_id={product.id}
-									imageUrl={product.featuredImage?.url || ''}
-									imageAlt={product.featuredImage?.altText || product.title}
-									price={<Money data={product.priceRange.minVariantPrice} />}
-									weight={`${Math.floor(Math.random() * 500 + 50)}g`}
-								/>
-							))}
-						</div>
-						{visibleProducts.shop < filteredAndSortedProducts.length && (
-							<button
-								onClick={() => handleShowMore('shop')}
-								className="mt-4 border-4 border-black p-2 font-bold bg-purple-300 transform hover:scale-105 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(237,28,36,1)]"
-							>
-								Show More
-							</button>
-						)}
-						<hr className="my-8 border-t-4 border-black" />
-					</>
-				)}
+				<SelectorRow
+					sortOption={sortOption}
+					stockFilter={stockFilter}
+					gridSize={gridSize}
+					onSortChange={handleSortChange}
+				/>
 
-				{(cardType === 'all' || cardType === 'wholesale') && (
-					<>
-						<h2 className="text-3xl font-bold mb-4">Wholesale Products</h2>
-						<div className={`grid gap-4 grid-cols-${gridSize}`}>
-							{filteredAndSortedProducts.slice(0, visibleProducts.wholesale).map((product) => (
-								<ProductCardWholesale
-									key={product.id}
-									productName={product.title}
-									product_id={product.id}
-									productLink={useVariantUrl(product.handle, product.variants.nodes[0].selectedOptions)}
-									imageUrl={product.featuredImage?.url || ''}
-									imageAlt={product.featuredImage?.altText || product.title}
-									price={<Money data={product.priceRange.minVariantPrice} />}
-									weight={`${Math.floor(Math.random() * 500 + 50)}g`}
-									tags={['Wholesale', 'Bulk']}
-								/>
-							))}
-						</div>
-						{visibleProducts.wholesale < filteredAndSortedProducts.length && (
-							<button
-								onClick={() => handleShowMore('wholesale')}
-								className="mt-4 border-4 border-black p-2 font-bold bg-purple-300 transform hover:scale-105 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(237,28,36,1)]"
-							>
-								Show More
-							</button>
-						)}
-						<hr className="my-8 border-t-4 border-black" />
-					</>
-				)}
+				<div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:mx-12"></div>
 
-				{(cardType === 'all' || cardType === 'mini') && (
-					<>
-						<h2 className="text-3xl font-bold mb-4">Mini Products</h2>
-						<div className={`grid gap-4 grid-cols-${gridSize}`}>
-							{filteredAndSortedProducts.slice(0, visibleProducts.mini).map((product) => (
-								<ProductCardMini
-									key={product.id}
-									productName={product.title}
-									productLink={useVariantUrl(product.handle, product.variants.nodes[0].selectedOptions)}
-									weight={`${Math.floor(Math.random() * 500 + 50)}g`}
-									imageBgColor={`hsl(${Math.random() * 360}, 80%, 90%)`}
-								/>
-							))}
-						</div>
-						{visibleProducts.mini < filteredAndSortedProducts.length && (
-							<button
-								onClick={() => handleShowMore('mini')}
-								className="mt-4 border-4 border-black p-2 font-bold bg-purple-300 transform hover:scale-105 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(237,28,36,1)]"
-							>
-								Show More
-							</button>
-						)}
-					</>
-				)}
+				<div className="flex flex-wrap justify-start gap-4 mb-8">
+					{seasons.map((season) => (
+						<button
+							key={season}
+							onClick={() => handleSeasonClick(season)}
+							className={`px-6 py-2 rounded-full font-bold border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all duration-200 ${selectedSeason === season
+									? 'bg-[#ED1C24] text-white'
+									: 'bg-gray-300 text-black hover:bg-gray-400'
+								}`}
+						>
+							{season}
+						</button>
+					))}
+				</div>
+
+				<div className={`grid gap-4 grid-cols-${gridSize}`}>
+					{filteredAndSortedProducts.map((product) => (
+						<ProductCard
+							key={product.id}
+							product={product}
+							seasonColor={seasonColor}
+							onContactClick={handleContactClick}
+						/>
+					))}
+				</div>
 			</div>
 
 			<ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
