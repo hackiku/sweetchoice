@@ -2,13 +2,14 @@
 
 import React, { useEffect, useRef } from 'react';
 
-const ROTATION_SPEED = 0.016;
+const ROTATION_SPEED_DESKTOP = 0.016;
+const ROTATION_SPEED_MOBILE = 0.008;
 
 const seasons = [
-	{ emoji: '🎅', color: '#F65A4D' }, // Christmas
-	{ emoji: '💖', color: '#D8B3F8' }, // Valentine's
-	{ emoji: '🐰', color: '#FFDB58' }, // Easter
-	{ emoji: '🎃', color: '#FFA500' }, // Halloween
+	{ emoji: '🎅', color: 'rgba(246, 90, 77, 0.4)' }, // Christmas
+	{ emoji: '💖', color: 'rgba(216, 179, 248, 0.4)' }, // Valentine's
+	{ emoji: '🐰', color: 'rgba(255, 219, 88, 0.4)' }, // Easter
+	{ emoji: '🎃', color: 'rgba(255, 165, 0, 0.4)' }, // Halloween
 ];
 
 const RotatingSeasonalCircle: React.FC = () => {
@@ -34,15 +35,9 @@ const RotatingSeasonalCircle: React.FC = () => {
 
 		let rotation = 0;
 
-		const drawStar = (x: number, y: number, radius: number, color: string) => {
+		const drawCircle = (x: number, y: number, radius: number, color: string) => {
 			ctx.beginPath();
-			for (let i = 0; i < 5; i++) {
-				const angle = (i * 4 * Math.PI) / 5 - Math.PI / 2;
-				const px = x + radius * Math.cos(angle);
-				const py = y + radius * Math.sin(angle);
-				ctx.lineTo(px, py);
-			}
-			ctx.closePath();
+			ctx.arc(x, y, radius, 0, 2 * Math.PI);
 			ctx.fillStyle = color;
 			ctx.fill();
 			ctx.strokeStyle = 'black';
@@ -53,16 +48,16 @@ const RotatingSeasonalCircle: React.FC = () => {
 		const animate = () => {
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-			const centerX = canvas.width / 1.4;
-			const centerY = canvas.height / 3;
-			const radius = Math.min(canvas.width, canvas.height) * 0.3;
+			const centerX = canvas.width / 1.3;
+			const centerY = canvas.height / 2.2;
+			const radius = Math.min(canvas.width, canvas.height) * 0.26;
 
 			seasons.forEach((season, index) => {
 				const angle = rotation + (index * Math.PI * 2) / seasons.length;
 				const x = centerX + radius * Math.cos(angle);
 				const y = centerY + radius * Math.sin(angle);
 
-				drawStar(x, y, radius * 0.3, season.color);
+				drawCircle(x, y, radius * 0.3, season.color);
 
 				ctx.font = `${radius * 0.2}px Arial`;
 				ctx.fillStyle = 'black';
@@ -71,7 +66,8 @@ const RotatingSeasonalCircle: React.FC = () => {
 				ctx.fillText(season.emoji, x, y);
 			});
 
-			rotation += ROTATION_SPEED;
+			const isMobile = window.innerWidth < 768;
+			rotation += isMobile ? ROTATION_SPEED_MOBILE : ROTATION_SPEED_DESKTOP;
 			requestAnimationFrame(animate);
 		};
 

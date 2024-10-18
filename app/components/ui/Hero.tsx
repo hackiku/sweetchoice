@@ -28,12 +28,12 @@ const Hero: React.FC<HeroProps> = ({
 	onContactClick,
 }) => {
 	return (
-		<section className="min-h-[calc(100vh-4rem)] flex flex-col justify-between px-6 sm:px-8 md:px-12 relative overflow-hidden">
+		<section className="min-h-[calc(90vh-4rem)] flex flex-col justify-between px-6 sm:px-8 md:px-12 relative overflow-hidden">
 			<div className="absolute inset-0 z-0">
 				<RotatingSeasonalCircle />
 			</div>
 			<div className="flex-grow flex flex-col justify-start space-y-4 sm:space-y-6 relative z-10">
-				<div className="w-full max-sw-3xl">
+				<div className="w-full">
 					<h1 className="text-[12vw] sm:text-[10vw] md:text-[7vw] font-bold leading-tight mb-4 uppercase text-orange-400 w-full"
 						style={{
 							WebkitTextStroke: '3px black',
@@ -44,7 +44,7 @@ const Hero: React.FC<HeroProps> = ({
 						Sweet holidays <br /> all year long
 					</h1>
 					<p className="text-xl sm:text-2xl mt-4 max-w-2xl">
-						We wholesale wholesome holiday treatsto supermarkets large and small.
+						We wholesale wholesome holiday treats to supermarkets large and small.
 					</p>
 
 					<div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mt-8">
@@ -68,7 +68,7 @@ const Hero: React.FC<HeroProps> = ({
 				</div>
 			</div>
 
-			<div className="mt-4 relative z-10">
+			<div className="mt-6 sm:mt-2 relative z-10">
 				<div className="p-4 border-2 border-black rounded-full bg-white">
 					<Logos logos={logos} />
 				</div>
