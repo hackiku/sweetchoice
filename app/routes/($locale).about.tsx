@@ -80,16 +80,15 @@ export default function About() {
 
 			<div className="w-full z-10">
 				{/* Hero Section */}
-				<section className="w-full flex flex-col justify-center px-6 sm:px-8 md:px-12 mb-12 mt-16 border-t-3 border-black">
-					
-					<span className="inline-block bg-black text-white text-2xl font-bold py-2 px-4 transform -rotate-2 uppercase whitespace-normal max-w-max"
+				<section className="w-full flex flex-col justify-center px-6 sm:px-8 md:px-12 mb-12 mt-16 border-t-3 border-black relative">
+					<span className="inline-block bg-black text-white text-2xl font-bold py-2 px-4 transform -rotate-2 uppercase whitespace-normal max-w-max z-10"
 						style={{
 							boxShadow: '4px 4px 0px 0px rgba(255,255,255,1)',
 						}}>
 						About Us
 					</span>
 
-					<h1 className="text-[14vw] sm:text-[10vw] md:text-[8vw] font-bold leading-tight mb-4 text-orange-400"
+					<h1 className="text-[14vw] sm:text-[10vw] md:text-[8vw] font-bold leading-tight mb-4 text-orange-400 relative z-10"
 						style={{
 							WebkitTextStroke: '3px black',
 							textStroke: '3px black',
@@ -97,15 +96,13 @@ export default function About() {
 							filter: 'drop-shadow(0 0 1px black)'
 						}}>
 						WE HAVE CANDY <br /> (and you know it)
-						</h1>
+					</h1>
+
+					<MobileVideo />
 				</section>
 
-				{/* Gallery Masonry */}
-				<section className="w-full mb-16">
-					<GalleryMasonry assets={galleryAssets} />
-				</section>
 
-				<section className="w-full px-6 sm:px-8 md:px-12 mb-16">
+				<section className="md:w-2/3 px-6 sm:px-8 md:px-12 mb-16">
 					<p className="text-2xl max-w-2xl font-bold leading-tight sm-max:text-base mt-4">
 						SweetChoice is the only company in South East Europe specialized in the import and distribution of seasonal confectionery products.
 					</p>
