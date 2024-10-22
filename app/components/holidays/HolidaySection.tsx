@@ -33,7 +33,7 @@ const HolidaySection = ({ holidayCollections }) => {
 						style={{ backgroundColor: holiday.mainColor }}
 					>
 						<div className="flex flex-col sm:flex-row justify-between sm:items-start gap-4 mb-6">
-							<h2 className="text-6xl font-bold mb-1 relative z-10 md-max:text-4xl">{holiday.title}</h2>
+							<h2 className="text-6xl font-bold mb-1 relative md-max:text-4xl">{holiday.title}</h2>
 							<div className="w-full md:w-3/6">
 								<p className="text-xl font-semibold mb-4 md-max:text-base">{collection.description || 'Holiday description placeholder'}</p>
 							</div>
