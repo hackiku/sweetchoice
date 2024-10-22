@@ -153,18 +153,11 @@ export default function About() {
 				<div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:mx-12"></div>
 
 				{/* Testimonials */}
-				<section className="w-full px-6 sm:px-8 md:px-12 mb-16">
+				{/* <section className="w-full px-6 sm:px-8 md:px-12 mb-16">
 					<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">Hear It From <br />Our Partners</h2>
 					<TestimonialSlider />
-				</section>
-
-
-
-				{/* Founder */}
-				{/* <section className="w-full px-6 sm:px-8 md:px-12 mb-16">
-					<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">Meet Our Founder</h2>
-					<FounderCEO />
 				</section> */}
+
 
 			</div>
 
