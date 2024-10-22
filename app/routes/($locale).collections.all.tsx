@@ -114,11 +114,25 @@ export default function AllProducts() {
 					backgroundSize: '20px 20px',
 				}}>
 				<div className="container mx-auto px-6 md:px-12">
-					<h1 className="text-6xl font-bold mb-4 text-black">
+					<span className="inline-block  bg-black text-white text-2xl font-bold py-2 px-4 transform -rotate-2 uppercase whitespace-normal max-w-max mb-4"
+						style={{
+							boxShadow: '4px 4px 0px 0px rgba(255,255,255,1)',
+						}}>
+						Products
+					</span>
+
+					<h1 className="text-[8vw] mt-2 sm:text-[6vw] md:text-[5vw] font-bold leading-tight text-orange-400"
+						style={{
+							WebkitTextStroke: '3px black',
+							textStroke: '3px black',
+							textShadow: '-0.1em 0.12em 0 #000',
+							filter: 'drop-shadow(0 0 1px black)'
+						}}>
 						<span className="block">All Products</span>
 						<span className="block ml-8">All Seasons</span>
 						<span className="block ml-16">All Year Long</span>
 					</h1>
+
 					<ContactButton
 						onClick={handleContactClick}
 						text="Get Catalog →"
@@ -126,7 +140,7 @@ export default function AllProducts() {
 						hoverBgColor="hover:bg-[#00FFFF]"
 						textColor="text-black"
 						hoverTextColor="hover:text-black"
-						className="text-xl font-bold border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-200"
+						className="text-xl font-bold mt-4"
 					/>
 				</div>
 			</div>

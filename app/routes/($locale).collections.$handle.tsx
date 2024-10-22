@@ -129,21 +129,34 @@ export default function Collection() {
 					backgroundColor: seasonColor.main,
 				}}>
 				<div className="container mx-auto px-6 md:px-12">
-					<h1 className="text-6xl font-bold mb-4">
+					<span className="inline-block bg-black text-white text-2xl font-bold py-2 px-4 transform -rotate-2 uppercase whitespace-normal max-w-max mb-4"
+						style={{
+							boxShadow: '4px 4px 0px 0px rgba(255,255,255,1)',
+						}}>
+						Collection
+					</span>
+
+					<h1 className="text-[14vw] mt-2 sm:text-[8vw] md:text-[7vw] font-bold leading-tight text-orange-400"
+						style={{
+							WebkitTextStroke: '3px black',
+							textStroke: '3px black',
+							textShadow: '-0.1em 0.12em 0 #000',
+							filter: 'drop-shadow(0 0 1px black)'
+						}}>
 						{collection.title}
 					</h1>
+
 					<ContactButton
 						onClick={handleContactClick}
 						text="Get Catalog →"
-						bgColor={`bg-red-500`}
+						bgColor={`bg-[#45FF13]`}
 						hoverBgColor="hover:bg-black"
 						textColor="text-black"
 						hoverTextColor="hover:text-white"
-						className="text-xl"
+						className="text-xl mt-4"
 					/>
 				</div>
 			</div>
-
 			<div className="container mx-auto px-6 md:px-12 mt-8 flex flex-wrap justify-start gap-4">
 				<select
 					name="sort_by"
