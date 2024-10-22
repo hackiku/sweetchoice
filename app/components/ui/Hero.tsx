@@ -68,7 +68,7 @@ const Hero: React.FC<HeroProps> = ({
 				</div>
 			</div>
 
-			<div className="mt-6 sm:mt-2 relative z-10">
+			<div className="mt-6 sm:mt-6 md:mt-4 relative z-10s">
 				<div className="p-4 border-2 border-black rounded-full bg-white">
 					<Logos logos={logos} />
 				</div>
