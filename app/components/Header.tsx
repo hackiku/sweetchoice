@@ -195,7 +195,7 @@ function MobileMenu({ header }) {
 							to={to}
 							onClick={() => close()}
 							className={({ isActive }) =>
-								`block py-4 text-2xl font-bold transition-all duration-200
+								`block py-4 text-xl font-bold transition-all duration-200
                  ${isActive ? 'text-[#ED1C24] pl-4 border-l-4 border-[#ED1C24]' : 'text-black hover:text-[#ED1C24] hover:pl-4'}`
 							}
 						>
@@ -203,15 +203,15 @@ function MobileMenu({ header }) {
 						</NavLink>
 					))}
 
-					<div className="mt-8">
-						<h3 className="text-2xl font-bold mb-4 text-[#ED1C24]">Holidays</h3>
+					<div className="mt-6">
+						<h3 className="text-xl font-bold mb-4 text-[#ED1C24]">Holidays</h3>
 						<div className="grid grid-cols-1 gap-4">
 							{['Christmas', "Valentine's Day", 'Easter', 'Halloween'].map((holiday) => (
 								<NavLink
 									key={holiday}
 									to={`/collections/${holiday.toLowerCase().replace("'s", '').replace(' ', '')}`}
 									onClick={() => close()}
-									className="block p-4 text-xl font-bold text-black
+									className="block p-4 text-md font-bold text-black
                            border-4 border-black bg-white
                            shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
                            hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]
