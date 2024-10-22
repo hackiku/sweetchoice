@@ -78,7 +78,7 @@ export default function About() {
 				}}>
 			</div>
 
-			<div className="w-full z-10">
+			<div className="w-full">
 				{/* Hero Section */}
 				<section className="w-full flex flex-col justify-center px-6 sm:px-8 md:px-12 mb-12 mt-16 border-t-3 border-black relative">
 					<span className="inline-block bg-black text-white text-2xl font-bold py-2 px-4 transform -rotate-2 uppercase whitespace-normal max-w-max z-10"
@@ -107,7 +107,7 @@ export default function About() {
 						SweetChoice is the only company in South East Europe specialized in the import and distribution of seasonal confectionery products.
 					</p>
 					<p className="text-2xl max-w-2xl font-bold leading-tight sm-max:text-base mt-4">
-						You've probably seen our sweets in your local supermarkets and stores around holiday time.
+						You've probably seen our sweets in your local supermarkets and stores right around holiday time.
 					</p>
 
 					<div className="mt-8">

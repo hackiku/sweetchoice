@@ -32,7 +32,7 @@ const Hero: React.FC<HeroProps> = ({
 			<div className="absolute inset-0 z-0">
 				<RotatingSeasonalCircle />
 			</div>
-			<div className="flex-grow flex flex-col justify-start space-y-4 sm:space-y-6 relative z-10">
+			<div className="flex-grow flex flex-col justify-start space-y-4 sm:space-y-6 relative">
 				<div className="w-full">
 					<h1 className="text-[12vw] sm:text-[10vw] md:text-[7vw] font-bold leading-tight mb-4 uppercase text-orange-400 w-full"
 						style={{

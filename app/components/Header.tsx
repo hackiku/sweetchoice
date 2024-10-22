@@ -10,7 +10,6 @@ import { ChevronDownIcon, XMarkIcon, MagnifyingGlassIcon, ShoppingCartIcon } fro
 import { Dropdown } from "flowbite-react";
 import ContactModal from '~/components/ui/ContactModal';
 
-
 interface HeaderProps {
 	header: HeaderQuery;
 	cart: Promise<CartApiQueryFragment | null>;
@@ -29,7 +28,7 @@ export function Header({
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	return (
-		<header className="py-4 px-6 sm:px-12">
+		<header className="relative isolate py-4 px-6 sm:px-12">
 			<div className="container flex items-center justify-between">
 				<NavLink prefetch="intent" to="/" className="relative group" end>
 					<img className='w-20' src="/assets/logos/sc-logo.svg" alt="Logo" />
@@ -171,57 +170,65 @@ function CartToggle({ cart }: Pick<HeaderProps, 'cart'>) {
 function MobileMenu({ header }) {
 	const { close } = useAside();
 	return (
-		<div className="fixed inset-0 z-50 bg-white overflow-y-auto">
-			<div className="flex justify-end p-4">
+		<div className="fixed inset-0 bg-white" style={{ zIndex: 1000 }}>
+			<div className="relative min-h-screen border-4 border-black m-4 bg-[#fff8ee] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
 				<button
 					onClick={() => close()}
-					className="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+					className="absolute right-4 top-4 w-12 h-12 flex items-center justify-center
+                     bg-[#ED1C24] text-white border-4 border-black rounded-full
+                     shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
+                     hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]
+                     active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]
+                     active:translate-x-[2px] active:translate-y-[2px]
+                     transition-all duration-200"
 				>
-					<XMarkIcon className="w-6 h-6 text-gray-700" />
+					<XMarkIcon className="w-6 h-6" />
 				</button>
-			</div>
-			<nav className="px-4 py-2 pl-10">
-				<NavLink
-					end
-					prefetch="intent"
-					to="/"
-					onClick={() => close()}
-					className={({ isActive }) =>
-						`block py-2 text-[#ED1C24] hover:text-black transition-colors duration-200
-             ${isActive ? 'font-bold' : ''}`
-					}
-				>
-					Home
-				</NavLink>
 
-				<div className="py-2">
-					<h3 className="font-bold text-[#ED1C24]">Holidays</h3>
-					<NavLink to="/collections/christmas" onClick={() => close()} className="block py-1 pl-4 text-[#ED1C24] hover:text-black transition-colors duration-200">Christmas</NavLink>
-					<NavLink to="/collections/valentines" onClick={() => close()} className="block py-1 pl-4 text-[#ED1C24] hover:text-black transition-colors duration-200">Valentine's Day</NavLink>
-					<NavLink to="/collections/easter" onClick={() => close()} className="block py-1 pl-4 text-[#ED1C24] hover:text-black transition-colors duration-200">Easter</NavLink>
-					<NavLink to="/collections/halloween" onClick={() => close()} className="block py-1 pl-4 text-[#ED1C24] hover:text-black transition-colors duration-200">Halloween</NavLink>
-				</div>
-				<NavLink
-					to="/all-year"
-					onClick={() => close()}
-					className={({ isActive }) =>
-						`block py-2 text-[#ED1C24] hover:text-black transition-colors duration-200
-             ${isActive ? 'font-bold' : ''}`
-					}
-				>
-					All Year
-				</NavLink>
-				<NavLink
-					to="/about"
-					onClick={() => close()}
-					className={({ isActive }) =>
-						`block py-2 text-[#ED1C24] hover:text-black transition-colors duration-200
-             ${isActive ? 'font-bold' : ''}`
-					}
-				>
-					About
-				</NavLink>
-			</nav>
+				<nav className="p-8 pt-20">
+					{[
+						{ to: "/", label: "Home" },
+						{ to: "/collections/all", label: "All Year" },
+						{ to: "/about", label: "About" }
+					].map(({ to, label }) => (
+						<NavLink
+							key={to}
+							end={to === "/"}
+							to={to}
+							onClick={() => close()}
+							className={({ isActive }) =>
+								`block py-4 text-2xl font-bold transition-all duration-200
+                 ${isActive ? 'text-[#ED1C24] pl-4 border-l-4 border-[#ED1C24]' : 'text-black hover:text-[#ED1C24] hover:pl-4'}`
+							}
+						>
+							{label}
+						</NavLink>
+					))}
+
+					<div className="mt-8">
+						<h3 className="text-2xl font-bold mb-4 text-[#ED1C24]">Holidays</h3>
+						<div className="grid grid-cols-1 gap-4">
+							{['Christmas', "Valentine's Day", 'Easter', 'Halloween'].map((holiday) => (
+								<NavLink
+									key={holiday}
+									to={`/collections/${holiday.toLowerCase().replace("'s", '').replace(' ', '')}`}
+									onClick={() => close()}
+									className="block p-4 text-xl font-bold text-black
+                           border-4 border-black bg-white
+                           shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
+                           hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]
+                           hover:text-[#ED1C24]
+                           active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]
+                           active:translate-x-[2px] active:translate-y-[2px]
+                           transition-all duration-200"
+								>
+									{holiday}
+								</NavLink>
+							))}
+						</div>
+					</div>
+				</nav>
+			</div>
 		</div>
 	);
 }
