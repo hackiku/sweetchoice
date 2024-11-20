@@ -1,18 +1,11 @@
-// app/components/contact/ContactButton.tsx
-
 import React from 'react';
 import { useContact } from './ContactContext';
 
-interface ContactButtonProps {
-	shrinkOnMobile?: boolean;
-	className?: string;
-}
-
-const ContactButton: React.FC<ContactButtonProps> = ({
+const ContactButton = ({
 	shrinkOnMobile = true,
 	className = ''
 }) => {
-	const { openContact } = useContact();
+	const { isOpen, openContact, closeContact } = useContact();
 
 	const baseClasses = `
     flex justify-center items-center 
@@ -34,12 +27,12 @@ const ContactButton: React.FC<ContactButtonProps> = ({
 		: 'inline';
 
 	const emojiClasses = shrinkOnMobile
-		? 'md:hidden'
+		? 'md:hidden text-2xl'
 		: 'hidden';
 
 	return (
 		<button
-			onClick={openContact}
+			onClick={isOpen ? closeContact : openContact}
 			className={`
         ${baseClasses}
         ${sizeClasses}
@@ -47,7 +40,7 @@ const ContactButton: React.FC<ContactButtonProps> = ({
       `}
 		>
 			<span className={textClasses}>Talk Biz →</span>
-			<span className={emojiClasses}>👋</span>
+			<span className={emojiClasses}>{isOpen ? '×' : '👋'}</span>
 		</button>
 	);
 };

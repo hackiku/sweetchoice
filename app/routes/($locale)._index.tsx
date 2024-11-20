@@ -141,7 +141,9 @@ export default function Homepage() {
 			<main className="overflow-x-hidden">
 				{/* <ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} /> */}
 
-				<ContactButton />
+				<div className="fixed top-5 right-5">
+					{/* <ContactButton onClick={() => setIsModalOpen(true)} /> */}
+				</div>
 
 
 				<Hero
