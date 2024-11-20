@@ -8,7 +8,7 @@ import { CartButton } from '~/components/CartButton';
 import { ChevronDownIcon, XMarkIcon, MagnifyingGlassIcon, ShoppingCartIcon } from '@heroicons/react/24/outline';
 import { Dropdown } from "flowbite-react";
 
-import ContactModal from '~/components/ui/ContactModal';
+// import ContactModal from '~/components/ui/ContactModal';
 import IconToggleButton from '~/components/ui/IconToggleButton';
 
 
@@ -75,7 +75,7 @@ export function Header({
 
 
 			
-			<ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+			{/* <ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} /> */}
 		</header>
 	);
 }
@@ -90,7 +90,7 @@ function HeaderCtas({
 }) {
 	return (
 		<nav className="flex items-center space-x-4" style={{ zIndex: 51 }}>
-			{!isContactOpen && (
+			{/* {!isContactOpen && (
 				<button
 					onClick={onContactClick}
 					className="rounded-full w-12 h-12 flex items-center justify-center 
@@ -103,7 +103,7 @@ function HeaderCtas({
 				>
 					👋
 				</button>
-			)}
+			)} */}
 		</nav>
 	);
 }

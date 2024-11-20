@@ -273,7 +273,9 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
     amount
     currencyCode
   }
-  fragment ProductItem on Product {
+  
+	# fragment ProductItem on Product {
+	fragment CollectionProductItem on Product {
     id
     handle
     title

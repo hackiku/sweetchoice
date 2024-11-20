@@ -219,6 +219,7 @@ function ProductCard({ product, onContactClick }: { product: ProductItemFragment
 }
 
 const PRODUCTS_QUERY = `#graphql
+  # fragment AllProductsItem on Product {
   fragment ProductItem on Product {
     id
     handle
