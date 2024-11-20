@@ -6,6 +6,7 @@ import { useLoaderData, Link, type MetaFunction } from '@remix-run/react';
 import { Pagination, getPaginationVariables, Money } from '@shopify/hydrogen';
 import Card from '~/components/ecom/product/Card';
 import type { ProductItemFragment } from 'storefrontapi.generated';
+import type { CollectionProductItemFragment } from 'storefrontapi.generated';
 import { useVariantUrl } from '~/lib/variants';
 
 import { useContact } from '~/components/contact/ContactContext';
@@ -201,6 +202,7 @@ export default function Collection() {
 				</select>
 			</div>
 
+
 			<div className="container mx-auto px-6 md:px-12 mt-8">
 				<Pagination connection={collection.products}>
 					{({ nodes, isLoading, PreviousLink, NextLink }) => (
@@ -212,6 +214,9 @@ export default function Collection() {
 								}}
 							>
 								{nodes.slice(0, layout.products).map((product) => (
+									
+									
+
 									<ProductCardComponent
 										key={product.id}
 										product={product}
@@ -242,14 +247,24 @@ export default function Collection() {
 		</div>
 	);
 }
+function ProductCardComponent({
+	product,
+	secondaryColor,
+	onContactClick
+}: {
+	product: CollectionProductItemFragment;
+	secondaryColor: string;
+	onContactClick: () => void;
+}) {
+	// ... rest of the component
 
-function ProductCardComponent({ product, secondaryColor, onContactClick }: { product: ProductItemFragment; secondaryColor: string; onContactClick: () => void }) {
-	const variant = product.variants.nodes[0];
-	const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
-	const imageUrl = product.featuredImage?.url || '';
-	const imageAlt = product.featuredImage?.altText || product.title;
-	const weight = variant.weight || 0;
-	const weightUnit = variant.weightUnit || 'g';
+	// function ProductCardComponents({ product, secondaryColor, onContactClick }: { product: ProductItemFragment; secondaryColor: string; onContactClick: () => void }) {
+		const variant = product.variants.nodes[0];
+		const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
+		const imageUrl = product.featuredImage?.url || '';
+		const imageAlt = product.featuredImage?.altText || product.title;
+		const weight = variant.weight || 0;
+		const weightUnit = variant.weightUnit || 'g';
 
 	return (
 		<Card
@@ -273,24 +288,12 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
     amount
     currencyCode
   }
-  # fragment ProductItem on Product {
-  fragment CollectionProductItem on Product {
-
+  fragment ProductItem on Product {
     id
-    handle
     title
-    featuredImage {
-      id
-      altText
-      url
-      width
-      height
-    }
+    handle
     priceRange {
       minVariantPrice {
-        ...MoneyProductItem
-      }
-      maxVariantPrice {
         ...MoneyProductItem
       }
     }
@@ -305,7 +308,13 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
         availableForSale
       }
     }
-    createdAt
+    featuredImage {
+      url
+      altText
+      width
+      height
+    }
+    tags
   }
 ` as const;
 
@@ -344,3 +353,4 @@ const COLLECTION_QUERY = `#graphql
     }
   }
 ` as const;
+

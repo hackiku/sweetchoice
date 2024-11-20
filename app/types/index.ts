@@ -1,32 +1,32 @@
-// app/types/index.ts
-
+// app/types/index.ts 
 export interface Product {
 	id: string;
 	title: string;
 	handle: string;
-	imageUrl?: string;
-	price?: {
-		amount: string;
-		currencyCode: string;
+	variants: {
+		nodes: Array<{
+			selectedOptions: Array<{
+				name: string;
+				value: string;
+			}>;
+			weight: number;
+			weightUnit: string;
+			availableForSale: boolean;
+		}>;
 	};
-	variants?: ProductVariant[];
 	featuredImage?: {
 		url: string;
 		altText?: string;
+		width?: number;
+		height?: number;
 	};
-	description?: string;
+	priceRange: {
+		minVariantPrice: {
+			amount: string;
+			currencyCode: string;
+		};
+	};
 	tags?: string[];
-}
-
-export interface ProductVariant {
-	id: string;
-	title: string;
-	price: {
-		amount: string;
-		currencyCode: string;
-	};
-	sku?: string;
-	available?: boolean;
 }
 
 export interface CatalogContextType {
@@ -37,3 +37,37 @@ export interface CatalogContextType {
 	openContact: () => void;
 	closeContact: () => void;
 }
+
+
+// app/types/index.ts 
+
+// export interface Product {
+//   id: string;
+//   title: string;
+//   handle: string;
+//   variants: {
+//     nodes: Array<{
+//       selectedOptions: Array<{
+//         name: string;
+//         value: string;
+//       }>;
+//       weight: number;
+//       weightUnit: string;
+//       availableForSale: boolean;
+//     }>;
+//   };
+//   featuredImage?: {
+//     url: string;
+//     altText?: string;
+//     width?: number;
+//     height?: number;
+//   };
+//   priceRange: {
+//     minVariantPrice: {
+//       amount: string;
+//       currencyCode: string;
+//     };
+//   };
+//   tags?: string[];
+// }
+

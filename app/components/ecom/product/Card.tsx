@@ -114,7 +114,7 @@ const Card: React.FC<CardProps> = ({
 						</button>
 					)}
 				</div>
-			</div>
+			</div> 
 		</Link>
 	);
 };
