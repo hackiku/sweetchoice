@@ -146,6 +146,7 @@ export default function AllProducts() {
 						className="text-xl font-bold mt-4"
 					/>
 				</div>
+
 			</div>
 
 			<div className="container mx-auto px-6 md:px-12 mt-8">

@@ -1,6 +1,5 @@
 // app/routes/($locale).collections.$handle.tsx
 
-
 import React, { useState, useMemo, useEffect } from 'react';
 import { defer, redirect, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { useLoaderData, Link, type MetaFunction } from '@remix-run/react';
@@ -8,6 +7,8 @@ import { Pagination, getPaginationVariables, Money } from '@shopify/hydrogen';
 import Card from '~/components/ecom/product/Card';
 import type { ProductItemFragment } from 'storefrontapi.generated';
 import { useVariantUrl } from '~/lib/variants';
+
+import { useContact } from '~/components/contact/ContactContext';
 
 import Logos from '~/components/ui/Logos';
 import ContactButton from '~/components/ui/ContactButton';
@@ -55,6 +56,7 @@ export async function loader(args: LoaderFunctionArgs) {
 }
 
 export default function Collection() {
+	const { openContact } = useContact(); // hook
 	const { collection } = useLoaderData<typeof loader>();
 	const [sortOption, setSortOption] = useState('manual');
 	const [stockFilter, setStockFilter] = useState('all');
@@ -147,7 +149,7 @@ export default function Collection() {
 					</h1>
 
 					<ContactButton
-						onClick={handleContactClick}
+						onClick={openContact}
 						text="Get Catalog →"
 						bgColor={`bg-[#45FF13]`}
 						hoverBgColor="hover:bg-black"
@@ -265,17 +267,15 @@ function ProductCardComponent({ product, secondaryColor, onContactClick }: { pro
 	);
 }
 
-// The PRODUCT_ITEM_FRAGMENT and COLLECTION_QUERY would go here
-
 
 const PRODUCT_ITEM_FRAGMENT = `#graphql
   fragment MoneyProductItem on MoneyV2 {
     amount
     currencyCode
   }
-  
-	# fragment ProductItem on Product {
-	fragment CollectionProductItem on Product {
+  # fragment ProductItem on Product {
+  fragment CollectionProductItem on Product {
+
     id
     handle
     title
@@ -300,6 +300,8 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
           name
           value
         }
+        weight
+        weightUnit
         availableForSale
       }
     }
@@ -309,7 +311,7 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
 
 const COLLECTION_QUERY = `#graphql
   ${PRODUCT_ITEM_FRAGMENT}
-  query Collection(
+  query CollectionDetails(
     $handle: String!
     $country: CountryCode
     $language: LanguageCode
