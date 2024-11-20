@@ -6,6 +6,8 @@ import { json, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import type { ProductItemFragment } from 'storefrontapi.generated';
 import { useVariantUrl } from '~/lib/variants';
 
+import { useContact } from '~/components/contact/ContactContext';
+
 import Card from '~/components/ecom/product/Card';
 import SelectorRow from '~/components/ecom/SelectorRow';
 import ContactButton from '~/components/ui/ContactButton';
@@ -28,6 +30,7 @@ export async function loader({ context, request }: LoaderFunctionArgs) {
 }
 
 export default function AllProducts() {
+	const { openContact } = useContact(); // hook
 	const { products } = useLoaderData<typeof loader>();
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [gridSize, setGridSize] = useState(4);
@@ -134,7 +137,7 @@ export default function AllProducts() {
 					</h1>
 
 					<ContactButton
-						onClick={handleContactClick}
+						onClick={openContact}
 						text="Get Catalog →"
 						bgColor="bg-[#39FF14]"
 						hoverBgColor="hover:bg-[#00FFFF]"
