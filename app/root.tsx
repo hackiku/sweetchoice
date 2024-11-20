@@ -17,6 +17,7 @@ import {
 import type {LinksFunction} from '@remix-run/node';
 
 import {ThemeModeScript} from 'flowbite-react';
+import {ContactProvider} from '~/components/contact/ContactContext';
 import stylesheet from '~/styles/tailwind.css?url';
 
 import favicon from '~/assets/favicon.png';
@@ -199,10 +200,14 @@ function Layout({children}: {children?: React.ReactNode}) {
             shop={data.shop}
             consent={data.consent}
           >
-            <PageLayout {...data}>{children}</PageLayout>
-          </Analytics.Provider>
+            <ContactProvider>
+              <PageLayout {...data}>{children}</PageLayout>
+            </ContactProvider>
+					</Analytics.Provider>
         ) : (
-          children
+          <ContactProvider>
+						{children}
+					</ContactProvider>
         )}
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
