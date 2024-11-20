@@ -1,8 +1,4 @@
 // app/components/ui/ContactModal.tsx
-// This file contains the ContactModal component, which has been updated to:
-// 1. Extend the form to the bottom of the viewport
-// 2. Add a larger, more stylized close button
-// 3. Improve the overall layout and styling for a more neo-brutalist look
 
 import React, { useState, useEffect, useRef } from 'react';
 import { MdMail, MdPhone, MdLocationOn, MdPerson } from 'react-icons/md';
@@ -15,22 +11,21 @@ interface ContactModalProps {
 const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
-	const [orderSize, setOrderSize] = useState(50);
 	const [focusedInput, setFocusedInput] = useState<string | null>(null);
 	const modalRef = useRef<HTMLDivElement>(null);
 
 	const contactDetails = [
 		{
 			icon: MdMail,
-			text: 'info@sweetchoice.com',
-			action: 'mailto:info@sweetchoice.com',
-			onClick: () => window.location.href = 'mailto:info@sweetchoice.com'
+			text: 'info@sweetchoice.rs',
+			action: 'mailto:info@sweetchoice.rs',
+			onClick: () => window.location.href = 'mailto:info@sweetchoice.rs'
 		},
 		{
 			icon: MdPhone,
-			text: '+381 11 123 4567',
-			action: 'tel:+38111234567',
-			onClick: () => window.location.href = 'tel:+38111234567'
+			text: '+381 63 111 33 11',
+			action: 'tel:+381631113311',
+			onClick: () => window.location.href = 'tel:+381631113311'
 		},
 		{
 			icon: MdLocationOn,
@@ -58,7 +53,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		console.log({ name, email, orderSize });
+		console.log({ name, email });
 		onClose();
 	};
 
@@ -72,10 +67,10 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
 	if (!isOpen) return null;
 
 	return (
-		<div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-stretch justify-end">
+		<div className="fixed inset-0 bg-black bg-opacity-70 flex items-stretch justify-end" style={{ zIndex: 9999 }}>
 			<div
 				ref={modalRef}
-				className="bottom-8 md:bottom-0 md:top-12 bg-[#AE7AFF] w-5/6 max-w-2xl border-4 border-black shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 ease-in-out transform translate-x-0 flex flex-col"
+				className="bottom-8 md:bottom-0 md:top-12 bg-[#AE7AFF] w-full max-w-md border-4 border-black shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 ease-in-out transform translate-x-0 flex flex-col"
 			>
 				<div className="flex-grow overflow-auto p-6" style={{
 					backgroundImage: 'radial-gradient(#000 1px, transparent 1px)',
@@ -110,48 +105,15 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
 
 					<hr className='my-4 border-black border-2' />
 
-					<h3 className="text-2xl font-bold text-black mb-4">Your B2B Catalog</h3>
+					<h3 className="text-2xl font-bold text-black mb-4">Selected Products</h3>
 
-					<div className="grid grid-cols-2 gap-4 mb-6">
-						{[...Array(4)].map((_, index) => (
-							<div key={index} className="aspect-square rounded-lg bg-[#FFF59F] border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)]"></div>
-						))}
+					<div className="w-full aspect-square rounded-lg bg-[#FFF59F] border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)] mb-6">
+						{/* Product list will go here */}
 					</div>
 				</div>
 
 				<div className="p-4 border-t-4 border-black bg-[#AE7AFF]">
-					<form onSubmit={handleSubmit} className="space-y-1ss">
-						<div>
-							<label htmlFor="orderSize" className="block text-xl font-bold text-black mb-2">
-								Ballpark Order Weight
-							</label>
-							<div className="relative h-8">
-								<div className="absolute top-1/2 transform -translate-y-1/2 w-full h-4 border-4 border-black rounded-full overflow-hidden">
-									<div className="h-full bg-[#90EE90]" style={{ width: `${(orderSize - 10) / 990 * 100}%` }}></div>
-								</div>
-								<input
-									type="range"
-									id="orderSize"
-									min="10"
-									max="1000"
-									step="10"
-									value={orderSize}
-									onChange={(e) => setOrderSize(Number(e.target.value))}
-									className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
-								/>
-								<div
-									className="absolute top-1/2 left-0 transform -translate-y-1/2 w-16 h-16 bg-[#FF6B6B] border-4 border-black rounded-full flex flex-col items-center justify-center text-black font-bold"
-									style={{ left: `calc(${(orderSize - 10) / 990 * 100}% - 24px)` }}
-								>
-									<div>{orderSize}</div>
-									<div>Kg</div>
-								</div>
-							</div>
-							<div className="flex justify-between text-sm mt-1">
-								<span>10 kg</span>
-								<span>1000 kg</span>
-							</div>
-						</div>
+					<form onSubmit={handleSubmit} className="space-y-2">
 						<div className="relative">
 							<MdPerson className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
 							<input
@@ -186,8 +148,11 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
 							type="submit"
 							className="w-full bg-[#FF6B6B] text-black font-bold py-3 px-4 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] transition-all duration-200 text-xl"
 						>
-							Get Custom Catalog
+							Get Catalog
 						</button>
+						<p className="text-sm text-center mt-2 text-black/80">
+							We'll send you our complete product catalog, including your selected items and many more seasonal favorites.
+						</p>
 					</form>
 				</div>
 			</div>
