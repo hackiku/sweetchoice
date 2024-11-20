@@ -1,5 +1,4 @@
 // app/components/contact/ContactContext.tsx
-// import type { Product, CatalogContextType } from '~/types';
 
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import ContactSlideOver from './ContactSlideOver';
@@ -18,8 +17,8 @@ interface ContactContextType {
 	openContact: () => void;
 	closeContact: () => void;
 	selectedProducts: Product[];
-	addProduct: (product: Product) => void;
-	removeProduct: (productId: string) => void;
+	toggleProduct: (product: Product) => void;
+	isProductSelected: (productId: string) => boolean;
 }
 
 const ContactContext = createContext<ContactContextType | undefined>(undefined);
@@ -28,24 +27,20 @@ export function ContactProvider({ children }: { children: React.ReactNode }) {
 	const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
 	const [isOpen, setIsOpen] = useState(false);
 
-	const openContact = useCallback(() => {
-		setIsOpen(true);
+	const openContact = useCallback(() => setIsOpen(true), []);
+	const closeContact = useCallback(() => setIsOpen(false), []);
+
+	const toggleProduct = useCallback((product: Product) => {
+		setSelectedProducts(prev =>
+			prev.some(p => p.id === product.id)
+				? prev.filter(p => p.id !== product.id)
+				: [...prev, product]
+		);
 	}, []);
 
-	const closeContact = useCallback(() => {
-		setIsOpen(false);
-	}, []);
-
-	const addProduct = useCallback((product: Product) => {
-		setSelectedProducts(prev => {
-			if (prev.some(p => p.id === product.id)) return prev;
-			return [...prev, product];
-		});
-	}, []);
-
-	const removeProduct = useCallback((productId: string) => {
-		setSelectedProducts(prev => prev.filter(p => p.id !== productId));
-	}, []);
+	const isProductSelected = useCallback((productId: string) =>
+		selectedProducts.some(p => p.id === productId),
+		[selectedProducts]);
 
 	return (
 		<ContactContext.Provider value={{
@@ -53,8 +48,8 @@ export function ContactProvider({ children }: { children: React.ReactNode }) {
 			openContact,
 			closeContact,
 			selectedProducts,
-			addProduct,
-			removeProduct,
+			toggleProduct,
+			isProductSelected,
 		}}>
 			{children}
 			{isOpen && <ContactSlideOver onClose={closeContact} />}

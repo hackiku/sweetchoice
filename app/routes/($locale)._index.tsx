@@ -137,7 +137,7 @@ export default function Homepage() {
 	}, []);
 
 	return (
-		<ContactProvider>
+		// <ContactProvider>
 			<main className="overflow-x-hidden">
 				{/* <ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} /> */}
 
@@ -206,6 +206,6 @@ export default function Homepage() {
 
 				<div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:px-12"></div>
 			</main>
-		</ContactProvider>
+		// </ContactProvider>
 	);
 }

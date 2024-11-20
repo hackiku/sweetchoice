@@ -202,13 +202,13 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 							placeholder="What's on your mind?"
 							value={formData.message}
 							onChange={handleInputChange}
-							className="w-full h-10 mb-8 border-black border-2 p-2 focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] transition-all duration-200 font-semibold text-gray-800"
+							className="w-full h-10 mb-4border-black border-2 p-2 focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] transition-all duration-200 font-semibold text-gray-800"
 							rows={4}
 						/>
 
 						<button
 							type="submit"
-							className="w-full mt-4 bg-[#FF6B6B] text-black font-bold py-3 px-4 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] transition-all duration-200 text-xl"
+							className="w-full bg-[#FF6B6B] text-black font-bold py-3 px-4 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] transition-all duration-200 text-xl"
 						>
 							Get Catalog →
 						</button>

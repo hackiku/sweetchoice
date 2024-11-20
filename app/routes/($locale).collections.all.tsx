@@ -1,5 +1,3 @@
-// app/routes/($locale).collections.all.tsx
-
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { useLoaderData, type MetaFunction } from '@remix-run/react';
 import { json, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
@@ -11,7 +9,6 @@ import { useContact } from '~/components/contact/ContactContext';
 import Card from '~/components/ecom/product/Card';
 import SelectorRow from '~/components/ecom/SelectorRow';
 import ContactButton from '~/components/ui/ContactButton';
-import ContactModal from '~/components/ui/ContactModal';
 
 const INITIAL_LOAD = 8;
 const LOAD_MORE_COUNT = 8;
@@ -30,17 +27,12 @@ export async function loader({ context, request }: LoaderFunctionArgs) {
 }
 
 export default function AllProducts() {
-	const { openContact } = useContact(); // hook
+	const { openContact } = useContact();
 	const { products } = useLoaderData<typeof loader>();
-	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [gridSize, setGridSize] = useState(4);
 	const [sortOption, setSortOption] = useState('manual');
 	const [stockFilter, setStockFilter] = useState('all');
 	const [visibleProductCount, setVisibleProductCount] = useState(INITIAL_LOAD);
-
-	const handleContactClick = () => {
-		setIsModalOpen(true);
-	};
 
 	const handleSortChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
 		const { name, value } = event.target;
@@ -146,7 +138,6 @@ export default function AllProducts() {
 						className="text-xl font-bold mt-4"
 					/>
 				</div>
-
 			</div>
 
 			<div className="container mx-auto px-6 md:px-12 mt-8">
@@ -169,7 +160,6 @@ export default function AllProducts() {
 						<ProductCard
 							key={product.id}
 							product={product}
-							onContactClick={handleContactClick}
 						/>
 					))}
 				</div>
@@ -179,9 +169,9 @@ export default function AllProducts() {
 						<button
 							onClick={handleShowMore}
 							className="px-6 py-2 text-xl font-bold border-4 border-black bg-[#D8B3F8] text-black 
-                         shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] 
-                         hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
-                         transition-all duration-200"
+                       shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] 
+                       hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
+                       transition-all duration-200"
 						>
 							Show More ↓
 						</button>
@@ -189,41 +179,48 @@ export default function AllProducts() {
 						<button
 							onClick={handleShowLess}
 							className="px-6 py-2 text-xl font-bold border-4 border-black bg-[#D8B3F8] text-black 
-                         shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] 
-                         hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
-                         transition-all duration-200"
+                       shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] 
+                       hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
+                       transition-all duration-200"
 						>
 							Show Less ↑
 						</button>
 					)}
 				</div>
 			</div>
-
-			<ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 		</div>
 	);
 }
 
-function ProductCard({ product, onContactClick }: { product: ProductItemFragment, onContactClick: () => void }) {
+function ProductCard({ product }: { product: ProductItemFragment }) {
 	const variant = product.variants.nodes[0];
 	const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
 
 	return (
 		<Card
-			productName={product.title}
-			productLink={variantUrl}
-			imageUrl={product.featuredImage?.url || ''}
-			imageAlt={product.featuredImage?.altText || product.title}
-			weight={variant.weight || 0}
-			weightUnit={variant.weightUnit || 'g'}
+			product={{
+				id: product.id,
+				title: product.title,
+				handle: product.handle,
+				featuredImage: {
+					url: product.featuredImage?.url || '',
+					altText: product.featuredImage?.altText || product.title,
+				},
+				variants: {
+					nodes: [{
+						weight: variant.weight || 0,
+						weightUnit: variant.weightUnit || 'g',
+					}],
+				},
+			}}
+			seasonColor="#D8B3F8"
+			secondaryColor="#A6FAFF"
 			boxQuantity={10}
-			onContactClick={onContactClick}
 		/>
 	);
 }
 
 const PRODUCTS_QUERY = `#graphql
-  # fragment AllProductsItem on Product {
   fragment ProductItem on Product {
     id
     handle

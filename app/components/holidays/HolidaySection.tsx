@@ -1,9 +1,7 @@
-// app/components/holidays/HolidaySection.tsx
-
 import React, { useState, useEffect } from 'react';
 import { Link } from '@remix-run/react';
 import Card from '~/components/ecom/product/Card';
-import ContactModal from '~/components/ui/ContactModal';
+import { useContact } from '~/components/contact/ContactContext';
 
 const holidays = [
 	{ id: 'christmas', title: 'Christmas', mainColor: '#F65A4D', secondaryColor: '#00FF00' },
@@ -12,12 +10,8 @@ const holidays = [
 	{ id: 'halloween', title: 'Halloween', mainColor: '#FFA500', secondaryColor: '#00FF00' },
 ];
 
-const HolidaySection = ({ holidayCollections }) => {
-	const [isModalOpen, setIsModalOpen] = useState(false);
-
-	const handleContactClick = () => {
-		setIsModalOpen(true);
-	};
+export default function HolidaySection({ holidayCollections }) {
+	const { openContact } = useContact();
 
 	return (
 		<div className="flex flex-col items-center gap-8 overflow-x-hidden">
@@ -43,15 +37,14 @@ const HolidaySection = ({ holidayCollections }) => {
 							products={collection.products.nodes}
 							mainColor={holiday.mainColor}
 							secondaryColor={holiday.secondaryColor}
-							onContactClick={handleContactClick}
 						/>
 
 						<div className="mt-8 flex justify-center">
 							<Link
 								to={`/collections/${holiday.id}`}
 								className="text-xl font-semibold px-6 py-3 border-2 border-black
-                    shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
-                    transition-all duration-200 w-full sm:w-auto sm:text-2xl sm:px-8"
+                  shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
+                  transition-all duration-200 w-full sm:w-auto sm:text-2xl sm:px-8"
 								style={{ backgroundColor: holiday.secondaryColor }}
 							>
 								Explore {holiday.title} →
@@ -60,12 +53,11 @@ const HolidaySection = ({ holidayCollections }) => {
 					</section>
 				);
 			})}
-			<ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 		</div>
 	);
-};
+}
 
-const ProductGrid = ({ products, mainColor, secondaryColor, onContactClick }) => {
+function ProductGrid({ products, mainColor, secondaryColor }) {
 	const [layout, setLayout] = useState({ columns: 4, products: 8 });
 
 	useEffect(() => {
@@ -98,14 +90,14 @@ const ProductGrid = ({ products, mainColor, secondaryColor, onContactClick }) =>
 					product={product}
 					seasonMainColor={mainColor}
 					seasonSecondaryColor={secondaryColor}
-					onContactClick={onContactClick}
 				/>
 			))}
 		</div>
 	);
-};
+}
 
-const ProductCardComponent = ({ product, seasonMainColor, seasonSecondaryColor, onContactClick }) => {
+function ProductCardComponent({ product, seasonMainColor, seasonSecondaryColor }) {
+	const { openContact } = useContact();
 	const variantUrl = `/products/${product.handle}`;
 	const imageUrl = product.featuredImage?.url || '';
 	const imageAlt = product.featuredImage?.altText || product.title;
@@ -115,18 +107,24 @@ const ProductCardComponent = ({ product, seasonMainColor, seasonSecondaryColor, 
 
 	return (
 		<Card
-			productName={product.title}
-			productLink={variantUrl}
-			imageUrl={imageUrl}
-			imageAlt={imageAlt}
-			weight={weight}
-			weightUnit={weightUnit}
+			product={{
+				id: product.id,
+				title: product.title,
+				handle: product.handle,
+				featuredImage: {
+					url: imageUrl,
+					altText: imageAlt,
+				},
+				variants: {
+					nodes: [{
+						weight,
+						weightUnit,
+					}],
+				},
+			}}
 			seasonColor={seasonMainColor}
 			secondaryColor={seasonSecondaryColor}
-			boxQuantity={10} // Example value, adjust as needed
-			onContactClick={onContactClick}
+			boxQuantity={10}
 		/>
 	);
-};
-
-export default HolidaySection;
+}

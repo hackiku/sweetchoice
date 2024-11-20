@@ -215,14 +215,28 @@ export default function Collection() {
 							>
 								{nodes.slice(0, layout.products).map((product) => (
 									
-									
-
-									<ProductCardComponent
+									<Card
 										key={product.id}
 										product={product}
-										secondaryColor={seasonColor.secondary}
-										onContactClick={handleContactClick}
+										seasonColor={seasonColor.main}
+										secondaryColor={seasonColor.secondary}								
 									/>
+									
+
+									// <Card 
+									// 	key={product.id}
+									// 	product={product}
+									// 	seasonColor={seasonColor}
+									// 	secondaryColor={seasonColor.secondary}
+									// 	onContactClick={handleContactClick}
+									// />
+
+									// <ProductCardComponent
+									// 	key={product.id}
+									// 	product={product}
+									// 	secondaryColor={seasonColor.secondary}
+									// 	onContactClick={handleContactClick}
+									// />
 								))}
 							</div>
 							<div className="flex justify-between items-center mt-8">
