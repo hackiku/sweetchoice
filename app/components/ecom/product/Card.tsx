@@ -59,15 +59,16 @@ const Card: React.FC<CardProps> = ({
 				</div>
 
 
+				<h2 className="text-xl font-bold mb-2 truncate">{product.title}</h2>
+				
 				<div className="flex justify-between items-center mb-4">
-				<h2 className="text-xl font-bo	ld mb-2 truncate">{product.title}</h2>
-					<div className="text-lg font-semibold">
-						{weight} g
-					</div>
-				</div>
-				<div className="flex justify-between items-center mb-4">
-					<div className="text-lg font-semibold">
-						📦 {boxQuantity}×
+					<div className="flex flex-col justify-between items-start gap-1">
+						<div className="font-bold">
+							{weight} g
+						</div>
+						<div className="text-sm font-semibold">
+							📦 {boxQuantity}×
+						</div>
 					</div>
 					<Tooltip
 						content={isInCatalog ? "Remove from catalog" : "Add to catalog"}
