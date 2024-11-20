@@ -8,6 +8,11 @@ import { Image, Money } from '@shopify/hydrogen';
 import type { RecommendedProductsQuery } from 'storefrontapi.generated';
 import { FEATURED_COLLECTION_QUERY, RECOMMENDED_PRODUCTS_QUERY } from '../graphql/queries';
 
+import { ContactProvider } from '~/components/contact/ContactContext';
+import ContactButton from '~/components/ui/ContactButton';
+
+
+
 import Hero from '~/components/ui/Hero';
 import HolidaySection from '~/components/holidays/HolidaySection';
 import HolidayWheel from '~/components/holidays/HolidayWheel';
@@ -132,68 +137,73 @@ export default function Homepage() {
 	}, []);
 
 	return (
-		<main className="overflow-x-hidden">
-			<ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+		<ContactProvider>
+			<main className="overflow-x-hidden">
+				{/* <ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} /> */}
 
-			<Hero
-				// title="SWEET HOLIDAYS ALL YEAR LONG"
-				subtitle="We wholesale wholesome holiday treats to leading supermarkets & grocery stores."
-				ctaText="Shop all →"
-				ctaLink="/collections/all"
-				secondaryButtonText="Learn More"
-				secondaryButtonLink="/about"
-				logos={logos}
-				onContactClick={() => setIsModalOpen(true)}
-			/>
+				<ContactButton />
 
-			<div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:px-12"></div>
 
-			<div ref={holidaySection}>
-				<HolidaySection holidayCollections={data.holidayCollections} />
-			</div>
+				<Hero
+					// title="SWEET HOLIDAYS ALL YEAR LONG"
+					subtitle="We wholesale wholesome holiday treats to leading supermarkets & grocery stores."
+					ctaText="Shop all →"
+					ctaLink="/collections/all"
+					secondaryButtonText="Learn More"
+					secondaryButtonLink="/about"
+					logos={logos}
+					onContactClick={() => setIsModalOpen(true)}
+				/>
 
-			{isHolidaySelectorVisible && (
-				<div className="fixed bottom-4 left-0 right-0 z-10 px-6 sm:px-8 md:px-12 flex justify-between items-center">
-					<HolidayWheel />
+				<div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:px-12"></div>
+
+				<div ref={holidaySection}>
+					<HolidaySection holidayCollections={data.holidayCollections} />
 				</div>
-			)}
 
-			<div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:px-12"></div>
+				{isHolidaySelectorVisible && (
+					<div className="fixed bottom-4 left-0 right-0 z-10 px-6 sm:px-8 md:px-12 flex justify-between items-center">
+						<HolidayWheel />
+					</div>
+				)}
 
-			<section ref={blurbsSection} className="px-6 sm:px-8 md:px-12 mb-12">
-				<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">Sweet choices in numbers</h2>
-				<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-					<Link
-						to="/about"
-						className="p-6 border-4 border-black bg-[#FFD700] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]
+				<div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:px-12"></div>
+
+				<section ref={blurbsSection} className="px-6 sm:px-8 md:px-12 mb-12">
+					<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">Sweet choices in numbers</h2>
+					<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+						<Link
+							to="/about"
+							className="p-6 border-4 border-black bg-[#FFD700] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]
                        hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] transition-all duration-200
                        transform hover:-translate-y-1 hover:-translate-x-1 hover:rotate-1"
-					>
-						<h3 className="text-6xl font-bold mb-2">11+</h3>
-						<h4 className="text-xl font-semibold">Years sweetening holidays</h4>
-					</Link>
-					<Link
-						to="/about"
-						className="p-6 border-4 border-black bg-[#FF69B4] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]
+						>
+							<h3 className="text-6xl font-bold mb-2">11+</h3>
+							<h4 className="text-xl font-semibold">Years holiday distributor</h4>
+						</Link>
+						<Link
+							to="/about"
+							className="p-6 border-4 border-black bg-[#FF69B4] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]
                        hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] transition-all duration-200
                        transform hover:-translate-y-1 hover:-translate-x-1 hover:rotate-1"
-					>
-						<h3 className="text-6xl font-bold mb-2">16+</h3>
-						<h4 className="text-xl font-semibold">Partnering countries across Europe</h4>
-					</Link>
-					<Link
-						to="/about"
-						className="p-6 border-4 border-black bg-[#00CED1] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]
+						>
+							<h3 className="text-6xl font-bold mb-2">16+</h3>
+							<h4 className="text-xl font-semibold">Partnering countries across Europe</h4>
+						</Link>
+						<Link
+							to="/about"
+							className="p-6 border-4 border-black bg-[#00CED1] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]
                        hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] transition-all duration-200
                        transform hover:-translate-y-1 hover:-translate-x-1 hover:rotate-1"
-					>
-						<h3 className="text-6xl font-bold mb-2">2.1M+</h3>
-						<h4 className="text-xl font-semibold">Unique treats sold every year</h4>
-					</Link>
-				</div>
-			</section>
+						>
+							<h3 className="text-6xl font-bold mb-2">2.1M+</h3>
+							<h4 className="text-xl font-semibold">Unique treats sold every year</h4>
+						</Link>
+					</div>
+				</section>
 
-			<div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:px-12"></div>
-		</main>
+				<div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:px-12"></div>
+			</main>
+		</ContactProvider>
 	);
 }
