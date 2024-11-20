@@ -133,7 +133,7 @@ export default function Collection() {
 						style={{
 							boxShadow: '4px 4px 0px 0px rgba(255,255,255,1)',
 						}}>
-						Collection
+						HOLIDAY SWEETS
 					</span>
 
 					<h1 className="text-[14vw] mt-2 sm:text-[8vw] md:text-[7vw] font-bold leading-tight text-orange-400"

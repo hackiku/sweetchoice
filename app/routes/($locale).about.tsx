@@ -98,9 +98,9 @@ export default function About() {
 						WE HAVE CANDY <br /> (and you know it)
 					</h1>
 
-					<div className="z-[1]">
+					{/* <div className="z-[1]">
 						<MobileVideo />
-					</div>
+					</div> */}
 				</section>
 				
 				<section className="md:w-2/3 px-6 sm:px-8 md:px-12 mb-16">
