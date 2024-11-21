@@ -44,6 +44,11 @@ import breadcrumbsStyles from '~/styles/ui/breadcrumbs.css?url';
 import {PageLayout} from '~/components/PageLayout';
 import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
 
+// TRANSLATION
+import { createTransformStream } from '~/lib/translations/serverTransform';
+
+
+
 export type RootLoader = typeof loader;
 
 /**
@@ -101,11 +106,13 @@ export function links() {
 }
 
 export async function loader(args: LoaderFunctionArgs) {
-  // Start fetching non-critical data without blocking time to first byte
+	const locale = new URL(args.request.url).searchParams.get('locale') || 'sr';
+  
+	// Start fetching non-critical data without blocking time to first byte
   const deferredData = loadDeferredData(args);
-
   // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args);
+
 
   const {storefront, env} = args.context;
 
@@ -113,6 +120,7 @@ export async function loader(args: LoaderFunctionArgs) {
     {
       ...deferredData,
       ...criticalData,
+			locale,
       publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
       shop: getShopAnalytics({
         storefront,
@@ -184,9 +192,11 @@ function loadDeferredData({context}: LoaderFunctionArgs) {
 function Layout({ children }: { children?: React.ReactNode }) {
 	const nonce = useNonce();
 	const data = useRouteLoaderData<RootLoader>('root');
+	// Add this line to get locale from data
+	const locale = data?.locale || 'sr';
 
 	return (
-		<html lang="en">
+		<html lang={locale}>
 			<head>
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -249,4 +259,32 @@ export function ErrorBoundary() {
       </div>
     </Layout>
   );
+}
+
+
+// Add this entire function at the end of your file
+export async function handleDocument(
+	request: Request,
+	responseStatusCode: number,
+	responseHeaders: Headers,
+	remixContext: EntryContext
+) {
+	const locale = new URL(request.url).searchParams.get('locale') || 'sr';
+	const transformer = createTransformStream(locale);
+
+	const body = await renderToReadableStream(
+		<RemixServer context={remixContext} url={request.url} />,
+		{
+			signal: request.signal,
+			onError(error) {
+				console.error(error);
+				responseStatusCode = 500;
+			},
+		}
+	);
+
+	return new Response(body.pipeThrough(transformer), {
+		headers: responseHeaders,
+		status: responseStatusCode
+	});
 }
