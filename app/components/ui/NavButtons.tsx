@@ -13,7 +13,6 @@ const NavButtons = () => {
 	const { open: openMenu, close: closeMenu } = useAside();
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-	// Get both translation namespaces
 	const { t: tNav } = useTranslation('nav');
 	const { t: tContact } = useTranslation('contact');
 
@@ -21,7 +20,6 @@ const NavButtons = () => {
 	const currentLocale = searchParams.get('locale') || 'sr';
 	const oppositeLocale = currentLocale === 'sr' ? 'en' : 'sr';
 
-	// Handle scroll behavior
 	useEffect(() => {
 		const handleScroll = () => {
 			const scrollPosition = window.scrollY;
@@ -49,15 +47,22 @@ const NavButtons = () => {
 		}
 	};
 
-	const containerClasses = `fixed z-[9999] flex items-center gap-2 transition-all duration-300 
+	const handleContactClick = () => {
+		if (isContactOpen) {
+			closeContact();
+		} else {
+			openContact();
+		}
+	};
+
+	const containerClasses = `fixed z-50 flex items-center gap-2 transition-all duration-300 
     ${isScrolled ? 'top-4 right-4' : 'top-8 right-8 lg:top-12 lg:right-12'}`;
 
-	// Determine which button is active (if any)
 	const activeButton = isContactOpen ? 'contact' : isMenuOpen ? 'menu' : null;
 
 	return (
 		<div className={containerClasses}>
-			{/* Language Switcher - Hidden when any button is active */}
+			{/* Language Button */}
 			{!activeButton && (
 				<button
 					onClick={toggleLanguage}
@@ -68,13 +73,13 @@ const NavButtons = () => {
                    active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]
                    active:translate-x-[2px] active:translate-y-[2px]
                    flex items-center justify-center"
-					aria-label={tNav('buttons.language.' + oppositeLocale)}
+					aria-label={`Switch to ${oppositeLocale.toUpperCase()}`}
 				>
-					{tNav('buttons.language.' + oppositeLocale)}
+					{currentLocale === 'sr' ? 'RS' : 'EN'}
 				</button>
 			)}
 
-			{/* Menu Button - Hidden when contact is active */}
+			{/* Menu Button */}
 			{activeButton !== 'contact' && (
 				<button
 					onClick={toggleMenu}
@@ -85,9 +90,7 @@ const NavButtons = () => {
                    active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]
                    active:translate-x-[2px] active:translate-y-[2px]
                    flex items-center justify-center
-                   ${isMenuOpen
-							? 'bg-[#FF6B6B] text-black'
-							: 'bg-white text-black'}`}
+                   ${isMenuOpen ? 'bg-[#FF6B6B] text-black' : 'bg-white text-black'}`}
 					aria-label={isMenuOpen ? tNav('buttons.menu.close') : tNav('buttons.menu.open')}
 				>
 					{isMenuOpen ? (
@@ -100,37 +103,35 @@ const NavButtons = () => {
 				</button>
 			)}
 
-			{/* Contact Button - Hidden when menu is active */}
+			{/* Contact Button */}
 			{activeButton !== 'menu' && (
 				<button
-					onClick={isContactOpen ? closeContact : openContact}
+					onClick={handleContactClick}
 					className={`group h-12 border-2 border-black
                    transition-all duration-300
                    shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
                    hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]
                    active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]
                    active:translate-x-[2px] active:translate-y-[2px]
-                   rounded-full
-                   flex items-center justify-center
+                   rounded-full flex items-center justify-center
                    ${isContactOpen
 							? 'bg-[#FF6B6B] text-black w-12'
-							: 'bg-[#FFB6C1] text-black md:w-auto w-12'}`}
+							: 'bg-[#FFB6C1] text-black md:w-auto w-12'
+						}`}
 					aria-label={isContactOpen ? tContact('buttons.closeContact') : tContact('buttons.openContact')}
 				>
-					<span className="flex items-center">
-						{isContactOpen ? (
-							<span className="w-12 h-12 flex items-center justify-center text-2xl font-bold">×</span>
-						) : (
-							<>
-								<span className="w-12 h-12 flex items-center justify-center text-2xl">
-									👋
-								</span>
-								<span className="pr-4 hidden md:inline origin-left transform transition-all duration-300">
-									{tContact('buttons.talkBiz')}
-								</span>
-							</>
-						)}
-					</span>
+					{isContactOpen ? (
+						<span className="w-12 h-12 flex items-center justify-center text-2xl font-bold">×</span>
+					) : (
+						<div className="flex items-center">
+							<span className="w-12 h-12 flex items-center justify-center text-2xl">
+								👋
+							</span>
+							<span className="pr-4 hidden md:inline whitespace-nowrap">
+								{tContact('buttons.talkBiz')}
+							</span>
+						</div>
+					)}
 				</button>
 			)}
 		</div>
