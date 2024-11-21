@@ -7,7 +7,9 @@ import { Suspense } from 'react';
 import { Await, Link } from '@remix-run/react';
 import type { RecommendedProductsQuery } from 'storefrontapi.generated';
 
-import { translateData } from '~/lib/translations/serverTranslate';
+import { useTranslation } from '~/lib/i18n/useTranslation';
+
+// import { translateData } from '~/lib/translations/serverTranslate';
 import LanguageSelector from '~/components/ui/LanguageSelector';
 
 import GalleryMasonry from '~/components/about/GalleryMasonry';
@@ -53,25 +55,18 @@ export async function loader({ context }: LoaderFunctionArgs) {
 }
 
 export default function About() {
+	const { t } = useTranslation();
 	const { recommendedProducts } = useLoaderData<typeof loader>();
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	const galleryAssets = [
-		{ type: 'video' as const, src: '/assets/tiktok.mp4', width: 1080, height: 1920 },
-		{ type: 'image' as const, src: 'https://picsum.photos/800/600', width: 800, height: 600 },
-		{ type: 'image' as const, src: 'https://picsum.photos/600/800', width: 600, height: 800 },
-		{ type: 'image' as const, src: 'https://picsum.photos/700/700', width: 700, height: 700 },
-		{ type: 'video' as const, src: '/assets/tiktok.mp4', width: 1080, height: 1920 },
-		{ type: 'image' as const, src: 'https://picsum.photos/900/600', width: 900, height: 600 },
-	];
-
-	const handleContactClick = () => {
-		setIsModalOpen(true);
-	};
 
 	return (
 		<div className="flex flex-col items-center relative">
+			
 			<LanguageSelector />
+			
+			
+			
 			<div className="w-full bg-gradient-to-b from-[#00A86B] to-transparent pt-14 pb-[75vh] absolute top-0 left-0 z-0"
 				style={{
 					backgroundImage: 'radial-gradient(#000 1px, transparent 1px), linear-gradient(to bottom, #00A86B, transparent)',
@@ -83,13 +78,15 @@ export default function About() {
 			</div>
 
 			<div className="w-full">
+				
+				
 				{/* Hero Section */}
 				<section className="w-full flex flex-col justify-center px-6 sm:px-8 md:px-12 mb-12 mt-16 border-t-3 border-black relative isolate">
 					<span className="inline-block bg-black text-white text-2xl font-bold py-2 px-4 transform -rotate-2 uppercase whitespace-normal max-w-max relative z-[2]"
 						style={{
 							boxShadow: '4px 4px 0px 0px rgba(255,255,255,1)',
 						}}>
-						About Us
+						{t('about.hero.label')}
 					</span>
 
 					<h1 className="text-[14vw] sm:text-[10vw] md:text-[8vw] font-bold leading-tight mb-4 text-orange-400 relative z-[2]"
@@ -99,32 +96,20 @@ export default function About() {
 							textShadow: '-0.1em 0.12em 0 #000',
 							filter: 'drop-shadow(0 0 1px black)',
 						}}>
-						WE HAVE CANDY <br /> (and you know it)
+						{t('about.hero.heading')} <br />
+						{t('about.hero.subheading')}
 					</h1>
 
-					{/* <div className="z-[1]">
-						<MobileVideo />
-					</div> */}
 				</section>
 				
 				<section className="md:w-2/3 px-6 sm:px-8 md:px-12 mb-16">
 					<p className="text-2xl max-w-2xl font-bold leading-tight sm-max:text-base mt-4">
-						SweetChoice is the only company in South East Europe specialized in the import and distribution of seasonal confectionery products.
+						{t('about.intro.description')}
 					</p>
 					<p className="text-2xl max-w-2xl font-bold leading-tight sm-max:text-base mt-4">
-						You've probably seen our sweets in your local supermarkets and stores right around holiday time.
+						{t('about.intro.secondary')}
 					</p>
 
-					<div className="mt-8">
-						<ContactButton
-							onClick={handleContactClick}
-							text="Talk Business →"
-							bgColor="bg-orange-400"
-							hoverBgColor="hover:bg-black"
-							hoverTextColor="hover:text-white"
-							className="text-xl"
-						/>
-					</div>
 				</section>
 
 				<div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:mx-12"></div>

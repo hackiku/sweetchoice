@@ -9,15 +9,13 @@ import type { RecommendedProductsQuery } from 'storefrontapi.generated';
 import { FEATURED_COLLECTION_QUERY, RECOMMENDED_PRODUCTS_QUERY } from '../graphql/queries';
 
 import { ContactProvider } from '~/components/contact/ContactContext';
-import ContactButton from '~/components/ui/ContactButton';
-
+import ContactButton from '~/components/contact/ContactButton';
 
 
 import Hero from '~/components/ui/Hero';
 import HolidaySection from '~/components/holidays/HolidaySection';
 import HolidayWheel from '~/components/holidays/HolidayWheel';
-import ContactButton from '~/components/ui/ContactButton';
-import ContactModal from '~/components/ui/ContactModal';
+
 
 export const meta: MetaFunction = () => {
 	return [{ title: 'Sweetchoice | Home' }];
