@@ -2,17 +2,19 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from '@remix-run/react';
-
-const holidays = [
-	{ name: 'Christmas', emoji: '🎅', id: 'christmas' },
-	{ name: 'Valentines', emoji: '💖', id: 'valentines' },
-	{ name: 'Easter', emoji: '🐰', id: 'easter' },
-	{ name: 'Halloween', emoji: '🎃', id: 'halloween' },
-];
+import { useTranslation } from '~/lib/i18n/useTranslation';
 
 const HolidayWheel = () => {
 	const [activeHoliday, setActiveHoliday] = useState('');
 	const location = useLocation();
+	const { t } = useTranslation();
+
+	const holidays = [
+		{ name: t('holidays.holidays.christmas.name'), emoji: t('holidays.holidays.christmas.emoji'), id: 'christmas' },
+		{ name: t('holidays.holidays.valentines.name'), emoji: t('holidays.holidays.valentines.emoji'), id: 'valentines' },
+		{ name: t('holidays.holidays.easter.name'), emoji: t('holidays.holidays.easter.emoji'), id: 'easter' },
+		{ name: t('holidays.holidays.halloween.name'), emoji: t('holidays.holidays.halloween.emoji'), id: 'halloween' },
+	];
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -36,7 +38,7 @@ const HolidayWheel = () => {
 		window.addEventListener('scroll', handleScroll);
 		handleScroll(); // Initial check
 		return () => window.removeEventListener('scroll', handleScroll);
-	}, []);
+	}, [holidays]);
 
 	return (
 		<div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-10">

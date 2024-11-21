@@ -10,12 +10,16 @@ import type {
 import { Aside } from '~/components/Aside';
 import { Header, HeaderMenu } from '~/components/Header';
 import { Footer } from '~/components/Footer';
+
+import NavButtons from './ui/NavButtons';
 import ContactButton from '~/components/contact/ContactButton';
+
 import { CartMain } from '~/components/Cart';
 import {
 	PredictiveSearchForm,
 	PredictiveSearchResults,
 } from '~/components/Search';
+
 
 interface PageLayoutProps {
 	cart: Promise<CartApiQueryFragment | null>;
@@ -49,7 +53,8 @@ export function PageLayout({
 			)}
 			<main>{children}</main>
 
-				<ContactButton /> 
+			<NavButtons />
+			<ContactButton /> 
 			
 			<Footer
 				footer={footer}
