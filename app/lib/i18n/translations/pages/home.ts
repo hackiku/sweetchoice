@@ -1,4 +1,4 @@
-export const footer
+export const home
  = {
   en: {
     // English translations will go here

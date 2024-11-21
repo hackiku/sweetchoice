@@ -1,8 +1,11 @@
-export const translations/components/contact = {
+export const contact
+ = {
   en: {
-    // English translations
+    // English translations will go here
+    placeholder: 'English'
   },
   sr: {
-    // Serbian translations
+    // Serbian translations will go here
+    placeholder: 'Serbian'
   }
 } as const;

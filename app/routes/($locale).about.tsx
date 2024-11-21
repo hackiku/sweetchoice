@@ -25,7 +25,8 @@ import ContactButton from '~/components/ui/ContactButton';
 import ContactModal from '~/components/ui/ContactModal';
 
 export const meta: MetaFunction = () => {
-	return [{ title: `About us | SweetChoice` }];
+	const {t} = useTranslation();
+	return [{ title: t('about.meta.title') }];
 };
 
 const RECOMMENDED_PRODUCTS_QUERY = `#graphql
