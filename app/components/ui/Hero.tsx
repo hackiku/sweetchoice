@@ -1,32 +1,23 @@
-// app/components/ui/Hero.tsx
-
 import React from 'react';
 import { Link } from '@remix-run/react';
 import ContactButton from './ContactButton';
 import Logos from './Logos';
 import RotatingSeasonalCircle from './RotatingSeasonalCircle';
 
-interface HeroProps {
-	title?: string;
-	subtitle: string;
-	ctaText: string;
-	ctaLink: string;
-	secondaryButtonText: string;
-	secondaryButtonLink: string;
-	logos: Array<{ src: string; alt: string; style?: React.CSSProperties }>;
-	onContactClick: () => void;
-}
+import { useTranslation } from '~/lib/i18n/useTranslation';
 
-const Hero: React.FC<HeroProps> = ({
-	title,
-	subtitle,
-	ctaText,
-	ctaLink,
-	secondaryButtonText,
-	secondaryButtonLink,
-	logos,
-	onContactClick,
-}) => {
+const logos = [
+	{ src: "/assets/logos/maxi-logo.svg", alt: "Maxi logo" },
+	{ src: "/assets/logos/dis-logo.png", alt: "DIS logo", style: { height: '20px' } },
+	{ src: "/assets/logos/idea-logo.svg", alt: "Idea logo" },
+	{ src: "/assets/logos/univerexport-logo.svg", alt: "Univerexport logo" },
+	{ src: "/assets/logos/tempo-logo.svg", alt: "Tempo logo" },
+	{ src: "/assets/logos/aroma-logo.svg", alt: "Aroma logo" },
+];
+
+const Hero: React.FC = () => {
+	const { t } = useTranslation();
+
 	return (
 		<section className="min-h-[calc(90vh-4rem)] flex flex-col justify-between px-6 sm:px-8 md:px-12 relative overflow-hidden">
 			<div className="absolute inset-0 z-0">
@@ -41,28 +32,28 @@ const Hero: React.FC<HeroProps> = ({
 							textShadow: '-0.1em 0.12em 0 #000',
 							filter: 'drop-shadow(0 0 1px black)'
 						}}>
-						Sweet holidays <br /> all year long
+						{t('home.hero.heading')}
 					</h1>
 					<p className="text-xl sm:text-2xl mt-4 max-w-2xl">
-						We wholesale wholesome holiday treats to supermarkets large and small.
+						{t('home.hero.subheading')}
 					</p>
 
 					<div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mt-8">
 						<ContactButton
-							onClick={onContactClick}
-							text="Get Catalog →"
+							onClick={() => { }} // You'll need to implement this
+							text={t('home.hero.ctaText')}
 							bgColor="bg-orange-500"
 							hoverBgColor="hover:bg-black"
 							hoverTextColor="hover:text-white"
 							className="w-full sm:w-auto text-xl"
 						/>
 						<Link
-							to={ctaLink}
+							to={t('home.hero.secondaryButtonLink')}
 							className="text-xl font-semibold px-6 py-2 border-2 border-black bg-white hover:bg-[#d71e97]
-                      text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
-                      transition-all duration-200 flex items-center justify-center w-full sm:w-auto"
+                text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
+                transition-all duration-200 flex items-center justify-center w-full sm:w-auto"
 						>
-							{ctaText}
+							{t('home.hero.secondaryButtonText')}
 						</Link>
 					</div>
 				</div>
