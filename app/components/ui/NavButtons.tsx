@@ -12,9 +12,10 @@ const NavButtons = () => {
 	const { isOpen: isContactOpen, openContact, closeContact } = useContact();
 	const { open: openMenu, close: closeMenu } = useAside();
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-	const { t: tNav } = useTranslation('nav');
-	const { t: tContact } = useTranslation('contact');
+	
+	const { t } = useTranslation();
+	// const { t: tNav } = useTranslation('nav');
+	// const { t: tContact } = useTranslation('contact');
 
 	const [isScrolled, setIsScrolled] = useState(false);
 	const currentLocale = searchParams.get('locale') || 'sr';
@@ -91,7 +92,8 @@ const NavButtons = () => {
                    active:translate-x-[2px] active:translate-y-[2px]
                    flex items-center justify-center
                    ${isMenuOpen ? 'bg-[#FF6B6B] text-black' : 'bg-white text-black'}`}
-					aria-label={isMenuOpen ? tNav('buttons.menu.close') : tNav('buttons.menu.open')}
+					// aria-label={isMenuOpen ? tNav('buttons.menu.close') : tNav('buttons.menu.open')}
+					aria-label={isMenuOpen ? t('contact.buttons.closeContact') : t('contact.buttons.openContact')}
 				>
 					{isMenuOpen ? (
 						<span className="text-2xl font-bold">×</span>
@@ -118,7 +120,8 @@ const NavButtons = () => {
 							? 'bg-[#FF6B6B] text-black w-12'
 							: 'bg-[#FFB6C1] text-black md:w-auto w-12'
 						}`}
-					aria-label={isContactOpen ? tContact('buttons.closeContact') : tContact('buttons.openContact')}
+					// aria-label={isContactOpen ? tContact('buttons.closeContact') : tContact('buttons.openContact')}
+					aria-label={isContactOpen ? t('contact.buttons.closeContact') : t('contact.buttons.openContact')}
 				>
 					{isContactOpen ? (
 						<span className="w-12 h-12 flex items-center justify-center text-2xl font-bold">×</span>
@@ -127,8 +130,9 @@ const NavButtons = () => {
 							<span className="w-12 h-12 flex items-center justify-center text-2xl">
 								👋
 							</span>
-							<span className="pr-4 hidden md:inline whitespace-nowrap">
-								{tContact('buttons.talkBiz')}
+							<span className="pr-4 w-24 text-lg font-semibold hidden md:inline whitespace-nowrap">
+								{/* {tContact('buttons.talkBiz')} */}
+								{t('contact.buttons.talkBiz')}
 							</span>
 						</div>
 					)}
