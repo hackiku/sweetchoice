@@ -48,7 +48,9 @@ export function PageLayout({
 				/>
 			)}
 			<main>{children}</main>
-			<ContactButton /> {/* Add ContactButton here */}
+
+				<ContactButton /> 
+			
 			<Footer
 				footer={footer}
 				header={header}

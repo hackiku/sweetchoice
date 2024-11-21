@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MdMail, MdPhone, MdLocationOn, MdPerson, MdClose } from 'react-icons/md';
+import { MdMail, MdPhone, MdLocationOn, MdPerson, MdClose, MdContentCopy, MdExpandLess, MdExpandMore } from 'react-icons/md';
 import { useContact } from './ContactContext';
 
 interface ContactSlideOverProps {
@@ -32,6 +32,7 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 		message: '',
 	});
 	const [isFormExpanded, setIsFormExpanded] = useState(false);
+	const [copiedInfo, setCopiedInfo] = useState<string | null>(null);
 	const slideOverRef = useRef<HTMLDivElement>(null);
 	const formRef = useRef<HTMLDivElement>(null);
 
@@ -69,8 +70,15 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 		selectedProducts.forEach(product => toggleProduct(product));
 	};
 
-	const handleFormClick = () => {
-		setIsFormExpanded(true);
+	const toggleFormExpansion = () => {
+		setIsFormExpanded(!isFormExpanded);
+	};
+
+	const copyToClipboard = (text: string) => {
+		navigator.clipboard.writeText(text).then(() => {
+			setCopiedInfo(text);
+			setTimeout(() => setCopiedInfo(null), 2000);
+		});
 	};
 
 	return (
@@ -97,22 +105,36 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 						{/* Contact Details */}
 						<div className="space-y-1 mb-6">
 							{contactDetails.map((detail, index) => (
-								<a
-									key={index}
-									href={detail.action}
-									className="flex items-center group p-2 hover:bg-white/20 rounded-xl transition-colors"
-								>
-									<detail.icon className="w-6 h-6 mr-3 text-black" />
-									<span className="text-xl font-semibold">{detail.text}</span>
-								</a>
+								<div key={index} className="relative">
+									<a
+										href={detail.action}
+										className="flex items-center group p-2 hover:bg-white rounded-xl transition-colors hover:border-2 hover:border-black hover:shadow-[4px_4px_0px_rgba(0,0,0,1)]"
+									>
+										<detail.icon className="w-6 h-6 mr-3 text-black group-hover:text-[#FF6B6B]" />
+										<span className="text-xl font-semibold group-hover:text-[#FF6B6B]">{detail.text}</span>
+										<button
+											onClick={(e) => {
+												e.preventDefault();
+												copyToClipboard(detail.text);
+											}}
+											className="ml-auto"
+										>
+											{copiedInfo === detail.text ? (
+												<span className="text-green-500">✓</span>
+											) : (
+												<MdContentCopy className="text-black group-hover:text-[#FF6B6B]" />
+											)}
+										</button>
+									</a>
+								</div>
 							))}
 						</div>
 
 						<hr className="my-4 border-black border-2" />
 
 						{/* Selected Products */}
-						<div className="mb-6">
-							<div className="flex justify-between items-center mb-4">
+						<div className="mb-4">
+							<div className="flex justify-between items-center mb-2">
 								<h3 className="text-2xl font-bold text-black">Selected Products</h3>
 								{selectedProducts.length > 0 && (
 									<button
@@ -160,10 +182,18 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 				{/* Contact Form */}
 				<div
 					ref={formRef}
-					className="p-4 border-t-4 border-black bg-[#AE7AFF]"
-					onClick={handleFormClick}
+					className={`relative border-t-4 border-black bg-[#AE7AFF] transition-all duration-300 ease-in-out ${selectedProducts.length > 0 ? 'h-[200px]' : 'h-[300px]'
+						} ${isFormExpanded ? 'h-[400px]' : ''}`}
 				>
-					<form onSubmit={handleSubmit} className="space-y-2">
+					{/* Toggle button */}
+					<button
+						className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 h-6 flex items-center justify-center cursor-pointer bg-[#FF6B6B] rounded-t-xl border-2 border-b-0 border-black"
+						onClick={toggleFormExpansion}
+					>
+						{isFormExpanded ? <MdExpandLess size={24} /> : <MdExpandMore size={24} />}
+					</button>
+
+					<form onSubmit={handleSubmit} className="p-4 space-y-2 h-full flex flex-col">
 						<div className="relative">
 							<MdPerson className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
 							<input
@@ -190,14 +220,15 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 							/>
 						</div>
 
-						<textarea
-							name="message"
-							placeholder="What's on your mind?"
-							value={formData.message}
-							onChange={handleInputChange}
-							className={`w-full border-black border-2 p-2 rounded-xl focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] transition-all duration-200 font-semibold text-gray-800 ${isFormExpanded ? 'h-32' : 'h-12'
-								}`}
-						/>
+						{isFormExpanded && (
+							<textarea
+								name="message"
+								placeholder="What's on your mind?"
+								value={formData.message}
+								onChange={handleInputChange}
+								className="flex-grow w-full border-black border-2 p-2 rounded-xl focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] transition-all duration-200 font-semibold text-gray-800"
+							/>
+						)}
 
 						<button
 							type="submit"

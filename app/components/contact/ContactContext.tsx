@@ -6,6 +6,7 @@ import ContactSlideOver from './ContactSlideOver';
 interface Product {
 	id: string;
 	title: string;
+	handle: string;
 	featuredImage?: {
 		url: string;
 		altText?: string;
@@ -42,15 +43,17 @@ export function ContactProvider({ children }: { children: React.ReactNode }) {
 		selectedProducts.some(p => p.id === productId),
 		[selectedProducts]);
 
+	const contextValue = {
+		isOpen,
+		openContact,
+		closeContact,
+		selectedProducts,
+		toggleProduct,
+		isProductSelected,
+	};
+
 	return (
-		<ContactContext.Provider value={{
-			isOpen,
-			openContact,
-			closeContact,
-			selectedProducts,
-			toggleProduct,
-			isProductSelected,
-		}}>
+		<ContactContext.Provider value={contextValue}>
 			{children}
 			{isOpen && <ContactSlideOver onClose={closeContact} />}
 		</ContactContext.Provider>
