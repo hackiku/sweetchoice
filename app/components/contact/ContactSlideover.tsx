@@ -1,53 +1,25 @@
 // app/components/contact/ContactSlideOver.tsx
 import React, { useRef, useState, useEffect } from 'react';
-import { MdMail, MdPhone, MdLocationOn, MdClose, MdContentCopy } from 'react-icons/md';
+import { MdClose } from 'react-icons/md';
 import { useFetcher } from '@remix-run/react';
 import { useContact } from './ContactContext';
+import { ContactDetails } from './ContactDetails';
 import ContactForm from './ContactForm';
 
 interface ContactSlideOverProps {
 	onClose: () => void;
 }
 
-const contactDetails = [
-	{
-		icon: MdMail,
-		text: 'info@sweetchoice.rs',
-		action: 'mailto:info@sweetchoice.rs',
-		expandedInfo: null,
-	},
-	{
-		icon: MdPhone,
-		text: '+381 63 111 33 11',
-		action: 'tel:+381631113311',
-		expandedInfo: null,
-	},
-	{
-		icon: MdLocationOn,
-		text: 'Belgrade, Serbia',
-		action: 'https://maps.google.com/?q=Nemanjina+7+11080+Belgrade+Serbia',
-		expandedInfo: `Nemanjina 7
-11080 Belgrade
-Serbia
-P.I.B. - 108257834
-M.B. - 20963026`,
-	},
-];
-
 const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 	const { selectedProducts } = useContact();
 	const fetcher = useFetcher();
 	const [isFormExpanded, setIsFormExpanded] = useState(false);
-	const [copiedInfo, setCopiedInfo] = useState<string | null>(null);
-	const [expandedContact, setExpandedContact] = useState<number | null>(null);
 	const slideOverRef = useRef<HTMLDivElement>(null);
 
 	// Prevent body scroll when slide-over is open
 	useEffect(() => {
 		document.body.style.overflow = 'hidden';
-		return () => {
-			document.body.style.overflow = 'unset';
-		};
+		return () => { document.body.style.overflow = 'unset'; };
 	}, []);
 
 	// Handle outside clicks
@@ -57,39 +29,23 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 				onClose();
 			}
 		};
-
 		document.addEventListener('mousedown', handleOutsideClick);
 		return () => document.removeEventListener('mousedown', handleOutsideClick);
 	}, [onClose]);
 
-	const copyToClipboard = (text: string, fullInfo?: string) => {
-		navigator.clipboard.writeText(fullInfo || text).then(() => {
-			setCopiedInfo(text);
-			setTimeout(() => setCopiedInfo(null), 2000);
-		});
-	};
-
+	// Catalog management functions
 	const handleClearCatalog = () => {
-		const formData = new FormData();
-		formData.append('_action', 'CLEAR_CATALOG');
-		fetcher.submit(formData, {
-			method: 'post',
-			action: '/api/contact',
-		});
+		fetcher.submit(
+			{ _action: 'CLEAR_CATALOG' },
+			{ method: 'post', action: '/api/contact' }
+		);
 	};
 
 	const handleRemoveProduct = (productId: string) => {
-		const formData = new FormData();
-		formData.append('_action', 'REMOVE_PRODUCT');
-		formData.append('productId', productId);
-		fetcher.submit(formData, {
-			method: 'post',
-			action: '/api/contact',
-		});
-	};
-
-	const handleFormSuccess = () => {
-		onClose();
+		fetcher.submit(
+			{ _action: 'REMOVE_PRODUCT', productId },
+			{ method: 'post', action: '/api/contact' }
+		);
 	};
 
 	return (
@@ -123,89 +79,40 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 								CONTACT & CATALOG
 							</h2>
 
-							{/* Contact Details */}
-							<div className="space-y-1 mb-6">
-								{contactDetails.map((detail, index) => (
-									<div key={index} className="relative">
-										<div
-											className={`
-                        relative overflow-hidden transition-all duration-300
-                        ${expandedContact === index ? 'bg-white border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)]' : ''}
-                        rounded-xl
-                      `}
-											onMouseEnter={() => detail.expandedInfo && setExpandedContact(index)}
-											onMouseLeave={() => setExpandedContact(null)}
-										>
-											<a
-												href={detail.action}
-												target={detail.icon === MdLocationOn ? '_blank' : undefined}
-												rel={detail.icon === MdLocationOn ? 'noopener noreferrer' : undefined}
-												className="flex items-center group p-2 hover:bg-white
-                                 transition-colors hover:border-2 hover:border-black 
-                                 hover:shadow-[4px_4px_0px_rgba(0,0,0,1)] rounded-xl"
-												onClick={(e) => {
-													if (detail.expandedInfo) {
-														e.preventDefault();
-													}
-												}}
-											>
-												<detail.icon className="w-6 h-6 mr-3 text-black group-hover:text-[#FF6B6B]" />
-												<div className="flex-1">
-													<span className="text-xl font-semibold group-hover:text-[#FF6B6B]">
-														{detail.text}
-													</span>
-													{expandedContact === index && detail.expandedInfo && (
-														<div className="mt-2 text-sm whitespace-pre-line">
-															{detail.expandedInfo}
-														</div>
-													)}
-												</div>
-												<button
-													onClick={(e) => {
-														e.preventDefault();
-														e.stopPropagation();
-														copyToClipboard(
-															detail.text,
-															detail.expandedInfo || detail.text
-														);
-													}}
-													className="ml-auto"
-												>
-													{copiedInfo === detail.text ? (
-														<span className="text-green-500">✓</span>
-													) : (
-														<MdContentCopy className="text-black group-hover:text-[#FF6B6B]" />
-													)}
-												</button>
-											</a>
-										</div>
-									</div>
-								))}
-							</div>
+							{/* Contact Details Section */}
+							<ContactDetails />
 
 							<hr className="my-4 border-black border-2" />
 
-							{/* Selected Products */}
+							{/* Selected Products Section */}
 							<div className="mb-4">
 								<div className="flex justify-between items-center mb-2">
 									<h3 className="text-2xl font-bold text-black">Selected Products</h3>
 									{selectedProducts.length > 0 && (
 										<button
 											onClick={handleClearCatalog}
-											className="px-3 py-2 bg-red-400 text-black font-bold border-2 
-                               border-black rounded-xl hover:bg-red-500 transition-colors"
+											className="px-3 py-2 bg-red-400 text-black font-bold 
+                               border-2 border-black rounded-xl 
+                               hover:bg-red-500 transition-colors
+                               shadow-[2px_2px_0px_rgba(0,0,0,1)]
+                               hover:shadow-[4px_4px_0px_rgba(0,0,0,1)]"
+											disabled={fetcher.state === 'submitting'}
 										>
 											Remove All
 										</button>
 									)}
 								</div>
+
 								<div className="space-y-2">
 									{selectedProducts.length > 0 ? (
 										selectedProducts.map((product) => (
 											<div
 												key={product.id}
-												className="flex items-center gap-2 bg-[#FFF59F] rounded-xl 
-                               border-2 border-black p-2"
+												className="flex items-center gap-2 bg-[#FFF59F] 
+                                 rounded-xl border-2 border-black p-2
+                                 shadow-[2px_2px_0px_rgba(0,0,0,1)]
+                                 hover:shadow-[4px_4px_0px_rgba(0,0,0,1)]
+                                 transition-all duration-200"
 											>
 												{product.featuredImage && (
 													<img
@@ -217,8 +124,12 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 												<span className="flex-1 font-medium truncate">{product.title}</span>
 												<button
 													onClick={() => handleRemoveProduct(product.id)}
-													className="p-1 bg-red-400 text-black rounded-lg border-2 
-                                 border-black hover:bg-red-500 transition-colors"
+													className="p-1 bg-red-400 text-black rounded-lg 
+                                   border-2 border-black hover:bg-red-500 
+                                   transition-colors
+                                   shadow-[2px_2px_0px_rgba(0,0,0,1)]
+                                   hover:shadow-[4px_4px_0px_rgba(0,0,0,1)]"
+													disabled={fetcher.state === 'submitting'}
 												>
 													<MdClose size={20} />
 												</button>
@@ -237,12 +148,12 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 						</div>
 					</div>
 
-					{/* Fixed Contact Form at Bottom */}
+					{/* Contact Form */}
 					<div className="sticky bottom-0 w-full">
 						<ContactForm
 							isExpanded={isFormExpanded}
 							onExpandToggle={() => setIsFormExpanded(!isFormExpanded)}
-							onSuccess={handleFormSuccess}
+							onSuccess={onClose}
 						/>
 					</div>
 				</div>
@@ -250,13 +161,15 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 				{/* Close Button */}
 				<button
 					onClick={onClose}
-					className="absolute top-4 right-4 w-16 h-16 bg-[#FF6B6B] text-black 
-                   font-bold text-2xl rounded-full border-4 border-black 
-                   shadow-[4px_4px_0px_rgba(0,0,0,1)] 
-                   hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] 
-                   active:shadow-[2px_2px_0px_rgba(0,0,0,1)] 
-                   active:translate-x-[2px] active:translate-y-[2px] 
-                   transition-all duration-200 flex items-center justify-center"
+					className="absolute top-4 right-4 w-16 h-16 bg-[#FF6B6B] 
+                   text-black font-bold text-2xl rounded-full 
+                   border-4 border-black
+                   shadow-[4px_4px_0px_rgba(0,0,0,1)]
+                   hover:shadow-[6px_6px_0px_rgba(0,0,0,1)]
+                   active:shadow-[2px_2px_0px_rgba(0,0,0,1)]
+                   active:translate-x-[2px] active:translate-y-[2px]
+                   transition-all duration-200
+                   flex items-center justify-center"
 				>
 					×
 				</button>
