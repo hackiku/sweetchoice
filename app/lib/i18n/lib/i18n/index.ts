@@ -1,0 +1,38 @@
+// Auto-generated index.ts for translations
+import {about} from './translations/pages/about';
+import {home} from './translations/pages/home';
+import {gifts} from './translations/pages/gifts';
+import {holidays} from './translations/pages/holidays';
+import {footer} from './translations/components/footer';
+import {header} from './translations/components/header';
+import {contact} from './translations/components/contact';
+import {statBlurbs} from './translations/components/statBlurbs';
+import {common} from './translations/common';
+
+export const translations = {
+  en: {
+    about: about.en,
+    home: home.en,
+    gifts: gifts.en,
+    holidays: holidays.en,
+    footer: footer.en,
+    header: header.en,
+    contact: contact.en,
+    statBlurbs: statBlurbs.en,
+    common: common.en
+  },
+  sr: {
+    about: about.sr,
+    home: home.sr,
+    gifts: gifts.sr,
+    holidays: holidays.sr,
+    footer: footer.sr,
+    header: header.sr,
+    contact: contact.sr,
+    statBlurbs: statBlurbs.sr,
+    common: common.sr
+  }
+} as const;
+
+export type Translations = typeof translations;
+export type Language = keyof typeof translations;
