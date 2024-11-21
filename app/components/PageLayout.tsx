@@ -53,8 +53,8 @@ export function PageLayout({
 			)}
 			<main>{children}</main>
 
-			<NavButtons />
-			<ContactButton /> 
+			<div className="mt-4"><NavButtons/></div>
+			{/* <ContactButton />  */}
 			
 			<Footer
 				footer={footer}

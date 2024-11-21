@@ -8,7 +8,6 @@ import { FEATURED_COLLECTION_QUERY, RECOMMENDED_PRODUCTS_QUERY } from '../graphq
 
 import { useTranslation } from '~/lib/i18n/useTranslation';
 
-import LanguageSelector from '~/components/ui/LanguageSelector';
 import Hero from '~/components/ui/Hero';
 import HolidaySection from '~/components/holidays/HolidaySection';
 import HolidayWheel from '~/components/holidays/HolidayWheel';
@@ -125,7 +124,6 @@ export default function Homepage() {
 
   return (
     <main className="overflow-x-hidden">
-      <LanguageSelector />
       
       <Hero />
 
