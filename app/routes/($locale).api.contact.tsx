@@ -51,28 +51,55 @@ export const action: ActionFunction = async ({ request, context }) => {
 				const name = formData.get('name') as string;
 				const message = formData.get('message') as string;
 
+				// Subscribe to newsletter
+				await storefront.mutate(NEWSLETTER_SUBSCRIBE_MUTATION, {
+					variables: {
+						email,
+						acceptsMarketing: true
+					}
+				});
+
 				// Format selected products for email
 				const productsList = catalogState.products
-					.map(p => `- ${p.title}`)
+					.map(p => `- ${p.title} (https://${context.env.PUBLIC_STORE_DOMAIN}/products/${p.handle})`)
 					.join('\n');
 
-				// Send to Shopify's customer contact API
+				// Prepare email content based on whether products were selected
+				const emailContent = catalogState.products.length > 0
+					? `
+Hello ${name},
+
+Thank you for your interest in our wholesale catalog! Here are the products you've selected:
+
+${productsList}
+
+You can view our complete catalog at: https://${context.env.PUBLIC_STORE_DOMAIN}/collections/all
+
+${message ? `\nYour message:\n${message}` : ''}
+
+Best regards,
+The Sweetchoice Team
+          `
+					: `
+Hello ${name},
+
+Thank you for your interest in our wholesale catalog! You can view our complete collection at:
+https://${context.env.PUBLIC_STORE_DOMAIN}/collections/all
+
+${message ? `\nYour message:\n${message}` : ''}
+
+Best regards,
+The Sweetchoice Team
+          `;
+
+				// Send email via Shopify's customer contact API
 				await storefront.mutate(CUSTOMER_CONTACT_MUTATION, {
 					variables: {
 						input: {
 							email,
-							message: `
-Name: ${name}
-B2B Catalog Request
-
-Selected Products:
-${productsList}
-
-Additional Message:
-${message}
-              `,
+							message: emailContent,
 							phone: "",
-							subject: "B2B Catalog Request"
+							subject: "Your Sweetchoice Wholesale Catalog"
 						}
 					}
 				});
@@ -116,6 +143,24 @@ const CUSTOMER_CONTACT_MUTATION = `#graphql
     customerContact(input: $input) {
       success
       errors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const NEWSLETTER_SUBSCRIBE_MUTATION = `#graphql
+  mutation NewsletterSubscribe($email: String!, $acceptsMarketing: Boolean!) {
+    customerUpdate(input: {
+      email: $email,
+      acceptsMarketing: $acceptsMarketing
+    }) {
+      customer {
+        id
+        acceptsMarketing
+      }
+      userErrors {
         field
         message
       }
