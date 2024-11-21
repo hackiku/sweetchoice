@@ -1,5 +1,7 @@
 // app/components/ui/NavButtons.tsx
 
+// app/components/ui/NavButtons.tsx
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from '@remix-run/react';
 import { useContact } from '~/components/contact/ContactContext';
@@ -9,17 +11,20 @@ import { useAside } from '~/components/Aside';
 const NavButtons = () => {
 	const navigate = useNavigate();
 	const [searchParams] = useSearchParams();
-	const { isOpen: isContactOpen, openContact, closeContact } = useContact();
+	const contact = useContact();
 	const { open: openMenu, close: closeMenu } = useAside();
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	
+
 	const { t } = useTranslation();
-	// const { t: tNav } = useTranslation('nav');
-	// const { t: tContact } = useTranslation('contact');
 
 	const [isScrolled, setIsScrolled] = useState(false);
 	const currentLocale = searchParams.get('locale') || 'sr';
 	const oppositeLocale = currentLocale === 'sr' ? 'en' : 'sr';
+
+	// Safely access contact context properties
+	const isContactOpen = contact?.isOpen ?? false;
+	const openContact = contact?.openContact ?? (() => { });
+	const closeContact = contact?.closeContact ?? (() => { });
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -61,6 +66,9 @@ const NavButtons = () => {
 
 	const activeButton = isContactOpen ? 'contact' : isMenuOpen ? 'menu' : null;
 
+	// If contact context is not available yet, don't render anything
+	if (!contact) return null;
+
 	return (
 		<div className={containerClasses}>
 			{/* Language Button */}
@@ -92,8 +100,7 @@ const NavButtons = () => {
                    active:translate-x-[2px] active:translate-y-[2px]
                    flex items-center justify-center
                    ${isMenuOpen ? 'bg-[#FF6B6B] text-black' : 'bg-white text-black'}`}
-					// aria-label={isMenuOpen ? tNav('buttons.menu.close') : tNav('buttons.menu.open')}
-					aria-label={isMenuOpen ? t('contact.buttons.closeContact') : t('contact.buttons.openContact')}
+					aria-label={isMenuOpen ? t('nav.buttons.menu.close') : t('nav.buttons.menu.open')}
 				>
 					{isMenuOpen ? (
 						<span className="text-2xl font-bold">×</span>
@@ -118,9 +125,7 @@ const NavButtons = () => {
                    rounded-full flex items-center justify-center
                    ${isContactOpen
 							? 'bg-[#FF6B6B] text-black w-12'
-							: 'bg-[#FFB6C1] text-black md:w-auto w-12'
-						}`}
-					// aria-label={isContactOpen ? tContact('buttons.closeContact') : tContact('buttons.openContact')}
+							: 'bg-[#FFB6C1] text-black md:w-auto w-12'}`}
 					aria-label={isContactOpen ? t('contact.buttons.closeContact') : t('contact.buttons.openContact')}
 				>
 					{isContactOpen ? (
@@ -131,7 +136,6 @@ const NavButtons = () => {
 								👋
 							</span>
 							<span className="pr-4 w-24 text-lg font-semibold hidden md:inline whitespace-nowrap">
-								{/* {tContact('buttons.talkBiz')} */}
 								{t('contact.buttons.talkBiz')}
 							</span>
 						</div>
