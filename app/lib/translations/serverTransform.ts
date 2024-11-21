@@ -1,9 +1,7 @@
 // app/lib/translations/serverTransform.ts
 
-import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
-
 export const translations: Record<string, string> = {
-	// Page title and hero section
+	// Hero Section
 	'About us | SweetChoice': 'O nama | SweetChoice',
 	'About Us': 'O nama',
 	'WE HAVE CANDY': 'IMAMO SLATKIŠE',
@@ -16,23 +14,10 @@ export const translations: Record<string, string> = {
 		'Verovatno ste videli naše slatkiše u lokalnim supermarketima i prodavnicama tokom praznika.',
 	'Talk Business →': 'Razgovarajmo o poslu →',
 
-	// Product section
+	// Headers and sections
 	'All About': 'Sve o',
 	'Holiday Treats': 'Prazničnim poslasticama',
 	'Loading...': 'Učitavanje...',
-
-	// Stats section
-	'Year Founded': 'Godina osnivanja',
-	'Countries Served': 'Zemalja',
-	'Products': 'Proizvoda',
-	'Retail Partners': 'Partnera',
-	'All Around Southeast Europe': 'Širom Jugoistočne Evrope',
-
-	// UI elements
-	'Previous': 'Prethodno',
-	'Next': 'Sledeće',
-	'Close': 'Zatvori',
-	'Loading cart ...': 'Učitavanje korpe ...',
 };
 
 export function createTransformStream(locale: string) {
@@ -45,11 +30,11 @@ export function createTransformStream(locale: string) {
 		transform(chunk, controller) {
 			let html = decoder.decode(chunk);
 
+			// First, handle exact matches
 			Object.entries(translations).forEach(([en, sr]) => {
-				// Escape special regex characters in the English text
 				const safeEn = en.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-				const regex = new RegExp(safeEn, 'g');
-				html = html.replace(regex, sr);
+				const regex = new RegExp(`(>|"|\\'|\\s)${safeEn}(<|"|\\'|\\s)`, 'g');
+				html = html.replace(regex, `$1${sr}$2`);
 			});
 
 			controller.enqueue(encoder.encode(html));
