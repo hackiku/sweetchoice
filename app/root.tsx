@@ -29,20 +29,11 @@ import ContactSlideOver from '~/components/contact/ContactSlideOver';
 // Styles
 import stylesheet from '~/styles/tailwind.css?url';
 import favicon from '~/assets/favicon.png';
-import resetStyles from '~/styles/reset.css?url';
+// import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
-import businessSelectorStyles from '~/styles/business-selector.css?url';
+// import businessSelectorStyles from '~/styles/business-selector.css?url';
 import homeStyles from '~/styles/pages/home.css?url';
-import aboutStyles from '~/styles/pages/about.css?url';
-import holidaysStyles from '~/styles/pages/holidays.css?url';
-import holidayPageStyles from '~/styles/pages/holiday.css?url';
-import contactStyles from '~/styles/pages/contact.css?url';
 import logosStyles from '~/styles/ui/logos.css?url';
-import buttonStyles from '~/styles/ui/button.css?url';
-import blurbsStyles from '~/styles/ui/blurbs.css?url';
-import sectionIntroStyles from '~/styles/ui/section-intro.css?url';
-import galleryStyles from '~/styles/ui/gallery.css?url';
-import breadcrumbsStyles from '~/styles/ui/breadcrumbs.css?url';
 
 // Queries and Utils
 import { FOOTER_QUERY, HEADER_QUERY } from '~/lib/fragments';
@@ -68,20 +59,10 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 // Define links for styles
 export const links: LinksFunction = () => [
 	{ rel: 'stylesheet', href: stylesheet },
-	{ rel: 'stylesheet', href: resetStyles },
+	// { rel: 'stylesheet', href: resetStyles },
 	{ rel: 'stylesheet', href: appStyles },
-	{ rel: 'stylesheet', href: buttonStyles },
 	{ rel: 'stylesheet', href: logosStyles },
-	{ rel: 'stylesheet', href: blurbsStyles },
-	{ rel: 'stylesheet', href: businessSelectorStyles },
-	{ rel: 'stylesheet', href: sectionIntroStyles },
-	{ rel: 'stylesheet', href: galleryStyles },
-	{ rel: 'stylesheet', href: breadcrumbsStyles },
 	{ rel: 'stylesheet', href: homeStyles },
-	{ rel: 'stylesheet', href: holidayPageStyles },
-	{ rel: 'stylesheet', href: aboutStyles },
-	{ rel: 'stylesheet', href: holidaysStyles },
-	{ rel: 'stylesheet', href: contactStyles },
 	{ rel: 'preconnect', href: 'https://cdn.shopify.com' },
 	{ rel: 'preconnect', href: 'https://shop.app' },
 	{ rel: 'icon', type: 'image/svg+xml', href: favicon },

@@ -1,11 +1,18 @@
 export const home
  = {
   en: {
-    // English translations will go here
-    placeholder: 'English'
+		 meta: {
+			title: 'SweetChoice | Home'
+		 },
+		 hero: {
+			 label: 'About Us',
+			 heading: 'WE HAVE CANDY',
+			 subheading: '(and you know it)'
+		 },
   },
   sr: {
-    // Serbian translations will go here
-    placeholder: 'Serbian'
+		meta: {
+			title: 'SweetChoice | Početna'
+		},
   }
 } as const;

@@ -1,4 +1,4 @@
-// lib/i18n/translations/pages/about.ts
+// app/lib/i18n/translations/pages/about.ts
 
 export const about = {
 	en: {
@@ -11,11 +11,16 @@ export const about = {
 			subheading: '(and you know it)'
 		},
 		intro: {
-			description: 'SweetChoice is the only company in South East Europe specialized in the import and distribution of seasonal confectionery',
+			description: 'SweetChoice is the only company in South East Europe specialized in the import and distribution of seasonal confectionery products.',
 			secondary: "You've probably seen our sweets in your local supermarkets when the holidays are hot."
 		},
-		cta: {
-			button: 'Talk Business →'
+		products: {
+			heading: "All About",
+			subheading: "Holiday Treats"
+		},
+		reach: {
+			heading: "Our Reach",
+			mapPlaceholder: "Map of Europe Placeholder"
 		}
 	},
 	sr: {
@@ -28,11 +33,16 @@ export const about = {
 			subheading: '(i to vam je jasno)'
 		},
 		intro: {
-			description: 'SweetChoice je jedina kompanija u jugoistočnoj Evropi specijalizovana za uvoz i distribuciju sezonskih konditorskih proizvoda',
-			secondary: 'Verovatno ste videli naše slatkiše u lokalnim supermarketima i prodavnicama tokom praznika.'
+			description: 'SweetChoice je jedina kompanija u jugoistočnoj Evropi specijalizovana za uvoz i distribuciju sezonskih konditorskih proizvoda.',
+			secondary: 'Verovatno ste videli naše slatkiše u lokalnim supermarketima tokom praznika.'
 		},
-		cta: {
-			button: 'Razgovarajmo o poslu →'
+		products: {
+			heading: "Sve O",
+			subheading: "Prazničnim Poslasticama"
+		},
+		reach: {
+			heading: "Naš Domet",
+			mapPlaceholder: "Mapa Evrope"
 		}
 	}
 } as const;

@@ -8,9 +8,10 @@ import { Image, Money } from '@shopify/hydrogen';
 import type { RecommendedProductsQuery } from 'storefrontapi.generated';
 import { FEATURED_COLLECTION_QUERY, RECOMMENDED_PRODUCTS_QUERY } from '../graphql/queries';
 
-import { ContactProvider } from '~/components/contact/ContactContext';
-import ContactButton from '~/components/contact/ContactButton';
+import { useTranslation } from '~/lib/i18n/useTranslation';
 
+// !move selector!
+import LanguageSelector from '~/components/ui/LanguageSelector';
 
 import Hero from '~/components/ui/Hero';
 import HolidaySection from '~/components/holidays/HolidaySection';
@@ -18,7 +19,8 @@ import HolidayWheel from '~/components/holidays/HolidayWheel';
 
 
 export const meta: MetaFunction = () => {
-	return [{ title: 'Sweetchoice | Home' }];
+	const { t } = useTranslation();
+	return [{ title: t('home.meta.title') }];
 };
 
 const COLLECTION_QUERY = `#graphql
@@ -110,6 +112,7 @@ const logos = [
 ];
 
 export default function Homepage() {
+	const { t } = useTranslation();
 	const data = useLoaderData<typeof loader>();
 	const [isHolidaySelectorVisible, setIsHolidaySelectorVisible] = useState(false);
 	const holidaySection = useRef<HTMLDivElement>(null);
@@ -137,13 +140,10 @@ export default function Homepage() {
 	return (
 		// <ContactProvider>
 			<main className="overflow-x-hidden">
-				{/* <ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} /> */}
+				
 
-				<div className="fixed top-5 right-5">
-					{/* <ContactButton onClick={() => setIsModalOpen(true)} /> */}
-				</div>
-
-
+				<LanguageSelector />
+				
 				<Hero
 					// title="SWEET HOLIDAYS ALL YEAR LONG"
 					subtitle="We wholesale wholesome holiday treats to leading supermarkets & grocery stores."
