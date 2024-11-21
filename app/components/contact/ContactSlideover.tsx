@@ -6,6 +6,8 @@ interface ContactSlideOverProps {
 	onClose: () => void;
 }
 
+// const [isSubmitting, setIsSubmitting] = useState(false);
+
 const contactDetails = [
 	{
 		icon: MdMail,
@@ -49,13 +51,39 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 		};
 	}, [onClose]);
 
-	const handleSubmit = (e: React.FormEvent) => {
-		e.preventDefault();
-		console.log('Form submitted:', {
-			...formData,
-			selectedProducts: selectedProducts.map(p => p.id)
+	const handleAddProduct = async (product) => {
+		const formData = new FormData();
+		formData.append('_action', 'ADD_PRODUCT');
+		formData.append('product', JSON.stringify(product));
+
+		await fetch('/api/contact', {
+			method: 'POST',
+			body: formData
 		});
-		onClose();
+	};
+
+
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault();
+		setIsSubmitting(true);
+
+		try {
+			const formData = new FormData(e.currentTarget as HTMLFormElement);
+			formData.append('_action', 'SUBMIT_CATALOG');
+
+			const response = await fetch('/api/contact', {
+				method: 'POST',
+				body: formData
+			});
+
+			if (!response.ok) throw new Error('Failed to submit');
+
+			onClose();
+		} catch (error) {
+			console.error(error);
+		} finally {
+			setIsSubmitting(false);
+		}
 	};
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -179,65 +207,6 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 					</div>
 				</div>
 
-				{/* Contact Form */}
-				<div
-					ref={formRef}
-					className={`relative border-t-4 border-black bg-[#AE7AFF] transition-all duration-300 ease-in-out ${selectedProducts.length > 0 ? 'h-[200px]' : 'h-[300px]'
-						} ${isFormExpanded ? 'h-[400px]' : ''}`}
-				>
-					{/* Toggle button */}
-					<button
-						className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 h-6 flex items-center justify-center cursor-pointer bg-[#FF6B6B] rounded-t-xl border-2 border-b-0 border-black"
-						onClick={toggleFormExpansion}
-					>
-						{isFormExpanded ? <MdExpandLess size={24} /> : <MdExpandMore size={24} />}
-					</button>
-
-					<form onSubmit={handleSubmit} className="p-4 space-y-2 h-full flex flex-col">
-						<div className="relative">
-							<MdPerson className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
-							<input
-								type="text"
-								name="name"
-								placeholder="Willie Wonka"
-								value={formData.name}
-								onChange={handleInputChange}
-								className="w-full border-black border-2 p-2 pl-10 rounded-xl focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] transition-all duration-200 font-semibold text-gray-800"
-								required
-							/>
-						</div>
-
-						<div className="relative">
-							<MdMail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
-							<input
-								type="email"
-								name="email"
-								placeholder="willie@disney.com"
-								value={formData.email}
-								onChange={handleInputChange}
-								className="w-full border-black border-2 p-2 pl-10 rounded-xl focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] transition-all duration-200 font-semibold text-gray-800"
-								required
-							/>
-						</div>
-
-						{isFormExpanded && (
-							<textarea
-								name="message"
-								placeholder="What's on your mind?"
-								value={formData.message}
-								onChange={handleInputChange}
-								className="flex-grow w-full border-black border-2 p-2 rounded-xl focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] transition-all duration-200 font-semibold text-gray-800"
-							/>
-						)}
-
-						<button
-							type="submit"
-							className="w-full bg-[#FF6B6B] text-black font-bold py-3 px-4 border-2 border-black rounded-xl shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] transition-all duration-200 text-xl"
-						>
-							Get Catalog →
-						</button>
-					</form>
-				</div>
 			</div>
 
 			<button
