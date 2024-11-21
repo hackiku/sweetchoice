@@ -7,6 +7,9 @@ import { Suspense } from 'react';
 import { Await, Link } from '@remix-run/react';
 import type { RecommendedProductsQuery } from 'storefrontapi.generated';
 
+import { translateData } from '~/lib/translations/serverTranslate';
+import LanguageSelector from '~/components/ui/LanguageSelector';
+
 import GalleryMasonry from '~/components/about/GalleryMasonry';
 import MobileVideo from '~/components/about/MobileVideo';
 import EuropeMap from '~/components/about/EuropeMap';
@@ -68,6 +71,7 @@ export default function About() {
 
 	return (
 		<div className="flex flex-col items-center relative">
+			<LanguageSelector />
 			<div className="w-full bg-gradient-to-b from-[#00A86B] to-transparent pt-14 pb-[75vh] absolute top-0 left-0 z-0"
 				style={{
 					backgroundImage: 'radial-gradient(#000 1px, transparent 1px), linear-gradient(to bottom, #00A86B, transparent)',

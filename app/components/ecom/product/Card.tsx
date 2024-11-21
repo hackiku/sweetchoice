@@ -99,7 +99,7 @@ const Card: React.FC<CardProps> = ({
 				<div className="flex justify-between items-center mb-4">
 					<div className="flex flex-col justify-between items-start gap-1">
 						<div className="font-bold">
-							{weight} {weightUnit}
+							{weight} g
 						</div>
 						<div className="text-sm font-semibold">
 							📦 {boxQuantity}×
