@@ -70,8 +70,10 @@ const ContactForm = ({ isExpanded, onExpandToggle, onSuccess }: ContactFormProps
 			</button>
 
 			{/* Form Container with Fixed Height and Overflow Clip */}
+			
+			{/* ${isExpanded ? 'h-[320px]' : 'h-[120px]'}`}> */}
 			<div className={`relative transition-all duration-300 ease-in-out overflow-hidden
-           ${isExpanded ? 'h-[320px]' : 'h-[120px]'}`}>
+          ${isExpanded ? 'h-44' : 'h-1/5'}`}>
 				<form
 					onSubmit={handleSubmit}
 					className="absolute inset-0 p-4 flex flex-col"

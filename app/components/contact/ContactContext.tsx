@@ -1,7 +1,7 @@
 // app/components/contact/ContactContext.tsx
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
-import { useNavigate, useFetcher } from '@remix-run/react';
-import ContactSlideOver from './ContactSlideOver';
+import { useFetcher } from '@remix-run/react';
+import type { ReactNode } from 'react';
 
 interface Product {
 	id: string;
@@ -27,7 +27,12 @@ interface ContactContextType {
 
 const ContactContext = createContext<ContactContextType | undefined>(undefined);
 
-export function ContactProvider({ children }: { children: React.ReactNode }) {
+interface ContactProviderProps {
+	children: ReactNode;
+	slideOver: React.ComponentType<{ onClose: () => void }>;
+}
+
+export function ContactProvider({ children, slideOver: SlideOver }: ContactProviderProps) {
 	const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
 	const [isOpen, setIsOpen] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -37,10 +42,14 @@ export function ContactProvider({ children }: { children: React.ReactNode }) {
 	// Load initial catalog state
 	useEffect(() => {
 		const loadCatalog = async () => {
-			const response = await fetch('/api/contact');
-			const { catalog } = await response.json();
-			if (catalog?.products) {
-				setSelectedProducts(catalog.products);
+			try {
+				const response = await fetch('/api/contact');
+				const { catalog } = await response.json();
+				if (catalog?.products) {
+					setSelectedProducts(catalog.products);
+				}
+			} catch (err) {
+				console.error('Failed to load catalog:', err);
 			}
 		};
 		loadCatalog();
@@ -112,14 +121,14 @@ export function ContactProvider({ children }: { children: React.ReactNode }) {
 	return (
 		<ContactContext.Provider value={contextValue}>
 			{children}
-			{isOpen && <ContactSlideOver onClose={closeContact} />}
+			{isOpen && <SlideOver onClose={closeContact} />}
 		</ContactContext.Provider>
 	);
 }
 
 export function useContact() {
 	const context = useContext(ContactContext);
-	if (context === undefined) {
+	if (!context) {
 		throw new Error('useContact must be used within a ContactProvider');
 	}
 	return context;

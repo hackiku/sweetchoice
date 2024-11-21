@@ -24,7 +24,7 @@ const contactDetails = [
 		icon: MdLocationOn,
 		text: 'Belgrade, Serbia',
 		action: 'https://maps.google.com/?q=Belgrade,Serbia',
-	},
+	}, 
 ];
 
 const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {

@@ -19,6 +19,7 @@ import type {LinksFunction} from '@remix-run/node';
 import {ThemeModeScript} from 'flowbite-react';
 import {ContactProvider} from '~/components/contact/ContactContext';
 import stylesheet from '~/styles/tailwind.css?url';
+import ContactSlideOver from '~/components/contact/ContactSlideOver';
 
 import favicon from '~/assets/favicon.png';
 import resetStyles from '~/styles/reset.css?url';
@@ -180,40 +181,39 @@ function loadDeferredData({context}: LoaderFunctionArgs) {
   };
 }
 
-function Layout({children}: {children?: React.ReactNode}) {
-  const nonce = useNonce();
-  const data = useRouteLoaderData<RootLoader>('root');
+function Layout({ children }: { children?: React.ReactNode }) {
+	const nonce = useNonce();
+	const data = useRouteLoaderData<RootLoader>('root');
 
-  return (
-    <html lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <Meta />
-        <Links />
-        <ThemeModeScript />
-      </head>
-      <body>
-        {data ? (
-          <Analytics.Provider
-            cart={data.cart}
-            shop={data.shop}
-            consent={data.consent}
-          >
-            <ContactProvider>
-              <PageLayout {...data}>{children}</PageLayout>
-            </ContactProvider>
+	return (
+		<html lang="en">
+			<head>
+				<meta charSet="utf-8" />
+				<meta name="viewport" content="width=device-width,initial-scale=1" />
+				<Meta />
+				<Links />
+			</head>
+			<body>
+				{data ? (
+					<Analytics.Provider
+						cart={data.cart}
+						shop={data.shop}
+						consent={data.consent}
+					>
+						<ContactProvider slideOver={ContactSlideOver}>
+							<PageLayout {...data}>{children}</PageLayout>
+						</ContactProvider>
 					</Analytics.Provider>
-        ) : (
-          <ContactProvider>
+				) : (
+					<ContactProvider slideOver={ContactSlideOver}>
 						{children}
 					</ContactProvider>
-        )}
-        <ScrollRestoration nonce={nonce} />
-        <Scripts nonce={nonce} />
-      </body>
-    </html>
-  );
+				)}
+				<ScrollRestoration nonce={nonce} />
+				<Scripts nonce={nonce} />
+			</body>
+		</html>
+	);
 }
 
 export default function App() {
