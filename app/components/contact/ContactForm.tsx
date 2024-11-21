@@ -1,4 +1,5 @@
-//ContactForm.tsx
+// app/components/contact/ContactForm.tsx
+
 import React, { useState, useEffect } from 'react';
 import { MdPerson, MdMail, MdExpandLess, MdExpandMore } from 'react-icons/md';
 import { useFetcher } from '@remix-run/react';

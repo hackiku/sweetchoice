@@ -14,17 +14,24 @@ const contactDetails = [
 		icon: MdMail,
 		text: 'info@sweetchoice.rs',
 		action: 'mailto:info@sweetchoice.rs',
+		expandedInfo: null,
 	},
 	{
 		icon: MdPhone,
 		text: '+381 63 111 33 11',
 		action: 'tel:+381631113311',
+		expandedInfo: null,
 	},
 	{
 		icon: MdLocationOn,
 		text: 'Belgrade, Serbia',
-		action: 'https://maps.google.com/?q=Belgrade,Serbia',
-	}, 
+		action: 'https://maps.google.com/?q=Nemanjina+7+11080+Belgrade+Serbia',
+		expandedInfo: `Nemanjina 7
+11080 Belgrade
+Serbia
+P.I.B. - 108257834
+M.B. - 20963026`,
+	},
 ];
 
 const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
@@ -32,6 +39,7 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 	const fetcher = useFetcher();
 	const [isFormExpanded, setIsFormExpanded] = useState(false);
 	const [copiedInfo, setCopiedInfo] = useState<string | null>(null);
+	const [expandedContact, setExpandedContact] = useState<number | null>(null);
 	const slideOverRef = useRef<HTMLDivElement>(null);
 
 	// Prevent body scroll when slide-over is open
@@ -54,8 +62,8 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 		return () => document.removeEventListener('mousedown', handleOutsideClick);
 	}, [onClose]);
 
-	const copyToClipboard = (text: string) => {
-		navigator.clipboard.writeText(text).then(() => {
+	const copyToClipboard = (text: string, fullInfo?: string) => {
+		navigator.clipboard.writeText(fullInfo || text).then(() => {
 			setCopiedInfo(text);
 			setTimeout(() => setCopiedInfo(null), 2000);
 		});
@@ -64,7 +72,6 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 	const handleClearCatalog = () => {
 		const formData = new FormData();
 		formData.append('_action', 'CLEAR_CATALOG');
-
 		fetcher.submit(formData, {
 			method: 'post',
 			action: '/api/contact',
@@ -75,7 +82,6 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 		const formData = new FormData();
 		formData.append('_action', 'REMOVE_PRODUCT');
 		formData.append('productId', productId);
-
 		fetcher.submit(formData, {
 			method: 'post',
 			action: '/api/contact',
@@ -121,30 +127,58 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 							<div className="space-y-1 mb-6">
 								{contactDetails.map((detail, index) => (
 									<div key={index} className="relative">
-										<a
-											href={detail.action}
-											className="flex items-center group p-2 hover:bg-white rounded-xl 
-                               transition-colors hover:border-2 hover:border-black 
-                               hover:shadow-[4px_4px_0px_rgba(0,0,0,1)]"
+										<div
+											className={`
+                        relative overflow-hidden transition-all duration-300
+                        ${expandedContact === index ? 'bg-white border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)]' : ''}
+                        rounded-xl
+                      `}
+											onMouseEnter={() => detail.expandedInfo && setExpandedContact(index)}
+											onMouseLeave={() => setExpandedContact(null)}
 										>
-											<detail.icon className="w-6 h-6 mr-3 text-black group-hover:text-[#FF6B6B]" />
-											<span className="text-xl font-semibold group-hover:text-[#FF6B6B]">
-												{detail.text}
-											</span>
-											<button
+											<a
+												href={detail.action}
+												target={detail.icon === MdLocationOn ? '_blank' : undefined}
+												rel={detail.icon === MdLocationOn ? 'noopener noreferrer' : undefined}
+												className="flex items-center group p-2 hover:bg-white
+                                 transition-colors hover:border-2 hover:border-black 
+                                 hover:shadow-[4px_4px_0px_rgba(0,0,0,1)] rounded-xl"
 												onClick={(e) => {
-													e.preventDefault();
-													copyToClipboard(detail.text);
+													if (detail.expandedInfo) {
+														e.preventDefault();
+													}
 												}}
-												className="ml-auto"
 											>
-												{copiedInfo === detail.text ? (
-													<span className="text-green-500">✓</span>
-												) : (
-													<MdContentCopy className="text-black group-hover:text-[#FF6B6B]" />
-												)}
-											</button>
-										</a>
+												<detail.icon className="w-6 h-6 mr-3 text-black group-hover:text-[#FF6B6B]" />
+												<div className="flex-1">
+													<span className="text-xl font-semibold group-hover:text-[#FF6B6B]">
+														{detail.text}
+													</span>
+													{expandedContact === index && detail.expandedInfo && (
+														<div className="mt-2 text-sm whitespace-pre-line">
+															{detail.expandedInfo}
+														</div>
+													)}
+												</div>
+												<button
+													onClick={(e) => {
+														e.preventDefault();
+														e.stopPropagation();
+														copyToClipboard(
+															detail.text,
+															detail.expandedInfo || detail.text
+														);
+													}}
+													className="ml-auto"
+												>
+													{copiedInfo === detail.text ? (
+														<span className="text-green-500">✓</span>
+													) : (
+														<MdContentCopy className="text-black group-hover:text-[#FF6B6B]" />
+													)}
+												</button>
+											</a>
+										</div>
 									</div>
 								))}
 							</div>
@@ -171,7 +205,7 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 											<div
 												key={product.id}
 												className="flex items-center gap-2 bg-[#FFF59F] rounded-xl 
-                                 border-2 border-black p-2"
+                               border-2 border-black p-2"
 											>
 												{product.featuredImage && (
 													<img
@@ -184,7 +218,7 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 												<button
 													onClick={() => handleRemoveProduct(product.id)}
 													className="p-1 bg-red-400 text-black rounded-lg border-2 
-                                   border-black hover:bg-red-500 transition-colors"
+                                 border-black hover:bg-red-500 transition-colors"
 												>
 													<MdClose size={20} />
 												</button>
