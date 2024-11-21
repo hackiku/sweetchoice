@@ -2,16 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Link } from '@remix-run/react';
 import Card from '~/components/ecom/product/Card';
 import { useContact } from '~/components/contact/ContactContext';
+import { useTranslation } from '~/lib/i18n/useTranslation';
 
 const holidays = [
-	{ id: 'christmas', title: 'Christmas', mainColor: '#F65A4D', secondaryColor: '#00FF00' },
-	{ id: 'valentines', title: "Valentine's Day", mainColor: '#D8B3F8', secondaryColor: '#FF6B6B' },
-	{ id: 'easter', title: 'Easter', mainColor: '#FFDB58', secondaryColor: '#FF6B6B' },
-	{ id: 'halloween', title: 'Halloween', mainColor: '#FFA500', secondaryColor: '#00FF00' },
+	{ id: 'christmas', mainColor: '#F65A4D', secondaryColor: '#00FF00' },
+	{ id: 'valentines', mainColor: '#D8B3F8', secondaryColor: '#FF6B6B' },
+	{ id: 'easter', mainColor: '#FFDB58', secondaryColor: '#FF6B6B' },
+	{ id: 'halloween', mainColor: '#FFA500', secondaryColor: '#00FF00' },
 ];
 
 export default function HolidaySection({ holidayCollections }) {
 	const { openContact } = useContact();
+	const { t } = useTranslation();
 
 	return (
 		<div className="flex flex-col items-center gap-8 overflow-x-hidden">
@@ -27,9 +29,13 @@ export default function HolidaySection({ holidayCollections }) {
 						style={{ backgroundColor: holiday.mainColor }}
 					>
 						<div className="flex flex-col sm:flex-row justify-between sm:items-start gap-4 mb-6">
-							<h2 className="text-6xl font-bold mb-1 relative md-max:text-4xl">{holiday.title}</h2>
+							<h2 className="text-6xl font-bold mb-1 relative md-max:text-4xl">
+								{t(`holidays.${holiday.id}.title`)}
+							</h2>
 							<div className="w-full md:w-3/6">
-								<p className="text-xl font-semibold mb-4 md-max:text-base">{collection.description || 'Holiday description placeholder'}</p>
+								<p className="text-xl font-semibold mb-4 md-max:text-base">
+									{t(`holidays.${holiday.id}.description`)}
+								</p>
 							</div>
 						</div>
 
@@ -37,6 +43,7 @@ export default function HolidaySection({ holidayCollections }) {
 							products={collection.products.nodes}
 							mainColor={holiday.mainColor}
 							secondaryColor={holiday.secondaryColor}
+							holidayId={holiday.id}
 						/>
 
 						<div className="mt-8 flex justify-center">
@@ -47,7 +54,7 @@ export default function HolidaySection({ holidayCollections }) {
                   transition-all duration-200 w-full sm:w-auto sm:text-2xl sm:px-8"
 								style={{ backgroundColor: holiday.secondaryColor }}
 							>
-								Explore {holiday.title} →
+								{t(`holidays.${holiday.id}.exploreButton`)}
 							</Link>
 						</div>
 					</section>
@@ -57,8 +64,9 @@ export default function HolidaySection({ holidayCollections }) {
 	);
 }
 
-function ProductGrid({ products, mainColor, secondaryColor }) {
+function ProductGrid({ products, mainColor, secondaryColor, holidayId }) {
 	const [layout, setLayout] = useState({ columns: 4, products: 8 });
+	const { t } = useTranslation();
 
 	useEffect(() => {
 		const updateLayout = () => {
@@ -92,6 +100,14 @@ function ProductGrid({ products, mainColor, secondaryColor }) {
 					seasonSecondaryColor={secondaryColor}
 				/>
 			))}
+			{products.length > layout.products && (
+				<Link
+					to={`/collections/${holidayId}`}
+					className="col-span-full text-center mt-4 text-xl font-semibold hover:underline"
+				>
+					{t('holidays.productGrid.exploreAll', { holiday: t(`holidays.${holidayId}.title`) })}
+				</Link>
+			)}
 		</div>
 	);
 }
@@ -128,3 +144,4 @@ function ProductCardComponent({ product, seasonMainColor, seasonSecondaryColor }
 		/>
 	);
 }
+

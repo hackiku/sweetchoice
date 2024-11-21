@@ -32,7 +32,8 @@ const Hero: React.FC = () => {
 							textShadow: '-0.1em 0.12em 0 #000',
 							filter: 'drop-shadow(0 0 1px black)'
 						}}>
-						{t('home.hero.heading')}
+						{t('home.hero.headingTop')} <br />
+						{t('home.hero.headingBottom')}	
 					</h1>
 					<p className="text-xl sm:text-2xl mt-4 max-w-2xl">
 						{t('home.hero.subheading')}

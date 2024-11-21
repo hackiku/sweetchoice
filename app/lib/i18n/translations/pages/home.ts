@@ -6,7 +6,8 @@ export const home = {
 			title: 'SweetChoice | Home'
 		},
 		hero: {
-			heading: 'Sweet holidays all year long',
+			headingTop: 'Sweet holidays',
+			headingBottom: 'all year long',
 			subheading: 'We wholesale wholesome holiday treats to supermarkets large and small.',
 			ctaText: 'Get Catalog →',
 			ctaLink: '/collections/all',
@@ -52,7 +53,8 @@ export const home = {
 			title: 'SweetChoice | Početna'
 		},
 		hero: {
-			heading: 'Slatki praznici tokom cele godine',
+			headingTop: 'Slatki praznici',
+			headingBottom: 'cele godine',
 			subheading: 'Veleprodaja zdravih prazničnih poslastica za velike i male supermarkete.',
 			ctaText: 'Preuzmi katalog →',
 			ctaLink: '/collections/all',
