@@ -1,4 +1,4 @@
-// app/components/contact/ContactForm.tsx
+//ContactForm.tsx
 import React, { useState, useEffect } from 'react';
 import { MdPerson, MdMail, MdExpandLess, MdExpandMore } from 'react-icons/md';
 import { useFetcher } from '@remix-run/react';
@@ -18,9 +18,13 @@ const ContactForm = ({ isExpanded, onExpandToggle, onSuccess }: ContactFormProps
 		email: '',
 		message: '',
 	});
+	const [showSuccess, setShowSuccess] = useState(false);
+
+	const isFormValid = formData.name.trim() && formData.email.trim();
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
+		if (!isFormValid) return;
 
 		const form = new FormData();
 		form.append('_action', 'SUBMIT_CATALOG');
@@ -41,19 +45,15 @@ const ContactForm = ({ isExpanded, onExpandToggle, onSuccess }: ContactFormProps
 		}));
 	};
 
-	// Call onSuccess when submission is complete
 	useEffect(() => {
-		if (fetcher.data?.success && onSuccess) {
-			onSuccess();
+		if (fetcher.data?.success) {
+			setShowSuccess(true);
+			setTimeout(() => {
+				setShowSuccess(false);
+				onSuccess?.();
+			}, 3000);
 		}
 	}, [fetcher.data, onSuccess]);
-
-	// Auto-expand when no products are selected
-	useEffect(() => {
-		if (selectedProducts.length === 0 && !isExpanded) {
-			onExpandToggle();
-		}
-	}, [selectedProducts.length, isExpanded, onExpandToggle]);
 
 	return (
 		<div className="relative bg-[#AE7AFF] border-t-4 border-black">
@@ -69,18 +69,15 @@ const ContactForm = ({ isExpanded, onExpandToggle, onSuccess }: ContactFormProps
 				{isExpanded ? <MdExpandLess size={20} /> : <MdExpandMore size={20} />}
 			</button>
 
-			{/* Form Container with Fixed Height and Overflow Clip */}
-			
-			{/* ${isExpanded ? 'h-[320px]' : 'h-[120px]'}`}> */}
-			<div className={`relative transition-all duration-300 ease-in-out overflow-hidden
-          ${isExpanded ? 'h-44' : 'h-1/5'}`}>
-				<form
-					onSubmit={handleSubmit}
-					className="absolute inset-0 p-4 flex flex-col"
-					onClick={() => !isExpanded && onExpandToggle()}
-				>
-					{/* Name Field - Always Visible */}
-					<div className="relative mb-3">
+			{/* Form Container with Flex Layout */}
+			<div
+				className={`relative transition-all duration-300 ease-in-out overflow-hidden 
+                   flex flex-col gap-2
+                   ${isExpanded ? 'h-52' : 'h-24'}`}
+				onClick={() => !isExpanded && onExpandToggle()}
+			>
+				<form onSubmit={handleSubmit} className="flex flex-col gap-2 p-4">
+					<div className="relative">
 						<MdPerson className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
 						<input
 							type="text"
@@ -89,15 +86,14 @@ const ContactForm = ({ isExpanded, onExpandToggle, onSuccess }: ContactFormProps
 							value={formData.name}
 							onChange={handleInputChange}
 							className="w-full border-black border-2 p-2 pl-10 rounded-xl 
-                     focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] 
-                     focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] 
-                     transition-all duration-200 font-semibold text-gray-800"
+                       focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] 
+                       focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] 
+                       transition-all duration-200 font-semibold text-gray-800"
 							required
 						/>
 					</div>
 
-					{/* Email Field - Half Visible When Collapsed */}
-					<div className="relative mb-3">
+					<div className="relative">
 						<MdMail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
 						<input
 							type="email"
@@ -106,26 +102,25 @@ const ContactForm = ({ isExpanded, onExpandToggle, onSuccess }: ContactFormProps
 							value={formData.email}
 							onChange={handleInputChange}
 							className="w-full border-black border-2 p-2 pl-10 rounded-xl 
-                     focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] 
-                     focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] 
-                     transition-all duration-200 font-semibold text-gray-800"
+                       focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] 
+                       focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] 
+                       transition-all duration-200 font-semibold text-gray-800"
 							required
 						/>
 					</div>
 
-					{/* Message Field - Only Visible When Expanded */}
-					<div className={`flex-grow transition-all duration-300 ${isExpanded ? 'opacity-100' : 'opacity-0'}`}>
+					{isExpanded && (
 						<textarea
 							name="message"
-							placeholder="What's on your mind?"
+							placeholder="What's on your mind? (optional)"
 							value={formData.message}
 							onChange={handleInputChange}
-							className="w-full h-full border-black border-2 p-2 rounded-xl 
-                     focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] 
-                     focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] 
-                     transition-all duration-200 font-semibold text-gray-800 resize-none"
+							className="w-full flex-1 min-h-[4rem] max-h-24 border-black border-2 p-2 rounded-xl 
+                       focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] 
+                       focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] 
+                       transition-all duration-200 font-semibold text-gray-800 resize-y"
 						/>
-					</div>
+					)}
 				</form>
 			</div>
 
@@ -137,9 +132,17 @@ const ContactForm = ({ isExpanded, onExpandToggle, onSuccess }: ContactFormProps
 					</div>
 				)}
 
+				{showSuccess && (
+					<div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
+						{selectedProducts.length > 0
+							? "Thanks! We're sending you our catalog along with your custom selection."
+							: "Thanks! We're sending you our complete catalog. Feel free to request a custom selection anytime!"}
+					</div>
+				)}
+
 				<button
-					onClick={handleSubmit}
-					disabled={fetcher.state === 'submitting' || selectedProducts.length === 0}
+					onClick={!isExpanded ? onExpandToggle : handleSubmit}
+					disabled={isExpanded && (!isFormValid || fetcher.state === 'submitting')}
 					className="w-full bg-[#FF6B6B] text-black font-bold py-3 px-4 
                    border-2 border-black rounded-xl 
                    shadow-[4px_4px_0px_rgba(0,0,0,1)] 

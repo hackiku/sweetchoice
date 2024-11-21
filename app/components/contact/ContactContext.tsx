@@ -61,10 +61,17 @@ export function ContactProvider({ children, slideOver: SlideOver }: ContactProvi
 		setError(null);
 	}, []);
 
+	// in toggleProduct function (ContactContext.tsx)
 	const toggleProduct = useCallback((product: Product) => {
 		const formData = new FormData();
-		formData.append('_action', 'ADD_PRODUCT');
-		formData.append('product', JSON.stringify(product));
+		const isRemoving = selectedProducts.some(p => p.id === product.id);
+
+		formData.append('_action', isRemoving ? 'REMOVE_PRODUCT' : 'ADD_PRODUCT');
+		if (!isRemoving) {
+			formData.append('product', JSON.stringify(product));
+		} else {
+			formData.append('productId', product.id);
+		}
 
 		fetcher.submit(formData, {
 			method: 'post',
@@ -73,12 +80,12 @@ export function ContactProvider({ children, slideOver: SlideOver }: ContactProvi
 
 		// Optimistically update UI
 		setSelectedProducts(prev =>
-			prev.some(p => p.id === product.id)
+			isRemoving
 				? prev.filter(p => p.id !== product.id)
 				: [...prev, product]
 		);
-	}, [fetcher]);
-
+	}, [fetcher, selectedProducts]);
+	
 	const isProductSelected = useCallback(
 		(productId: string) => selectedProducts.some(p => p.id === productId),
 		[selectedProducts]
