@@ -1,7 +1,6 @@
 // app/components/contact/ContactSlideOver.tsx
 import React, { useRef, useState, useEffect } from 'react';
 import { MdClose } from 'react-icons/md';
-import { useFetcher } from '@remix-run/react';
 import { useContact } from './ContactContext';
 import { ContactDetails } from './ContactDetails';
 import ContactForm from './ContactForm';
@@ -11,8 +10,7 @@ interface ContactSlideOverProps {
 }
 
 const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
-	const { selectedProducts } = useContact();
-	const fetcher = useFetcher();
+	const { selectedProducts, clearCatalog, removeProduct, isSubmitting } = useContact();
 	const [isFormExpanded, setIsFormExpanded] = useState(false);
 	const slideOverRef = useRef<HTMLDivElement>(null);
 
@@ -32,21 +30,6 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 		document.addEventListener('mousedown', handleOutsideClick);
 		return () => document.removeEventListener('mousedown', handleOutsideClick);
 	}, [onClose]);
-
-	// Catalog management functions
-	const handleClearCatalog = () => {
-		fetcher.submit(
-			{ _action: 'CLEAR_CATALOG' },
-			{ method: 'post', action: '/api/contact' }
-		);
-	};
-
-	const handleRemoveProduct = (productId: string) => {
-		fetcher.submit(
-			{ _action: 'REMOVE_PRODUCT', productId },
-			{ method: 'post', action: '/api/contact' }
-		);
-	};
 
 	return (
 		<div className="fixed inset-0 bg-black bg-opacity-70 z-50">
@@ -90,13 +73,13 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 									<h3 className="text-2xl font-bold text-black">Selected Products</h3>
 									{selectedProducts.length > 0 && (
 										<button
-											onClick={handleClearCatalog}
+											onClick={clearCatalog}
 											className="px-3 py-2 bg-red-400 text-black font-bold 
                                border-2 border-black rounded-xl 
                                hover:bg-red-500 transition-colors
                                shadow-[2px_2px_0px_rgba(0,0,0,1)]
                                hover:shadow-[4px_4px_0px_rgba(0,0,0,1)]"
-											disabled={fetcher.state === 'submitting'}
+											disabled={isSubmitting}
 										>
 											Remove All
 										</button>
@@ -123,13 +106,13 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 												)}
 												<span className="flex-1 font-medium truncate">{product.title}</span>
 												<button
-													onClick={() => handleRemoveProduct(product.id)}
+													onClick={() => removeProduct(product.id)}
 													className="p-1 bg-red-400 text-black rounded-lg 
                                    border-2 border-black hover:bg-red-500 
                                    transition-colors
                                    shadow-[2px_2px_0px_rgba(0,0,0,1)]
                                    hover:shadow-[4px_4px_0px_rgba(0,0,0,1)]"
-													disabled={fetcher.state === 'submitting'}
+													disabled={isSubmitting}
 												>
 													<MdClose size={20} />
 												</button>

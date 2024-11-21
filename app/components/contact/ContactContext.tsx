@@ -21,6 +21,7 @@ interface ContactContextType {
 	toggleProduct: (product: Product) => void;
 	isProductSelected: (productId: string) => boolean;
 	clearCatalog: () => void;
+	removeProduct: (productId: string) => void;
 	isSubmitting: boolean;
 	error: string | null;
 }
@@ -61,7 +62,6 @@ export function ContactProvider({ children, slideOver: SlideOver }: ContactProvi
 		setError(null);
 	}, []);
 
-	// in toggleProduct function (ContactContext.tsx)
 	const toggleProduct = useCallback((product: Product) => {
 		const formData = new FormData();
 		const isRemoving = selectedProducts.some(p => p.id === product.id);
@@ -85,7 +85,21 @@ export function ContactProvider({ children, slideOver: SlideOver }: ContactProvi
 				: [...prev, product]
 		);
 	}, [fetcher, selectedProducts]);
-	
+
+	const removeProduct = useCallback((productId: string) => {
+		const formData = new FormData();
+		formData.append('_action', 'REMOVE_PRODUCT');
+		formData.append('productId', productId);
+
+		fetcher.submit(formData, {
+			method: 'post',
+			action: '/api/contact',
+		});
+
+		// Optimistically update UI
+		setSelectedProducts(prev => prev.filter(p => p.id !== productId));
+	}, [fetcher]);
+
 	const isProductSelected = useCallback(
 		(productId: string) => selectedProducts.some(p => p.id === productId),
 		[selectedProducts]
@@ -100,6 +114,7 @@ export function ContactProvider({ children, slideOver: SlideOver }: ContactProvi
 			action: '/api/contact',
 		});
 
+		// Optimistically update UI
 		setSelectedProducts([]);
 	}, [fetcher]);
 
@@ -121,6 +136,7 @@ export function ContactProvider({ children, slideOver: SlideOver }: ContactProvi
 		toggleProduct,
 		isProductSelected,
 		clearCatalog,
+		removeProduct,
 		isSubmitting: fetcher.state === 'submitting',
 		error
 	};

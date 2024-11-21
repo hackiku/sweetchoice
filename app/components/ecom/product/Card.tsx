@@ -87,24 +87,6 @@ const Card: React.FC<CardProps> = ({
 							)}
 						</button>
 					</Tooltip>
-					{/* {isInCatalog && (
-						<button
-							onClick={(e) => {
-								e.preventDefault();
-								e.stopPropagation();
-								openContact();
-							}}
-							className="text-sm font-bold px-4 py-2 border-2 border-black
-              shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] 
-              hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]
-              active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]
-              active:translate-x-[2px] active:translate-y-[2px]
-              transition-all duration-200 text-black"
-							style={{ backgroundColor: secondaryColor }}
-						>
-							Catalog →
-						</button>
-					)} */}
 				</div>
 			</div>
 		</Link>

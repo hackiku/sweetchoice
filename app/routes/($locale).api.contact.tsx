@@ -31,8 +31,11 @@ export const action: ActionFunction = async ({ request, context }) => {
 		switch (action) {
 			case 'ADD_PRODUCT': {
 				const product = JSON.parse(formData.get('product') as string);
-				catalogState.products = [...catalogState.products.filter(p => p.id !== product.id), product];
-				await session.set('catalog', catalogState);
+				// Only add if not already in the catalog
+				if (!catalogState.products.some(p => p.id === product.id)) {
+					catalogState.products = [...catalogState.products, product];
+					await session.set('catalog', catalogState);
+				}
 				return json({ success: true, catalog: catalogState });
 			}
 
