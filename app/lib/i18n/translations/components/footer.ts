@@ -1,11 +1,86 @@
-export const footer
- = {
-  en: {
-    // English translations will go here
-    placeholder: 'English'
-  },
-  sr: {
-    // Serbian translations will go here
-    placeholder: 'Serbian'
-  }
+// app/lib/i18n/translations/components/footer.ts
+
+export const footer = {
+	en: {
+		cta: {
+			title: "SWEETEN YOUR SHELVES",
+			button: "Business Inquiries →"
+		},
+		navigation: {
+			holidays: {
+				title: "HOLIDAYS",
+				items: {
+					christmas: "Christmas",
+					valentinesDay: "Valentine's Day",
+					easter: "Easter",
+					halloween: "Halloween"
+				}
+			},
+			shop: {
+				title: "SHOP",
+				items: {
+					gifts: "Gifts",
+					allYear: "All Year",
+					about: "About"
+				}
+			}
+		},
+		newsletter: {
+			title: "NEWSLETTER",
+			subtitle: "Stay updated with our latest offers",
+			placeholder: "Enter your email",
+			button: "Subscribe",
+			disclaimer: "By subscribing, you accept our Privacy Policy"
+		},
+		legal: {
+			copyright: "© Sweetchoice 2024",
+			terms: "Terms",
+			privacy: "Privacy"
+		},
+		social: {
+			linkedin: "LINKEDIN",
+			instagram: "INSTAGRAM"
+		}
+	},
+	sr: {
+		cta: {
+			title: "ZASLADITE VAŠE POLICE",
+			button: "Poslovni Upiti →"
+		},
+		navigation: {
+			holidays: {
+				title: "PRAZNICI",
+				items: {
+					christmas: "Božić",
+					valentinesDay: "Dan Zaljubljenih", 
+					easter: "Uskrs",
+					halloween: "Noć Veštica"
+				}
+			},
+			shop: {
+				title: "PRODAVNICA",
+				items: {
+					gifts: "Pokloni",
+					allYear: "Tokom Godine",
+					about: "O Nama"
+				}
+			}
+		},
+		newsletter: {
+			title: "BILTEN",
+			subtitle: "Budite u toku sa našim najnovijim ponudama",
+			placeholder: "Unesite vašu email adresu",
+			button: "Pretplatite se",
+			disclaimer: "Pretplatom prihvatate našu Politiku privatnosti"
+		},
+		legal: {
+			copyright: "© Sweetchoice 2024.",
+			terms: "Uslovi Korišćenja",
+			privacy: "Privatnost"
+		},
+		social: {
+			linkedin: "LINKEDIN",
+			instagram: "INSTAGRAM"
+		}
+	}
 } as const;

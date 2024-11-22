@@ -4,9 +4,14 @@ import React, { useState } from 'react';
 import { Suspense } from 'react';
 import { Await, NavLink } from '@remix-run/react';
 import type { FooterQuery, HeaderQuery } from 'storefrontapi.generated';
-import ContactButton from '~/components/ui/ContactButton';
-import ContactModal from '~/components/ui/ContactModal';
+
+import ContactButton from '~/components/contact/ContactButton';
+// import ContactButton from '~/components/ui/ContactButton';
+// import ContactModal from '~/components/ui/ContactModal';
+
 import EmailOptin from '~/components/contact/EmailOptin';
+
+import { useTranslation } from '~/lib/i18n/useTranslation';
 
 interface FooterProps {
 	footer: Promise<FooterQuery | null>;
@@ -54,6 +59,8 @@ function FooterContent({
 	publicStoreDomain: string;
 	contactButtonProps: FooterProps['contactButtonProps'];
 }) {
+	const { t } = useTranslation();
+
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const handleContactClick = () => {
@@ -61,22 +68,22 @@ function FooterContent({
 	};
 
 	const holidays = [
-		{ name: 'Christmas', path: '/collections/christmas' },
-		{ name: "Valentine's Day", path: '/collections/valentines' },
-		{ name: 'Easter', path: '/collections/easter' },
-		{ name: 'Halloween', path: '/collections/halloween' },
+		{ name: 'christmas', path: '/collections/christmas' },
+		{ name: 'valentinesDay', path: '/collections/valentines' },
+		{ name: 'easter', path: '/collections/easter' },
+		{ name: 'halloween', path: '/collections/halloween' }
 	];
 
 	const shopItems = [
-		{ name: 'Gifts', path: '/gifts' },
-		{ name: 'All Year', path: '/collections/all' },
-		{ name: 'About', path: '/about' },
+		{ name: t('footer.navigation.shop.items.gifts'), path: '/gifts' },
+		{ name: t('footer.navigation.shop.items.allYear'), path: '/collections/all' },
+		{ name: t('footer.navigation.shop.items.about'), path: '/about' },
 	];
 
 	const defaultButtonProps = {
-		text: "Business Inquiries →",
-		bgColor: "#ff0000",
-		hoverBgColor: "#AE7AFF",
+		text: t('footer.cta.button'),
+		bgColor: "#0066FF",
+		hoverBgColor: "#8A2BE2",
 		textColor: "white",
 		hoverTextColor: "black",
 		className: "text-xl",
@@ -94,11 +101,11 @@ function FooterContent({
 		>
 			<div className="container mx-auto max-w-7xl">
 				<div className="mb-10 bg-[#FFA500] p-8 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-					<h2 className="text-4xl font-black mb-6 text-center">SWEETEN UP YOUR SHELVES</h2>
+					<h2 className="text-4xl font-black mb-6 text-center">{t('footer.cta.title')}</h2>
 					<div className="flex justify-center">
 						<ContactButton
-							onClick={handleContactClick}
-							{...mergedButtonProps}
+							// onClick={handleContactClick}
+							// {...mergedButtonProps}
 						/>
 					</div>
 				</div>
@@ -109,7 +116,9 @@ function FooterContent({
 					</div>
 
 					<div className="col-span-1 md:col-span-2 space-y-4">
-						<h4 className="text-2xl font-black text-black uppercase">Holidays</h4>
+						<h4 className="text-2xl font-black text-black uppercase">
+							{t('footer.navigation.holidays.title')}
+						</h4>
 						<nav className="space-y-2">
 							{holidays.map((item) => (
 								<NavLink
@@ -117,7 +126,7 @@ function FooterContent({
 									to={item.path}
 									className="block text-lg font-semibold text-black hover:text-[#ED1C24] hover:underline transition-colors"
 								>
-									{item.name}
+									{t(`footer.navigation.holidays.items.${item.name}`)}
 								</NavLink>
 							))}
 						</nav>
@@ -145,19 +154,21 @@ function FooterContent({
 
 				<div className="flex flex-col md:flex-row justify-between items-center border-t-4 border-black pt-6">
 					<div className="flex flex-wrap justify-center md:justify-start gap-2 mb-4 md:mb-0">
-						<span className="text-lg font-semibold text-black">© Sweetchoice 2024.</span>
+						<span className="text-lg font-semibold text-black">
+							{t('footer.legal.copyright')}
+						</span>
 						<NavLink
 							to="/policies/terms-of-service"
 							className="text-lg font-semibold text-black hover:text-[#ED1C24] hover:underline transition-colors"
 						>
-							Terms
+							{t('footer.legal.terms')}
 						</NavLink>
 						<span className="text-black">|</span>
 						<NavLink
 							to="/policies/privacy"
 							className="text-lg font-semibold text-black hover:text-[#ED1C24] hover:underline transition-colors"
 						>
-							Privacy
+							{t('footer.legal.privacy')}
 						</NavLink>
 					</div>
 					<ul className="flex items-center space-x-6">
@@ -172,7 +183,6 @@ function FooterContent({
 				</div>
 			</div>
 
-			<ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 		</footer>
 	);
 }
