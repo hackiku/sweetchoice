@@ -3,14 +3,14 @@
 export const footer = {
 	en: {
 		cta: {
-			title: "SWEETEN YOUR SHELVES",
+			title: "Sweeten your shelves",
 			button: "Business Inquiries →"
 		},
 		navigation: {
 			holidays: {
 				title: "HOLIDAYS",
 				items: {
-					christmas: "Christmas",
+					christmas: "Christmas & New Year's",
 					valentinesDay: "Valentine's Day",
 					easter: "Easter",
 					halloween: "Halloween"
@@ -44,14 +44,14 @@ export const footer = {
 	},
 	sr: {
 		cta: {
-			title: "ZASLADITE VAŠE POLICE",
+			title: "Zasladite praznike sa SweetChoice",
 			button: "Poslovni Upiti →"
 		},
 		navigation: {
 			holidays: {
 				title: "PRAZNICI",
 				items: {
-					christmas: "Božić",
+					christmas: "Božić & Nova Godina",
 					valentinesDay: "Dan Zaljubljenih", 
 					easter: "Uskrs",
 					halloween: "Noć Veštica"

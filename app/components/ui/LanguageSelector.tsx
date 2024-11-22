@@ -3,7 +3,12 @@
 import React from 'react';
 import { useNavigate, useSearchParams } from '@remix-run/react';
 
-export default function LanguageSelector() {
+interface LanguageSelectorProps {
+	className?: string;
+	variant?: 'default' | 'footer';
+}
+
+export default function LanguageSelector({ className = '', variant = 'default' }: LanguageSelectorProps) {
 	const navigate = useNavigate();
 	const [searchParams] = useSearchParams();
 	const currentLocale = searchParams.get('locale') || 'sr';
@@ -15,21 +20,41 @@ export default function LanguageSelector() {
 		navigate(`?${newSearchParams.toString()}`, { replace: true });
 	};
 
+	const baseStyles = "px-3 py-1 bg-white border-2 border-black transition-all duration-200 font-semibold text-lg";
+
+	const variants = {
+		default: `rounded-full
+              shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
+              hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]
+              active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]
+              active:translate-x-[2px] active:translate-y-[2px]`,
+		footer: `rounded-lg
+              shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
+              hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]
+              active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]
+              active:translate-x-[2px] active:translate-y-[2px]`
+	};
+
 	return (
 		<button
 			onClick={toggleLanguage}
-			className="fixed top-4 right-4 z-50 
-                bg-black text-white 
-                w-12 h-12 rounded-full 
-                border-4 border-white
-                font-bold text-lg
-                shadow-[4px_4px_0px_0px_rgba(255,255,255,0.5)]
-                hover:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.5)]
-                hover:bg-white hover:text-black hover:border-black 
-                transition-all duration-200
-                flex items-center justify-center"
+			className={`
+        ${baseStyles}
+        ${variants[variant]}
+        ${className}
+      `}
 		>
-			{currentLocale === 'sr' ? 'EN' : 'SR'}
+			{currentLocale === 'sr' ? (
+				<span className="flex items-center gap-2">
+					<span className="text-2xl">🇺🇸</span>
+					<span>| Eng</span>
+				</span>
+			) : (
+				<span className="flex items-center gap-2">
+					<span className="text-2xl">🇷🇸</span>
+					<span>| Srb</span>
+				</span>
+			)}
 		</button>
 	);
 }

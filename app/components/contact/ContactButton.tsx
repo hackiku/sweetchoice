@@ -21,8 +21,8 @@ const ContactButton = ({
   `;
 
 	const sizeClasses = shrinkOnMobile
-		? 'fixed bottom-8 right-8 z-40 w-16 h-16 rounded-full md:w-auto md:h-auto md:rounded-none md:px-6 md:py-4'
-		: 'px-6 py-4';
+		? 'z-40 h-16 rounded-full md:w-auto md:h-auto md:rounded-none md:px-6 md:py-4'
+		: 'px-6 py-6';
 
 	const textClasses = shrinkOnMobile
 		? 'hidden md:inline'

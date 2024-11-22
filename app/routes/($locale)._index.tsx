@@ -141,7 +141,7 @@ export default function Homepage() {
 
       <div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:px-12"></div>
 
-      <section ref={blurbsSection} className="px-6 sm:px-8 md:px-12 mb-12">
+      <section ref={blurbsSection} className="px-6 sm:px-8 md:px-12 mb-4">
         <h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">{t('home.blurbs.title')}</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {t('home.blurbs.items').map((item, index) => (
@@ -159,7 +159,7 @@ export default function Homepage() {
         </div>
       </section>
 
-      <div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:px-12"></div>
+      {/* <div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:px-12"></div> */}
     </main>
   );
 }
