@@ -12,9 +12,9 @@ import { useVariantUrl } from '~/lib/variants';
 import { useTranslation } from '~/lib/i18n/useTranslation';
 import { useContact } from '~/components/contact/ContactContext';
 
+import SelectorRow from '~/components/ecom/SelectorRow';
 import Logos from '~/components/ui/Logos';
 import ContactButton from '~/components/ui/ContactButton';
-import ContactModal from '~/components/ui/ContactModal';
 
 const logos = [
 	{ src: "/assets/logos/maxi-logo.svg", alt: "Maxi logo" },
@@ -26,12 +26,32 @@ const logos = [
 ];
 
 const seasonColors = {
-	christmas: { main: '#F65A4D', secondary: '#00FF00' },
-	valentines: { main: '#D8B3F8', secondary: '#FF6B6B' },
-	easter: { main: '#FFDB58', secondary: '#FF6B6B' },
-	halloween: { main: '#FFA500', secondary: '#00FF00' },
-	default: { main: '#FFF59F', secondary: '#A6FAFF' },
-};
+	christmas: {
+		main: '#F65A4D',
+		secondary: '#00FF00',
+		translationKey: 'footer.navigation.holidays.items.christmas'
+	},
+	valentines: {
+		main: '#D8B3F8',
+		secondary: '#FF6B6B',
+		translationKey: 'footer.navigation.holidays.items.valentinesDay'
+	},
+	easter: {
+		main: '#FFDB58',
+		secondary: '#FF6B6B',
+		translationKey: 'footer.navigation.holidays.items.easter'
+	},
+	halloween: {
+		main: '#FFA500',
+		secondary: '#00FF00',
+		translationKey: 'footer.navigation.holidays.items.halloween'
+	},
+	default: {
+		main: '#FFF59F',
+		secondary: '#A6FAFF',
+		translationKey: 'footer.navigation.shop.items.allYear'
+	},
+} as const;
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
 	return [{ title: `SweetChoice | ${data?.collection.title ?? ''} Collection` }];
@@ -58,9 +78,10 @@ export async function loader(args: LoaderFunctionArgs) {
 }
 
 export default function Collection() {
-	// const { t } = useTranslation();
-	const { openContact } = useContact(); // hook
 	const { collection } = useLoaderData<typeof loader>();
+	const { t } = useTranslation();
+	const { openContact } = useContact();
+
 	const [sortOption, setSortOption] = useState('manual');
 	const [stockFilter, setStockFilter] = useState('all');
 	const [layout, setLayout] = useState({ columns: 4, products: 24 });
@@ -87,36 +108,39 @@ export default function Collection() {
 		else if (name === 'stock_filter') setStockFilter(value);
 		else if (name === 'grid_size') setLayout(prev => ({ ...prev, columns: Number(value) }));
 	};
-	
-	const { t } = useTranslation();
+
 	const filteredAndSortedProducts = useMemo(() => {
 		if (!collection.products) return [];
-		
 
 		let products = [...collection.products.nodes];
 
+		// Apply stock filter
 		if (stockFilter === 'in-stock') {
-			products = products.filter(product => product.variants.nodes.some(variant => variant.availableForSale));
+			products = products.filter(product =>
+				product.variants.nodes.some(variant => variant.availableForSale)
+			);
 		} else if (stockFilter === 'out-of-stock') {
-			products = products.filter(product => product.variants.nodes.every(variant => !variant.availableForSale));
+			products = products.filter(product =>
+				product.variants.nodes.every(variant => !variant.availableForSale)
+			);
 		}
 
+		// Apply sorting
 		switch (sortOption) {
 			case 'best-selling':
-				// Implement your best-selling logic here
 				return products;
 			case 'title-ascending':
-				return products.sort((a, b) => a.title.localeCompare(b.title));
+				return [...products].sort((a, b) => a.title.localeCompare(b.title));
 			case 'title-descending':
-				return products.sort((a, b) => b.title.localeCompare(a.title));
-			case 'price-ascending':
-				return products.sort((a, b) => parseFloat(a.priceRange.minVariantPrice.amount) - parseFloat(b.priceRange.minVariantPrice.amount));
-			case 'price-descending':
-				return products.sort((a, b) => parseFloat(b.priceRange.minVariantPrice.amount) - parseFloat(a.priceRange.minVariantPrice.amount));
+				return [...products].sort((a, b) => b.title.localeCompare(a.title));
 			case 'created-ascending':
-				return products.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+				return [...products].sort((a, b) =>
+					new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+				);
 			case 'created-descending':
-				return products.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+				return [...products].sort((a, b) =>
+					new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+				);
 			default:
 				return products;
 		}
@@ -152,8 +176,9 @@ export default function Collection() {
 							textShadow: '-0.1em 0.12em 0 #000',
 							filter: 'drop-shadow(0 0 1px black)'
 						}}>
-						{collection.title}
+						{t(seasonColors[collection.handle as keyof typeof seasonColors]?.translationKey || 'footer.navigation.shop.items.allYear')}
 					</h1>
+
 
 					<ContactButton
 						onClick={openContact}
@@ -167,53 +192,18 @@ export default function Collection() {
 				</div>
 			</div>
 			<div className="container mx-auto px-6 md:px-12 mt-8 flex flex-wrap justify-start gap-4">
-				<select
-					name="sort_by"
-					value={sortOption}
-					onChange={handleSortChange}
-					className="border-4 border-black p-2 font-bold bg-pink-300 cursor-pointer transform hover:scale-105 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(237,28,36,1)]"
-				>
-					<option value="manual">{t('collections.filters.sort.options.featured')}</option>
-					<option value="best-selling">{t('collections.filters.sort.options.bestSelling')}</option>
-					{/* <option value="manual">Featured</option> */}
-					{/* <option value="best-selling">Best selling</option> */}
-					<option value="title-ascending">{t('collections.filters.sort.options.titleAsc')}</option>
-					<option value="title-descending">{t('collections.filters.sort.options.titleDesc')}</option>
-					{/* <option value="price-ascending">{t('collections.filters.sort.options.priceAsc')}</option> */}
-					{/* <option value="price-descending">{t('collections.filters.sort.options.priceDesc')}</option> */}
-					<option value="created-ascending">{t('collections.filters.sort.options.dateAsc')}</option>
-					<option value="created-descending">{t('collections.filters.sort.options.dateDesc')}</option>
-				</select>
-
-				<select
-					name="stock_filter"
-					value={stockFilter}
-					onChange={handleSortChange}
-					className="border-4 border-black p-2 font-bold bg-green-300 cursor-pointer transform hover:scale-105 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(237,28,36,1)]"
-				>
-					<option value="all">{t('collections.filters.stock.options.all')}</option>
-					<option value="in-stock">{t('collections.filters.stock.options.inStock')}</option>
-					<option value="out-of-stock">{t('collections.filters.stock.options.outOfStock')}</option>
-				</select>
-
-				<select
-					name="grid_size"
-					value={layout.columns}
-					onChange={handleSortChange}
-					className="border-4 border-black p-2 font-bold bg-blue-300 cursor-pointer transform hover:scale-105 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(237,28,36,1)]"
-				>
-					<option value="2">{t('collections.filters.grid.options.two')}</option>
-					<option value="3">{t('collections.filters.grid.options.three')}</option>
-					<option value="4">{t('collections.filters.grid.options.four')}</option>
-					<option value="5">{t('collections.filters.grid.options.five')}</option>
-					<option value="6">{t('collections.filters.grid.options.six')}</option>
-				</select>
+				<SelectorRow
+					sortOption={sortOption}
+					stockFilter={stockFilter}
+					gridSize={layout.columns}
+					onSortChange={handleSortChange}
+				/>
 			</div>
 
 
 			<div className="container mx-auto px-6 md:px-12 mt-8">
 				<Pagination connection={collection.products}>
-					{({ nodes, isLoading, PreviousLink, NextLink }) => (
+					{({ nodes: originalNodes, isLoading, PreviousLink, NextLink }) => (
 						<>
 							<div
 								className="grid gap-4"
@@ -221,36 +211,22 @@ export default function Collection() {
 									gridTemplateColumns: `repeat(${layout.columns}, minmax(0, 1fr))`,
 								}}
 							>
-								{nodes.slice(0, layout.products).map((product) => (
-									
+								{filteredAndSortedProducts.slice(0, layout.products).map((product) => (
 									<Card
 										key={product.id}
 										product={product}
 										seasonColor={seasonColor.main}
-										secondaryColor={seasonColor.secondary}								
+										secondaryColor={seasonColor.secondary}
 									/>
-									
-
-									// <Card 
-									// 	key={product.id}
-									// 	product={product}
-									// 	seasonColor={seasonColor}
-									// 	secondaryColor={seasonColor.secondary}
-									// 	onContactClick={handleContactClick}
-									// />
-
-									// <ProductCardComponent
-									// 	key={product.id}
-									// 	product={product}
-									// 	secondaryColor={seasonColor.secondary}
-									// 	onContactClick={handleContactClick}
-									// />
 								))}
 							</div>
 							<div className="flex justify-between items-center mt-8">
-								<PreviousLink>{isLoading ? t('collections.pagination.loading') : t('collections.pagination.previous')}</PreviousLink>
-								<NextLink>{isLoading ? t('collections.pagination.loading') : t('collections.pagination.next')}</NextLink>
-
+								<PreviousLink>
+									{isLoading ? t('collections.pagination.loading') : t('collections.pagination.previous')}
+								</PreviousLink>
+								<NextLink>
+									{isLoading ? t('collections.pagination.loading') : t('collections.pagination.next')}
+								</NextLink>
 							</div>
 						</>
 					)}
@@ -264,7 +240,6 @@ export default function Collection() {
 				</section>
 			</div>
 
-			<ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 		</div>
 	);
 }
@@ -277,15 +252,14 @@ function ProductCardComponent({
 	secondaryColor: string;
 	onContactClick: () => void;
 }) {
-	// ... rest of the component
 
 	// function ProductCardComponents({ product, secondaryColor, onContactClick }: { product: ProductItemFragment; secondaryColor: string; onContactClick: () => void }) {
-		const variant = product.variants.nodes[0];
-		const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
-		const imageUrl = product.featuredImage?.url || '';
-		const imageAlt = product.featuredImage?.altText || product.title;
-		const weight = variant.weight || 0;
-		const weightUnit = variant.weightUnit || 'g';
+	const variant = product.variants.nodes[0];
+	const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
+	const imageUrl = product.featuredImage?.url || '';
+	const imageAlt = product.featuredImage?.altText || product.title;
+	const weight = variant.weight || 0;
+	const weightUnit = variant.weightUnit || 'g';
 
 	return (
 		<Card
@@ -297,7 +271,7 @@ function ProductCardComponent({
 			weightUnit={weightUnit}
 			seasonColor={secondaryColor}
 			secondaryColor={secondaryColor}
-			boxQuantity={10} // You might want to get this from your product data
+			boxQuantity={10} 
 			onContactClick={onContactClick}
 		/>
 	);
@@ -313,6 +287,7 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
     id
     title
     handle
+		createdAt
     priceRange {
       minVariantPrice {
         ...MoneyProductItem
@@ -374,4 +349,3 @@ const COLLECTION_QUERY = `#graphql
     }
   }
 ` as const;
-

@@ -5,10 +5,15 @@ export const collections = {
 		header: {
 			productsLabel: "HOLIDAY COLLECTION",
 			allProductsLabel: "PRODUCTS",
-			allProductsTitle: {
+			allProductsTitle: "All Sweets, All Seasons, All Year",
+			allProductsSpans: {
 				line1: "All Products",
 				line2: "All Seasons",
 				line3: "All Year Long"
+			},
+			seasonName: {
+				christmas: "Christmas",
+				valentinesDay: "Valentine's Day",
 			}
 		},
 		cta: {
@@ -64,7 +69,8 @@ export const collections = {
 		header: {
 			productsLabel: "PRAZNIČNA KOLEKCIJA",
 			allProductsLabel: "PROIZVODI",
-			allProductsTitle: {
+			allProductsTitle: "Svi Slatkiši, Svako Doba, Cele Godine",
+			allProductsSpans: {
 				line1: "Svi Proizvodi",
 				line2: "Sva Godišnja Doba",
 				line3: "Cele Godine"

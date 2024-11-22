@@ -10,7 +10,7 @@ export const footer = {
 			holidays: {
 				title: "HOLIDAYS",
 				items: {
-					christmas: "Christmas & New Year's",
+					christmas: "Christmas & NYE",
 					valentinesDay: "Valentine's Day",
 					easter: "Easter",
 					halloween: "Halloween"

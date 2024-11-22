@@ -118,16 +118,17 @@ export default function AllProducts() {
 							{t('collections.header.allProductsLabel')}
 					</span>
 
-					<h1 className="text-[8vw] mt-2 sm:text-[6vw] md:text-[5vw] font-bold leading-tight text-orange-400"
+					<h1 className="text-[14vw] mt-2 sm:text-[8vw] md:text-[7vw] font-bold leading-tight text-orange-400"
 						style={{
 							WebkitTextStroke: '3px black',
 							textStroke: '3px black',
 							textShadow: '-0.1em 0.12em 0 #000',
 							filter: 'drop-shadow(0 0 1px black)'
 						}}>
-						<span className="block">{t('collections.header.allProductsTitle.line1')}</span>
-						<span className="block ml-8">{t('collections.header.allProductsTitle.line2')}</span>
-						<span className="block ml-16">{t('collections.header.allProductsTitle.line3')}</span>
+						<span className="block">{t('collections.header.allProductsTitle')}</span>
+						{/* <span className="block">{t('collections.header.allProductsSpans.line1')}</span>
+						<span className="block ml-8">{t('collections.header.allProductsSpans.line2')}</span>
+						<span className="block ml-16">{t('collections.header.allProductsSpans.line3')}</span> */}
 					</h1>
 
 					<ContactButton
