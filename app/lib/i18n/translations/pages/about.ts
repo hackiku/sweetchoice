@@ -18,7 +18,7 @@ export const about = {
 			heading: "All About",
 			subheading: "Holiday Treats",
 			centerCard: {
-				title: "B2B holiday programs for supermarkets and mom & pop stores.",
+				title: "B2B holiday programs for supermarkets and mom & pop stores",
 				allProducts: "All Products →",
 				contact: "Get Catalog →"
 			}
@@ -41,7 +41,7 @@ export const about = {
 			heading: "Baš sve od",
 			subheading: "Prazničnih slatkiša",
 			centerCard: {
-				title: "B2B praznični programi za supermarkete i male prodavnice.",
+				title: "B2B praznični programi za supermarkete i male prodavnice",
 				allProducts: "Svi proizvodi →",
 				contact: "Katalog →"
 			}

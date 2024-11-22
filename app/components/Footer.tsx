@@ -94,14 +94,14 @@ function FooterContent({
 					</div>
 				</div>
 
-				<div className="grid grid-cols-2 md:grid-cols-8 gap-10 mb-12">
+				<div className="grid grid-cols-2 md:grid-cols-5 gap-10 mb-12">
 					<div className="col-span-2 md:col-span-1 flex md:flex-col justify-between md:justify-start md:max-w-1/5 gap-4">
 					{/* <div className="flex flex-col justify-center md:justify-start"> */}
 						<img src="/assets/logos/sc-logo.svg" alt="Sweetchoice Logo" className="w-20 md:w-20" />
-						<LanguageSelector variant="footer" className="mb-4 max-h-12 w-28" />
+						<LanguageSelector variant="footer" className="mb-4 max-h-12 w-32" />
 					</div>
 
-					<div className="col-span-1 md:col-span-2 space-y-4">
+					<div className="col-span-1 md:col-span-1 space-y-4">
 						<h4 className="text-2xl font-black text-black uppercase">
 							{t('footer.navigation.holidays.title')}
 						</h4>
@@ -118,7 +118,7 @@ function FooterContent({
 						</nav>
 					</div>
 
-					<div className="col-span-1 md:col-span-2 space-y-4">
+					<div className="col-span-1 md:col-span-1 space-y-4">
 						<h4 className="text-2xl font-black text-black uppercase">Shop</h4>
 						<nav className="space-y-2">
 							{shopItems.map((item) => (
@@ -133,7 +133,7 @@ function FooterContent({
 						</nav>
 					</div>
 
-					<div className="col-span-2 md:col-span-3">
+					<div className="col-span-2 md:col-span-2">
 						<EmailOptin />
 					</div>
 				</div>
