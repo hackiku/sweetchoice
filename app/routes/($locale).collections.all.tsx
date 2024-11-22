@@ -4,6 +4,7 @@ import { json, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import type { ProductItemFragment } from 'storefrontapi.generated';
 import { useVariantUrl } from '~/lib/variants';
 
+import { useTranslation } from '~/lib/i18n/useTranslation';
 import { useContact } from '~/components/contact/ContactContext';
 
 import Card from '~/components/ecom/product/Card';
@@ -27,6 +28,7 @@ export async function loader({ context, request }: LoaderFunctionArgs) {
 }
 
 export default function AllProducts() {
+	const { t } = useTranslation();
 	const { openContact } = useContact();
 	const { products } = useLoaderData<typeof loader>();
 	const [gridSize, setGridSize] = useState(4);
@@ -113,7 +115,7 @@ export default function AllProducts() {
 						style={{
 							boxShadow: '4px 4px 0px 0px rgba(255,255,255,1)',
 						}}>
-						Products
+							{t('collections.header.allProductsLabel')}
 					</span>
 
 					<h1 className="text-[8vw] mt-2 sm:text-[6vw] md:text-[5vw] font-bold leading-tight text-orange-400"
@@ -123,14 +125,14 @@ export default function AllProducts() {
 							textShadow: '-0.1em 0.12em 0 #000',
 							filter: 'drop-shadow(0 0 1px black)'
 						}}>
-						<span className="block">All Products</span>
-						<span className="block ml-8">All Seasons</span>
-						<span className="block ml-16">All Year Long</span>
+						<span className="block">{t('collections.header.allProductsTitle.line1')}</span>
+						<span className="block ml-8">{t('collections.header.allProductsTitle.line2')}</span>
+						<span className="block ml-16">{t('collections.header.allProductsTitle.line3')}</span>
 					</h1>
 
 					<ContactButton
 						onClick={openContact}
-						text="Get Catalog →"
+						text={t('collections.cta.getCatalog')}
 						bgColor="bg-[#39FF14]"
 						hoverBgColor="hover:bg-[#00FFFF]"
 						textColor="text-black"
@@ -173,7 +175,7 @@ export default function AllProducts() {
                        hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
                        transition-all duration-200"
 						>
-							Show More ↓
+							{t('collections.loadMore.showMore')}
 						</button>
 					) : visibleProductCount > INITIAL_LOAD && (
 						<button
@@ -183,7 +185,7 @@ export default function AllProducts() {
                        hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
                        transition-all duration-200"
 						>
-							Show Less ↑
+							{t('collections.loadMore.showLess')}
 						</button>
 					)}
 				</div>

@@ -9,6 +9,7 @@ import type { ProductItemFragment } from 'storefrontapi.generated';
 import type { CollectionProductItemFragment } from 'storefrontapi.generated';
 import { useVariantUrl } from '~/lib/variants';
 
+import { useTranslation } from '~/lib/i18n/useTranslation';
 import { useContact } from '~/components/contact/ContactContext';
 
 import Logos from '~/components/ui/Logos';
@@ -57,6 +58,7 @@ export async function loader(args: LoaderFunctionArgs) {
 }
 
 export default function Collection() {
+	// const { t } = useTranslation();
 	const { openContact } = useContact(); // hook
 	const { collection } = useLoaderData<typeof loader>();
 	const [sortOption, setSortOption] = useState('manual');
@@ -85,9 +87,12 @@ export default function Collection() {
 		else if (name === 'stock_filter') setStockFilter(value);
 		else if (name === 'grid_size') setLayout(prev => ({ ...prev, columns: Number(value) }));
 	};
-
+	
+	const { t } = useTranslation();
 	const filteredAndSortedProducts = useMemo(() => {
 		if (!collection.products) return [];
+		
+
 		let products = [...collection.products.nodes];
 
 		if (stockFilter === 'in-stock') {
@@ -136,7 +141,8 @@ export default function Collection() {
 						style={{
 							boxShadow: '4px 4px 0px 0px rgba(255,255,255,1)',
 						}}>
-						HOLIDAY COLLECTION
+						{t('collections.header.productsLabel')}
+						{/* {t('footer.navigation.shop.items.about')} */}
 					</span>
 
 					<h1 className="text-[14vw] mt-2 sm:text-[8vw] md:text-[7vw] font-bold leading-tight text-orange-400"
@@ -151,7 +157,7 @@ export default function Collection() {
 
 					<ContactButton
 						onClick={openContact}
-						text="Get Catalog →"
+						text={t('collections.cta.getCatalog')}
 						bgColor={`bg-[#45FF13]`}
 						hoverBgColor="hover:bg-black"
 						textColor="text-black"
@@ -167,14 +173,16 @@ export default function Collection() {
 					onChange={handleSortChange}
 					className="border-4 border-black p-2 font-bold bg-pink-300 cursor-pointer transform hover:scale-105 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(237,28,36,1)]"
 				>
-					<option value="manual">Featured</option>
-					<option value="best-selling">Best selling</option>
-					<option value="title-ascending">Alphabetically, A-Z</option>
-					<option value="title-descending">Alphabetically, Z-A</option>
-					<option value="price-ascending">Price, low to high</option>
-					<option value="price-descending">Price, high to low</option>
-					<option value="created-ascending">Date, old to new</option>
-					<option value="created-descending">Date, new to old</option>
+					<option value="manual">{t('collections.filters.sort.options.featured')}</option>
+					<option value="best-selling">{t('collections.filters.sort.options.bestSelling')}</option>
+					{/* <option value="manual">Featured</option> */}
+					{/* <option value="best-selling">Best selling</option> */}
+					<option value="title-ascending">{t('collections.filters.sort.options.titleAsc')}</option>
+					<option value="title-descending">{t('collections.filters.sort.options.titleDesc')}</option>
+					{/* <option value="price-ascending">{t('collections.filters.sort.options.priceAsc')}</option> */}
+					{/* <option value="price-descending">{t('collections.filters.sort.options.priceDesc')}</option> */}
+					<option value="created-ascending">{t('collections.filters.sort.options.dateAsc')}</option>
+					<option value="created-descending">{t('collections.filters.sort.options.dateDesc')}</option>
 				</select>
 
 				<select
@@ -183,9 +191,9 @@ export default function Collection() {
 					onChange={handleSortChange}
 					className="border-4 border-black p-2 font-bold bg-green-300 cursor-pointer transform hover:scale-105 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(237,28,36,1)]"
 				>
-					<option value="all">All products</option>
-					<option value="in-stock">In stock</option>
-					<option value="out-of-stock">Out of stock</option>
+					<option value="all">{t('collections.filters.stock.options.all')}</option>
+					<option value="in-stock">{t('collections.filters.stock.options.inStock')}</option>
+					<option value="out-of-stock">{t('collections.filters.stock.options.outOfStock')}</option>
 				</select>
 
 				<select
@@ -194,11 +202,11 @@ export default function Collection() {
 					onChange={handleSortChange}
 					className="border-4 border-black p-2 font-bold bg-blue-300 cursor-pointer transform hover:scale-105 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(237,28,36,1)]"
 				>
-					<option value="2">Grid: 2</option>
-					<option value="3">Grid: 3</option>
-					<option value="4">Grid: 4</option>
-					<option value="5">Grid: 5</option>
-					<option value="6">Grid: 6</option>
+					<option value="2">{t('collections.filters.grid.options.two')}</option>
+					<option value="3">{t('collections.filters.grid.options.three')}</option>
+					<option value="4">{t('collections.filters.grid.options.four')}</option>
+					<option value="5">{t('collections.filters.grid.options.five')}</option>
+					<option value="6">{t('collections.filters.grid.options.six')}</option>
 				</select>
 			</div>
 
@@ -240,19 +248,18 @@ export default function Collection() {
 								))}
 							</div>
 							<div className="flex justify-between items-center mt-8">
-								<PreviousLink className="border-4 border-black p-2 font-bold bg-purple-300 transform hover:scale-105 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(237,28,36,1)]">
-									{isLoading ? 'Loading...' : '← Previous'}
-								</PreviousLink>
-								<NextLink className="border-4 border-black p-2 font-bold bg-purple-300 transform hover:scale-105 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(237,28,36,1)]">
-									{isLoading ? 'Loading...' : 'Next →'}
-								</NextLink>
+								<PreviousLink>{isLoading ? t('collections.pagination.loading') : t('collections.pagination.previous')}</PreviousLink>
+								<NextLink>{isLoading ? t('collections.pagination.loading') : t('collections.pagination.next')}</NextLink>
+
 							</div>
 						</>
 					)}
 				</Pagination>
 
 				<section className="mt-16">
-					<h3 className="text-3xl font-bold mb-4 text-center">Trusted by leading supermarkets & retailers</h3>
+					<h3 className="text-3xl font-bold mb-4 text-center">{t('collections.trust.title')}</h3>
+
+
 					<Logos logos={logos} />
 				</section>
 			</div>

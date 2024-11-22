@@ -3,6 +3,7 @@ import {about} from './translations/pages/about';
 import {home} from './translations/pages/home';
 import {gifts} from './translations/pages/gifts';
 import {holidays} from './translations/pages/holidays';
+import {collections} from './translations/pages/collections';
 import {footer} from './translations/components/footer';
 import {header} from './translations/components/header';
 import {contact} from './translations/components/contact';
@@ -15,6 +16,7 @@ export const translations = {
     home: home.en,
     gifts: gifts.en,
     holidays: holidays.en,
+    collections: collections.en,
     footer: footer.en,
     header: header.en,
     contact: contact.en,
@@ -26,6 +28,7 @@ export const translations = {
     home: home.sr,
     gifts: gifts.sr,
     holidays: holidays.sr,
+    collections: collections.sr,
     footer: footer.sr,
     header: header.sr,
     contact: contact.sr,

@@ -1,6 +1,7 @@
 // app/components/ecom/SelectorRow.tsx
 
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from '~/lib/i18n/useTranslation';
 
 interface SelectorRowProps {
 	sortOption: string;
@@ -15,6 +16,7 @@ const SelectorRow: React.FC<SelectorRowProps> = ({
 	gridSize,
 	onSortChange,
 }) => {
+	const { t } = useTranslation();
 	const [layout, setLayout] = useState({ columns: gridSize, products: 24 });
 
 	useEffect(() => {
@@ -40,14 +42,16 @@ const SelectorRow: React.FC<SelectorRowProps> = ({
 				onChange={onSortChange}
 				className="border-4 border-black p-2 font-bold bg-pink-300 cursor-pointer transform hover:scale-105 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(237,28,36,1)]"
 			>
-				<option value="manual">Featured</option>
-				<option value="best-selling">Best selling</option>
-				<option value="title-ascending">Alphabetically, A-Z</option>
-				<option value="title-descending">Alphabetically, Z-A</option>
-				<option value="price-ascending">Price, low to high</option>
-				<option value="price-descending">Price, high to low</option>
-				<option value="created-ascending">Date, old to new</option>
-				<option value="created-descending">Date, new to old</option>
+				<option value="manual">{t('collections.filters.sort.options.featured')}</option>
+				<option value="best-selling">{t('collections.filters.sort.options.bestSelling')}</option>
+				{/* <option value="manual">Featured</option> */}
+				{/* <option value="best-selling">Best selling</option> */}
+				<option value="title-ascending">{t('collections.filters.sort.options.titleAsc')}</option>
+				<option value="title-descending">{t('collections.filters.sort.options.titleDesc')}</option>
+				{/* <option value="price-ascending">{t('collections.filters.sort.options.priceAsc')}</option> */}
+				{/* <option value="price-descending">{t('collections.filters.sort.options.priceDesc')}</option> */}
+				<option value="created-ascending">{t('collections.filters.sort.options.dateAsc')}</option>
+				<option value="created-descending">{t('collections.filters.sort.options.dateDesc')}</option>
 			</select>
 
 			<select
@@ -56,9 +60,9 @@ const SelectorRow: React.FC<SelectorRowProps> = ({
 				onChange={onSortChange}
 				className="border-4 border-black p-2 font-bold bg-green-300 cursor-pointer transform hover:scale-105 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(237,28,36,1)]"
 			>
-				<option value="all">All products</option>
-				<option value="in-stock">In stock</option>
-				<option value="out-of-stock">Out of stock</option>
+				<option value="all">{t('collections.filters.stock.options.all')}</option>
+				<option value="in-stock">{t('collections.filters.stock.options.inStock')}</option>
+				<option value="out-of-stock">{t('collections.filters.stock.options.outOfStock')}</option>
 			</select>
 
 			<select
@@ -67,11 +71,11 @@ const SelectorRow: React.FC<SelectorRowProps> = ({
 				onChange={onSortChange}
 				className="border-4 border-black p-2 font-bold bg-blue-300 cursor-pointer transform hover:scale-105 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(237,28,36,1)]"
 			>
-				<option value={2}>Grid: 2</option>
-				<option value={3}>Grid: 3</option>
-				<option value={4}>Grid: 4</option>
-				<option value={5}>Grid: 5</option>
-				<option value={6}>Grid: 6</option>
+				<option value="2">{t('collections.filters.grid.options.two')}</option>
+				<option value="3">{t('collections.filters.grid.options.three')}</option>
+				<option value="4">{t('collections.filters.grid.options.four')}</option>
+				<option value="5">{t('collections.filters.grid.options.five')}</option>
+				<option value="6">{t('collections.filters.grid.options.six')}</option>
 			</select>
 		</div>
 	);
