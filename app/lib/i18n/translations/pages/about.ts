@@ -16,12 +16,13 @@ export const about = {
 		},
 		products: {
 			heading: "All About",
-			subheading: "Holiday Treats"
+			subheading: "Holiday Treats",
+			centerCard: {
+				title: "B2B holiday programs for supermarkets and mom & pop stores.",
+				allProducts: "All Products →",
+				contact: "Get Catalog →"
+			}
 		},
-		reach: {
-			heading: "Our Reach",
-			mapPlaceholder: "Map of Europe Placeholder"
-		}
 	},
 	sr: {
 		meta: {
@@ -30,19 +31,20 @@ export const about = {
 		hero: {
 			label: 'O Nama',
 			heading: 'IMAMO SLATKIŠE',
-			subheading: '(i to vam je jasno)'
+			subheading: '(kao što dobro znate)'
 		},
 		intro: {
 			description: 'SweetChoice je jedina kompanija u jugoistočnoj Evropi specijalizovana za uvoz i distribuciju sezonskih konditorskih proizvoda.',
 			secondary: 'Verovatno ste videli naše slatkiše u lokalnim supermarketima tokom praznika.'
 		},
 		products: {
-			heading: "Sve O",
-			subheading: "Prazničnim Poslasticama"
+			heading: "Baš sve od",
+			subheading: "Prazničnih slatkiša",
+			centerCard: {
+				title: "B2B praznični programi za supermarkete i male prodavnice.",
+				allProducts: "Svi proizvodi →",
+				contact: "Katalog →"
+			}
 		},
-		reach: {
-			heading: "Naš Domet",
-			mapPlaceholder: "Mapa Evrope"
-		}
 	}
 } as const;

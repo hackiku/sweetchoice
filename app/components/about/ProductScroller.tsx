@@ -4,6 +4,9 @@ import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { Link } from '@remix-run/react';
 import { Image } from '@shopify/hydrogen';
 import { Tooltip } from '~/components/ui/Tooltip';
+import BrutalButton from '~/components/ui/BrutalButton';
+import { useContact } from '~/components/contact/ContactContext';
+import { useTranslation } from '~/lib/i18n/useTranslation';
 
 interface Product {
 	id: string;
@@ -24,11 +27,20 @@ interface ProductScrollerProps {
 }
 
 const ProductScroller: React.FC<ProductScrollerProps> = ({ products }) => {
+	const { t } = useTranslation();
+	const { isOpen, openContact, closeContact } = useContact();
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
-	const [isAutoScrolling, setIsAutoScrolling] = useState(true);
 	const [isDragging, setIsDragging] = useState(false);
 	const [startX, setStartX] = useState(0);
 	const [scrollLeft, setScrollLeft] = useState(0);
+
+	const handleContactClick = () => {
+		if (isOpen) {
+			closeContact();
+		} else {
+			openContact();
+		}
+	};
 
 	const layouts = useMemo(() => [
 		[
@@ -49,35 +61,53 @@ const ProductScroller: React.FC<ProductScrollerProps> = ({ products }) => {
 
 	useEffect(() => {
 		const scrollContainer = scrollContainerRef.current;
-		if (!scrollContainer || !isAutoScrolling) return;
+		if (!scrollContainer) return;
 
-		const scrollStep = () => {
-			scrollContainer.scrollLeft += 1;
-			if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth / 2) {
+		// Create duplicate content for seamless looping
+		const content = scrollContainer.firstElementChild as HTMLElement;
+		if (!content) return;
+
+		const clone = content.cloneNode(true) as HTMLElement;
+		scrollContainer.appendChild(clone);
+
+		let animationFrameId: number;
+		let lastTimestamp = 0;
+		const speed = 0.18; // Pixels per millisecond
+
+		const animate = (timestamp: number) => {
+			if (!lastTimestamp) lastTimestamp = timestamp;
+			const elapsed = timestamp - lastTimestamp;
+
+			if (scrollContainer.scrollLeft >= content.offsetWidth) {
 				scrollContainer.scrollLeft = 0;
 			}
+			scrollContainer.scrollLeft += elapsed * speed;
+
+			lastTimestamp = timestamp;
+			animationFrameId = requestAnimationFrame(animate);
 		};
 
-		const intervalId = setInterval(scrollStep, 20);
+		animationFrameId = requestAnimationFrame(animate);
 
-		return () => clearInterval(intervalId);
-	}, [isAutoScrolling]);
+		return () => {
+			if (animationFrameId) {
+				cancelAnimationFrame(animationFrameId);
+			}
+		};
+	}, []);
 
 	const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
 		setIsDragging(true);
-		setIsAutoScrolling(false);
 		setStartX(e.pageX - scrollContainerRef.current!.offsetLeft);
 		setScrollLeft(scrollContainerRef.current!.scrollLeft);
 	};
 
 	const handleMouseLeave = () => {
 		setIsDragging(false);
-		setIsAutoScrolling(true);
 	};
 
 	const handleMouseUp = () => {
 		setIsDragging(false);
-		setIsAutoScrolling(true);
 	};
 
 	const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -87,6 +117,12 @@ const ProductScroller: React.FC<ProductScrollerProps> = ({ products }) => {
 		const walk = (x - startX) * 2;
 		scrollContainerRef.current!.scrollLeft = scrollLeft - walk;
 	};
+
+	// Duplicate products to ensure we have enough for smooth scrolling
+	const duplicateProducts = useMemo(() => {
+		const duplicated = [...products, ...products, ...products]; // Triple the products
+		return duplicated;
+	}, [products]);
 
 	const renderProductRow = (rowProducts: Product[], layoutIndex: number) => (
 		<div className="flex items-center h-3/4" onMouseDown={(e) => e.preventDefault()}>
@@ -100,7 +136,7 @@ const ProductScroller: React.FC<ProductScrollerProps> = ({ products }) => {
 						draggable={false}
 					>
 						<Tooltip content={product.title}>
-							<div className="w-full h-full overflow-hidden border-4 border-black">
+							<div className="w-full h-full overflow-hidden border-4 border-black bg-[#FFF59F]">
 								<Image
 									data={product.images.nodes[0]}
 									className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
@@ -119,36 +155,20 @@ const ProductScroller: React.FC<ProductScrollerProps> = ({ products }) => {
 		return <div>No products available</div>;
 	}
 
-	const halfLength = Math.ceil(products.length / 2);
-	const firstRow = products.slice(0, halfLength);
-	const secondRow = products.slice(halfLength);
+	const halfLength = Math.ceil(duplicateProducts.length / 2);
+	const firstRow = duplicateProducts.slice(0, halfLength);
+	const secondRow = duplicateProducts.slice(halfLength);
 
 	return (
 		<div className="w-full relative">
 			<div
 				ref={scrollContainerRef}
-				className="overflow-x-scroll whitespace-nowrap pb-2 mb-2"
+				className="overflow-x-scroll whitespace-nowrap pb-2 -mb-16"
 				style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', userSelect: 'none' }}
 				onMouseDown={handleMouseDown}
 				onMouseLeave={handleMouseLeave}
 				onMouseUp={handleMouseUp}
 				onMouseMove={handleMouseMove}
-				onTouchStart={(e) => {
-					setIsDragging(true);
-					setIsAutoScrolling(false);
-					setStartX(e.touches[0].pageX - scrollContainerRef.current!.offsetLeft);
-					setScrollLeft(scrollContainerRef.current!.scrollLeft);
-				}}
-				onTouchMove={(e) => {
-					if (!isDragging) return;
-					const x = e.touches[0].pageX - scrollContainerRef.current!.offsetLeft;
-					const walk = (x - startX) * 2;
-					scrollContainerRef.current!.scrollLeft = scrollLeft - walk;
-				}}
-				onTouchEnd={() => {
-					setIsDragging(false);
-					setIsAutoScrolling(true);
-				}}
 			>
 				<div className="inline-flex flex-col">
 					{renderProductRow(firstRow, 0)}
@@ -158,20 +178,33 @@ const ProductScroller: React.FC<ProductScrollerProps> = ({ products }) => {
 				</div>
 			</div>
 
-			<div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-72 bg-white border-4 border-black p-6 text-center shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-				<p className="text-xl font-bold mb-4">B2B holiday programs for supermarkets and mom & pop stores.</p>
-				<Link
-					to="/collections/all"
-					className="inline-block w-full px-6 py-2 text-lg font-semibold border-2 border-black bg-[#ED1C24] shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] transition-all duration-200 mb-2"
-				>
-					All Products →
-				</Link>
-				<Link
-					to="/contact"
-					className="inline-block w-full px-6 py-2 text-lg font-semibold border-2 border-black bg-black text-white shadow-[4px_4px_0px_rgba(255,255,255,1)] hover:shadow-[6px_6px_0px_rgba(255,255,255,1)] transition-all duration-200"
-				>
-					Contact Us →
-				</Link>
+			<div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-white border-4 border-black py-16 px-8 md:px-12 text-center shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+				<p className="text-2xl font-bold mb-8">
+					{t('about.products.centerCard.title')}
+				</p>
+
+				<div className="flex flex-col gap-4 px-[2vw] md:px-[3vw] lg:px-[8vw]">
+					<BrutalButton
+						onClick={handleContactClick}
+						text={t('about.products.centerCard.contact')}
+						emoji="📦"
+						isOpen={isOpen}
+						className="w-full text-xl bg-[#ED1C24]"
+					/>
+
+					<Link
+						to="/collections/all"
+						className="w-full px-6 py-3 text-xl font-semibold border-2 border-black 
+              bg-transparent text-black
+              shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] 
+              hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] 
+              active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]
+              active:translate-x-[2px] active:translate-y-[2px]
+              transition-all duration-200"
+					>
+						{t('about.products.centerCard.allProducts')}
+					</Link>
+				</div>
 			</div>
 		</div>
 	);

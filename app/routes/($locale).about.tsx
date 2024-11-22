@@ -9,8 +9,6 @@ import type { RecommendedProductsQuery } from 'storefrontapi.generated';
 
 import { useTranslation } from '~/lib/i18n/useTranslation';
 
-// import { translateData } from '~/lib/translations/serverTranslate';
-import LanguageSelector from '~/components/ui/LanguageSelector';
 
 import GalleryMasonry from '~/components/about/GalleryMasonry';
 import MobileVideo from '~/components/about/MobileVideo';
@@ -63,11 +61,7 @@ export default function About() {
 
 	return (
 		<div className="flex flex-col items-center relative">
-			
-			<LanguageSelector />
-			
-			
-			
+						
 			<div className="w-full bg-gradient-to-b from-[#00A86B] to-transparent pt-14 pb-[75vh] absolute top-0 left-0 z-0"
 				style={{
 					backgroundImage: 'radial-gradient(#000 1px, transparent 1px), linear-gradient(to bottom, #00A86B, transparent)',
@@ -117,7 +111,10 @@ export default function About() {
 
 				{/* Recommended Products */}
 				<section className="w-full px-6 sm:px-8 md:px-12 mb-16">
-					<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">All About <br /> Holiday Treats</h2>
+					<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">
+						{t('about.products.heading')}<br />
+						{t('about.products.subheading')}
+					</h2>
 					<Suspense fallback={<div>Loading...</div>}>
 						<Await resolve={recommendedProducts}>
 							{(data) => (
@@ -135,15 +132,17 @@ export default function About() {
 						<EuropeMap />
 					</div>
 				</section> */}
+				
 				{/* Stat Blurbs */}
+				<div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:mx-12"></div>
+				
 				<section className="w-full px-6 sm:px-8 md:px-12 mb-1">
 					<StatBlurbs />
 				</section>
 
 
-				<div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:mx-12"></div>
-
 				{/* Testimonials */}
+
 				{/* <section className="w-full px-6 sm:px-8 md:px-12 mb-16">
 					<h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">Hear It From <br />Our Partners</h2>
 					<TestimonialSlider />

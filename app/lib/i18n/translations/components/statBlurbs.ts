@@ -1,17 +1,16 @@
 // lib/i18n/translations/components/statBlurbs.ts
 
-// app/lib/i18n/translations/components/statBlurbs.ts
 export const statBlurbs = {
   en: {
     title: "Our Stats",
     stats: {
       founded: {
         number: "2013",
-        text: "Year SweetChoice was founded"
+        text: "Year founded"
       },
       countries: {
         number: "15+",
-        text: "Countries we distribute to"
+        text: "Countries we work with"
       },
       products: {
         number: "200+",
@@ -28,7 +27,7 @@ export const statBlurbs = {
       },
       countries: {
         number: "15+",
-        text: "Zemalja u koje distribuiramo"
+				text: "Zemalja sa kojima sarađujemo"
       },
       products: {
         number: "200+",

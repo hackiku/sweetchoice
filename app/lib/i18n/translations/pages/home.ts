@@ -58,7 +58,7 @@ export const home = {
 			subheading: 'Veleprodaja zdravih prazničnih poslastica za velike i male supermarkete.',
 			ctaText: 'Preuzmi katalog →',
 			ctaLink: '/collections/all',
-			secondaryButtonText: 'Kupuj sve →',
+			secondaryButtonText: 'Prodavnica →',
 			secondaryButtonLink: '/o-nama'
 		},
 		holidaySection: {
