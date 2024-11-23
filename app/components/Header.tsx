@@ -72,8 +72,6 @@ export function Header({
 					/>
 				</div>
 			</div>
-
-
 			
 			{/* <ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} /> */}
 		</header>
@@ -167,7 +165,6 @@ export function HeaderMenu({
 		</nav>
 	);
 }
-
 
 
 

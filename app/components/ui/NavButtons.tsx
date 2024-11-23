@@ -84,7 +84,7 @@ const NavButtons = () => {
                    flex items-center justify-center"
 					aria-label={`Switch to ${oppositeLocale.toUpperCase()}`}
 				>
-					{currentLocale === 'sr' ? 'RS' : 'EN'}
+					{currentLocale === 'sr' ? 'SRB' : 'ENG'}
 				</button>
 			)}
 
