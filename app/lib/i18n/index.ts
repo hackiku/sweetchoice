@@ -1,4 +1,5 @@
 // Auto-generated index.ts for translations
+import {nav} from './translations/components/nav';
 import {about} from './translations/pages/about';
 import {home} from './translations/pages/home';
 import {gifts} from './translations/pages/gifts';
@@ -12,6 +13,7 @@ import {common} from './translations/common';
 
 export const translations = {
   en: {
+    nav: nav.en,
     about: about.en,
     home: home.en,
     gifts: gifts.en,
@@ -24,7 +26,8 @@ export const translations = {
     common: common.en
   },
   sr: {
-    about: about.sr,
+		nav: nav.sr,
+		about: about.sr,
     home: home.sr,
     gifts: gifts.sr,
     holidays: holidays.sr,

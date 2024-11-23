@@ -3,8 +3,9 @@
 export const nav = {
 	en: {
 		menu: {
+			home: 'Home',
 			holidays: 'Holidays',
-			allYear: 'All Year',
+			allYear: 'All Products',
 			about: 'About',
 		},
 		buttons: {
@@ -18,6 +19,7 @@ export const nav = {
 			}
 		},
 		holidays: {
+			title: 'Holidays',
 			christmas: 'Christmas',
 			valentines: "Valentine's Day",
 			easter: 'Easter',
@@ -26,8 +28,9 @@ export const nav = {
 	},
 	sr: {
 		menu: {
+			home: 'Početna',
 			holidays: 'Praznici',
-			allYear: 'Tokom Godine',
+			allYear: 'Svi proizvodi',
 			about: 'O Nama',
 		},
 		buttons: {
@@ -41,6 +44,7 @@ export const nav = {
 			}
 		},
 		holidays: {
+			title: 'Praznici',
 			christmas: 'Božić',
 			valentines: 'Dan Zaljubljenih',
 			easter: 'Uskrs',

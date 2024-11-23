@@ -21,6 +21,7 @@ import { ThemeModeScript } from 'flowbite-react';
 
 // Contexts and Providers
 import { ContactProvider } from '~/components/contact/ContactContext';
+import { MenuProvider } from '~/components/MenuContext';
 import { PageLayout } from '~/components/PageLayout';
 
 // Components
@@ -165,12 +166,16 @@ function Layout({ children }: { children?: React.ReactNode }) {
 						consent={data.consent}
 					>
 						<ContactProvider slideOver={ContactSlideOver}>
-							<PageLayout {...data}>{children}</PageLayout>
+							<MenuProvider>
+								<PageLayout {...data}>{children}</PageLayout>
+							</MenuProvider>
 						</ContactProvider>
 					</Analytics.Provider>
 				) : (
 					<ContactProvider slideOver={ContactSlideOver}>
-						{children}
+						<MenuProvider>
+							{children}
+						</MenuProvider>
 					</ContactProvider>
 				)}
 				<ScrollRestoration nonce={nonce} />

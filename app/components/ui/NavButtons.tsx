@@ -1,41 +1,34 @@
 // app/components/ui/NavButtons.tsx
 
-// app/components/ui/NavButtons.tsx
-
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate, useSearchParams } from '@remix-run/react';
 import { useContact } from '~/components/contact/ContactContext';
+import { useMenu } from '~/components/MenuContext';
 import { useTranslation } from '~/lib/i18n/useTranslation';
-import { useAside } from '~/components/Aside';
 
 const NavButtons = () => {
 	const navigate = useNavigate();
 	const [searchParams] = useSearchParams();
-	const contact = useContact();
-	const { open: openMenu, close: closeMenu } = useAside();
-	const [isMenuOpen, setIsMenuOpen] = useState(false);
-
 	const { t } = useTranslation();
 
-	const [isScrolled, setIsScrolled] = useState(false);
+	// Contact context
+	const {
+		isOpen: isContactOpen,
+		openContact,
+		closeContact
+	} = useContact();
+
+	// Menu context
+	const {
+		isOpen: isMenuOpen,
+		openMenu,
+		closeMenu,
+		isScrolled
+	} = useMenu();
+
+	// Language handling
 	const currentLocale = searchParams.get('locale') || 'sr';
 	const oppositeLocale = currentLocale === 'sr' ? 'en' : 'sr';
-
-	// Safely access contact context properties
-	const isContactOpen = contact?.isOpen ?? false;
-	const openContact = contact?.openContact ?? (() => { });
-	const closeContact = contact?.closeContact ?? (() => { });
-
-	useEffect(() => {
-		const handleScroll = () => {
-			const scrollPosition = window.scrollY;
-			const headerHeight = 100;
-			setIsScrolled(scrollPosition > headerHeight);
-		};
-
-		window.addEventListener('scroll', handleScroll);
-		return () => window.removeEventListener('scroll', handleScroll);
-	}, []);
 
 	const toggleLanguage = () => {
 		const newSearchParams = new URLSearchParams(searchParams);
@@ -43,21 +36,21 @@ const NavButtons = () => {
 		navigate(`?${newSearchParams.toString()}`, { replace: true });
 	};
 
-	const toggleMenu = () => {
-		if (isMenuOpen) {
-			closeMenu();
-			setIsMenuOpen(false);
-		} else {
-			openMenu('mobile');
-			setIsMenuOpen(true);
-		}
-	};
-
 	const handleContactClick = () => {
 		if (isContactOpen) {
 			closeContact();
 		} else {
+			if (isMenuOpen) closeMenu();
 			openContact();
+		}
+	};
+
+	const handleMenuClick = () => {
+		if (isMenuOpen) {
+			closeMenu();
+		} else {
+			if (isContactOpen) closeContact();
+			openMenu();
 		}
 	};
 
@@ -65,9 +58,6 @@ const NavButtons = () => {
     ${isScrolled ? 'top-4 right-4' : 'top-8 right-8 lg:top-12 lg:right-12'}`;
 
 	const activeButton = isContactOpen ? 'contact' : isMenuOpen ? 'menu' : null;
-
-	// If contact context is not available yet, don't render anything
-	if (!contact) return null;
 
 	return (
 		<div className={containerClasses}>
@@ -91,7 +81,7 @@ const NavButtons = () => {
 			{/* Menu Button */}
 			{activeButton !== 'contact' && (
 				<button
-					onClick={toggleMenu}
+					onClick={handleMenuClick}
 					className={`w-12 h-12 rounded-full border-2 border-black
                    transition-all duration-200
                    shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
