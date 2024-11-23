@@ -61,7 +61,7 @@ export const footer = {
 				title: "PRODAVNICA",
 				items: {
 					gifts: "Pokloni",
-					allYear: "Tokom Godine",
+					allYear: "Celogodišnji",
 					about: "O Nama"
 				}
 			}

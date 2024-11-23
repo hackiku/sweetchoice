@@ -14,8 +14,8 @@ export const holidays = {
 			valentines: {
 				name: "Valentine's Day",
 				title: 'Sweet Love',
-				description: 'Share the love with our special Valentine's Day collection.Perfect for romantic gestures and heartfelt moments.',
-        exploreButton: 'Explore Valentine's Collection'
+				description: 'Share the love with our special Valentine\'s Day collection.Perfect for romantic gestures and heartfelt moments.',
+        exploreButton: 'Explore Valentine\'s Collection'
       },
 			easter: {
 				name: 'Easter',

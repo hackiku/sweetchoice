@@ -48,11 +48,11 @@ const LogoMarquee: React.FC = () => {
 	const allLogos = [...logos, ...logos];
 
 	return (
-		<div className="w-screen border-y-2 border-black bg-white overflow-hidden">
-			<div className="py-4 relative">
+		<div className="w-full border-y-2 border-black bg-white overflow-hidden">
+			<div className="py-5 relative">
 				<div
 					ref={scrollRef}
-					className="flex items-center gap-20 px-8 w-fit"
+					className="flex items-center gap-20 h-fit w-fit"
 					style={{ willChange: 'transform' }}
 				>
 					{allLogos.map((logo, index) => (
@@ -60,8 +60,8 @@ const LogoMarquee: React.FC = () => {
 							key={index}
 							src={logo}
 							alt={`Partner logo ${(index % logos.length) + 1}`}
-							className="h-8 md:h-10 object-contain"
-							style={logo.includes('dis-logo') ? { height: '20px' } : undefined}
+							className="h-6 md:h-6 object-contain"
+							// style={logo.includes('dis-logo') ? { height: '50px' } : { height: '10px' }}
 						/>
 					))}
 				</div>

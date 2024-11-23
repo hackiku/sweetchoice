@@ -165,7 +165,7 @@ function FooterContent({
 							rel="noopener noreferrer"
 							className="ml-5 -pt-5 text-sm font-regular hover:text-[#ED1C24] transition-colors"
 						>
-							dev by <span className="font-semibold">🚁 jzro</span>
+							dev by <span className="font-semibold">🚁 jzro</span> 4A.
 						</a>
 					</div>
 

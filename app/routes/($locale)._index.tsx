@@ -127,9 +127,9 @@ export default function Homepage() {
       
       <Hero />
 
-      <div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:px-12"></div>
+      {/* <div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:px-12"></div> */}
 
-      <div ref={holidaySection}>
+      <div ref={holidaySection} className="pt-6">
         <HolidaySection holidayCollections={data.holidayCollections} />
       </div>
 

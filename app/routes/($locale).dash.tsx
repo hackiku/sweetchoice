@@ -1,7 +1,7 @@
 // app/routes/($locale).dash.tsx
 
 import { type MetaFunction } from '@remix-run/react';
-import AddProduct from '~/components/dash/AddProduct';
+import AddProduct from '~/components/random/AddProduct';
 
 const preProcessedData = {
 	title: 'Deda Mraz 40g',
