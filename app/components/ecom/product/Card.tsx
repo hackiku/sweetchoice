@@ -94,7 +94,7 @@ const Card: React.FC<CardProps> = ({
 					)}
 				</div>
 
-				<h2 className="text-xl font-bold mb-2 truncate">{product.title}</h2>
+				<h2 className="text-xl font-bold mb-2 break-words line-clamp-2">{product.title}</h2>
 
 				<div className="flex justify-between items-center mb-4">
 					<div className="flex flex-col justify-between items-start gap-1">
