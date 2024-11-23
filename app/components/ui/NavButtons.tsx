@@ -55,7 +55,7 @@ const NavButtons = () => {
 	};
 
 	const containerClasses = `fixed z-50 flex items-center gap-2 transition-all duration-300 
-    ${isScrolled ? 'top-4 right-4' : 'top-8 right-8 lg:top-12 lg:right-12'}`;
+    ${isScrolled ? 'top-2 right-2' : 'top-8 right-8 '}`;
 
 	const activeButton = isContactOpen ? 'contact' : isMenuOpen ? 'menu' : null;
 
