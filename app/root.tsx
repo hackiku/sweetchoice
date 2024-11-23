@@ -2,6 +2,7 @@
 
 import { useNonce, getShopAnalytics, Analytics } from '@shopify/hydrogen';
 import { defer, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
+import { redirect } from '@shopify/remix-oxygen';
 import {
 	Links,
 	Meta,
@@ -74,22 +75,56 @@ export const links: LinksFunction = () => [
 ];
 
 
-const localeCookie = createCookie('locale', {
-	path: '/',
-	httpOnly: true,
-	secure: process.env.NODE_ENV === 'production',
-	sameSite: 'lax',
-	maxAge: 60 * 60 * 24 * 365, // 1 year
-});
+function getPreferredLanguage(request: Request): 'sr' | 'en' {
+	// Check cookie first
+	const cookieHeader = request.headers.get('Cookie');
+	const localeCookie = cookieHeader?.match(/locale=([^;]+)/)?.[1];
+	if (localeCookie === 'sr' || localeCookie === 'en') {
+		return localeCookie;
+	}
+	// Check Accept-Language header
+	const acceptLanguage = request.headers.get('Accept-Language');
+	if (acceptLanguage) {
+		// Check if Serbian is in the accepted languages
+		if (acceptLanguage.includes('sr') || acceptLanguage.includes('sr-RS')) {
+			return 'sr';
+		}
+		// Can add more specific checks here if needed
+	}
+	// Default to Serbian
+	return 'sr';
+}
 
-// Loader function
+function isBalkanCountry(country: string) {
+	return ['RS', 'BA', 'ME', 'HR', 'SI', 'MK', 'AL', 'IT'].includes(country);
+}
+
+
+
+// Loader function ------------------------------------------------------------
 export async function loader(args: LoaderFunctionArgs) {
 	const url = new URL(args.request.url);
-	const locale = url.searchParams.get('locale') || 'sr';
+
+	// Check URL param first, fallback to detection
+	const urlLocale = url.searchParams.get('locale');
+	const detectedLocale = getPreferredLanguage(args.request);
+	const locale = (urlLocale === 'sr' || urlLocale === 'en') ? urlLocale : detectedLocale;
+
+	// Set cookie for persistence
+	let headers = new Headers();
+	headers.append('Set-Cookie', `locale=${locale}; Path=/; Max-Age=31536000`); // 1 year
+
+	// If no locale in URL, redirect to add it
+	if (!urlLocale) {
+		const newUrl = new URL(args.request.url);
+		newUrl.searchParams.set('locale', locale);
+		return redirect(newUrl.toString(), {
+			headers,
+		});
+	}
 
 	const deferredData = loadDeferredData(args);
 	const criticalData = await loadCriticalData(args);
-
 	const { storefront, env } = args.context;
 
 	return defer(
@@ -109,6 +144,7 @@ export async function loader(args: LoaderFunctionArgs) {
 		},
 		{
 			headers: {
+				...Object.fromEntries(headers),
 				'Set-Cookie': await args.context.session.commit(),
 			},
 		},
