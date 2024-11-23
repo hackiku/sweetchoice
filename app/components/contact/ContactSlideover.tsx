@@ -1,15 +1,16 @@
-// app/components/contact/ContactSlideOver.tsx
 import React, { useRef, useState, useEffect } from 'react';
 import { MdClose } from 'react-icons/md';
 import { useContact } from './ContactContext';
 import { ContactDetails } from './ContactDetails';
 import ContactForm from './ContactForm';
+import { useTranslation } from '~/lib/i18n/useTranslation';
 
 interface ContactSlideOverProps {
 	onClose: () => void;
 }
 
 const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
+	const { t } = useTranslation();
 	const { selectedProducts, clearCatalog, removeProduct, isSubmitting } = useContact();
 	const [isFormExpanded, setIsFormExpanded] = useState(false);
 	const slideOverRef = useRef<HTMLDivElement>(null);
@@ -59,7 +60,7 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 									filter: 'drop-shadow(0 0 1px black)'
 								}}
 							>
-								CONTACT & CATALOG
+								{t('contact.form.title')}
 							</h2>
 
 							{/* Contact Details Section */}
@@ -70,7 +71,9 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 							{/* Selected Products Section */}
 							<div className="mb-4">
 								<div className="flex justify-between items-center mb-2">
-									<h3 className="text-2xl font-bold text-black">Selected Products</h3>
+									<h3 className="text-2xl font-bold text-black">
+										{t('contact.catalog.title')}
+									</h3>
 									{selectedProducts.length > 0 && (
 										<button
 											onClick={clearCatalog}
@@ -81,7 +84,7 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
                                hover:shadow-[4px_4px_0px_rgba(0,0,0,1)]"
 											disabled={isSubmitting}
 										>
-											Remove All
+											{t('contact.buttons.removeAll')}
 										</button>
 									)}
 								</div>
@@ -120,9 +123,9 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 										))
 									) : (
 										<div className="text-center p-4 bg-[#FFF59F] border-2 border-black rounded-xl">
-											<p className="text-black font-bold">No products selected yet</p>
+											<p className="text-black font-bold">{t('contact.catalog.empty')}</p>
 											<p className="text-sm text-black mt-2">
-												Browse our catalog and click "Add to Catalog" to start building your selection
+												{t('contact.catalog.emptyDesc')}
 											</p>
 										</div>
 									)}
@@ -153,6 +156,7 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
                    active:translate-x-[2px] active:translate-y-[2px]
                    transition-all duration-200
                    flex items-center justify-center"
+					aria-label={t('contact.buttons.closeContact')}
 				>
 					×
 				</button>

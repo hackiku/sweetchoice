@@ -12,7 +12,7 @@ import { Header, HeaderMenu } from '~/components/Header';
 import { Footer } from '~/components/Footer';
 
 import NavButtons from './ui/NavButtons';
-import ContactButton from '~/components/contact/ContactButton';
+// import ContactButton from '~/components/contact/ContactButton';
 
 import { CartMain } from '~/components/Cart';
 import {

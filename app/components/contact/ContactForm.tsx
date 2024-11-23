@@ -1,9 +1,8 @@
-// app/components/contact/ContactForm.tsx
-
 import React, { useState, useEffect } from 'react';
 import { MdPerson, MdMail, MdExpandLess, MdExpandMore } from 'react-icons/md';
 import { useFetcher } from '@remix-run/react';
 import { useContact } from './ContactContext';
+import { useTranslation } from '~/lib/i18n/useTranslation';
 
 interface ContactFormProps {
 	isExpanded: boolean;
@@ -12,6 +11,7 @@ interface ContactFormProps {
 }
 
 const ContactForm = ({ isExpanded, onExpandToggle, onSuccess }: ContactFormProps) => {
+	const { t } = useTranslation();
 	const fetcher = useFetcher();
 	const { selectedProducts } = useContact();
 	const [formData, setFormData] = useState({
@@ -83,7 +83,7 @@ const ContactForm = ({ isExpanded, onExpandToggle, onSuccess }: ContactFormProps
 						<input
 							type="text"
 							name="name"
-							placeholder="Willie Wonka"
+							placeholder={t('contact.form.name.placeholder')}
 							value={formData.name}
 							onChange={handleInputChange}
 							className="w-full border-black border-2 p-2 pl-10 rounded-xl 
@@ -99,7 +99,7 @@ const ContactForm = ({ isExpanded, onExpandToggle, onSuccess }: ContactFormProps
 						<input
 							type="email"
 							name="email"
-							placeholder="willie@disney.com"
+							placeholder={t('contact.form.email.placeholder')}
 							value={formData.email}
 							onChange={handleInputChange}
 							className="w-full border-black border-2 p-2 pl-10 rounded-xl 
@@ -113,7 +113,7 @@ const ContactForm = ({ isExpanded, onExpandToggle, onSuccess }: ContactFormProps
 					{isExpanded && (
 						<textarea
 							name="message"
-							placeholder="What's on your mind? (optional)"
+							placeholder={t('contact.form.message.placeholder')}
 							value={formData.message}
 							onChange={handleInputChange}
 							className="w-full flex-1 min-h-[4rem] max-h-24 border-black border-2 p-2 rounded-xl 
@@ -136,8 +136,8 @@ const ContactForm = ({ isExpanded, onExpandToggle, onSuccess }: ContactFormProps
 				{showSuccess && (
 					<div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
 						{selectedProducts.length > 0
-							? "Thanks! We're sending you our catalog along with your custom selection."
-							: "Thanks! We're sending you our complete catalog. Feel free to request a custom selection anytime!"}
+							? t('contact.form.success.withProducts')
+							: t('contact.form.success.noProducts')}
 					</div>
 				)}
 
@@ -153,12 +153,14 @@ const ContactForm = ({ isExpanded, onExpandToggle, onSuccess }: ContactFormProps
                    transition-all duration-200 text-xl
                    disabled:opacity-50 disabled:cursor-not-allowed"
 				>
-					{fetcher.state === 'submitting' ? 'Sending...' : 'Get Catalog →'}
+					{fetcher.state === 'submitting'
+						? t('contact.buttons.submitting')
+						: t('contact.buttons.getCatalog')}
 				</button>
 
 				{selectedProducts.length === 0 && (
 					<p className="text-sm text-center text-gray-700 mt-2">
-						Add some products to your catalog first!
+						{t('contact.catalog.emptyDesc')}
 					</p>
 				)}
 			</div>

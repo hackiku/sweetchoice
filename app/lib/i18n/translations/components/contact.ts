@@ -8,6 +8,7 @@ export const contact = {
 			closeContact: 'Close Contact',
 			removeAll: 'Remove All',
 			submit: 'Submit',
+			submitting: 'Submitting...',
 			getQuote: 'Get Quote',
 			getCatalog: 'Get Catalog'
 		},
@@ -24,6 +25,10 @@ export const contact = {
 			message: {
 				label: 'Message',
 				placeholder: "What's on your mind?"
+			},
+			success: {
+				withProducts: 'Catalog saved & headed your way. Chat soon!',
+				noProducts: "Great! Catalog\'s on your way. Chat soon"
 			}
 		},
 		catalog: {
@@ -45,6 +50,7 @@ export const contact = {
 			closeContact: 'Zatvori',
 			removeAll: 'Ukloni Sve',
 			submit: 'Pošalji',
+			submitting: 'Na putu...',
 			getQuote: 'Zatraži Ponudu',
 			getCatalog: 'Preuzmi Katalog'
 		},
@@ -56,11 +62,15 @@ export const contact = {
 			},
 			email: {
 				label: 'Email',
-				placeholder: 'vili@disney.com'
+				placeholder: 'vili@disney.rs'
 			},
 			message: {
 				label: 'Poruka',
 				placeholder: 'Vaša poruka...'
+			},
+			success: {
+				withProducts: 'Katalog sačuvan i poslat. Čujemo se!',
+				noProducts: "Standardni katalog poslat. Na vezi smo!"
 			}
 		},
 		catalog: {
