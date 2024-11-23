@@ -24,6 +24,10 @@ import { ContactProvider } from '~/components/contact/ContactContext';
 import { MenuProvider } from '~/components/MenuContext';
 import { PageLayout } from '~/components/PageLayout';
 
+import { createCookie } from "@shopify/remix-oxygen";
+
+
+
 // Components
 import ContactSlideOver from '~/components/contact/ContactSlideOver';
 
@@ -68,6 +72,15 @@ export const links: LinksFunction = () => [
 	{ rel: 'preconnect', href: 'https://shop.app' },
 	{ rel: 'icon', type: 'image/svg+xml', href: favicon },
 ];
+
+
+const localeCookie = createCookie('locale', {
+	path: '/',
+	httpOnly: true,
+	secure: process.env.NODE_ENV === 'production',
+	sameSite: 'lax',
+	maxAge: 60 * 60 * 24 * 365, // 1 year
+});
 
 // Loader function
 export async function loader(args: LoaderFunctionArgs) {

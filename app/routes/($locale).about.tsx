@@ -7,7 +7,9 @@ import { Suspense } from 'react';
 import { Await, Link } from '@remix-run/react';
 import type { RecommendedProductsQuery } from 'storefrontapi.generated';
 
+
 import { useTranslation } from '~/lib/i18n/useTranslation';
+import { createCookie } from "@shopify/remix-oxygen";
 
 
 import GalleryMasonry from '~/components/about/GalleryMasonry';
