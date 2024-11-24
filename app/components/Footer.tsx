@@ -1,13 +1,12 @@
 // app/components/Footer.tsx
 
-
 import React from 'react';
 import { Suspense } from 'react';
 import { Await, NavLink, useNavigate, useSearchParams } from '@remix-run/react';
 import type { FooterQuery, HeaderQuery } from 'storefrontapi.generated';
 import BrutalButton from '~/components/ui/BrutalButton';
 import { useContact } from '~/components/contact/ContactContext';
-import EmailOptin from '~/components/contact/EmailOptin';
+import EmailSignup from '~/components/contact/EmailSignup';
 
 import { useTranslation } from '~/lib/i18n/useTranslation';
 import LanguageSelector from '~/components/ui/LanguageSelector';
@@ -134,7 +133,13 @@ function FooterContent({
 					</div>
 
 					<div className="col-span-2 md:col-span-2">
-						<EmailOptin />
+						<EmailSignup
+							variant="stacked"
+							buttonText={t('comingsoon.submitButton')}
+							placeholder={t('comingsoon.emailPlaceholder')}
+							successMessage={t('comingsoon.successMessage')}
+						/>
+
 					</div>
 				</div>
 

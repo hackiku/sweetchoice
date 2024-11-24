@@ -1,6 +1,4 @@
-// app/components/contact/EmailSignup.tsx
 import React, { useState } from 'react';
-
 import { useTranslation } from '~/lib/i18n/useTranslation';
 
 interface EmailSignupProps {
@@ -27,6 +25,10 @@ const EmailSignup: React.FC<EmailSignupProps> = ({
 		setShowMessage(true);
 	};
 
+	const handleDismiss = () => {
+		setShowMessage(false);
+	};
+
 	const containerClasses = `
     w-full max-w-lg mx-auto 
     ${className}
@@ -41,7 +43,7 @@ const EmailSignup: React.FC<EmailSignupProps> = ({
     flex-1 px-6 py-4 border-4 border-black bg-white text-xl
     shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] 
     focus:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]
-    focus:outline-none focus:bg-[#FFA6F6] 
+    focus:outline-none focus:bg-[#39FF14]
     transition-all duration-200
   `;
 
@@ -49,6 +51,7 @@ const EmailSignup: React.FC<EmailSignupProps> = ({
     px-8 py-4 text-xl border-4 border-black bg-orange-400
     shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
     hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]
+    hover:bg-[#39FF14]
     active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]
     active:translate-x-[2px] active:translate-y-[2px]
     transition-all duration-200 font-bold whitespace-nowrap
@@ -58,15 +61,21 @@ const EmailSignup: React.FC<EmailSignupProps> = ({
 	if (showMessage) {
 		return (
 			<div className={containerClasses}>
-				<div className="text-xl font-bold p-6 border-4 border-black bg-[#90EE90] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-					{t('contact.newsletter.comingSoon.message')}&nbsp;
-					{/* Newsletter coming soon! Meanwhile, contact{' '} */}
+				<div className="relative text-xl font-bold p-6 border-4 border-black bg-[#90EE90] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+					{t('contact.newsletter.comingSoon.message')} <br />
 					<a
 						href="mailto:info@sweetchoice.rs"
 						className="underline hover:text-orange-600 transition-colors"
 					>
 						info@sweetchoice.rs
 					</a>
+					<button
+						onClick={handleDismiss}
+						className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center bg-[#FF6B6B] text-black rounded-full border-2 border-black"
+						aria-label="Dismiss message"
+					>
+						<span className="text-xl font-bold">×</span>
+					</button>
 				</div>
 			</div>
 		);
@@ -98,3 +107,4 @@ const EmailSignup: React.FC<EmailSignupProps> = ({
 };
 
 export default EmailSignup;
+
