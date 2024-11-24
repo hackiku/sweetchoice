@@ -9,12 +9,12 @@ interface MobileMenuProps {
 	onClose: () => void;
 }
 
-// const { t } = useTranslation();
 
 const MENU_LINKS = [
 	// { to: "/", label: "nav.menu.home", exact: true },
 	{ to: "/", label: "nav.menu.home", exact: true },
 	{ to: "/collections/all", label: "nav.menu.allYear", exact: false },
+	{ to: "/gifts", label: "nav.menu.gifts", exact: false },
 	{ to: "/about", label: "nav.menu.about", exact: false }
 ];
 
@@ -54,7 +54,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
 		>
 			<div
 				ref={menuRef}
-				className={`fixed inset-y-0 left-0 w-full max-w-md transform transition-transform duration-300 ease-in-out
+				className={`fixed inset-y-0 right-0 w-full max-w-md transform transition-transform duration-300 ease-in-out
                    ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
 			>
 				<div className="relative h-full">

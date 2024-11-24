@@ -54,8 +54,9 @@ const NavButtons = () => {
 		}
 	};
 
-	const containerClasses = `fixed z-50 flex items-center gap-2 transition-all duration-300 
-    ${isScrolled ? 'top-2 right-2' : 'top-8 right-8 '}`;
+	const containerClasses = `fixed z-[101] flex items-center gap-2 transition-all duration-300 
+  ${isScrolled ? 'top-2 right-2' : 'top-8 right-8'}`;
+
 
 	const activeButton = isContactOpen ? 'contact' : isMenuOpen ? 'menu' : null;
 
@@ -114,8 +115,8 @@ const NavButtons = () => {
                    active:translate-x-[2px] active:translate-y-[2px]
                    rounded-full flex items-center justify-center
                    ${isContactOpen
-							? 'bg-[#FF6B6B] text-black w-12'
-							: 'bg-[#FFB6C1] text-black md:w-auto w-12'}`}
+						? 'bg-[#FF5A1F] text-black w-12'
+						: 'bg-[#FF5A1F] text-black md:w-auto w-12'}`}
 					aria-label={isContactOpen ? t('contact.buttons.closeContact') : t('contact.buttons.openContact')}
 				>
 					{isContactOpen ? (

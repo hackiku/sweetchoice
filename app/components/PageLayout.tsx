@@ -4,12 +4,12 @@ import { Await } from '@remix-run/react';
 import { Suspense } from 'react';
 import type {
 	CartApiQueryFragment,
-	FooterQuery,
+	// FooterQuery,
 	HeaderQuery,
 } from 'storefrontapi.generated';
 import { Aside } from '~/components/Aside';
 import { Header, HeaderMenu } from '~/components/Header';
-import { Footer } from '~/components/Footer';
+// import { Footer } from '~/components/Footer';
 
 import NavButtons from './ui/NavButtons';
 // import ContactButton from '~/components/contact/ContactButton';
@@ -23,7 +23,7 @@ import {
 
 interface PageLayoutProps {
 	cart: Promise<CartApiQueryFragment | null>;
-	footer: Promise<FooterQuery | null>;
+	// footer: Promise<FooterQuery | null>;
 	header: HeaderQuery;
 	isLoggedIn: Promise<boolean>;
 	publicStoreDomain: string;
@@ -33,7 +33,7 @@ interface PageLayoutProps {
 export function PageLayout({
 	cart,
 	children = null,
-	footer,
+	// footer,
 	header,
 	isLoggedIn,
 	publicStoreDomain,
@@ -56,11 +56,11 @@ export function PageLayout({
 			<div className="mt-4"><NavButtons/></div>
 			{/* <ContactButton />  */}
 			
-			<Footer
+			{/* <Footer
 				footer={footer}
 				header={header}
 				publicStoreDomain={publicStoreDomain}
-			/>
+			/> */}
 		</Aside.Provider>
 	);
 }

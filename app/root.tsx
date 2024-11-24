@@ -38,6 +38,7 @@ import logosStyles from '~/styles/ui/logos.css?url';
 // Queries and Utils
 import { FOOTER_QUERY, HEADER_QUERY } from '~/lib/fragments';
 import { createTransformStream } from '~/lib/translations/serverTransform';
+import { Footer } from './components/Footer';
 
 export type RootLoader = typeof loader;
 
@@ -151,6 +152,11 @@ function Layout({ children }: { children?: React.ReactNode }) {
 					<ContactProvider slideOver={ContactSlideOver}>
 						<MenuProvider>
 							<PageLayout {...data}>{children}</PageLayout>
+							<Footer
+								footer={data.footer}
+								header={data.header}
+								publicStoreDomain={data.publicStoreDomain}
+							/>
 						</MenuProvider>
 					</ContactProvider>
 				</Analytics.Provider>

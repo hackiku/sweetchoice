@@ -6,6 +6,7 @@ export const nav = {
 			home: 'Home',
 			holidays: 'Holidays',
 			allYear: 'All Products',
+			gifts: 'Gifts',
 			about: 'About',
 		},
 		buttons: {
@@ -31,6 +32,7 @@ export const nav = {
 			home: 'Početna',
 			holidays: 'Praznici',
 			allYear: 'Svi proizvodi',
+			gifts: 'Pokloni',
 			about: 'O Nama',
 		},
 		buttons: {

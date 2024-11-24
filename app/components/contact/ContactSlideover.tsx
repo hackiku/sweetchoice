@@ -33,7 +33,7 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 	}, [onClose]);
 
 	return (
-		<div className="fixed inset-0 bg-black bg-opacity-70 z-50">
+		<div className="fixed inset-0 bg-black bg-opacity-70 z-[100]">
 			<div className="flex items-start justify-end h-full">
 				<div
 					ref={slideOverRef}
@@ -145,7 +145,7 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 				</div>
 
 				{/* Close Button */}
-				<button
+				{/* <button
 					onClick={onClose}
 					className="absolute top-4 right-4 w-16 h-16 bg-[#FF6B6B] 
                    text-black font-bold text-2xl rounded-full 
@@ -159,7 +159,7 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 					aria-label={t('contact.buttons.closeContact')}
 				>
 					×
-				</button>
+				</button> */}
 			</div>
 		</div>
 	);
