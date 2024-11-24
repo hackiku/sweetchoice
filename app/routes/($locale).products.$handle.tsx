@@ -6,8 +6,9 @@ import { getSelectedProductOptions, Image } from '@shopify/hydrogen';
 import { PlusIcon, CheckIcon } from '@heroicons/react/24/solid';
 
 import { ProductGallery } from '~/components/ecom/product/ProductGallery';
-import { ProductWeight } from '~/components/ecom/product/ProductWeight';
+// import { ProductWeight } from '~/components/ecom/product/ProductWeight';
 import { useContact } from '~/components/contact/ContactContext';
+import { PackagingTable, extractPackagingInfo } from '~/components/ecom/product/PackagingTable';
 
 export const meta = ({ data }) => {
 	return [{ title: `Sweetchoice | ${data?.product?.title ?? ''}` }];
@@ -39,6 +40,27 @@ const PRODUCT_QUERY = `#graphql
           weight
           weightUnit
         }
+      }
+      # Add metafield query
+      jmpal: metafield(namespace: "custom", key: "jm_pal") {
+        value
+        type
+      }
+      tppal: metafield(namespace: "custom", key: "tp_pal") {
+        value
+        type
+      }
+      jmitp: metafield(namespace: "custom", key: "jm_itp") {
+        value
+        type
+      }
+      jmkp: metafield(namespace: "custom", key: "jm_kp") {
+        value
+        type
+      }
+      rok_trajanja: metafield(namespace: "custom", key: "rok_trajanja") {
+        value
+        type
       }
     }
   }
@@ -154,7 +176,10 @@ export default function Product() {
 							{product.title}
 						</h1>
 
-						<ProductWeight selectedVariant={product.selectedVariant} />
+						<PackagingTable usePlaceholder={true} />
+
+						{/* <PackagingTable metafields={extractPackagingInfo(product.metafields)} /> */}
+
 
 						<div className="flex flex-col gap-4">
 							<button
