@@ -1,12 +1,13 @@
 // app/routes/($locale).products.$handle.tsx
 import { Suspense } from 'react';
+import { useState } from 'react';
 import { defer, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { Await, useLoaderData, Link } from '@remix-run/react';
 import { getSelectedProductOptions, Image } from '@shopify/hydrogen';
-import { PlusIcon, CheckIcon } from '@heroicons/react/24/solid';
+import { PlusIcon, CheckIcon, ClockIcon } from '@heroicons/react/24/solid';
+import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 
 import { ProductGallery } from '~/components/ecom/product/ProductGallery';
-// import { ProductWeight } from '~/components/ecom/product/ProductWeight';
 import { useContact } from '~/components/contact/ContactContext';
 import { PackagingTable, extractPackagingInfo } from '~/components/ecom/product/PackagingTable';
 
@@ -38,34 +39,13 @@ export async function loader({ params, context, request }: LoaderFunctionArgs) {
 	return defer({
 		product,
 		recommendedProducts,
+		analytics: {
+			pageType: 'product',
+			handle,
+			products: [product],
+		},
+		selectedOptions,
 	});
-}
-
-function RecommendedProducts({ products }) {
-	if (!products?.length) return null;
-
-	return (
-		<div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-			{products.map((product) => (
-				<Link
-					key={product.id}
-					to={`/products/${product.handle}`}
-					className="group block border-4 border-black p-4 bg-white 
-                     hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
-                     transition-all duration-200"
-				>
-					<div className="aspect-square w-full overflow-hidden border-2 border-black mb-4">
-						<Image
-							data={product.images.nodes[0]}
-							className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
-							sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, 50vw"
-						/>
-					</div>
-					<h4 className="text-lg font-bold truncate">{product.title}</h4>
-				</Link>
-			))}
-		</div>
-	);
 }
 
 export default function Product() {
@@ -84,6 +64,8 @@ export default function Product() {
 			featuredImage: product.images.nodes[0],
 		});
 	};
+
+	const shelfLife = product.rok_trajanja?.value || '630';
 
 	return (
 		<div className="pt-12 border-y-4 border-black bg-indigo-200 bg-opacity-70">
@@ -104,12 +86,40 @@ export default function Product() {
 							{product.title}
 						</h1>
 
+						{/* Variant Selector */}
+						<div className="flex gap-4 flex-wrap">
+							{product.variants.nodes.map((variant) => (
+								<button
+									key={variant.id}
+									disabled={!variant.availableForSale}
+									className={`px-4 py-2 border-2 border-black rounded-lg 
+                           transition-all duration-200
+                           ${variant.availableForSale
+											? 'hover:shadow-[4px_4px_0px_rgba(0,0,0,1)]'
+											: 'opacity-50 cursor-not-allowed'}`}
+								>
+									{variant.weight}{variant.weightUnit}
+								</button>
+							))}
+						</div>
 
+						{/* Shelf Life Card */}
+						<div className="bg-yellow-100 rounded-xl border-2 border-black p-4 
+                          shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] 
+                          transition-all duration-200">
+							<div className="flex items-center gap-2">
+								<ClockIcon className="w-5 h-5" />
+								<span className="text-sm font-medium">Shelf Life</span>
+							</div>
+							<div className="text-2xl font-bold">
+								{shelfLife} days
+							</div>
+						</div>
+
+						{/* Packaging Table */}
 						<PackagingTable metafields={extractPackagingInfo(product)} />
 
-						{/* <PackagingTable metafields={extractPackagingInfo(product.metafields)} /> */}
-
-
+						{/* Add to Catalog & Contact Buttons */}
 						<div className="flex flex-col gap-4">
 							<button
 								onClick={handleAddToCatalog}
@@ -159,7 +169,6 @@ export default function Product() {
 				</div>
 			</div>
 
-
 			{/* Recommended Products */}
 			<div className="mt-16 px-4 pb-12 md:px-28">
 				<div className="border-t-4 border-black my-8"></div>
@@ -170,14 +179,37 @@ export default function Product() {
 					</Await>
 				</Suspense>
 			</div>
-
-			<div className="mt-16 px-4 pb-12 md:px-44">
-				<PackagingTable usePlaceholder={true} />
-			</div>
-
 		</div>
 	);
 }
+
+function RecommendedProducts({ products }) {
+	if (!products?.length) return null;
+
+	return (
+		<div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+			{products.map((product) => (
+				<Link
+					key={product.id}
+					to={`/products/${product.handle}`}
+					className="group block border-4 border-black p-4 bg-white 
+                     hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
+                     transition-all duration-200"
+				>
+					<div className="aspect-square w-full overflow-hidden border-2 border-black mb-4">
+						<Image
+							data={product.images.nodes[0]}
+							className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+							sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, 50vw"
+						/>
+					</div>
+					<h4 className="text-lg font-bold truncate">{product.title}</h4>
+				</Link>
+			))}
+		</div>
+	);
+}
+
 
 
 
@@ -188,6 +220,41 @@ const PRODUCT_QUERY = `#graphql
       title
       handle
       descriptionHtml
+      options {
+        name
+        values
+      }
+      selectedVariant: variantBySelectedOptions(selectedOptions: $selectedOptions) {
+        id
+        availableForSale
+        selectedOptions {
+          name
+          value
+        }
+        image {
+          id
+          url
+          altText
+          width
+          height
+        }
+        price {
+          amount
+          currencyCode
+        }
+        compareAtPrice {
+          amount
+          currencyCode
+        }
+        sku
+        title
+        unitPrice {
+          amount
+          currencyCode
+        }
+        weight
+        weightUnit
+      }
       images(first: 10) {
         nodes {
           id
@@ -197,34 +264,39 @@ const PRODUCT_QUERY = `#graphql
           height
         }
       }
-      selectedVariant: variantBySelectedOptions(selectedOptions: $selectedOptions) {
-        id
-        weight
-        weightUnit
-      }
       variants(first: 1) {
         nodes {
+          id
           weight
           weightUnit
+          availableForSale
+          selectedOptions {
+            name
+            value
+          }
         }
       }
-      # Add metafield query
+      # number of product units in pallet (biggest number)
       jmpal: metafield(namespace: "custom", key: "jm_pal") {
         value
         type
       }
+      # number of transport packages in pallet
       tppal: metafield(namespace: "custom", key: "tp_pal") {
         value
         type
       }
+      # number of product units in transport packaging
       jmtp: metafield(namespace: "custom", key: "jm_tp") {
         value
         type
       }
+      # number of product units in commercial packaging
       jmkp: metafield(namespace: "custom", key: "jm_kp") {
         value
         type
       }
+      # shelf life in days
       rok_trajanja: metafield(namespace: "custom", key: "shelf_life") {
         value
         type
