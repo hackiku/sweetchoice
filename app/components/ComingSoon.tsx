@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from '~/lib/i18n/useTranslation';
+import EmailSignup from '~/components/contact/EmailSignup';
 
 interface ComingSoonProps {
 	eyebrow?: string;
@@ -13,14 +14,6 @@ const ComingSoon: React.FC<ComingSoonProps> = ({
 	description
 }) => {
 	const { t } = useTranslation();
-	const [email, setEmail] = useState('');
-	const [isSubmitted, setIsSubmitted] = useState(false);
-
-	const handleSubmit = (e: React.FormEvent) => {
-		e.preventDefault();
-		// TODO: Handle email submission
-		setIsSubmitted(true);
-	};
 
 	return (
 		<div className="min-h-[80vh] flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#00A86B] to-transparent">
@@ -48,40 +41,12 @@ const ComingSoon: React.FC<ComingSoonProps> = ({
 					{description || t('comingsoon.meta.description')}
 				</p>
 
-				<div className="flex justify-center">
-					{!isSubmitted ? (
-						<form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4 w-full max-w-lg">
-							<input
-								type="email"
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-								placeholder={t('comingsoon.emailPlaceholder')}
-								className="flex-1 px-6 py-4 border-4 border-black bg-white text-xl
-                  shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] 
-                  focus:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]
-                  focus:outline-none focus:bg-[#FFA6F6] 
-                  transition-all duration-200"
-								required
-							/>
-							<button
-								type="submit"
-								className="px-8 py-4 text-xl border-4 border-black bg-orange-400
-                  shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
-                  hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]
-                  active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]
-                  active:translate-x-[2px] active:translate-y-[2px]
-                  transition-all duration-200 font-bold whitespace-nowrap"
-							>
-								{t('comingsoon.submitButton')} →
-							</button>
-						</form>
-					) : (
-						<div className="text-xl font-bold p-6 border-4 border-black bg-[#90EE90]
-              shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-							{t('comingsoon.successMessage')}
-						</div>
-					)}
-				</div>
+				<EmailSignup
+					variant="stacked"
+					buttonText={t('comingsoon.submitButton')}
+					placeholder={t('comingsoon.emailPlaceholder')}
+					successMessage={t('comingsoon.successMessage')}
+				/>
 			</div>
 		</div>
 	);
