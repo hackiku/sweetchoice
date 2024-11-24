@@ -19,40 +19,36 @@ export async function action({ request, context }: ActionFunctionArgs) {
 	try {
 		const { email } = emailSchema.parse(data);
 
-		// Create a customer with the email address using Shopify Admin API
-		const response = await context.admin.graphql(`
-      mutation customerCreate($input: CustomerInput!) {
-        customerCreate(input: $input) {
-          customer {
+		// Use Shopify's Email Marketing API
+		const response = await context.storefront.mutate(
+			`mutation emailMarketingSubscribe($email: String!) {
+        emailMarketingSubscribe(email: $email) {
+          emailMarketing {
             id
-            email
+            subscribedAt
+            subscriberStatus
           }
           userErrors {
             field
             message
           }
         }
-      }
-    `, {
-			variables: {
-				input: {
+      }`,
+			{
+				variables: {
 					email,
-					acceptsMarketing: true,
 				},
-			},
-		});
+			}
+		);
 
-		const { customerCreate } = await response.json();
+		const { emailMarketingSubscribe } = await response.json();
 
-		if (customerCreate.userErrors?.length > 0) {
+		if (emailMarketingSubscribe.userErrors?.length) {
 			return json({
-				error: customerCreate.userErrors[0].message,
+				error: emailMarketingSubscribe.userErrors[0].message,
 				success: false
 			}, { status: 400 });
 		}
-
-		// Subscribe the customer to your newsletter 
-		// You can also use Shopify's Customer Segments or integrate with email providers like Klaviyo here
 
 		return json({
 			success: true,
