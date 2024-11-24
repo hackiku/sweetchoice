@@ -20,7 +20,7 @@ const PLACEHOLDER_DATA: ProductMetafields = {
 	tppal: { value: '72 • 180', type: 'single_line_text_field' },
 	jmitp: { value: '54 • 24', type: 'single_line_text_field' },
 	jmkp: { value: '30 • 25', type: 'single_line_text_field' },
-	rok_trajanja: { value: '630', type: 'single_line_text_field' }
+	rok_trajanja: { value: '99', type: 'single_line_text_field' }
 };
 
 function formatPackagingValue(value: string): string {

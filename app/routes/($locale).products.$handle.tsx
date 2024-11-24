@@ -14,78 +14,6 @@ export const meta = ({ data }) => {
 	return [{ title: `Sweetchoice | ${data?.product?.title ?? ''}` }];
 };
 
-const PRODUCT_QUERY = `#graphql
-  query Product($handle: String!, $selectedOptions: [SelectedOptionInput!]!) {
-    product(handle: $handle) {
-      id
-      title
-      handle
-      descriptionHtml
-      images(first: 10) {
-        nodes {
-          id
-          url
-          altText
-          width
-          height
-        }
-      }
-      selectedVariant: variantBySelectedOptions(selectedOptions: $selectedOptions) {
-        id
-        weight
-        weightUnit
-      }
-      variants(first: 1) {
-        nodes {
-          weight
-          weightUnit
-        }
-      }
-      # Add metafield query
-      jmpal: metafield(namespace: "custom", key: "jm_pal") {
-        value
-        type
-      }
-      tppal: metafield(namespace: "custom", key: "tp_pal") {
-        value
-        type
-      }
-      jmitp: metafield(namespace: "custom", key: "jm_itp") {
-        value
-        type
-      }
-      jmkp: metafield(namespace: "custom", key: "jm_kp") {
-        value
-        type
-      }
-      rok_trajanja: metafield(namespace: "custom", key: "rok_trajanja") {
-        value
-        type
-      }
-    }
-  }
-`;
-
-const RECOMMENDED_PRODUCTS_QUERY = `#graphql
-  query recommendedProducts($count: Int = 5) {
-    products(first: $count, sortKey: BEST_SELLING) {
-      nodes {
-        id
-        title
-        handle
-        images(first: 1) {
-          nodes {
-            id
-            url
-            altText
-            width
-            height
-          }
-        }
-      }
-    }
-  }
-`;
 
 export async function loader({ params, context, request }: LoaderFunctionArgs) {
 	const { handle } = params;
@@ -176,7 +104,8 @@ export default function Product() {
 							{product.title}
 						</h1>
 
-						<PackagingTable usePlaceholder={true} />
+
+						<PackagingTable metafields={extractPackagingInfo(product)} />
 
 						{/* <PackagingTable metafields={extractPackagingInfo(product.metafields)} /> */}
 
@@ -230,6 +159,7 @@ export default function Product() {
 				</div>
 			</div>
 
+
 			{/* Recommended Products */}
 			<div className="mt-16 px-4 pb-12 md:px-28">
 				<div className="border-t-4 border-black my-8"></div>
@@ -240,6 +170,86 @@ export default function Product() {
 					</Await>
 				</Suspense>
 			</div>
+
+			<div className="mt-16 px-4 pb-12 md:px-44">
+				<PackagingTable usePlaceholder={true} />
+			</div>
+
 		</div>
 	);
 }
+
+
+
+const PRODUCT_QUERY = `#graphql
+  query Product($handle: String!, $selectedOptions: [SelectedOptionInput!]!) {
+    product(handle: $handle) {
+      id
+      title
+      handle
+      descriptionHtml
+      images(first: 10) {
+        nodes {
+          id
+          url
+          altText
+          width
+          height
+        }
+      }
+      selectedVariant: variantBySelectedOptions(selectedOptions: $selectedOptions) {
+        id
+        weight
+        weightUnit
+      }
+      variants(first: 1) {
+        nodes {
+          weight
+          weightUnit
+        }
+      }
+      # Add metafield query
+      jmpal: metafield(namespace: "custom", key: "jm_pal") {
+        value
+        type
+      }
+      tppal: metafield(namespace: "custom", key: "tp_pal") {
+        value
+        type
+      }
+      jmtp: metafield(namespace: "custom", key: "jm_tp") {
+        value
+        type
+      }
+      jmkp: metafield(namespace: "custom", key: "jm_kp") {
+        value
+        type
+      }
+      rok_trajanja: metafield(namespace: "custom", key: "shelf_life") {
+        value
+        type
+      }
+    }
+  }
+`;
+
+const RECOMMENDED_PRODUCTS_QUERY = `#graphql
+  query recommendedProducts($count: Int = 5) {
+    products(first: $count, sortKey: BEST_SELLING) {
+      nodes {
+        id
+        title
+        handle
+        images(first: 1) {
+          nodes {
+            id
+            url
+            altText
+            width
+            height
+          }
+        }
+      }
+    }
+  }
+`;
