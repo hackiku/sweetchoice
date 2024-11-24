@@ -1,20 +1,18 @@
 // app/routes/($locale).products.$handle.tsx
 import { Suspense } from 'react';
-import { useState } from 'react';
 import { defer, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { Await, useLoaderData, Link } from '@remix-run/react';
 import { getSelectedProductOptions, Image } from '@shopify/hydrogen';
-import { PlusIcon, CheckIcon, ClockIcon } from '@heroicons/react/24/solid';
-import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+import { PlusIcon, CheckIcon } from '@heroicons/react/24/solid';
 
 import { ProductGallery } from '~/components/ecom/product/ProductGallery';
+import { ProductInfo } from '~/components/ecom/product/ProductInfo';
 import { useContact } from '~/components/contact/ContactContext';
 import { PackagingTable, extractPackagingInfo } from '~/components/ecom/product/PackagingTable';
 
 export const meta = ({ data }) => {
 	return [{ title: `Sweetchoice | ${data?.product?.title ?? ''}` }];
 };
-
 
 export async function loader({ params, context, request }: LoaderFunctionArgs) {
 	const { handle } = params;
@@ -65,8 +63,6 @@ export default function Product() {
 		});
 	};
 
-	const shelfLife = product.rok_trajanja?.value || '630';
-
 	return (
 		<div className="pt-12 border-y-4 border-black bg-indigo-200 bg-opacity-70">
 			<div className="mx-auto px-4 md:px-28">
@@ -86,35 +82,11 @@ export default function Product() {
 							{product.title}
 						</h1>
 
-						{/* Variant Selector */}
-						<div className="flex gap-4 flex-wrap">
-							{product.variants.nodes.map((variant) => (
-								<button
-									key={variant.id}
-									disabled={!variant.availableForSale}
-									className={`px-4 py-2 border-2 border-black rounded-lg 
-                           transition-all duration-200
-                           ${variant.availableForSale
-											? 'hover:shadow-[4px_4px_0px_rgba(0,0,0,1)]'
-											: 'opacity-50 cursor-not-allowed'}`}
-								>
-									{variant.weight}{variant.weightUnit}
-								</button>
-							))}
-						</div>
-
-						{/* Shelf Life Card */}
-						<div className="bg-yellow-100 rounded-xl border-2 border-black p-4 
-                          shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] 
-                          transition-all duration-200">
-							<div className="flex items-center gap-2">
-								<ClockIcon className="w-5 h-5" />
-								<span className="text-sm font-medium">Shelf Life</span>
-							</div>
-							<div className="text-2xl font-bold">
-								{shelfLife} days
-							</div>
-						</div>
+						{/* Product Info Component */}
+						<ProductInfo
+							product={product}
+							selectedVariant={product.selectedVariant}
+						/>
 
 						{/* Packaging Table */}
 						<PackagingTable metafields={extractPackagingInfo(product)} />
@@ -210,9 +182,6 @@ function RecommendedProducts({ products }) {
 	);
 }
 
-
-
-
 const PRODUCT_QUERY = `#graphql
   query Product($handle: String!, $selectedOptions: [SelectedOptionInput!]!) {
     product(handle: $handle) {
@@ -238,22 +207,6 @@ const PRODUCT_QUERY = `#graphql
           width
           height
         }
-        price {
-          amount
-          currencyCode
-        }
-        compareAtPrice {
-          amount
-          currencyCode
-        }
-        sku
-        title
-        unitPrice {
-          amount
-          currencyCode
-        }
-        weight
-        weightUnit
       }
       images(first: 10) {
         nodes {
@@ -264,39 +217,32 @@ const PRODUCT_QUERY = `#graphql
           height
         }
       }
-      variants(first: 1) {
+      variants(first: 100) {
         nodes {
           id
-          weight
-          weightUnit
-          availableForSale
           selectedOptions {
             name
             value
           }
+          availableForSale
         }
       }
-      # number of product units in pallet (biggest number)
       jmpal: metafield(namespace: "custom", key: "jm_pal") {
         value
         type
       }
-      # number of transport packages in pallet
       tppal: metafield(namespace: "custom", key: "tp_pal") {
         value
         type
       }
-      # number of product units in transport packaging
       jmtp: metafield(namespace: "custom", key: "jm_tp") {
         value
         type
       }
-      # number of product units in commercial packaging
       jmkp: metafield(namespace: "custom", key: "jm_kp") {
         value
         type
       }
-      # shelf life in days
       rok_trajanja: metafield(namespace: "custom", key: "shelf_life") {
         value
         type
