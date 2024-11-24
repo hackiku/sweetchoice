@@ -15,15 +15,15 @@ export async function action({ request, context }: ActionFunctionArgs) {
 			return json({ error: 'Email is required' }, { status: 400 });
 		}
 
-		// Mutation to add customer to marketing list
-		const response = await context.storefront.mutate(
-			`mutation customerCreate($input: CustomerCreateInput!) {
+		// Use the Customer Account API
+		const response = await context.customerAccount.mutate(
+			`mutation customerCreate($input: CustomerInput!) {
         customerCreate(input: $input) {
           customer {
             id
             email
           }
-          customerUserErrors {
+          userErrors {
             field
             message
           }
@@ -33,20 +33,47 @@ export async function action({ request, context }: ActionFunctionArgs) {
 				variables: {
 					input: {
 						email,
-						acceptsMarketing: true,
-					},
+						emailMarketingConsent: {
+							marketingState: "SUBSCRIBED",
+							marketingOptInLevel: "SINGLE_OPT_IN"
+						}
+					}
 				},
 			}
 		);
 
-		const { data } = await response.json();
+		console.log('API Response:', response);
 
-		// Check for errors but don't worry if customer already exists
-		const errors = data?.customerCreate?.customerUserErrors;
-		if (errors?.length && !errors[0].message.includes('already exists')) {
+		if (response.error) {
+			// Check if it's because customer already exists
+			if (response.error.message?.includes('already exists')) {
+				return json({
+					success: true,
+					message: "Thanks for subscribing!"
+				});
+			}
+
+			console.error('API Error:', response.error);
+			return json({
+				error: response.error.message || 'Something went wrong',
+				success: false
+			}, { status: 400 });
+		}
+
+		const { data, errors } = response;
+
+		if (errors?.length) {
+			console.error('GraphQL Errors:', errors);
 			return json({ error: errors[0].message }, { status: 400 });
 		}
 
+		const userErrors = data?.customerCreate?.userErrors;
+		if (userErrors?.length) {
+			console.error('User Errors:', userErrors);
+			return json({ error: userErrors[0].message }, { status: 400 });
+		}
+
+		// Success case
 		return json({
 			success: true,
 			message: "Thanks for subscribing!"
@@ -56,7 +83,8 @@ export async function action({ request, context }: ActionFunctionArgs) {
 		console.error('Newsletter error:', error);
 		return json({
 			error: 'Something went wrong. Please try again.',
-			success: false
+			success: false,
+			details: error instanceof Error ? error.message : 'Unknown error'
 		}, { status: 500 });
 	}
 }

@@ -1,13 +1,13 @@
 // app/components/contact/EmailSignup.tsx
 import React, { useState } from 'react';
-import { useFetcher } from '@remix-run/react';
+
+import { useTranslation } from '~/lib/i18n/useTranslation';
 
 interface EmailSignupProps {
 	variant?: 'inline' | 'stacked';
 	title?: string;
 	buttonText?: string;
 	className?: string;
-	successMessage?: string;
 	placeholder?: string;
 }
 
@@ -16,29 +16,17 @@ const EmailSignup: React.FC<EmailSignupProps> = ({
 	title,
 	buttonText = 'Subscribe',
 	className = '',
-	successMessage = "You're in! Thanks for subscribing.",
 	placeholder = "Enter your email"
 }) => {
+	const { t } = useTranslation();
 	const [email, setEmail] = useState('');
-	const fetcher = useFetcher();
-
-	const isSubmitting = fetcher.state === 'submitting';
-	const isSuccess = fetcher.data?.success;
-	const error = fetcher.data?.error;
+	const [showMessage, setShowMessage] = useState(false);
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		const formData = new FormData();
-		formData.append('email', email);
-		formData.append('_action', 'SUBSCRIBE');
-
-		fetcher.submit(formData, {
-			method: 'post',
-			action: '/api/newsletter'
-		});
+		setShowMessage(true);
 	};
 
-	// Style classes following your existing design system
 	const containerClasses = `
     w-full max-w-lg mx-auto 
     ${className}
@@ -67,11 +55,18 @@ const EmailSignup: React.FC<EmailSignupProps> = ({
     ${variant === 'stacked' ? 'w-full' : ''}
   `;
 
-	if (isSuccess) {
+	if (showMessage) {
 		return (
 			<div className={containerClasses}>
 				<div className="text-xl font-bold p-6 border-4 border-black bg-[#90EE90] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-					{successMessage}
+					{t('contact.newsletter.comingSoon.message')}&nbsp;
+					{/* Newsletter coming soon! Meanwhile, contact{' '} */}
+					<a
+						href="mailto:info@sweetchoice.rs"
+						className="underline hover:text-orange-600 transition-colors"
+					>
+						info@sweetchoice.rs
+					</a>
 				</div>
 			</div>
 		);
@@ -90,19 +85,14 @@ const EmailSignup: React.FC<EmailSignupProps> = ({
 					placeholder={placeholder}
 					className={inputClasses}
 					required
-					disabled={isSubmitting}
 				/>
 				<button
 					type="submit"
 					className={buttonClasses}
-					disabled={isSubmitting}
 				>
-					{isSubmitting ? 'Subscribing...' : buttonText} →
+					{buttonText} →
 				</button>
 			</form>
-			{error && (
-				<p className="mt-2 text-red-600 font-semibold">{error}</p>
-			)}
 		</div>
 	);
 };

@@ -52,6 +52,15 @@ export const contact = {
 					mb: 'Registration - 20963026'
 				}
 			}
+		},
+		newsletter: {
+			title: "Newsletter",
+			placeholder: "Enter your email",
+			buttonText: "Subscribe",
+			comingSoon: {
+				message: "Newsletter coming soon! Meanwhile, contact",
+				email: "info@sweetchoice.rs"
+			}
 		}
 	},
 	sr: {
@@ -104,6 +113,15 @@ export const contact = {
 					pib: 'PIB - 108257834',
 					mb: 'MB - 20963026'
 				}
+			}
+		},
+		newsletter: {
+			title: "Bilten",
+			placeholder: "Unesite email",
+			buttonText: "Prijavi se",
+			comingSoon: {
+				message: "Mejl ponude u izgradnji! U međuvremenu, kontaktirajte",
+				email: "info@sweetchoice.rs"
 			}
 		}
 	}
