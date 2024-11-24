@@ -2,20 +2,25 @@
 
 import React from 'react';
 import { MetaFunction } from '@remix-run/react';
+import { useTranslation } from '~/lib/i18n/useTranslation';
 import ComingSoon from '~/components/ComingSoon';
 
 export const meta: MetaFunction = () => {
+	const { t } = useTranslation();
+
 	return [
-		{ title: 'Gifts | SweetChoice' },
-		{ name: 'description', content: 'Exciting gift options coming soon to SweetChoice!' },
+		{ title: t('comingsoon.meta.title') },
+		{ name: 'description', content: t('comingsoon.meta.description') }
 	];
 };
 
 export default function GiftsPage() {
+	const { t } = useTranslation();
+
 	return (
 		<ComingSoon
-			title="Gift Pack Sugar Rush"
-			description="Stay tuned for our first direct to consumer e-store. Send sweet bundles of joy to loved ones at home or at work."
+			title={t('comingsoon.headline')}
+			description={t('comingsoon.description')}
 		/>
 	);
 }

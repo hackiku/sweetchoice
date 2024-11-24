@@ -9,6 +9,7 @@ import {footer} from './translations/components/footer';
 import {header} from './translations/components/header';
 import {contact} from './translations/components/contact';
 import {statBlurbs} from './translations/components/statBlurbs';
+import {comingsoon} from './translations/pages/comingsoon';
 import {common} from './translations/common';
 
 export const translations = {
@@ -23,6 +24,7 @@ export const translations = {
     header: header.en,
     contact: contact.en,
     statBlurbs: statBlurbs.en,
+    comingsoon: comingsoon.en,
     common: common.en
   },
   sr: {
@@ -36,6 +38,7 @@ export const translations = {
     header: header.sr,
     contact: contact.sr,
     statBlurbs: statBlurbs.sr,
+    comingsoon: comingsoon.sr,
     common: common.sr
   }
 } as const;

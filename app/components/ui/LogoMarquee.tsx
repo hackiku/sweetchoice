@@ -10,38 +10,39 @@ const logos = [
 	"/assets/logos/aroma-logo.svg",
 	"/assets/logos/aman-logo.png",
 	"/assets/logos/metro-logo.svg",
-	"/assets/logos/supervero-logo.png",
+	"/assets/logos/supervero-logo.png"
 ];
 
 const LogoMarquee = () => {
 	return (
 		<div className="w-full border-y-2 border-black bg-white overflow-hidden">
-			<div className="py-5 relative">
-				<div className="flex animate-marquee whitespace-nowrap">
-					{/* First set of logos */}
+			<div className="py-8 relative flex">
+				<div className="flex animate-scroll space-x-16 min-w-full">
 					{logos.map((logo, index) => (
-						<div key={`first-${index}`} className="mx-5 flex items-center">
+						<div key={index} className="flex items-center flex-shrink-0">
 							<img
 								src={logo}
 								alt={`Partner logo ${index + 1}`}
-								className="h-6 md:h-6 object-contain"
-							/>
-						</div>
-					))}
-					{/* Duplicate set for seamless loop */}
-					{logos.map((logo, index) => (
-						<div key={`second-${index}`} className="mx-5 flex items-center">
-							<img
-								src={logo}
-								alt={`Partner logo ${index + 1}`}
-								className="h-6 md:h-6 object-contain"
+								className="h-8 w-auto object-contain"
 							/>
 						</div>
 					))}
 				</div>
+				{/* <div className="flex absolute left-full bg-reds-500 -ml-32 space-x-16 min-w-full animate-scroll">
+					{logos.map((logo, index) => (
+						<div key={`duplicate-${index}`} className="flex items-center flex-shrink-0">
+							<img
+								src={logo}
+								alt={`Partner logo ${index + 1}`}
+								className="h-8 w-auto object-contain"
+							/>
+						</div>
+					))}
+				</div> */}
 			</div>
 		</div>
 	);
 };
+
 
 export default LogoMarquee;
