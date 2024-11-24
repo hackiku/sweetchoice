@@ -5,7 +5,7 @@ export async function loader() {
 }
 
 export default function ProductPics() {
-	const TOTAL_IMAGES = 159;  // Update this to your final number
+	const TOTAL_IMAGES = 275;  // Update this to your final number
 
 	return (
 		<div className="p-8">
