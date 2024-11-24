@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { MdMail, MdPhone, MdLocationOn, MdContentCopy, MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
 
+import { useTranslation } from '~/lib/i18n/useTranslation';
+
 interface ContactDetailInfo {
 	icon: typeof MdMail | typeof MdPhone | typeof MdLocationOn;
 	text: string;
@@ -13,6 +15,7 @@ interface ContactDetailInfo {
 		details: string[];
 	};
 }
+
 
 export const contactDetails: ContactDetailInfo[] = [
 	{
@@ -27,17 +30,24 @@ export const contactDetails: ContactDetailInfo[] = [
 	},
 	{
 		icon: MdLocationOn,
-		text: 'Belgrade, Serbia',
+		text: 'contact.contactDetails.location',
 		expandedInfo: {
-			mainLine: 'Nemanjina 7',
-			secondaryLines: ['11080 Belgrade', 'Serbia'],
-			details: ['PIB - 108257834', 'MB - 20963026']
+			mainLine: 'contact.contactDetails.address.mainLine',
+			secondaryLines: [
+				'contact.contactDetails.address.secondaryLines.city',
+				'contact.contactDetails.address.secondaryLines.country'
+			],
+			details: [
+				'contact.contactDetails.address.details.pib',
+				'contact.contactDetails.address.details.mb'
+			]
 		},
 		action: 'https://maps.google.com/?q=Nemanjina+7,11080+Belgrade,Serbia',
 	},
 ];
 
 export const ContactDetails: React.FC = () => {
+	const { t } = useTranslation();
 	const [hoveredContact, setHoveredContact] = useState<number | null>(null);
 	const [copiedInfo, setCopiedInfo] = useState<string | null>(null);
 	const [expandedAddress, setExpandedAddress] = useState(false);
@@ -112,8 +122,8 @@ export const ContactDetails: React.FC = () => {
 									${hoveredContact === index ? 'text-2xl' : ''}
 								`}>
 									{detail.icon === MdLocationOn && expandedAddress
-										? detail.expandedInfo?.mainLine
-										: detail.text}
+										? t(detail.expandedInfo?.mainLine || '')
+										: detail.text.startsWith('contact.') ? t(detail.text) : detail.text}
 								</span>
 							</div>
 
@@ -168,22 +178,23 @@ export const ContactDetails: React.FC = () => {
 							<div className="px-4 pb-2 space-y-2">
 								{detail.expandedInfo.secondaryLines.map((line, i) => (
 									<div key={i} className="flex items-center">
-										<div className="w-6 h-6 mr-3" /> {/* Icon spacer */}
+										<div className="w-6 h-6 mr-3" />
 										<span className={`text-xl font-bold flex-grow ${copiedInfo === detail.text ? 'text-white' : ''}`}>
-											{line}
+											{t(line)}
 										</span>
 									</div>
 								))}
 								{detail.expandedInfo.details.map((line, i) => (
 									<div key={i} className="flex items-center">
-										<div className="w-6 h-6 mr-3" /> {/* Icon spacer */}
+										<div className="w-6 h-6 mr-3" />
 										<span className={`text-sm font-semibold flex-grow ${copiedInfo === detail.text ? 'text-white' : 'text-gray-700'}`}>
-											{line}
+											{t(line)}
 										</span>
 									</div>
 								))}
 							</div>
 						)}
+
 					</div>
 				</div>
 			))}

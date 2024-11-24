@@ -36,11 +36,22 @@ export const contact = {
 			empty: 'No products selected yet',
 			emptyDesc: 'Browse our catalog and click "Add to Catalog" to start building your selection'
 		},
-		contact: {
+		contactDetails: {
 			title: 'Contact Details',
 			email: 'info@sweetchoice.com',
 			phone: '+381 11 123 4567',
-			location: 'Belgrade, Serbia'
+			location: 'Belgrade, Serbia',
+			address: {
+				mainLine: 'Nemanjina 7',
+				secondaryLines: {
+					city: '11080 Belgrade',
+					country: 'Serbia'
+				},
+				details: {
+					pib: 'Tax number - 108257834',
+					mb: 'Registration - 20963026'
+				}
+			}
 		}
 	},
 	sr: {
@@ -78,11 +89,22 @@ export const contact = {
 			empty: 'Još uvek nema izabranih proizvoda',
 			emptyDesc: 'Pregledajte naš katalog i kliknite "Dodaj u Katalog" da počnete sa izborom'
 		},
-		contact: {
+		contactDetails: {
 			title: 'Kontakt Podaci',
 			email: 'info@sweetchoice.com',
 			phone: '+381 11 123 4567',
-			location: 'Beograd, Srbija'
+			location: 'Beograd, Srbija',
+			address: {
+				mainLine: 'Nemanjina 7',
+				secondaryLines: {
+					city: '11080 Beograd',
+					country: 'Srbija'
+				},
+				details: {
+					pib: 'PIB - 108257834',
+					mb: 'MB - 20963026'
+				}
+			}
 		}
 	}
 } as const;
