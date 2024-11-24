@@ -1,4 +1,3 @@
-// app/components/ui/LogoMarquee.tsx
 import React from 'react';
 
 const logos = [
@@ -16,10 +15,31 @@ const logos = [
 const LogoMarquee = () => {
 	return (
 		<div className="w-full border-y-2 border-black bg-white overflow-hidden">
-			<div className="py-8 relative flex">
-				<div className="flex animate-scroll space-x-16 min-w-full">
+			<div className="py-6">
+				<div className="flex animate-scroll">
+					{/* Original set */}
 					{logos.map((logo, index) => (
-						<div key={index} className="flex items-center flex-shrink-0">
+						<div key={index} className="mx-8 flex-shrink-0">
+							<img
+								src={logo}
+								alt={`Partner logo ${index + 1}`}
+								className="h-8 w-auto object-contain"
+							/>
+						</div>
+					))}
+					{/* Second set */}
+					{logos.map((logo, index) => (
+						<div key={`second-${index}`} className="mx-8 flex-shrink-0">
+							<img
+								src={logo}
+								alt={`Partner logo ${index + 1}`}
+								className="h-8 w-auto object-contain"
+							/>
+						</div>
+					))}
+					{/* Third set for seamless loop */}
+					{logos.map((logo, index) => (
+						<div key={`third-${index}`} className="mx-8 flex-shrink-0">
 							<img
 								src={logo}
 								alt={`Partner logo ${index + 1}`}
@@ -28,21 +48,27 @@ const LogoMarquee = () => {
 						</div>
 					))}
 				</div>
-				{/* <div className="flex absolute left-full bg-reds-500 -ml-32 space-x-16 min-w-full animate-scroll">
-					{logos.map((logo, index) => (
-						<div key={`duplicate-${index}`} className="flex items-center flex-shrink-0">
-							<img
-								src={logo}
-								alt={`Partner logo ${index + 1}`}
-								className="h-8 w-auto object-contain"
-							/>
-						</div>
-					))}
-				</div> */}
 			</div>
 		</div>
 	);
 };
 
+// Update tailwind.config.js:
+// {
+//   theme: {
+//     extend: {
+//       animation: {
+//         scroll: 'scroll 45s linear infinite',
+//       },
+//       keyframes: {
+//         scroll: {
+//           '0%': { transform: 'translateX(0)' },
+//           '100%': { transform: 'translateX(-66.666%)' }  // Moves through 2 sets
+//         }
+//       },
+//     }
+//   }
+// }
 
 export default LogoMarquee;
+

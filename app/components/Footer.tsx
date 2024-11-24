@@ -163,9 +163,9 @@ function FooterContent({
 						<a href="https://jzro.co/"
 							target="_blank"
 							rel="noopener noreferrer"
-							className="ml-5 -pt-5 text-sm font-regular hover:text-[#ED1C24] transition-colors"
+							className="ml-5 -pt-5 text-sm font-regular group transition-colors"
 						>
-							dev by <span className="font-semibold">🚁 jzro</span> 4A.
+							dev by <span className="font-semibold group-hover:text-[#ED1C24]">jzro</span> for A.
 						</a>
 					</div>
 
