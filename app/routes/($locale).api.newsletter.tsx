@@ -1,34 +1,29 @@
 // app/routes/($locale).api.newsletter.tsx
 
 import { ActionFunctionArgs, json } from '@shopify/remix-oxygen';
-import { z } from 'zod';
-
-const emailSchema = z.object({
-	email: z.string().email('Please enter a valid email address'),
-	_action: z.literal('SUBSCRIBE')
-});
 
 export async function action({ request, context }: ActionFunctionArgs) {
 	if (request.method !== 'POST') {
 		return json({ error: 'Method not allowed' }, { status: 405 });
 	}
 
-	const formData = await request.formData();
-	const data = Object.fromEntries(formData);
-
 	try {
-		const { email } = emailSchema.parse(data);
+		const formData = await request.formData();
+		const email = formData.get('email')?.toString();
 
-		// Use Shopify's Email Marketing API
+		if (!email) {
+			return json({ error: 'Email is required' }, { status: 400 });
+		}
+
+		// Mutation to add customer to marketing list
 		const response = await context.storefront.mutate(
-			`mutation emailMarketingSubscribe($email: String!) {
-        emailMarketingSubscribe(email: $email) {
-          emailMarketing {
+			`mutation customerCreate($input: CustomerCreateInput!) {
+        customerCreate(input: $input) {
+          customer {
             id
-            subscribedAt
-            subscriberStatus
+            email
           }
-          userErrors {
+          customerUserErrors {
             field
             message
           }
@@ -36,36 +31,31 @@ export async function action({ request, context }: ActionFunctionArgs) {
       }`,
 			{
 				variables: {
-					email,
+					input: {
+						email,
+						acceptsMarketing: true,
+					},
 				},
 			}
 		);
 
-		const { emailMarketingSubscribe } = await response.json();
+		const { data } = await response.json();
 
-		if (emailMarketingSubscribe.userErrors?.length) {
-			return json({
-				error: emailMarketingSubscribe.userErrors[0].message,
-				success: false
-			}, { status: 400 });
+		// Check for errors but don't worry if customer already exists
+		const errors = data?.customerCreate?.customerUserErrors;
+		if (errors?.length && !errors[0].message.includes('already exists')) {
+			return json({ error: errors[0].message }, { status: 400 });
 		}
 
 		return json({
 			success: true,
-			message: "Successfully subscribed to newsletter"
+			message: "Thanks for subscribing!"
 		});
 
 	} catch (error) {
-		if (error instanceof z.ZodError) {
-			return json({
-				error: error.errors[0].message,
-				success: false
-			}, { status: 400 });
-		}
-
-		console.error('Newsletter subscription error:', error);
+		console.error('Newsletter error:', error);
 		return json({
-			error: 'An error occurred while subscribing. Please try again.',
+			error: 'Something went wrong. Please try again.',
 			success: false
 		}, { status: 500 });
 	}

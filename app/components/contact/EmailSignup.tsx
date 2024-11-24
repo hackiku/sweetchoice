@@ -1,5 +1,4 @@
-// ~/components/contact/EmailSignup.tsx
-
+// app/components/contact/EmailSignup.tsx
 import React, { useState } from 'react';
 import { useFetcher } from '@remix-run/react';
 
@@ -39,6 +38,7 @@ const EmailSignup: React.FC<EmailSignupProps> = ({
 		});
 	};
 
+	// Style classes following your existing design system
 	const containerClasses = `
     w-full max-w-lg mx-auto 
     ${className}
