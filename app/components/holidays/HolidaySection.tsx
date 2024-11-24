@@ -100,14 +100,6 @@ function ProductGrid({ products, mainColor, secondaryColor, holidayId }) {
 					seasonSecondaryColor={secondaryColor}
 				/>
 			))}
-			{products.length > layout.products && (
-				<Link
-					to={`/collections/${holidayId}`}
-					className="col-span-full text-center mt-4 text-xl font-semibold hover:underline"
-				>
-					{t('holidays.productGrid.exploreAll', { holiday: t(`holidays.${holidayId}.title`) })}
-				</Link>
-			)}
 		</div>
 	);
 }

@@ -31,7 +31,7 @@ export const holidays = {
 			}
 		},
 		productGrid: {
-			exploreAll: 'View all {{holiday}} products'
+			// exploreAll: 'View all {{holiday}} products'
 		}
 	},
 	sr: {
@@ -62,7 +62,7 @@ export const holidays = {
 			}
 		},
 		productGrid: {
-			exploreAll: 'Pogledajte sve {{holiday}} proizvode'
+			// exploreAll: 'Pogledajte sve {{holiday}} proizvode'
 		}
 	}
 } as const;

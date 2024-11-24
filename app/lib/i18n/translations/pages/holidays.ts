@@ -21,7 +21,7 @@ export const holidays = {
 			exploreButton: 'Halloween Catalog →'
 		},
 		productGrid: {
-			exploreAll: 'Explore All {holiday} Products →'
+			// exploreAll: 'Explore All {holiday} Products →'
 		}
 	},
 	sr: {

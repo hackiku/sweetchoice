@@ -1,5 +1,5 @@
 // app/components/ecom/product/Card.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from '@remix-run/react';
 import { PlusIcon, CheckIcon } from '@heroicons/react/24/solid';
 import { useContact } from '~/components/contact/ContactContext';
@@ -31,28 +31,49 @@ interface TooltipProps {
 	bgColor: string;
 }
 
-// Separate Tooltip component with better mobile support
 function Tooltip({ content, children, bgColor }: TooltipProps) {
 	const [isVisible, setIsVisible] = useState(false);
+	const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+	// Detect touch device on mount
+	useEffect(() => {
+		setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+	}, []);
+
+	const handleTouch = (event: React.TouchEvent) => {
+		event.preventDefault();
+		setIsVisible(!isVisible);
+	};
 
 	return (
-		<div className="relative inline-block"
-			onMouseEnter={() => setIsVisible(true)}
-			onMouseLeave={() => setIsVisible(false)}
-			onTouchStart={() => setIsVisible(true)}
-			onTouchEnd={() => setIsVisible(false)}>
+		<div
+			className="relative inline-block"
+			onMouseEnter={() => !isTouchDevice && setIsVisible(true)}
+			onMouseLeave={() => !isTouchDevice && setIsVisible(false)}
+			onTouchStart={handleTouch}
+			onTouchMove={() => setIsVisible(false)}
+			onTouchEnd={() => setIsVisible(false)}
+		>
 			{children}
-			<div className={`absolute -top-12 left-1/2 transform -translate-x-1/2 
-                      transition-opacity duration-200 pointer-events-none
-                      ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+			<div
+				className={`absolute -top-12 left-1/2 transform -translate-x-1/2 
+                    transition-opacity pointer-events-none ${content.includes('Remove')
+						? 'duration-500'
+						: 'duration-200'
+					}
+                    ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+			>
 				<div className="relative">
-					<div className="px-3 py-2 rounded-lg text-sm font-medium whitespace-nowrap"
-						style={{ backgroundColor: bgColor, color: bgColor === '#000000' ? 'white' : 'black' }}>
+					<div
+						className="px-3 py-2 rounded-lg text-sm font-medium whitespace-nowrap"
+						style={{ backgroundColor: bgColor, color: bgColor === '#000000' ? 'white' : 'black' }}
+					>
 						{content}
 					</div>
-					{/* Arrow that matches tooltip background */}
-					<div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 rotate-45 w-4 h-4"
-						style={{ backgroundColor: bgColor }}></div>
+					<div
+						className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 rotate-45 w-4 h-4"
+						style={{ backgroundColor: bgColor }}
+					/>
 				</div>
 			</div>
 		</div>
@@ -82,9 +103,12 @@ const Card: React.FC<CardProps> = ({
 	return (
 		<Link to={`/products/${product.handle}`} className="block">
 			<div className="bg-white border-2 border-black p-4 shadow-[4px_4px_0px_rgba(0,0,0,1)] 
-                    hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] transition-all duration-200">
-				<div className="mb-4 aspect-square overflow-hidden border-2 border-black relative"
-					style={{ backgroundColor: '#FFF59F' }}>
+                    @media(hover: hover) {hover:shadow-[8px_8px_0px_rgba(0,0,0,1)]} 
+                    transition-all duration-200">
+				<div
+					className="mb-4 aspect-square overflow-hidden border-2 border-black relative"
+					style={{ backgroundColor: '#FFF59F' }}
+				>
 					{product.featuredImage && (
 						<img
 							src={product.featuredImage.url}
@@ -115,7 +139,9 @@ const Card: React.FC<CardProps> = ({
 							className={`w-12 h-12 rounded-full flex items-center justify-center 
                          transition-all duration-200 border-2 border-black
                          shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
-                         hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]
+                         @media(hover: hover) {
+                           hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]
+                         }
                          active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]
                          active:translate-x-[2px] active:translate-y-[2px]
                          touch-manipulation`}
