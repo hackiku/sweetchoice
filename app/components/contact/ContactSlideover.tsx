@@ -23,15 +23,27 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 		return () => { document.body.style.overflow = 'unset'; };
 	}, []);
 
-	// Handle outside clicks
+	// Handle outside clicks and ESC key
 	useEffect(() => {
 		const handleOutsideClick = (event: MouseEvent) => {
 			if (slideOverRef.current && !slideOverRef.current.contains(event.target as Node)) {
 				onClose();
 			}
 		};
+
+		const handleEscKey = (event: KeyboardEvent) => {
+			if (event.key === 'Escape') {
+				onClose();
+			}
+		};
+
 		document.addEventListener('mousedown', handleOutsideClick);
-		return () => document.removeEventListener('mousedown', handleOutsideClick);
+		document.addEventListener('keydown', handleEscKey);
+
+		return () => {
+			document.removeEventListener('mousedown', handleOutsideClick);
+			document.removeEventListener('keydown', handleEscKey);
+		};
 	}, [onClose]);
 
 	return (
@@ -44,8 +56,20 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
                    shadow-[-8px_0px_0px_0px_rgba(0,0,0,1)] flex flex-col"
 				>
 					{/* Scrollable Content Area */}
-					<div className="flex-grow overflow-y-auto">
-						<div className="p-6">
+					<div className="flex-grow overflow-y-auto relative">
+						{/* Dotted pattern overlay - fading from bottom to top, starting higher */}
+						<div
+							className="absolute inset-0 pointer-events-none z-10 -mb-12"
+							style={{
+								backgroundImage: 'radial-gradient(#000 1.5px, transparent 1.5px)',
+								backgroundSize: '16px 16px',
+								maskImage: 'linear-gradient(to top, black 60%, transparent 90%)',
+								WebkitMaskImage: 'linear-gradient(to top, black 60%, transparent 90%)',
+								opacity: 0.3
+							}}
+						/>
+
+						<div className="p-6 relative z-20">
 							{/* Header */}
 							<h2
 								className="text-4xl font-black text-orange-400 uppercase italic mb-6"
