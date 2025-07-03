@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+// /app/($locale)._index.tsx
+
+import { useState, useEffect, useRef } from 'react';
 import { defer, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { Await, useLoaderData, Link, type MetaFunction } from '@remix-run/react';
 import { Suspense } from 'react';
@@ -124,7 +126,7 @@ export default function Homepage() {
 
   return (
     <main className="overflow-x-hidden">
-      
+
       <Hero />
 
       {/* <div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:px-12"></div> */}
