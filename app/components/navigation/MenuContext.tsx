@@ -1,3 +1,5 @@
+// app/components/navigation/MenuContext.tsx
+
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import { useLocation } from '@remix-run/react';
 import MobileMenu from './MobileMenu';

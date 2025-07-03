@@ -8,10 +8,10 @@ import type {
 	HeaderQuery,
 } from 'storefrontapi.generated';
 import { Aside } from '~/components/Aside';
-import { Header, HeaderMenu } from '~/components/Header';
+import { Header, HeaderMenu } from '~/components/navigation/Header';
 // import { Footer } from '~/components/Footer';
 
-import NavButtons from './ui/NavButtons';
+import NavButtons from './navigation/NavButtons';
 // import ContactButton from '~/components/contact/ContactButton';
 
 import { CartMain } from '~/components/Cart';

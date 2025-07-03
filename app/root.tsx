@@ -20,7 +20,7 @@ import { ThemeModeScript } from 'flowbite-react';
 
 // Contexts and Providers
 import { ContactProvider } from '~/components/contact/ContactContext';
-import { MenuProvider } from '~/components/MenuContext';
+import { MenuProvider } from '~/components/navigation/MenuContext';
 import { PageLayout } from '~/components/PageLayout';
 
 import { createCookie } from "@shopify/remix-oxygen";
@@ -38,7 +38,7 @@ import logosStyles from '~/styles/ui/logos.css?url';
 // Queries and Utils
 import { FOOTER_QUERY, HEADER_QUERY } from '~/lib/fragments';
 import { createTransformStream } from '~/lib/translations/serverTransform';
-import { Footer } from './components/Footer';
+import { Footer } from './components/navigation/Footer';
 
 export type RootLoader = typeof loader;
 

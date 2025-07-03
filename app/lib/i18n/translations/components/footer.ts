@@ -33,7 +33,7 @@ export const footer = {
 			disclaimer: "By subscribing, you accept our Privacy Policy"
 		},
 		legal: {
-			copyright: "© Sweetchoice 2024",
+			copyright: "© Sweetchoice 2025",
 			terms: "Terms",
 			privacy: "Privacy"
 		},

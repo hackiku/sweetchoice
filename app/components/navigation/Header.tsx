@@ -1,11 +1,11 @@
-// app/components/Header.tsx
+// app/components/navigation/Header.tsx
 
 import React from 'react';
 import { Await, NavLink } from '@remix-run/react';
 import type { HeaderQuery, CartApiQueryFragment } from 'storefrontapi.generated';
 // import { CartButton } from '~/components/CartButton';
 import { Dropdown } from "flowbite-react";
-import { useMenu } from '~/components/MenuContext';
+import { useMenu } from './MenuContext';
 import { useTranslation } from '~/lib/i18n/useTranslation';
 
 interface HeaderProps {
