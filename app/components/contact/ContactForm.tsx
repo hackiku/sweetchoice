@@ -1,3 +1,5 @@
+// app/components/contact/ContactForm.tsx
+
 import React, { useState, useEffect } from 'react';
 import { MdPerson, MdMail, MdExpandLess, MdExpandMore } from 'react-icons/md';
 import { useFetcher } from '@remix-run/react';
@@ -44,6 +46,11 @@ const ContactForm = ({ isExpanded, onExpandToggle, onSuccess }: ContactFormProps
 			...prev,
 			[e.target.name]: e.target.value
 		}));
+
+		// Auto-expand when user starts typing
+		if (!isExpanded && e.target.value.trim()) {
+			onExpandToggle();
+		}
 	};
 
 	useEffect(() => {
@@ -58,13 +65,13 @@ const ContactForm = ({ isExpanded, onExpandToggle, onSuccess }: ContactFormProps
 
 	return (
 		<div className="relative bg-[#AE7AFF] border-t-4 border-black">
-			{/* Toggle Knob */}
+			{/* Toggle Knob - moved higher and aligned to border */}
 			<button
 				onClick={onExpandToggle}
-				className="absolute -top-3 left-1/2 -translate-x-1/2 
-                 w-12 h-6 bg-[#FF6B6B] rounded-t-lg 
-                 border-2 border-black flex items-center justify-center
-                 cursor-pointer z-20 hover:-translate-y-0.5 
+				className="absolute -top-5 left-1/2 -translate-x-1/2 
+                 w-12 h-8 bg-[#FF6B6B] rounded-t-lg 
+                 border-2 border-black border-b-0 flex items-center justify-center
+                 cursor-pointer z-20 hover:-translate-y-1 
                  active:translate-y-0 transition-transform"
 			>
 				{isExpanded ? <MdExpandLess size={20} /> : <MdExpandMore size={20} />}

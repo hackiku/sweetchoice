@@ -142,7 +142,7 @@ function FooterContent({
 			</div>
 
 			{/* Dark bottom section with all footer links */}
-			<div className="bg-black mx-6 md:mx-12 -mb-10 -mx-6 md:-mx-12 px-6 md:px-12 py-6 mt-8 border-t-4 border-black">
+			<div className="bg-black px-6 md:px-12 -mb-32 -mx-6 md:-mx-12 py-6 mt-8 border-t-4 border-black">
 				<div className="container mx-auto max-w-7xl">
 					<div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
 						{/* Left side - Legal links */}

@@ -1,6 +1,6 @@
 // app/components/navigation/NavButtons.tsx
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from '@remix-run/react';
 import { useContact } from '~/components/contact/ContactContext';
 import { useMenu } from './MenuContext';
@@ -10,12 +10,14 @@ const NavButtons = () => {
 	const navigate = useNavigate();
 	const [searchParams] = useSearchParams();
 	const { t } = useTranslation();
+	const [shake, setShake] = useState(false);
 
 	// Contact context
 	const {
 		isOpen: isContactOpen,
 		openContact,
-		closeContact
+		closeContact,
+		selectedProducts
 	} = useContact();
 
 	// Menu context
@@ -29,6 +31,15 @@ const NavButtons = () => {
 	// Language handling
 	const currentLocale = searchParams.get('locale') || 'sr';
 	const oppositeLocale = currentLocale === 'sr' ? 'en' : 'sr';
+
+	// Shake animation when product is added
+	useEffect(() => {
+		if (selectedProducts.length > 0) {
+			setShake(true);
+			const timer = setTimeout(() => setShake(false), 500);
+			return () => clearTimeout(timer);
+		}
+	}, [selectedProducts.length]);
 
 	const toggleLanguage = () => {
 		const newSearchParams = new URLSearchParams(searchParams);
@@ -56,7 +67,6 @@ const NavButtons = () => {
 
 	const containerClasses = `fixed z-[101] flex items-center gap-2 transition-all duration-300 
   ${isScrolled ? 'top-2 right-2' : 'top-8 right-8'}`;
-
 
 	const activeButton = isContactOpen ? 'contact' : isMenuOpen ? 'menu' : null;
 
@@ -103,7 +113,7 @@ const NavButtons = () => {
 				</button>
 			)}
 
-			{/* Contact Button */}
+			{/* Contact Button with Shake Animation */}
 			{activeButton !== 'menu' && (
 				<button
 					onClick={handleContactClick}
@@ -115,16 +125,22 @@ const NavButtons = () => {
                    active:translate-x-[2px] active:translate-y-[2px]
                    rounded-full flex items-center justify-center
                    ${isContactOpen
-						? 'bg-[#FF5A1F] text-black w-12'
-						: 'bg-[#FF5A1F] text-black md:w-auto w-12'}`}
+							? 'bg-[#FF5A1F] text-black w-12'
+							: 'bg-[#FF5A1F] text-black md:w-auto w-12'}
+                   ${shake ? 'animate-shake' : ''}`}
 					aria-label={isContactOpen ? t('contact.buttons.closeContact') : t('contact.buttons.openContact')}
 				>
 					{isContactOpen ? (
 						<span className="w-12 h-12 flex items-center justify-center text-2xl font-bold">×</span>
 					) : (
 						<div className="flex items-center">
-							<span className="w-12 h-12 flex items-center justify-center text-2xl">
+							<span className="w-12 h-12 flex items-center justify-center text-2xl relative">
 								👋
+								{selectedProducts.length > 0 && (
+									<span className="absolute -top-1 -right-1 w-6 h-6 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center border-2 border-white">
+										{selectedProducts.length}
+									</span>
+								)}
 							</span>
 							<span className="pr-4 w-24 text-lg font-semibold hidden md:inline whitespace-nowrap">
 								{t('contact.buttons.talkBiz')}
@@ -133,6 +149,19 @@ const NavButtons = () => {
 					)}
 				</button>
 			)}
+
+			{/* Add shake animation CSS */}
+			<style jsx>{`
+				@keyframes shake {
+					0%, 100% { transform: translateX(0); }
+					10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+					20%, 40%, 60%, 80% { transform: translateX(2px); }
+				}
+				
+				.animate-shake {
+					animation: shake 0.5s ease-in-out;
+				}
+			`}</style>
 		</div>
 	);
 };

@@ -16,7 +16,6 @@ interface ContactDetailInfo {
 	};
 }
 
-
 export const contactDetails: ContactDetailInfo[] = [
 	{
 		icon: MdMail,
@@ -92,10 +91,11 @@ export const ContactDetails: React.FC = () => {
 				>
 					<div
 						className={`
-							${copiedInfo === detail.text ? 'bg-green-500' : hoveredContact === index ? 'bg-white' : 'hover:bg-white'}
+							bg-[#AE7AFF] 
 							rounded-xl border-2 border-black
 							transition-all duration-200
-							${hoveredContact === index ? 'shadow-[4px_4px_0px_rgba(0,0,0,1)]' : 'hover:shadow-[4px_4px_0px_rgba(0,0,0,1)]'}
+							${hoveredContact === index ? 'shadow-[4px_4px_0px_rgba(0,0,0,1)] bg-white' : 'hover:shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:bg-white'}
+							${copiedInfo === detail.text ? 'bg-green-500' : ''}
 						`}
 					>
 						{/* Main Row */}
@@ -194,7 +194,6 @@ export const ContactDetails: React.FC = () => {
 								))}
 							</div>
 						)}
-
 					</div>
 				</div>
 			))}

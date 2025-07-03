@@ -1,3 +1,5 @@
+// app/components/contact/ContactSlideOver.tsx
+
 import React, { useRef, useState, useEffect } from 'react';
 import { MdClose } from 'react-icons/md';
 import { useContact } from './ContactContext';
@@ -37,19 +39,13 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 			<div className="flex items-start justify-end h-full">
 				<div
 					ref={slideOverRef}
-					className="bg-[#AE7AFF] w-full max-w-md h-[calc(100vh-2rem)] mt-4 
-                   rounded-l-3xl border-l-4 border-y-4 border-black 
-                   shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col"
+					className="bg-[#AE7AFF] w-full max-w-md h-full
+                   border-l-4 border-black 
+                   shadow-[-8px_0px_0px_0px_rgba(0,0,0,1)] flex flex-col"
 				>
 					{/* Scrollable Content Area */}
 					<div className="flex-grow overflow-y-auto">
-						<div
-							className="p-6"
-							style={{
-								backgroundImage: 'radial-gradient(#000 1px, transparent 1px)',
-								backgroundSize: '20px 20px'
-							}}
-						>
+						<div className="p-6">
 							{/* Header */}
 							<h2
 								className="text-4xl font-black text-orange-400 uppercase italic mb-6"
@@ -143,23 +139,6 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 						/>
 					</div>
 				</div>
-
-				{/* Close Button */}
-				{/* <button
-					onClick={onClose}
-					className="absolute top-4 right-4 w-16 h-16 bg-[#FF6B6B] 
-                   text-black font-bold text-2xl rounded-full 
-                   border-4 border-black
-                   shadow-[4px_4px_0px_rgba(0,0,0,1)]
-                   hover:shadow-[6px_6px_0px_rgba(0,0,0,1)]
-                   active:shadow-[2px_2px_0px_rgba(0,0,0,1)]
-                   active:translate-x-[2px] active:translate-y-[2px]
-                   transition-all duration-200
-                   flex items-center justify-center"
-					aria-label={t('contact.buttons.closeContact')}
-				>
-					×
-				</button> */}
 			</div>
 		</div>
 	);
