@@ -1,3 +1,5 @@
+// app/components/holidays/HolidaySection.tsx
+
 import React, { useState, useEffect } from 'react';
 import { Link } from '@remix-run/react';
 import Card from '~/components/ecom/product/Card';
@@ -12,7 +14,6 @@ const holidays = [
 ];
 
 export default function HolidaySection({ holidayCollections }) {
-	const { openContact } = useContact();
 	const { t } = useTranslation();
 
 	return (
@@ -25,37 +26,51 @@ export default function HolidaySection({ holidayCollections }) {
 					<section
 						id={holiday.id}
 						key={holiday.id}
-						className="w-[92vw] rounded-[2em] border-4 border-black px-8 py-12 md:p-16 relative"
+						className="w-[92vw] rounded-[2em] border-4 border-black px-8 py-12 md:p-16 relative overflow-hidden"
 						style={{ backgroundColor: holiday.mainColor }}
 					>
-						<div className="flex flex-col sm:flex-row justify-between sm:items-start gap-4 mb-6">
-							<h2 className="text-6xl font-bold mb-1 relative md-max:text-4xl">
-								{t(`holidays.${holiday.id}.title`)}
-							</h2>
-							<div className="w-full md:w-3/6">
-								<p className="text-xl font-semibold mb-4 md-max:text-base">
-									{t(`holidays.${holiday.id}.description`)}
-								</p>
-							</div>
-						</div>
-
-						<ProductGrid
-							products={collection.products.nodes}
-							mainColor={holiday.mainColor}
-							secondaryColor={holiday.secondaryColor}
-							holidayId={holiday.id}
+						{/* Dotted pattern overlay - fading from bottom up */}
+						<div
+							className="absolute inset-0 pointer-events-none"
+							style={{
+								backgroundImage: 'radial-gradient(#000 1.5px, transparent 1.5px)',
+								backgroundSize: '16px 16px',
+								maskImage: 'linear-gradient(to top, black 40%, transparent 85%)',
+								WebkitMaskImage: 'linear-gradient(to top, black 40%, transparent 85%)',
+								opacity: 0.4
+							}}
 						/>
 
-						<div className="mt-8 flex justify-center">
-							<Link
-								to={`/collections/${holiday.id}`}
-								className="text-xl font-semibold px-6 py-3 border-2 border-black
-                  shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
-                  transition-all duration-200 w-full sm:w-auto sm:text-2xl sm:px-8"
-								style={{ backgroundColor: holiday.secondaryColor }}
-							>
-								{t(`holidays.${holiday.id}.exploreButton`)}
-							</Link>
+						<div className="relative z-10">
+							<div className="flex flex-col sm:flex-row justify-between sm:items-start gap-4 mb-6">
+								<h2 className="text-6xl font-bold mb-1 relative md-max:text-4xl">
+									{t(`holidays.${holiday.id}.title`)}
+								</h2>
+								<div className="w-full md:w-3/6">
+									<p className="text-xl font-semibold mb-4 md-max:text-base">
+										{t(`holidays.${holiday.id}.description`)}
+									</p>
+								</div>
+							</div>
+
+							<ProductGrid
+								products={collection.products.nodes}
+								mainColor={holiday.mainColor}
+								secondaryColor={holiday.secondaryColor}
+								holidayId={holiday.id}
+							/>
+
+							<div className="mt-8 flex justify-center">
+								<Link
+									to={`/collections/${holiday.id}`}
+									className="text-xl font-semibold px-6 py-3 border-2 border-black
+										shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
+										transition-all duration-200 w-full sm:w-auto sm:text-2xl sm:px-8"
+									style={{ backgroundColor: holiday.secondaryColor }}
+								>
+									{t(`holidays.${holiday.id}.exploreButton`)}
+								</Link>
+							</div>
 						</div>
 					</section>
 				);
@@ -65,17 +80,18 @@ export default function HolidaySection({ holidayCollections }) {
 }
 
 function ProductGrid({ products, mainColor, secondaryColor, holidayId }) {
-	const [layout, setLayout] = useState({ columns: 4, products: 8 });
+	const [layout, setLayout] = useState({ columns: 3, products: 6 });
 	const { t } = useTranslation();
 
 	useEffect(() => {
 		const updateLayout = () => {
 			const width = window.innerWidth;
-			if (width < 640) setLayout({ columns: 1, products: 5 });
-			else if (width < 768) setLayout({ columns: 2, products: 8 });
+			// Much more conservative grid - fewer products, better visibility
+			if (width < 640) setLayout({ columns: 1, products: 3 });
+			else if (width < 768) setLayout({ columns: 2, products: 4 });
 			else if (width < 1024) setLayout({ columns: 3, products: 6 });
-			else if (width < 1280) setLayout({ columns: 4, products: 8 });
-			else setLayout({ columns: 5, products: 10 });
+			else if (width < 1280) setLayout({ columns: 3, products: 6 });
+			else setLayout({ columns: 4, products: 8 });
 		};
 
 		updateLayout();
@@ -87,7 +103,7 @@ function ProductGrid({ products, mainColor, secondaryColor, holidayId }) {
 
 	return (
 		<div
-			className={`grid gap-4`}
+			className="grid gap-4"
 			style={{
 				gridTemplateColumns: `repeat(${layout.columns}, minmax(0, 1fr))`,
 			}}
@@ -105,7 +121,6 @@ function ProductGrid({ products, mainColor, secondaryColor, holidayId }) {
 }
 
 function ProductCardComponent({ product, seasonMainColor, seasonSecondaryColor }) {
-	const { openContact } = useContact();
 	const variantUrl = `/products/${product.handle}`;
 	const imageUrl = product.featuredImage?.url || '';
 	const imageAlt = product.featuredImage?.altText || product.title;
@@ -136,4 +151,3 @@ function ProductCardComponent({ product, seasonMainColor, seasonSecondaryColor }
 		/>
 	);
 }
-
