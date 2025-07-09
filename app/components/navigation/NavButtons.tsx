@@ -135,14 +135,14 @@ const NavButtons = () => {
 					) : (
 						<div className="flex items-center">
 							<span className="w-12 h-12 flex items-center justify-center text-2xl relative">
-								👋
+								`👋`
 								{selectedProducts.length > 0 && (
 									<span className="absolute -top-1 -right-1 w-6 h-6 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center border-2 border-white">
 										{selectedProducts.length}
 									</span>
 								)}
 							</span>
-							<span className="pr-4 w-24 text-lg font-semibold hidden md:inline whitespace-nowrap">
+							<span className="-ml-4 w-28 text-lg font-semibold hidden md:inline whitespace-nowrap">
 								{t('contact.buttons.talkBiz')}
 							</span>
 						</div>

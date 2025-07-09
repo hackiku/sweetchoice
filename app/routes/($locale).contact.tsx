@@ -97,7 +97,7 @@ export default function Contact() {
 
 				{/* Intro Text */}
 				<section className="md:w-2/3 px-6 sm:px-8 md:px-12 mb-16">
-					<p className="text-2xl max-w-2xl font-bold leading-tight sm-max:text-base mt-4">
+					<p className="text-2xl max-w-xl font-bold leading-tight sm-max:text-base mt-4">
 						{t('contactPage.page.intro.description')}
 					</p>
 					{/* <p className="text-2xl max-w-2xl font-bold leading-tight sm-max:text-base mt-4">
@@ -108,8 +108,8 @@ export default function Contact() {
 				<div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:mx-12"></div>
 
 				{/* Contact Details Card - Mobile Video Style */}
-				<div className="relative mx-auto w-full lg:absolute lg:w-1/3 lg:right-12 lg:top-52 px-6 sm:px-8 md:px-0 ssmt-8 md:mt-0">
-					<div className="relative w-full max-w-sm mx-auto md:mx-0 transform rotate-3">
+				<div className="relative _mx-auto w-full lg:absolute lg:w-2/5 lg:right-12 lg:top-52  __md:px-0 _mt-8 __md:mt-0">
+					<div className="relative w-full max-w-xl mx-auto transform rotate-3">
 						{/* Contact Details Container */}
 						<div className="relative border-4 border-black rounded-xl overflow-hidden shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] bg-white">
 							<div className="p-6">
@@ -130,7 +130,7 @@ export default function Contact() {
 					</div>
 				</div>
 
-				<div className="lg:hidden border-t-4 border-black my-8 mx-6 sm:mx-8 md:mx-12"></div>
+				<div className="lg:hidden border-t-4 border-black mt-16 mb-8 mx-6 sm:mx-8 md:mx-12"></div>
 
 				{/* Main Contact Section */}
 				<section className="w-full px-6 sm:px-8 md:px-12 mb-16">

@@ -45,7 +45,11 @@ export const contactDetails: ContactDetailInfo[] = [
 	},
 ];
 
-export const ContactDetails: React.FC = () => {
+interface ContactDetailsProps {
+	fullWidth?: boolean;
+}
+
+export const ContactDetails: React.FC<ContactDetailsProps> = ({ fullWidth = false }) => {
 	const { t } = useTranslation();
 	const [hoveredContact, setHoveredContact] = useState<number | null>(null);
 	const [copiedInfo, setCopiedInfo] = useState<string | null>(null);
@@ -75,12 +79,20 @@ export const ContactDetails: React.FC = () => {
 		setExpandedAddress(!expandedAddress);
 	};
 
+	const containerClasses = fullWidth
+		? "w-full grid grid-cols-1 md:grid-cols-3 gap-3 mb-3"
+		: "space-y-3 mb-3";
+
+	const itemClasses = fullWidth
+		? "w-full"
+		: "relative";
+
 	return (
-		<div className="space-y-3 mb-3">
+		<div className={containerClasses}>
 			{contactDetails.map((detail, index) => (
 				<div
 					key={index}
-					className="relative"
+					className={itemClasses}
 					onMouseEnter={() => setHoveredContact(index)}
 					onMouseLeave={() => {
 						setHoveredContact(null);
@@ -96,6 +108,7 @@ export const ContactDetails: React.FC = () => {
 							transition-all duration-200
 							${hoveredContact === index ? 'shadow-[4px_4px_0px_rgba(0,0,0,1)] bg-white' : 'hover:shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:bg-white'}
 							${copiedInfo === detail.text ? 'bg-green-500' : ''}
+							${fullWidth ? 'h-full' : ''}
 						`}
 					>
 						{/* Main Row */}
@@ -104,7 +117,7 @@ export const ContactDetails: React.FC = () => {
 							target={detail.icon === MdLocationOn ? '_blank' : undefined}
 							rel={detail.icon === MdLocationOn ? 'noopener noreferrer' : undefined}
 							onClick={(e) => handleClick(e, detail)}
-							className="flex items-center px-4 py-2 group"
+							className={`flex items-center px-4 py-2 group ${fullWidth ? 'h-full' : ''}`}
 						>
 							<detail.icon
 								className={`
@@ -114,12 +127,13 @@ export const ContactDetails: React.FC = () => {
 								`}
 							/>
 
-							<div className="flex-grow">
+							<div className="flex-grow min-w-0">
 								<span className={`
-									text-xl font-bold 
+									${fullWidth ? 'text-lg' : 'text-xl'} font-bold 
 									${copiedInfo === detail.text ? 'text-white' : 'group-hover:text-[#FF6B6B]'}
 									transition-all duration-200
-									${hoveredContact === index ? 'text-2xl' : ''}
+									${hoveredContact === index && !fullWidth ? 'text-2xl' : ''}
+									break-words
 								`}>
 									{detail.icon === MdLocationOn && expandedAddress
 										? t(detail.expandedInfo?.mainLine || '')
@@ -155,8 +169,8 @@ export const ContactDetails: React.FC = () => {
 								)}
 							</button>
 
-							{/* Chevron for Address */}
-							{detail.icon === MdLocationOn && (
+							{/* Chevron for Address - only show if not fullWidth */}
+							{detail.icon === MdLocationOn && !fullWidth && (
 								<button
 									onClick={toggleAddress}
 									className={`
@@ -173,8 +187,8 @@ export const ContactDetails: React.FC = () => {
 							)}
 						</a>
 
-						{/* Expanded Address Content */}
-						{detail.expandedInfo && expandedAddress && (
+						{/* Expanded Address Content - only for non-fullWidth */}
+						{detail.expandedInfo && expandedAddress && !fullWidth && (
 							<div className="px-4 pb-2 space-y-2">
 								{detail.expandedInfo.secondaryLines.map((line, i) => (
 									<div key={i} className="flex items-center">
