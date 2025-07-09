@@ -16,7 +16,7 @@ const ComingSoon: React.FC<ComingSoonProps> = ({
 	const { t } = useTranslation();
 
 	return (
-		<div className="min-h-[80vh] flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#00A86B] to-transparent">
+		<div className="border-t-4 border-black py-12 min-h-[80vh] flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#00A86B] to-transparent">
 			<div className="max-w-3xl w-full space-y-8 text-center">
 				<div className="mb-4">
 					<span className="inline-block bg-black text-white text-2xl font-bold py-2 px-4 transform -rotate-2 uppercase"

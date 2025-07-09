@@ -11,6 +11,7 @@ import HolidaySelector from '~/components/holidays/HolidaySelector';
 import Card from '~/components/ecom/product/Card';
 import SelectorRow from '~/components/ecom/SelectorRow';
 import ContactButton from '~/components/ui/ContactButton';
+import ComingSoon from '~/components/ComingSoon';
 
 
 const INITIAL_LOAD = 8;
@@ -150,7 +151,7 @@ export default function AllProducts() {
 				</div>
 			</div>
 
-			<div className="container mx-auto px-6 md:px-12 mt-8">
+			<div className="container mx-auto px-6 md:px-12 mt-8 mb-16">
 				<SelectorRow
 					sortOption={sortOption}
 					stockFilter={stockFilter}
@@ -202,6 +203,11 @@ export default function AllProducts() {
 					)}
 				</div>
 			</div>
+			
+			<ComingSoon
+				title={t('comingsoon.headline')}
+				description={t('comingsoon.description')}
+			/>
 		</div>
 	);
 }
