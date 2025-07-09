@@ -11,7 +11,6 @@ import type { RecommendedProductsQuery } from 'storefrontapi.generated';
 import { useTranslation } from '~/lib/i18n/useTranslation';
 import { createCookie } from "@shopify/remix-oxygen";
 
-
 import GalleryMasonry from '~/components/about/GalleryMasonry';
 import MobileVideo from '~/components/about/MobileVideo';
 import EuropeMap from '~/components/about/EuropeMap';
@@ -64,7 +63,7 @@ export default function About() {
 	return (
 		<div className="flex flex-col items-center relative">
 						
-			<div className="w-full bg-gradient-to-b from-[#00A86B] to-transparent pt-14 pb-[75vh] absolute top-0 left-0 z-0"
+			<div className="w-full bg-gradient-to-b from-[#00A86B] to-transparent pt-14 pb-[75vh] absolute top-0 left-0 z-0 border-t-4 border-black"
 				style={{
 					backgroundImage: 'radial-gradient(#000 1px, transparent 1px), linear-gradient(to bottom, #00A86B, transparent)',
 					backgroundSize: '20px 20px, 100% 100%',

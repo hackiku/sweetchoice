@@ -24,7 +24,7 @@ export const translations = {
     gifts: gifts.en,
     holidays: holidays.en,
     collections: collections.en,
-		contactPage: contactPage.sr,
+		contactPage: contactPage.en,
     footer: footer.en,
     header: header.en,
     contact: contact.en,

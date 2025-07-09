@@ -11,7 +11,7 @@ export const contactPage = {
 			subheading: 'WITH US',
 			intro: {
 				description: 'Ready to sweeten your shelves? We\'re here to help you find the perfect holiday treats for your customers.',
-				secondary: 'Whether you\'re a large supermarket chain or a cozy neighborhood store, we have the right seasonal confectionery solutions for you.'
+				// secondary: 'Whether you\'re a large supermarket chain or a cozy neighborhood store, we have the right seasonal confectionery solutions for you.'
 			},
 			footer: {
 				title: 'Let\'s Make It Sweet',
@@ -40,7 +40,7 @@ export const contactPage = {
 			subheading: 'KONTAKT',
 			intro: {
 				description: 'Spremni da zasladite svoje police? Tu smo da vam pomognemo da pronađete savršene praznične poslastice za vaše kupce.',
-				secondary: 'Bilo da ste veliki supermarket ili mala prodavnica iz komšiluka, imamo prava sezonska konditorska rešenja za vas.'
+				// secondary: 'Bilo da ste veliki supermarket ili mala prodavnica iz komšiluka, imamo prava sezonska konditorska rešenja za vas.'
 			},
 			footer: {
 				title: 'Učinimo To Slatko',
