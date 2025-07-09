@@ -77,14 +77,14 @@ const ContactForm = ({ isExpanded, onExpandToggle, onSuccess }: ContactFormProps
 				{isExpanded ? <MdExpandLess size={20} /> : <MdExpandMore size={20} />}
 			</button>
 
-			{/* Form Container with Flex Layout */}
+			{/* Form Container with Flex Layout - Fixed Height Constraints */}
 			<div
 				className={`relative transition-all duration-300 ease-in-out overflow-hidden 
                    flex flex-col gap-2
-                   ${isExpanded ? 'h-52' : 'h-24'}`}
+                   ${isExpanded ? 'min-h-52 max-h-64' : 'h-24'}`}
 				onClick={() => !isExpanded && onExpandToggle()}
 			>
-				<form onSubmit={handleSubmit} className="flex flex-col gap-2 p-4">
+				<form onSubmit={handleSubmit} className="flex flex-col gap-2 p-4 flex-1">
 					<div className="relative">
 						<MdPerson className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
 						<input
@@ -123,17 +123,17 @@ const ContactForm = ({ isExpanded, onExpandToggle, onSuccess }: ContactFormProps
 							placeholder={t('contact.form.message.placeholder')}
 							value={formData.message}
 							onChange={handleInputChange}
-							className="w-full flex-1 min-h-[4rem] max-h-24 border-black border-2 p-2 rounded-xl 
+							className="w-full flex-1 min-h-[4rem] max-h-20 border-black border-2 p-2 rounded-xl 
                        focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] 
                        focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] 
-                       transition-all duration-200 font-semibold text-gray-800 resize-y"
+                       transition-all duration-200 font-semibold text-gray-800 resize-none overflow-y-auto"
 						/>
 					)}
 				</form>
 			</div>
 
-			{/* Fixed Bottom Button */}
-			<div className="relative z-10 p-4 bg-[#AE7AFF] border-t-2 border-black">
+			{/* Fixed Bottom Button - Always Visible */}
+			<div className="relative z-10 p-4 bg-[#AE7AFF] border-t-2 border-black flex-shrink-0">
 				{fetcher.data?.error && (
 					<div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
 						{fetcher.data.error}

@@ -135,6 +135,7 @@ export default function Contact() {
 				{/* Main Contact Section */}
 				<section className="w-full px-6 sm:px-8 md:px-12 mb-16">
 					<div className="max-w-6xl mx-auto">
+						
 						{/* Desktop: Form Left, Products Right */}
 						<div className="hidden md:grid md:grid-cols-2 md:gap-8">
 							{/* Left Column - Contact Form */}
@@ -143,7 +144,7 @@ export default function Contact() {
 									{t('contact.form.title')}
 								</h2>
 
-								<div className="bg-white border-4 border-black rounded-xl p-6 h-96 flex flex-col
+								<div className="bg-white border-4 border-black rounded-xl p-6 h-5/6 flex flex-col
                          shadow-[8px_8px_0px_rgba(0,0,0,1)]">
 									<form onSubmit={handleFormSubmit} className="flex-1 flex flex-col">
 										<div className="space-y-4 flex-1">

@@ -135,7 +135,7 @@ const NavButtons = () => {
 					) : (
 						<div className="flex items-center">
 							<span className="w-12 h-12 flex items-center justify-center text-2xl relative">
-								`👋`
+								👋
 								{selectedProducts.length > 0 && (
 									<span className="absolute -top-1 -right-1 w-6 h-6 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center border-2 border-white">
 										{selectedProducts.length}
