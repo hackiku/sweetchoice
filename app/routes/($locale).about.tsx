@@ -76,6 +76,7 @@ export default function About() {
 
 			<div className="w-full">
 				
+				<MobileVideo />
 				
 				{/* Hero Section */}
 				<section className="w-full flex flex-col justify-center px-6 sm:px-8 md:px-12 mb-12 mt-16 border-t-3 border-black relative isolate">

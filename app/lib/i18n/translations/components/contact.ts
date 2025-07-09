@@ -10,7 +10,8 @@ export const contact = {
 			submit: 'Submit',
 			submitting: 'Submitting...',
 			getQuote: 'Get Quote',
-			getCatalog: 'Get Catalog'
+			getCatalog: 'Get Catalog',
+			contactPage: 'Contact Page'
 		},
 		form: {
 			title: 'CONTACT & CATALOG',
@@ -72,7 +73,8 @@ export const contact = {
 			submit: 'Pošalji',
 			submitting: 'Na putu...',
 			getQuote: 'Zatraži Ponudu',
-			getCatalog: 'Preuzmi Katalog'
+			getCatalog: 'Preuzmi Katalog',
+			contactPage: 'Kontakt Stranica'
 		},
 		form: {
 			title: 'KONTAKT & KATALOG',

@@ -31,7 +31,7 @@ export const about = {
 		hero: {
 			label: 'O Nama',
 			heading: 'IMAMO SLATKIŠE',
-			subheading: '(kao što dobro znate)'
+			subheading: '(kao što znate)'
 		},
 		intro: {
 			description: 'SweetChoice je jedina kompanija u jugoistočnoj Evropi specijalizovana za uvoz i distribuciju sezonskih konditorskih proizvoda.',
