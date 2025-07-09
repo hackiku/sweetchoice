@@ -169,7 +169,7 @@ export default function Collection() {
 						{/* {t('footer.navigation.shop.items.about')} */}
 					</span>
 
-					<h1 className="text-[14vw] mt-2 sm:text-[8vw] md:text-[7vw] font-bold leading-tight text-orange-400"
+					<h1 className="uppercase text-[14vw] mt-2 sm:text-[8vw] md:text-[7vw] font-bold leading-tight text-orange-400"
 						style={{
 							WebkitTextStroke: '3px black',
 							textStroke: '3px black',
