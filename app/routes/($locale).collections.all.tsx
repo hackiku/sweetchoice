@@ -31,7 +31,7 @@ export default function AllProducts() {
 	const { t } = useTranslation();
 	const { openContact } = useContact();
 	const { products } = useLoaderData<typeof loader>();
-	const [gridSize, setGridSize] = useState(4);
+	const [gridSize, setGridSize] = useState(1); // Start with 1 for mobile
 	const [sortOption, setSortOption] = useState('manual');
 	const [stockFilter, setStockFilter] = useState('all');
 	const [visibleProductCount, setVisibleProductCount] = useState(INITIAL_LOAD);
@@ -46,11 +46,12 @@ export default function AllProducts() {
 	useEffect(() => {
 		const handleResize = () => {
 			const width = window.innerWidth;
-			if (width < 640) setGridSize(2);
-			else if (width < 768) setGridSize(3);
-			else if (width < 1024) setGridSize(4);
-			else if (width < 1280) setGridSize(5);
-			else setGridSize(6);
+			// Reduced by 1 for each breakpoint, mobile gets 1
+			if (width < 640) setGridSize(1);
+			else if (width < 768) setGridSize(2);
+			else if (width < 1024) setGridSize(3);
+			else if (width < 1280) setGridSize(4);
+			else setGridSize(5);
 		};
 
 		handleResize();
@@ -111,14 +112,14 @@ export default function AllProducts() {
 					backgroundSize: '20px 20px',
 				}}>
 				<div className="container mx-auto px-6 md:px-12">
-					<span className="inline-block  bg-black text-white text-2xl font-bold py-2 px-4 transform -rotate-2 uppercase whitespace-normal max-w-max mb-4"
+					<span className="inline-block bg-black text-white text-2xl font-bold py-2 px-4 transform -rotate-2 uppercase whitespace-normal max-w-max mb-4"
 						style={{
 							boxShadow: '4px 4px 0px 0px rgba(255,255,255,1)',
 						}}>
-							{t('collections.header.allProductsLabel')}
+						{t('collections.header.allProductsLabel')}
 					</span>
 
-					<h1 className="text-[14vw] mt-2 sm:text-[8vw] md:text-[7vw] font-bold leading-tight text-orange-400"
+					<h1 className="uppercase text-[14vw] mt-2 sm:text-[8vw] md:text-[7vw] font-bold leading-tight text-orange-400"
 						style={{
 							WebkitTextStroke: '3px black',
 							textStroke: '3px black',
@@ -126,9 +127,6 @@ export default function AllProducts() {
 							filter: 'drop-shadow(0 0 1px black)'
 						}}>
 						<span className="block">{t('collections.header.allProductsTitle')}</span>
-						{/* <span className="block">{t('collections.header.allProductsSpans.line1')}</span>
-						<span className="block ml-8">{t('collections.header.allProductsSpans.line2')}</span>
-						<span className="block ml-16">{t('collections.header.allProductsSpans.line3')}</span> */}
 					</h1>
 
 					<ContactButton
@@ -171,20 +169,24 @@ export default function AllProducts() {
 					{visibleProductCount < filteredAndSortedProducts.length ? (
 						<button
 							onClick={handleShowMore}
-							className="px-6 py-2 text-xl font-bold border-4 border-black bg-[#D8B3F8] text-black 
+							className="px-6 py-3 text-xl font-bold border-4 border-black bg-[#D8B3F8] text-black 
                        shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] 
                        hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
-                       transition-all duration-200"
+                       hover:bg-[#C8A3E8] active:translate-x-[2px] active:translate-y-[2px]
+                       active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]
+                       transition-all duration-200 rounded-xl"
 						>
 							{t('collections.loadMore.showMore')}
 						</button>
 					) : visibleProductCount > INITIAL_LOAD && (
 						<button
 							onClick={handleShowLess}
-							className="px-6 py-2 text-xl font-bold border-4 border-black bg-[#D8B3F8] text-black 
+							className="px-6 py-3 text-xl font-bold border-4 border-black bg-[#D8B3F8] text-black 
                        shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] 
                        hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
-                       transition-all duration-200"
+                       hover:bg-[#C8A3E8] active:translate-x-[2px] active:translate-y-[2px]
+                       active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]
+                       transition-all duration-200 rounded-xl"
 						>
 							{t('collections.loadMore.showLess')}
 						</button>
@@ -197,7 +199,6 @@ export default function AllProducts() {
 
 function ProductCard({ product }: { product: ProductItemFragment }) {
 	const variant = product.variants.nodes[0];
-	const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
 
 	return (
 		<Card

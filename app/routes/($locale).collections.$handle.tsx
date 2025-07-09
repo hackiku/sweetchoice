@@ -234,8 +234,6 @@ export default function Collection() {
 
 				<section className="mt-16">
 					<h3 className="text-3xl font-bold mb-4 text-center">{t('collections.trust.title')}</h3>
-
-
 					<Logos logos={logos} />
 				</section>
 			</div>

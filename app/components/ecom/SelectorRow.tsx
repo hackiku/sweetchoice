@@ -28,11 +28,12 @@ const SelectorRow: React.FC<SelectorRowProps> = ({
 			const width = window.innerWidth;
 			let newColumns;
 
-			if (width < 640) newColumns = 2;
-			else if (width < 768) newColumns = 3;
-			else if (width < 1024) newColumns = 4;
-			else if (width < 1280) newColumns = 5;
-			else newColumns = 6;
+			// Reduced by 1 for each breakpoint, mobile gets option for 1
+			if (width < 640) newColumns = 1;
+			else if (width < 768) newColumns = 2;
+			else if (width < 1024) newColumns = 3;
+			else if (width < 1280) newColumns = 4;
+			else newColumns = 5;
 
 			setLayout(prev => ({ ...prev, columns: newColumns }));
 
@@ -69,7 +70,12 @@ const SelectorRow: React.FC<SelectorRowProps> = ({
 				name="sort_by"
 				value={sortOption}
 				onChange={onSortChange}
-				className="border-4 border-black p-2 font-bold bg-pink-300 cursor-pointer transform hover:scale-105 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(237,28,36,1)]"
+				className="border-4 border-black p-3 font-bold bg-pink-300 cursor-pointer 
+				       transform hover:scale-105 transition-all duration-200 
+				       shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] 
+				       hover:shadow-[6px_6px_0px_0px_rgba(237,28,36,1)]
+				       hover:bg-pink-400 rounded-xl text-lg
+				       focus:outline-none focus:ring-0 focus:shadow-[8px_8px_0px_0px_rgba(237,28,36,1)]"
 			>
 				<option value="manual">{t('collections.filters.sort.options.featured')}</option>
 				<option value="best-selling">{t('collections.filters.sort.options.bestSelling')}</option>
@@ -83,7 +89,12 @@ const SelectorRow: React.FC<SelectorRowProps> = ({
 				name="stock_filter"
 				value={stockFilter}
 				onChange={onSortChange}
-				className="border-4 border-black p-2 font-bold bg-green-300 cursor-pointer transform hover:scale-105 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(237,28,36,1)]"
+				className="border-4 border-black p-3 font-bold bg-green-300 cursor-pointer 
+				       transform hover:scale-105 transition-all duration-200 
+				       shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] 
+				       hover:shadow-[6px_6px_0px_0px_rgba(237,28,36,1)]
+				       hover:bg-green-400 rounded-xl text-lg
+				       focus:outline-none focus:ring-0 focus:shadow-[8px_8px_0px_0px_rgba(237,28,36,1)]"
 			>
 				<option value="all">{t('collections.filters.stock.options.all')}</option>
 				<option value="in-stock">{t('collections.filters.stock.options.inStock')}</option>
@@ -94,8 +105,14 @@ const SelectorRow: React.FC<SelectorRowProps> = ({
 				name="grid_size"
 				value={layout.columns}
 				onChange={handleGridSizeChange}
-				className="border-4 border-black p-2 font-bold bg-blue-300 cursor-pointer transform hover:scale-105 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(237,28,36,1)]"
+				className="border-4 border-black p-3 font-bold bg-blue-300 cursor-pointer 
+				       transform hover:scale-105 transition-all duration-200 
+				       shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] 
+				       hover:shadow-[6px_6px_0px_0px_rgba(237,28,36,1)]
+				       hover:bg-blue-400 rounded-xl text-lg
+				       focus:outline-none focus:ring-0 focus:shadow-[8px_8px_0px_0px_rgba(237,28,36,1)]"
 			>
+				<option value="1">{t('collections.filters.grid.options.one')}</option>
 				<option value="2">{t('collections.filters.grid.options.two')}</option>
 				<option value="3">{t('collections.filters.grid.options.three')}</option>
 				<option value="4">{t('collections.filters.grid.options.four')}</option>

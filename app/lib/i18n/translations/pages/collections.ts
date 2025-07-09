@@ -44,6 +44,7 @@ export const collections = {
 			grid: {
 				label: "Grid size",
 				options: {
+					one: "Grid: 1",
 					two: "Grid: 2",
 					three: "Grid: 3",
 					four: "Grid: 4",
@@ -104,6 +105,7 @@ export const collections = {
 			grid: {
 				label: "Veličina mreže",
 				options: {
+					one: "Po redu: 1",
 					two: "Po redu: 2",
 					three: "Po redu: 3",
 					four: "Po redu: 4",
