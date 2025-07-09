@@ -7,9 +7,11 @@ import { useVariantUrl } from '~/lib/variants';
 import { useTranslation } from '~/lib/i18n/useTranslation';
 import { useContact } from '~/components/contact/ContactContext';
 
+import HolidaySelector from '~/components/holidays/HolidaySelector';
 import Card from '~/components/ecom/product/Card';
 import SelectorRow from '~/components/ecom/SelectorRow';
 import ContactButton from '~/components/ui/ContactButton';
+
 
 const INITIAL_LOAD = 8;
 const LOAD_MORE_COUNT = 8;
@@ -129,15 +131,22 @@ export default function AllProducts() {
 						<span className="block">{t('collections.header.allProductsTitle')}</span>
 					</h1>
 
-					<ContactButton
-						onClick={openContact}
-						text={t('collections.cta.getCatalog')}
-						bgColor="bg-[#39FF14]"
-						hoverBgColor="hover:bg-[#00FFFF]"
-						textColor="text-black"
-						hoverTextColor="hover:text-black"
-						className="text-xl font-bold mt-4"
-					/>
+					{/* Updated button and selector container */}
+					<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-6 pb-4">
+						<ContactButton
+							onClick={openContact}
+							text={t('collections.cta.getCatalog')}
+							bgColor="bg-[#39FF14]"
+							hoverBgColor="hover:bg-[#00FFFF]"
+							textColor="text-black"
+							hoverTextColor="hover:text-black"
+							className="text-xl font-bold"
+						/>
+
+						<div className="flex justify-end">
+							<HolidaySelector />
+						</div>
+					</div>
 				</div>
 			</div>
 

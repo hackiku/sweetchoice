@@ -9,6 +9,9 @@ import type { ProductItemFragment } from 'storefrontapi.generated';
 import type { CollectionProductItemFragment } from 'storefrontapi.generated';
 import { useVariantUrl } from '~/lib/variants';
 
+import HolidaySelector from '~/components/holidays/HolidaySelector';
+
+
 import { useTranslation } from '~/lib/i18n/useTranslation';
 import { useContact } from '~/components/contact/ContactContext';
 
@@ -154,6 +157,7 @@ export default function Collection() {
 
 	return (
 		<div className="w-full">
+
 			<div className="w-full bg-[#fff8ee] pt-14 pb-10 border-b-4 border-t-4 border-black"
 				style={{
 					backgroundImage: 'radial-gradient(#000 1px, transparent 1px)',
@@ -166,7 +170,6 @@ export default function Collection() {
 							boxShadow: '4px 4px 0px 0px rgba(255,255,255,1)',
 						}}>
 						{t('collections.header.productsLabel')}
-						{/* {t('footer.navigation.shop.items.about')} */}
 					</span>
 
 					<h1 className="uppercase text-[14vw] mt-2 sm:text-[8vw] md:text-[7vw] font-bold leading-tight text-orange-400"
@@ -179,18 +182,26 @@ export default function Collection() {
 						{t(seasonColors[collection.handle as keyof typeof seasonColors]?.translationKey || 'footer.navigation.shop.items.allYear')}
 					</h1>
 
+					{/* Updated button and selector container */}
+					<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-6 pb-4">
+						<ContactButton
+							onClick={openContact}
+							text={t('collections.cta.getCatalog')}
+							bgColor={`bg-[#45FF13]`}
+							hoverBgColor="hover:bg-black"
+							textColor="text-black"
+							hoverTextColor="hover:text-white"
+							className="text-xl"
+						/>
 
-					<ContactButton
-						onClick={openContact}
-						text={t('collections.cta.getCatalog')}
-						bgColor={`bg-[#45FF13]`}
-						hoverBgColor="hover:bg-black"
-						textColor="text-black"
-						hoverTextColor="hover:text-white"
-						className="text-xl mt-4"
-					/>
+						<div className="flex justify-end">
+							<HolidaySelector />
+						</div>
+					</div>
 				</div>
 			</div>
+
+
 			<div className="container mx-auto px-6 md:px-12 mt-8 flex flex-wrap justify-start gap-4">
 				<SelectorRow
 					sortOption={sortOption}
@@ -232,8 +243,8 @@ export default function Collection() {
 					)}
 				</Pagination>
 
-				<section className="mt-16">
-					<h3 className="text-3xl font-bold mb-4 text-center">{t('collections.trust.title')}</h3>
+				<section className="pt-16 border-t-4 border-black">
+					<h3 className="text-3xl font-bold mb-8 text-center">{t('collections.trust.title')}</h3>
 					<Logos logos={logos} />
 				</section>
 			</div>
