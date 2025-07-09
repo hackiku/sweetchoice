@@ -5,7 +5,7 @@ export const nav = {
 		menu: {
 			home: 'Home',
 			holidays: 'Holidays',
-			allYear: 'All Products',
+			allYear: 'Products',
 			gifts: 'Gifts',
 			about: 'About',
 			contact: 'Contact',
@@ -32,7 +32,7 @@ export const nav = {
 		menu: {
 			home: 'Početna',
 			holidays: 'Praznici',
-			allYear: 'Svi proizvodi',
+			allYear: 'Proizvodi',
 			gifts: 'Pokloni',
 			about: 'O Nama',
 			contact: 'Kontakt',
