@@ -8,6 +8,7 @@ export const nav = {
 			allYear: 'All Products',
 			gifts: 'Gifts',
 			about: 'About',
+			contact: 'Contact',
 		},
 		buttons: {
 			menu: {
@@ -34,6 +35,7 @@ export const nav = {
 			allYear: 'Svi proizvodi',
 			gifts: 'Pokloni',
 			about: 'O Nama',
+			contact: 'Kontakt',
 		},
 		buttons: {
 			menu: {

@@ -21,7 +21,8 @@ export const footer = {
 				items: {
 					gifts: "Gifts",
 					allYear: "All Year",
-					about: "About"
+					about: "About",
+					contact: "Contact"
 				}
 			}
 		},
@@ -62,7 +63,8 @@ export const footer = {
 				items: {
 					gifts: "Pokloni",
 					allYear: "Celogodišnji",
-					about: "O Nama"
+					about: "O Nama",
+					contact: "Kontakt"
 				}
 			}
 		},

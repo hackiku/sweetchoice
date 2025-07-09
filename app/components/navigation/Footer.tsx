@@ -65,6 +65,7 @@ function FooterContent({
 		{ name: t('footer.navigation.shop.items.gifts'), path: '/gifts' },
 		{ name: t('footer.navigation.shop.items.allYear'), path: '/collections/all' },
 		{ name: t('footer.navigation.shop.items.about'), path: '/about' },
+		{ name: t('footer.navigation.shop.items.contact'), path: '/contact' },
 	];
 
 	return (
