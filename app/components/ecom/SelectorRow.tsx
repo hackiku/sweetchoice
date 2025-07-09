@@ -30,12 +30,11 @@ const SelectorRow: React.FC<SelectorRowProps> = ({
 			const width = window.innerWidth;
 			let newColumns;
 
-			// Reduced by 1 for each breakpoint, mobile gets option for 1
+			// Max 4 columns by default, but user can select up to 6
 			if (width < 640) newColumns = 1;
 			else if (width < 768) newColumns = 2;
 			else if (width < 1024) newColumns = 3;
-			else if (width < 1280) newColumns = 4;
-			else newColumns = 5;
+			else newColumns = 4; // Max 4 columns by default
 
 			setLayout(prev => ({ ...prev, columns: newColumns }));
 
@@ -132,7 +131,7 @@ const SelectorRow: React.FC<SelectorRowProps> = ({
 			</div>
 
 			{/* Right side - Grid selector */}
-			<div className="flex justify-end sm:justify-start">
+			<div className="right-4 z-30 flex justify-end sm:justify-start">
 				<GridSelector
 					value={layout.columns}
 					onChange={handleGridSizeChange}

@@ -1,16 +1,14 @@
 // app/routes/($locale).collections.$handle.tsx
 
+
 import React, { useState, useMemo, useEffect } from 'react';
 import { defer, redirect, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
-import { useLoaderData, Link, type MetaFunction } from '@remix-run/react';
-import { Pagination, getPaginationVariables, Money } from '@shopify/hydrogen';
+import { useLoaderData, type MetaFunction } from '@remix-run/react';
+import { Pagination, getPaginationVariables } from '@shopify/hydrogen';
 import Card from '~/components/ecom/product/Card';
 import type { ProductItemFragment } from 'storefrontapi.generated';
-import type { CollectionProductItemFragment } from 'storefrontapi.generated';
-import { useVariantUrl } from '~/lib/variants';
 
 import HolidaySelector from '~/components/holidays/HolidaySelector';
-
 
 import { useTranslation } from '~/lib/i18n/useTranslation';
 import { useContact } from '~/components/contact/ContactContext';
@@ -87,29 +85,28 @@ export default function Collection() {
 
 	const [sortOption, setSortOption] = useState('manual');
 	const [stockFilter, setStockFilter] = useState('all');
-	const [layout, setLayout] = useState({ columns: 4, products: 24 });
-	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [gridSize, setGridSize] = useState(4); // Default to 4 columns
 
 	useEffect(() => {
-		const updateLayout = () => {
+		const handleResize = () => {
 			const width = window.innerWidth;
-			if (width < 640) setLayout({ columns: 2, products: 24 });
-			else if (width < 768) setLayout({ columns: 3, products: 24 });
-			else if (width < 1024) setLayout({ columns: 4, products: 24 });
-			else if (width < 1280) setLayout({ columns: 5, products: 24 });
-			else setLayout({ columns: 6, products: 24 });
+			// Max 4 columns by default
+			if (width < 640) setGridSize(1);
+			else if (width < 768) setGridSize(2);
+			else if (width < 1024) setGridSize(3);
+			else setGridSize(4);
 		};
 
-		updateLayout();
-		window.addEventListener('resize', updateLayout);
-		return () => window.removeEventListener('resize', updateLayout);
+		handleResize();
+		window.addEventListener('resize', handleResize);
+		return () => window.removeEventListener('resize', handleResize);
 	}, []);
 
 	const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		const { name, value } = event.target;
 		if (name === 'sort_by') setSortOption(value);
 		else if (name === 'stock_filter') setStockFilter(value);
-		else if (name === 'grid_size') setLayout(prev => ({ ...prev, columns: Number(value) }));
+		else if (name === 'grid_size') setGridSize(Number(value));
 	};
 
 	const filteredAndSortedProducts = useMemo(() => {
@@ -151,13 +148,8 @@ export default function Collection() {
 
 	const seasonColor = seasonColors[collection.handle as keyof typeof seasonColors] || seasonColors.default;
 
-	const handleContactClick = () => {
-		setIsModalOpen(true);
-	};
-
 	return (
 		<div className="w-full">
-
 			<div className="w-full bg-[#fff8ee] pt-14 pb-10 border-b-4 border-t-4 border-black"
 				style={{
 					backgroundImage: 'radial-gradient(#000 1px, transparent 1px)',
@@ -201,28 +193,26 @@ export default function Collection() {
 				</div>
 			</div>
 
-
-			<div className="container mx-auto px-6 md:px-12 mt-8 flex flex-wrap justify-start gap-4">
+			<div className="container mx-auto px-6 md:px-12 mt-8">
 				<SelectorRow
 					sortOption={sortOption}
 					stockFilter={stockFilter}
-					gridSize={layout.columns}
+					gridSize={gridSize}
 					onSortChange={handleSortChange}
 				/>
-			</div>
 
+				<div className="border-t-4 border-black my-8"></div>
 
-			<div className="container mx-auto px-6 md:px-12 mt-8">
 				<Pagination connection={collection.products}>
 					{({ nodes: originalNodes, isLoading, PreviousLink, NextLink }) => (
 						<>
 							<div
 								className="grid gap-4"
 								style={{
-									gridTemplateColumns: `repeat(${layout.columns}, minmax(0, 1fr))`,
+									gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))`,
 								}}
 							>
-								{filteredAndSortedProducts.slice(0, layout.products).map((product) => (
+								{filteredAndSortedProducts.slice(0, 24).map((product) => (
 									<Card
 										key={product.id}
 										product={product}
@@ -243,50 +233,16 @@ export default function Collection() {
 					)}
 				</Pagination>
 
-				<section className="pt-16 border-t-4 border-black">
+				<section className="mt-16 pt-8 border-t-4 border-black">
 					<h3 className="text-3xl font-bold mb-8 text-center">{t('collections.trust.title')}</h3>
 					<Logos logos={logos} />
 				</section>
 			</div>
-
 		</div>
 	);
 }
-function ProductCardComponent({
-	product,
-	secondaryColor,
-	onContactClick
-}: {
-	product: CollectionProductItemFragment;
-	secondaryColor: string;
-	onContactClick: () => void;
-}) {
 
-	// function ProductCardComponents({ product, secondaryColor, onContactClick }: { product: ProductItemFragment; secondaryColor: string; onContactClick: () => void }) {
-	const variant = product.variants.nodes[0];
-	const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
-	const imageUrl = product.featuredImage?.url || '';
-	const imageAlt = product.featuredImage?.altText || product.title;
-	const weight = variant.weight || 0;
-	const weightUnit = variant.weightUnit || 'g';
-
-	return (
-		<Card
-			productName={product.title}
-			productLink={variantUrl}
-			imageUrl={imageUrl}
-			imageAlt={imageAlt}
-			weight={weight}
-			weightUnit={weightUnit}
-			seasonColor={secondaryColor}
-			secondaryColor={secondaryColor}
-			boxQuantity={10} 
-			onContactClick={onContactClick}
-		/>
-	);
-}
-
-
+// Keep the GraphQL queries and fragments as they were
 const PRODUCT_ITEM_FRAGMENT = `#graphql
   fragment MoneyProductItem on MoneyV2 {
     amount

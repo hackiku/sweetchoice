@@ -1,3 +1,5 @@
+// app/routes/($locale).collections.all.tsx
+
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { useLoaderData, type MetaFunction } from '@remix-run/react';
 import { json, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
@@ -12,7 +14,6 @@ import Card from '~/components/ecom/product/Card';
 import SelectorRow from '~/components/ecom/SelectorRow';
 import ContactButton from '~/components/ui/ContactButton';
 import ComingSoon from '~/components/ComingSoon';
-
 
 const INITIAL_LOAD = 8;
 const LOAD_MORE_COUNT = 8;
@@ -34,7 +35,7 @@ export default function AllProducts() {
 	const { t } = useTranslation();
 	const { openContact } = useContact();
 	const { products } = useLoaderData<typeof loader>();
-	const [gridSize, setGridSize] = useState(1); // Start with 1 for mobile
+	const [gridSize, setGridSize] = useState(4); // Default to 4 columns
 	const [sortOption, setSortOption] = useState('manual');
 	const [stockFilter, setStockFilter] = useState('all');
 	const [visibleProductCount, setVisibleProductCount] = useState(INITIAL_LOAD);
@@ -49,12 +50,11 @@ export default function AllProducts() {
 	useEffect(() => {
 		const handleResize = () => {
 			const width = window.innerWidth;
-			// Reduced by 1 for each breakpoint, mobile gets 1
+			// Max 4 columns by default
 			if (width < 640) setGridSize(1);
 			else if (width < 768) setGridSize(2);
 			else if (width < 1024) setGridSize(3);
-			else if (width < 1280) setGridSize(4);
-			else setGridSize(5);
+			else setGridSize(4);
 		};
 
 		handleResize();
@@ -204,10 +204,8 @@ export default function AllProducts() {
 				</div>
 			</div>
 			
-			<ComingSoon
-				title={t('comingsoon.headline')}
-				description={t('comingsoon.description')}
-			/>
+			<ComingSoon />
+		
 		</div>
 	);
 }
@@ -238,6 +236,7 @@ function ProductCard({ product }: { product: ProductItemFragment }) {
 		/>
 	);
 }
+
 
 const PRODUCTS_QUERY = `#graphql
   fragment ProductItem on Product {
