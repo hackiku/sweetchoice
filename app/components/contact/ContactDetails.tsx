@@ -24,8 +24,8 @@ export const contactDetails: ContactDetailInfo[] = [
 	},
 	{
 		icon: MdPhone,
-		text: '+381 63 111 33 11',
-		action: 'tel:+381631113311',
+		text: '+381 63 13 13 222',
+		action: 'tel:+381631313222',
 	},
 	{
 		icon: MdLocationOn,

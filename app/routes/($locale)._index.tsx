@@ -147,7 +147,7 @@ export default function Homepage() {
         <h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">{t('home.blurbs.title')}</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {t('home.blurbs.items').map((item, index) => (
-            <Link
+						<Link
               key={index}
               to="/about"
               className={`p-6 border-4 border-black bg-[${item.bgColor}] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]

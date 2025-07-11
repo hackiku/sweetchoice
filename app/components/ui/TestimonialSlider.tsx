@@ -13,8 +13,8 @@ interface Testimonial {
 
 const testimonials: Testimonial[] = [
 	{
-		text: "Sweetchoice has been an invaluable partner for our holiday campaigns. Their products consistently delight our customers.",
-		name: "John Doe",
+		text: "YOU DID IT!.",
+		name: "Dule Svinja",
 		position: "Sales Director",
 		company: "Maxi",
 		logoSrc: "/assets/logos/maxi-logo.svg"

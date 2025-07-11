@@ -11,8 +11,8 @@ export const about = {
 			subheading: '(and you know it)'
 		},
 		intro: {
-			description: 'SweetChoice is the only company in South East Europe specialized in the import and distribution of seasonal confectionery products.',
-			secondary: "You've probably seen our sweets in your local supermarkets when the holidays are hot."
+			description: 'SweetChoice is the only company in South East Europe specialized in the sourcing, repackaging and distribution of seasonal confectionery products.',
+			secondary: "You've probably seen our sweets in your local supermarkets when holiday time comes around."
 		},
 		products: {
 			heading: "All About",
@@ -34,7 +34,7 @@ export const about = {
 			subheading: '(kao što znate)'
 		},
 		intro: {
-			description: 'SweetChoice je jedina kompanija u jugoistočnoj Evropi specijalizovana za uvoz i distribuciju sezonskih konditorskih proizvoda.',
+			description: 'SweetChoice je jedina kompanija u jugoistočnoj Evropi specijalizovana za nabavku, repakovanje i distribuciju sezonskih konditorskih proizvoda.',
 			secondary: 'Verovatno ste videli naše slatkiše u lokalnim supermarketima tokom praznika.'
 		},
 		products: {

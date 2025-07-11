@@ -7,7 +7,6 @@ import { Suspense } from 'react';
 import { Await, Link } from '@remix-run/react';
 import type { RecommendedProductsQuery } from 'storefrontapi.generated';
 
-
 import { useTranslation } from '~/lib/i18n/useTranslation';
 import { createCookie } from "@shopify/remix-oxygen";
 
@@ -75,7 +74,7 @@ export default function About() {
 
 			<div className="w-full">
 				
-				<MobileVideo />
+				{/* <MobileVideo /> */}
 				
 				{/* Hero Section */}
 				<section className="w-full flex flex-col justify-center px-6 sm:px-8 md:px-12 mb-12 mt-16 border-t-3 border-black relative isolate">

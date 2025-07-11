@@ -9,7 +9,7 @@ export const statBlurbs = {
         text: "Year founded"
       },
       countries: {
-        number: "15+",
+        number: "11+",
         text: "Countries we work with"
       },
       products: {
@@ -26,7 +26,7 @@ export const statBlurbs = {
         text: "Godina osnivanja SweetChoice-a"
       },
       countries: {
-        number: "15+",
+        number: "11+",
 				text: "Zemalja sa kojima sarađujemo"
       },
       products: {

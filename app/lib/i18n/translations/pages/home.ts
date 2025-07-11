@@ -28,12 +28,12 @@ export const home = {
 			title: 'Sweet choices in numbers',
 			items: [
 				{
-					number: '11+',
+					number: '10+',
 					text: 'Years holiday distributor',
 					bgColor: '#FFD700'
 				},
 				{
-					number: '16+',
+					number: '11+',
 					text: 'Partnering countries across Europe',
 					bgColor: '#FF69B4'
 				},
@@ -75,12 +75,12 @@ export const home = {
 			title: 'Slatki izbori u brojevima',
 			items: [
 				{
-					number: '11+',
+					number: '10+',
 					text: 'Godina kao praznični distributer',
 					bgColor: '#FFD700'
 				},
 				{
-					number: '16+',
+					number: '11+',
 					text: 'Partnerskih zemalja širom Evrope',
 					bgColor: '#FF69B4'
 				},
