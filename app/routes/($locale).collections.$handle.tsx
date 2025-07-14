@@ -15,7 +15,7 @@ import { useContact } from '~/components/cta/contact/ContactContext';
 
 import SelectorRow from '~/components/ecom/SelectorRow';
 import Logos from '~/components/proof/Logos';
-import ContactButton from '~/components/ui/ContactButton';
+import ContactButton from '~/components/cta/contact/ContactButton';
 
 const logos = [
 	{ src: "/assets/logos/maxi-logo.svg", alt: "Maxi logo" },
