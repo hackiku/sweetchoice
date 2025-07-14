@@ -3,7 +3,7 @@
 export const contact = {
 	en: {
 		buttons: {
-			talkBiz: 'Talk Biz',
+			talkBiz: 'Get Catalog',
 			openContact: 'Contact Us',
 			closeContact: 'Close Contact',
 			removeAll: 'Remove All',

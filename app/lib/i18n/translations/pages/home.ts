@@ -8,7 +8,8 @@ export const home = {
 		hero: {
 			headingTop: 'Sweet holidays',
 			headingBottom: 'all year long',
-			subheading: 'We wholesale wholesome holiday treats to supermarkets large and small.',
+			// subheading: 'We wholesale wholesome holiday treats to supermarkets large and small.',
+			subheading: 'Specialized holiday gifts & treats. From Serbia, access to whole SEE.',
 			ctaText: 'Get Catalog →',
 			ctaLink: '/collections/all',
 			secondaryButtonText: 'Shop all →',

@@ -10,7 +10,7 @@ import { FEATURED_COLLECTION_QUERY, RECOMMENDED_PRODUCTS_QUERY } from '../graphq
 
 import { useTranslation } from '~/lib/i18n/useTranslation';
 
-import Hero from '~/components/ui/Hero';
+import Hero from '~/components/pages/landing/Hero';
 import HolidaySection from '~/components/ecom/holidays/HolidaySection';
 import HolidayWheel from '~/components/ecom/holidays/HolidayWheel';
 
@@ -131,12 +131,12 @@ export default function Homepage() {
 
       {/* <div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:px-12"></div> */}
 
-      <div ref={holidaySection} className="pt-6">
+      <div ref={holidaySection} className="mt-20">
         <HolidaySection holidayCollections={data.holidayCollections} />
       </div>
 
       {isHolidaySelectorVisible && (
-        <div className="fixed bottom-4 left-0 right-0 z-10 px-6 sm:px-8 md:px-12 flex justify-between items-center">
+        <div className="fixed bottom-0 left-0 right-0 z-10 px-6 sm:px-8 md:px-12 flex justify-between items-center">
           <HolidayWheel />
         </div>
       )}

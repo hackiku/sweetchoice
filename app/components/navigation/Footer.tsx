@@ -4,7 +4,6 @@ import React from 'react';
 import { Suspense } from 'react';
 import { Await, NavLink, useNavigate, useSearchParams } from '@remix-run/react';
 import type { FooterQuery, HeaderQuery } from 'storefrontapi.generated';
-// todo remove brutal button??
 import BrutalButton from '~/components/ui/BrutalButton';
 import { useContact } from '~/components/cta/contact/ContactContext';
 import EmailSignup from '~/components/cta/email/EmailSignup';
@@ -169,14 +168,14 @@ function FooterContent({
 								</NavLink>
 							</div>
 
-							<a
+							{/* <a
 								href="https://pipewriter.io"
 								target="_blank"
 								rel="noopener noreferrer"
 								className="text-white text-xs font-thin group transition-colors"
 							>
 								dev by <span className="font-medium group-hover:text-[#ED1C24]">Pipewriter</span> for A. 💗
-							</a>
+							</a> */}
 						</div>
 
 						{/* Right side - LinkedIn */}

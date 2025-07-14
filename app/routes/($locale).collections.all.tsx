@@ -7,6 +7,7 @@ import type { ProductItemFragment } from 'storefrontapi.generated';
 import { useVariantUrl } from '~/lib/variants';
 
 import { useTranslation } from '~/lib/i18n/useTranslation';
+// import { ContactContext } from '~/components/cta/contact/ContactContext';
 import { useContact } from '~/components/cta/contact/ContactContext';
 
 import HolidaySelector from '~/components/ecom/holidays/HolidaySelector';

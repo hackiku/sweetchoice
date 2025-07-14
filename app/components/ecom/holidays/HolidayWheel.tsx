@@ -1,7 +1,5 @@
 // app/components/ecom/holidays/HolidayWheel.tsx
 
-// app/components/holidays/HolidayWheel.tsx
-
 import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from '@remix-run/react';
 import { useTranslation } from '~/lib/i18n/useTranslation';
@@ -47,7 +45,7 @@ const HolidayWheel = () => {
 	};
 
 	return (
-		<div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-10">
+		<div className="fixed left-6 bottom-4 __left-1/2 __transform __-translate-x-1/2 z-10">
 			<div className="flex justify-center items-end gap-2">
 				{HOLIDAY_ITEMS.map(({ id, emoji }) => (
 					<Link
