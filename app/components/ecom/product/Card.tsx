@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from '@remix-run/react';
 import { PlusIcon, CheckIcon } from '@heroicons/react/24/solid';
-import { useContact } from '~/components/contact/ContactContext';
+import { useContact } from '~/components/cta/contact/ContactContext';
 
 interface CardProps {
 	product: {

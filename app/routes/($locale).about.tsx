@@ -19,7 +19,7 @@ import StatBlurbs from '~/components/ui/StatBlurbs';
 // import RecommendedProducts from '~/components/ecom/RecommendedProducts';
 import ProductScroller from '~/components/pages/about/ProductScroller';
 
-import ContactButton from '~/components/cta/contact/ContactButton';
+// import ContactButton from '~/components/cta/contact/ContactButton';
 import ContactModal from '~/components/cta/contact/ContactModal';
 
 export const meta: MetaFunction = () => {

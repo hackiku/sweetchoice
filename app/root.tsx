@@ -38,7 +38,7 @@ import logosStyles from '~/styles/ui/logos.css?url';
 // Queries and Utils
 import { FOOTER_QUERY, HEADER_QUERY } from '~/lib/fragments';
 import { createTransformStream } from '~/lib/translations/serverTransform';
-import { Footer } from '~/components/navigation/Footer';
+import { SimpleFooter } from '~/components/navigation/SimpleFooter';
 
 export type RootLoader = typeof loader;
 
@@ -134,6 +134,24 @@ function Layout({ children }: { children?: React.ReactNode }) {
 	const data = useLoaderData<RootLoader>();
 	const locale = data?.locale || 'sr';
 
+	// Handle the case where data might be undefined
+	if (!data) {
+		return (
+			<html lang={locale}>
+				<head>
+					<meta charSet="utf-8" />
+					<meta name="viewport" content="width=device-width,initial-scale=1" />
+					<Meta />
+					<Links />
+				</head>
+				<body>
+					<div>Loading...</div>
+					<Scripts nonce={nonce} />
+				</body>
+			</html>
+		);
+	}
+
 	return (
 		<html lang={locale}>
 			<head>
@@ -152,9 +170,7 @@ function Layout({ children }: { children?: React.ReactNode }) {
 					<ContactProvider slideOver={ContactSlideOver}>
 						<MenuProvider>
 							<PageLayout {...data}>{children}</PageLayout>
-							<Footer
-								footer={data.footer}
-								header={data.header}
+							<SimpleFooter
 								publicStoreDomain={data.publicStoreDomain}
 							/>
 						</MenuProvider>
@@ -187,18 +203,28 @@ export function ErrorBoundary() {
 		errorMessage = error.message;
 	}
 
+	// Create a minimal layout for error boundary that doesn't depend on loader data
 	return (
-		<Layout>
-			<div className="route-error">
-				<h1>Oops</h1>
-				<h2>{errorStatus}</h2>
-				{errorMessage && (
-					<fieldset>
-						<pre>{errorMessage}</pre>
-					</fieldset>
-				)}
-			</div>
-		</Layout>
+		<html lang="sr">
+			<head>
+				<meta charSet="utf-8" />
+				<meta name="viewport" content="width=device-width,initial-scale=1" />
+				<Meta />
+				<Links />
+			</head>
+			<body>
+				<div className="route-error p-8">
+					<h1 className="text-4xl font-bold mb-4">Oops</h1>
+					<h2 className="text-2xl mb-4">{errorStatus}</h2>
+					{errorMessage && (
+						<fieldset className="border p-4">
+							<pre className="whitespace-pre-wrap">{errorMessage}</pre>
+						</fieldset>
+					)}
+				</div>
+				<Scripts />
+			</body>
+		</html>
 	);
 }
 
@@ -231,4 +257,3 @@ export async function handleDocument(
 		headers: responseHeaders,
 	});
 }
-

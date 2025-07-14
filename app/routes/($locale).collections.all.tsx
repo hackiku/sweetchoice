@@ -7,12 +7,12 @@ import type { ProductItemFragment } from 'storefrontapi.generated';
 import { useVariantUrl } from '~/lib/variants';
 
 import { useTranslation } from '~/lib/i18n/useTranslation';
-import { useContact } from '~/components/contact/ContactContext';
+import { useContact } from '~/components/cta/contact/ContactContext';
 
-import HolidaySelector from '~/components/holidays/HolidaySelector';
+import HolidaySelector from '~/components/ecom/holidays/HolidaySelector';
 import Card from '~/components/ecom/product/Card';
 import SelectorRow from '~/components/ecom/SelectorRow';
-import ContactButton from '~/components/ui/ContactButton';
+import ContactButton from '~/components/cta/contact/ContactButton';
 import ComingSoon from '~/components/ComingSoon';
 
 const INITIAL_LOAD = 8;

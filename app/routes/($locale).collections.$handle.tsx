@@ -8,13 +8,13 @@ import { Pagination, getPaginationVariables } from '@shopify/hydrogen';
 import Card from '~/components/ecom/product/Card';
 import type { ProductItemFragment } from 'storefrontapi.generated';
 
-import HolidaySelector from '~/components/holidays/HolidaySelector';
+import HolidaySelector from '~/components/ecom/holidays/HolidaySelector';
 
 import { useTranslation } from '~/lib/i18n/useTranslation';
-import { useContact } from '~/components/contact/ContactContext';
+import { useContact } from '~/components/cta/contact/ContactContext';
 
 import SelectorRow from '~/components/ecom/SelectorRow';
-import Logos from '~/components/ui/Logos';
+import Logos from '~/components/proof/Logos';
 import ContactButton from '~/components/ui/ContactButton';
 
 const logos = [

@@ -5,7 +5,7 @@ import { Link } from '@remix-run/react';
 import { Image } from '@shopify/hydrogen';
 import { Tooltip } from '~/components/ui/Tooltip';
 import BrutalButton from '~/components/ui/BrutalButton';
-import { useContact } from '~/components/contact/ContactContext';
+import { useContact } from '~/components/cta/contact/ContactContext';
 import { useTranslation } from '~/lib/i18n/useTranslation';
 
 interface Product {

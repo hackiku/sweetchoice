@@ -7,7 +7,7 @@ import { PlusIcon, CheckIcon } from '@heroicons/react/24/solid';
 
 import { ProductGallery } from '~/components/ecom/product/ProductGallery';
 import { ProductInfo } from '~/components/ecom/product/ProductInfo';
-import { useContact } from '~/components/contact/ContactContext';
+import { useContact } from '~/components/cta/contact/ContactContext';
 import { PackagingTable, extractPackagingInfo } from '~/components/ecom/product/PackagingTable';
 
 export const meta = ({ data }) => {
