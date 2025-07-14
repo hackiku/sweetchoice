@@ -9,10 +9,10 @@ import type {
 } from 'storefrontapi.generated';
 import { Aside } from '~/components/Aside';
 import { Header, HeaderMenu } from '~/components/navigation/Header';
-// import { Footer } from '~/components/Footer';
+// import { Footer } from '~/components/navigation/Footer';
 
-import NavButtons from './navigation/NavButtons';
-// import ContactButton from '~/components/contact/ContactButton';
+import NavButtons from '~/components/navigation/NavButtons';
+// import ContactButton from '~/components/cta/contact/ContactButton';
 
 import { CartMain } from '~/components/Cart';
 import {

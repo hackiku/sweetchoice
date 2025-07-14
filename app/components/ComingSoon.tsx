@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from '~/lib/i18n/useTranslation';
-import EmailSignup from '~/components/contact/EmailSignup';
+import EmailSignup from '~/components/cta/email/EmailSignup';
 
 interface ComingSoonProps {
 	eyebrow?: string;

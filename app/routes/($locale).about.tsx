@@ -10,17 +10,17 @@ import type { RecommendedProductsQuery } from 'storefrontapi.generated';
 import { useTranslation } from '~/lib/i18n/useTranslation';
 import { createCookie } from "@shopify/remix-oxygen";
 
-import GalleryMasonry from '~/components/about/GalleryMasonry';
-import MobileVideo from '~/components/about/MobileVideo';
-import EuropeMap from '~/components/about/EuropeMap';
+// import GalleryMasonry from '~/components/pages/about/GalleryMasonry';
+// import MobileVideo from '~/components/pages/about/MobileVideo';
+// import EuropeMap from '~/components/pages/about/EuropeMap';
 
-import TestimonialSlider from '~/components/ui/TestimonialSlider';
+import TestimonialSlider from '~/components/proof/TestimonialSlider';
 import StatBlurbs from '~/components/ui/StatBlurbs';
 // import RecommendedProducts from '~/components/ecom/RecommendedProducts';
-import ProductScroller from '~/components/about/ProductScroller';
+import ProductScroller from '~/components/pages/about/ProductScroller';
 
-import ContactButton from '~/components/ui/ContactButton';
-import ContactModal from '~/components/ui/ContactModal';
+import ContactButton from '~/components/cta/contact/ContactButton';
+import ContactModal from '~/components/cta/contact/ContactModal';
 
 export const meta: MetaFunction = () => {
 	const {t} = useTranslation();

@@ -4,9 +4,10 @@ import React from 'react';
 import { Suspense } from 'react';
 import { Await, NavLink, useNavigate, useSearchParams } from '@remix-run/react';
 import type { FooterQuery, HeaderQuery } from 'storefrontapi.generated';
+// todo remove brutal button??
 import BrutalButton from '~/components/ui/BrutalButton';
-import { useContact } from '~/components/contact/ContactContext';
-import EmailSignup from '~/components/contact/EmailSignup';
+import { useContact } from '~/components/cta/contact/ContactContext';
+import EmailSignup from '~/components/cta/email/EmailSignup';
 
 import { useTranslation } from '~/lib/i18n/useTranslation';
 import LanguageSelector from '~/components/ui/LanguageSelector';

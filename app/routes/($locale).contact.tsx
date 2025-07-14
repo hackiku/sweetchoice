@@ -8,8 +8,8 @@ import { MdPerson, MdMail, MdClose } from 'react-icons/md';
 import { Link } from '@remix-run/react';
 
 import { useTranslation } from '~/lib/i18n/useTranslation';
-import { useContact } from '~/components/contact/ContactContext';
-import { ContactDetails } from '~/components/contact/ContactDetails';
+import { useContact } from '~/components/cta/contact/ContactContext';
+import { ContactDetails } from '~/components/cta/contact/ContactDetails';
 
 export const meta: MetaFunction = () => {
 	const { t } = useTranslation();

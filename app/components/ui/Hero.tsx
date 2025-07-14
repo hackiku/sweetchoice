@@ -1,11 +1,11 @@
 // app/components/ui/Hero.tsx
 import React from 'react';
 import { Link } from '@remix-run/react';
-import ContactButton from './ContactButton';
-import LogoMarquee from './LogoMarquee';
+import ContactButton from '../cta/contact/ContactButton';
+import LogoMarquee from '../proof/LogoMarquee';
 import { useTranslation } from '~/lib/i18n/useTranslation';
-import { useContact } from '~/components/contact/ContactContext';
-import MobileVideo from '../about/MobileVideo';
+import { useContact } from '../cta/contact/ContactContext';
+import MobileVideo from '../pages/landing/MobileVideo';
 
 const Hero: React.FC = () => {
 	const { t } = useTranslation();

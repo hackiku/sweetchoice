@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from '@remix-run/react';
-import { useContact } from '~/components/contact/ContactContext';
+import { useContact } from '~/components/cta/contact/ContactContext';
 import { useMenu } from './MenuContext';
 import { useTranslation } from '~/lib/i18n/useTranslation';
 

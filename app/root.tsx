@@ -19,14 +19,14 @@ import type { LinksFunction } from '@remix-run/node';
 import { ThemeModeScript } from 'flowbite-react';
 
 // Contexts and Providers
-import { ContactProvider } from '~/components/contact/ContactContext';
+import { ContactProvider } from '~/components/cta/contact/ContactContext';
 import { MenuProvider } from '~/components/navigation/MenuContext';
 import { PageLayout } from '~/components/PageLayout';
 
 import { createCookie } from "@shopify/remix-oxygen";
 
 // Components
-import ContactSlideOver from '~/components/contact/ContactSlideOver';
+import ContactSlideOver from '~/components/cta/contact/ContactSlideOver';
 
 // Styles
 import stylesheet from '~/styles/tailwind.css?url';
@@ -38,7 +38,7 @@ import logosStyles from '~/styles/ui/logos.css?url';
 // Queries and Utils
 import { FOOTER_QUERY, HEADER_QUERY } from '~/lib/fragments';
 import { createTransformStream } from '~/lib/translations/serverTransform';
-import { Footer } from './components/navigation/Footer';
+import { Footer } from '~/components/navigation/Footer';
 
 export type RootLoader = typeof loader;
 

@@ -11,8 +11,8 @@ import { FEATURED_COLLECTION_QUERY, RECOMMENDED_PRODUCTS_QUERY } from '../graphq
 import { useTranslation } from '~/lib/i18n/useTranslation';
 
 import Hero from '~/components/ui/Hero';
-import HolidaySection from '~/components/holidays/HolidaySection';
-import HolidayWheel from '~/components/holidays/HolidayWheel';
+import HolidaySection from '~/components/ecom/holidays/HolidaySection';
+import HolidayWheel from '~/components/ecom/holidays/HolidayWheel';
 
 export const meta: MetaFunction = () => {
   const { t } = useTranslation();
