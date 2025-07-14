@@ -114,7 +114,7 @@ const Card: React.FC<CardProps> = ({
 
 	return (
 		<Link to={`/products/${product.handle}`} className="block h-full">
-			<div className="bg-white border-2 border-black p-4 h-full flex flex-col
+			<div className="bg-white border-2 border-black p-4 h-full flex flex-col rounded-lg
 				shadow-[4px_4px_0px_rgba(0,0,0,1)] 
 				hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] 
 				hover:-translate-y-1 hover:-translate-x-1 hover:-rotate-1
@@ -122,7 +122,7 @@ const Card: React.FC<CardProps> = ({
 
 				{/* Image container - fixed aspect ratio */}
 				<div
-					className="mb-4 aspect-square overflow-hidden border-2 border-black relative flex-shrink-0"
+					className="mb-4 aspect-square overflow-hidden border-2 border-black relative flex-shrink-0 rounded-lg"
 					style={{ backgroundColor: '#FFF59F' }}
 				>
 					{product.featuredImage && (

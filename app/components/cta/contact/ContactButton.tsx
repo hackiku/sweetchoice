@@ -53,7 +53,6 @@ const ContactButton: React.FC<ContactButtonProps> = ({
 			onClick={isOpen ? closeContact : openContact}
 			className={`${baseClasses} ${sizeClasses} ${className}`}
 		>
-			<span className={emojiClasses}>{isOpen ? '×' : '📋'}</span>
 			<span className={textClasses}>{buttonText}</span>
 		</button>
 	);

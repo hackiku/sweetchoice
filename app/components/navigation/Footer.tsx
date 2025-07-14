@@ -77,7 +77,7 @@ function FooterContent({
 			}}
 		>
 			<div className="container mx-auto max-w-7xl">
-				<div className="mb-10 bg-[#FFA500] p-8 md:p-12 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] relative">
+				<div className="mb-10 rounded-lg bg-[#FFA500] p-8 md:p-12 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] relative">
 					<div className="flex flex-col justify-between items-start md:items-center md:flex-row gap-6">
 						<h2 className="text-4xl md:text-5xl font-semibold">
 							{t('footer.cta.title')}

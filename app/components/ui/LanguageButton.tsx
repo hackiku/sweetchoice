@@ -1,4 +1,4 @@
-// app/components/ui/LanguageSelector.tsx
+// app/components/ui/LanguageButton.tsx
 
 import React from 'react';
 import { useNavigate, useSearchParams } from '@remix-run/react';
@@ -14,13 +14,13 @@ export default function LanguageSelector({ className = '', variant = 'default' }
 	const currentLocale = searchParams.get('locale') || 'sr';
 
 	const toggleLanguage = () => {
-		const newLocale = currentLocale === 'en' ? 'sr' : 'en';
+		const newLocale = currentLocale === 'sr' ? 'en' : 'sr';
 		const newSearchParams = new URLSearchParams(searchParams);
 		newSearchParams.set('locale', newLocale);
 		navigate(`?${newSearchParams.toString()}`, { replace: true });
 	};
 
-	const baseStyles = "__aspect-square bg-white border-2 border-black transition-all duration-200 font-semibold text-lg";
+	const baseStyles = "px-3 py-1 bg-white border-2 border-black transition-all duration-200 font-semibold text-lg";
 
 	const variants = {
 		default: `rounded-full
@@ -28,7 +28,7 @@ export default function LanguageSelector({ className = '', variant = 'default' }
               hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]
               active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]
               active:translate-x-[2px] active:translate-y-[2px]`,
-		footer: `rounded-full w-12 h-12
+		footer: `rounded-lg
               shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
               hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]
               active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]
@@ -43,18 +43,18 @@ export default function LanguageSelector({ className = '', variant = 'default' }
         ${variants[variant]}
         ${className}
       `}
-			>
-			{/* <span className="text-2xl">🇺🇸</span> */}
-				{/* <span>| Eng</span> */}
-			<div className="w-auto items-center justify-start h-10">
-				{currentLocale === 'sr' ? (
-					<div className="flex gap-4 my-auto">
-						<img src="/assets/flags/rs.svg" alt="Switch to English" className="w-10 h-10" />
-						<span className='m-auto'>Srb</span>
-					</div>
-				) : (
-					<img src="/assets/flags/gb.svg" alt="Switch to English" className="w-full h-full" />
-			)} </div>
+		>
+			{currentLocale === 'sr' ? (
+				<span className="flex items-center gap-2">
+					<span className="text-2xl">🇺🇸</span>
+					<span>| Eng</span>
+				</span>
+			) : (
+				<span className="flex items-center gap-2">
+					<span className="text-2xl">🇷🇸</span>
+					<span>| Srb</span>
+				</span>
+			)}
 		</button>
 	);
 }

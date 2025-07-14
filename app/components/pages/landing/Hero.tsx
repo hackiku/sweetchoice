@@ -56,7 +56,7 @@ const Hero: React.FC = () => {
 							/>
 							<Link
 								to="/collections/all"
-								className="w-14 h-14 flex-shrink-0 text-xl font-semibold border-2 border-black bg-white hover:bg-[#d71e97]
+								className="w-18 h-18 flex-shrink-0 text-xl font-semibold border-2 border-black bg-white hover:bg-[#d71e97]
                 text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
                 transition-all duration-200 flex items-center justify-center
                 rounded-full aspect-square"

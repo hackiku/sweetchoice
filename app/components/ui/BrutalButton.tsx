@@ -12,13 +12,13 @@ interface BrutalButtonProps {
 
 const BrutalButton: React.FC<BrutalButtonProps> = ({
 	onClick,
-	text = "Talk Biz",
+	text = "Contact",
 	emoji = "👋",
 	isOpen = false,
 	className = ""
 }) => {
 	const baseClasses = `
-    flex items-center border-2 border-black
+    flex items-center border-2 border-black rounded-lg
     transition-all h-14 duration-200
     shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
     hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]

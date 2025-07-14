@@ -17,7 +17,7 @@ export default function HolidaySection({ holidayCollections }) {
 	const { t } = useTranslation();
 
 	return (
-		<div className="flex flex-col items-center gap-8 overflow-x-hidden">
+		<div className="flex flex-col items-center gap-16 overflow-x-hidden">
 			{holidays.map((holiday) => {
 				const collection = holidayCollections[holiday.id];
 				if (!collection) return null;

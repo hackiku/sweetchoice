@@ -1,7 +1,7 @@
 // app/components/navigation/Header.tsx
 
 import React from 'react';
-import { Await, NavLink } from '@remix-run/react';
+import { Await, NavLink, useLocation } from '@remix-run/react';
 import type { HeaderQuery, CartApiQueryFragment } from 'storefrontapi.generated';
 // import { CartButton } from '~/components/CartButton';
 import { Dropdown } from "flowbite-react";
@@ -70,6 +70,13 @@ export function HeaderMenu({
 }) {
 	const { isOpen: isMobileMenuOpen } = useMenu();
 	const { t } = useTranslation();
+	const location = useLocation();
+
+	// Check if current path is a holiday collection
+	const isHolidayPageActive = HOLIDAY_ITEMS.some(item =>
+		location.pathname === item.to ||
+		location.pathname.startsWith(item.to)
+	);
 
 	// Don't render desktop menu when mobile menu is open
 	if (viewport === 'desktop' && isMobileMenuOpen) {
@@ -91,18 +98,28 @@ export function HeaderMenu({
 				<Dropdown
 					className="bg-transparent p-0"
 					label={
-						<span className="text-black hover:text-[#ED1C24] transition-colors duration-200 flex items-center">
+						<span className={`transition-colors duration-200 flex items-center relative
+							${isHolidayPageActive
+								? '__text-[#ED1C24] after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-1 after:bg-[#ED1C24]'
+								: 'text-black hover:text-[#ED1C24]'
+							}`}>
 							{t('nav.holidays.title')}
 						</span>
 					}
 					inline
 				>
-					<div className="absolute z-[60]  -ml-10 w-72 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+					<div className="absolute z-[60] -ml-10 w-72 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
 						{HOLIDAY_ITEMS.map(({ to, label }) => (
 							<NavLink
 								key={to}
 								to={to}
-								className="block w-full p-3 text-black hover:bg-[#ED1C24] hover:text-white border-b-2 border-black last:border-b-0 font-bold transition-colors"
+								className={({ isActive }) =>
+									`block w-full p-3 border-b-2 border-black last:border-b-0 font-bold transition-colors
+									${isActive
+										? 'bg-[#ED1C24] __text-white'
+										: 'text-black hover:bg-[#ED1C24] __hover:text-white'
+									}`
+								}
 							>
 								{t(label)}
 							</NavLink>

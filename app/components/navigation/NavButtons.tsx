@@ -1,6 +1,7 @@
 // app/components/navigation/NavButtons.tsx
 
 import React, { useEffect, useState } from 'react';
+import { EnvelopeIcon } from '@heroicons/react/24/outline'; 
 import { useNavigate, useSearchParams } from '@remix-run/react';
 import { useContact } from '~/components/cta/contact/ContactContext';
 import { useMenu } from './MenuContext';
@@ -29,7 +30,7 @@ const NavButtons = () => {
 	} = useMenu();
 
 	// Language handling
-	const currentLocale = searchParams.get('locale') || 'sr';
+	const currentLocale = searchParams.get('locale') || 'en';
 	const oppositeLocale = currentLocale === 'sr' ? 'en' : 'sr';
 
 	// Shake animation when product is added
@@ -85,7 +86,13 @@ const NavButtons = () => {
                    flex items-center justify-center"
 					aria-label={`Switch to ${oppositeLocale.toUpperCase()}`}
 				>
-					{currentLocale === 'sr' ? 'SRB' : 'ENG'}
+					{/* {currentLocale === 'sr' ? 'SRB' : 'ENG'} */}
+					{/* {currentLocale === 'sr' ? '<img>' : '🇬🇧'} */}
+					{currentLocale === 'sr' ? (
+						<img src="/assets/flags/rs.svg" alt="Switch to English" className="w-full h-full" />
+					) : (
+						<img src="/assets/flags/gb.svg" alt="Switch to English" className="w-full h-full" />
+					)}
 				</button>
 			)}
 
@@ -93,7 +100,7 @@ const NavButtons = () => {
 			{activeButton !== 'contact' && (
 				<button
 					onClick={handleMenuClick}
-					className={`w-12 h-12 rounded-full border-2 border-black
+					className={`w-12 h-12 md:mr-2 rounded-full border-2 border-black
                    transition-all duration-200
                    shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
                    hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]
@@ -123,21 +130,22 @@ const NavButtons = () => {
                    hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]
                    active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]
                    active:translate-x-[2px] active:translate-y-[2px]
-                   rounded-full flex items-center justify-center
+                   rounded-full md:rounded-lg flex items-center justify-center
                    ${isContactOpen
 							? 'bg-[#FF5A1F] text-black w-12'
-							: 'bg-[#FF5A1F] text-black md:w-auto w-12'}
+						: 'bg-[#FF5A1F] text-black w-12 md:w-auto pl-2 pr-4 '}
                    ${shake ? 'animate-shake' : ''}`}
 					aria-label={isContactOpen ? t('contact.buttons.closeContact') : t('contact.buttons.openContact')}
 				>
 					{isContactOpen ? (
+						
 						<span className="w-12 h-12 flex items-center justify-center text-2xl font-bold">×</span>
 					) : (
-						<div className="flex items-center">
+						<div className="flex items-center gap-2">
 							<span className="w-12 h-12 flex items-center justify-center text-2xl relative">
-								👋
+							<EnvelopeIcon className="h-6"/>
 								{selectedProducts.length > 0 && (
-									<span className="absolute -top-1 -right-1 w-6 h-6 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center border-2 border-white">
+									<span className="absolute -top-3 left-1 w-6 h-6 bg-green-500 text-white text-xs font-bold rounded-full flex items-center justify-center border-2 border-white">
 										{selectedProducts.length}
 									</span>
 								)}
@@ -145,6 +153,7 @@ const NavButtons = () => {
 							<span className="-ml-4 w-28 text-lg font-semibold hidden md:inline whitespace-nowrap">
 								{t('contact.buttons.talkBiz')}
 							</span>
+							
 						</div>
 					)}
 				</button>
