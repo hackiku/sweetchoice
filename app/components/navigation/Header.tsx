@@ -108,7 +108,7 @@ export function HeaderMenu({
 					}
 					inline
 				>
-					<div className="absolute z-[60] -ml-10 w-72 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+					<div className="absolute rounded-lg z-[60] -ml-10 w-72 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
 						{HOLIDAY_ITEMS.map(({ to, label }) => (
 							<NavLink
 								key={to}
