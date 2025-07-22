@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { useTranslation } from '~/lib/i18n/useTranslation';
-import { Mail } from 'lucide-react';
+// import { Mail } from 'lucide-react';
+import { EnvelopeIcon } from '@heroicons/react/24/outline'; 
 
 interface EmailSignupProps {
 	variant?: 'inline' | 'stacked';
@@ -60,7 +61,7 @@ const EmailSignup: React.FC<EmailSignupProps> = ({
   `;
 
 	const mailIconClasses = `
-    absolute left-4 top-1/2 transform -translate-y-1/2 h-6 w-6 text-black
+    absolute left-6 h-full h-6 w-6 text-black
     transition-opacity duration-200 pointer-events-none
     ${isFocused || email ? 'opacity-100' : 'opacity-40'}
   `;
@@ -106,7 +107,7 @@ const EmailSignup: React.FC<EmailSignupProps> = ({
 			)}
 			<form onSubmit={handleSubmit} className={formClasses}>
 				<div className="relative flex-1">
-					<Mail className={mailIconClasses} />
+					<EnvelopeIcon className={mailIconClasses} />
 					<input
 						type="email"
 						value={email}

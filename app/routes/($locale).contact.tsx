@@ -75,7 +75,7 @@ export default function Contact() {
 
 			<div className="w-full relative z-10">
 				{/* Hero Section */}
-				<section className="w-full flex flex-col justify-center px-6 sm:px-8 md:px-12 mb-12 mt-16 relative isolate">
+				<section className="w-full flex flex-col justify-center px-6 sm:px-8 md:px-12 mb-6 mt-16 relative isolate">
 					<span className="inline-block bg-black text-white text-2xl font-bold py-2 px-4 transform -rotate-2 uppercase whitespace-normal max-w-max relative z-[2] mb-4"
 						style={{
 							boxShadow: '4px 4px 0px 0px rgba(255,255,255,1)',
@@ -94,9 +94,8 @@ export default function Contact() {
 					</h1>
 
 				</section>
-
 				{/* Intro Text */}
-				<section className="md:w-2/3 px-6 sm:px-8 md:px-12 mb-16">
+				<section className="md:w-2/3 lg:w-3/5 px-6 sm:px-8 md:px-12 mb-12">
 					<p className="text-2xl max-w-xl font-bold leading-tight sm-max:text-base mt-4">
 						{t('contactPage.page.intro.description')}
 					</p>
