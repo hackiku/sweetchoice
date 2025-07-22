@@ -92,18 +92,16 @@ function FooterContent({
 					</div>
 				</div>
 
-				<div className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-12 gap-10 mb-12">
+				<div className="grid grid-cols-2 md:grid-cols-5 gap-10 mb-12">
 					
 					{/* Logo & language toggle */}
-					<div className="col-span-2 md:col-span-1 lg:col-span-2 flex md:flex-col justify-between md:max-w-1/5 gap-4">
-						<img src="/assets/logos/sc-logo.svg" alt="Sweetchoice Logo" className="w-20 md:w-28 mb-auto" />
+					<div className="col-span-2 md:col-span-1 flex md:flex-col justify-between md:justify-start md:max-w-1/5 gap-4">
+						<img src="/assets/logos/sc-logo.svg" alt="Sweetchoice Logo" className="w-20 md:w-20" />
 						<LanguageSelector variant="footer" className="mb-4 max-h-12 w-32" />
-					</div>					
+					</div>
 
-
-					<div className="col-span-1 md:col-span-2 lg:col-span-3 space-y-4 bg-white p-4 rounded-lg border-black border-4 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] ">
-
-						
+					
+					<div className="col-span-1 md:col-span-1 space-y-4 ">
 						<h4 className="text-2xl font-black text-black uppercase">
 							{t('footer.navigation.holidays.title')}
 						</h4>
@@ -120,7 +118,7 @@ function FooterContent({
 						</nav>
 					</div>
 
-					<div className=" col-span-1 md:col-span-2 lg:col-span-3 space-y-4 bg-white p-4 rounded-lg border-black border-4  shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] ">
+					<div className=" col-span-1 md:col-span-1 space-y-4 bg-white p-4 rounded-lg border-black border-4">
 						<h4 className="text-2xl font-black text-black uppercase">Shop</h4>
 						<nav className="space-y-2">
 							{shopItems.map((item) => (
@@ -135,7 +133,7 @@ function FooterContent({
 						</nav>
 					</div>
 
-					<div className="col-span-2 md:col-span-5 lg:col-span-4">
+					<div className="col-span-2 md:col-span-2">
 						<EmailSignup
 							variant="stacked"
 							buttonText={t('comingsoon.submitButton')}
@@ -143,16 +141,14 @@ function FooterContent({
 							successMessage={t('comingsoon.successMessage')}
 						/>
 					</div>
-
-
 				</div>
 
 			</div>
 
 			{/* Dark bottom section with all footer links */}
-			<div className="bg-black px-6 md:px-12 -mb-32 -mx-6 md:-mx-12 py-10 mt-8 border-t-4 border-black">
+			<div className="bg-black px-6 md:px-12 -mb-32 -mx-6 md:-mx-12 py-6 mt-8 border-t-4 border-black">
 				<div className="container mx-auto max-w-7xl">
-					<div className="flex flex-col lg:flex-row justify-between __items-start items-center gap-4">
+					<div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
 						{/* Left side - Legal links */}
 						<div className="flex flex-col gap-3">
 							<div className="flex flex-wrap items-center justify-start gap-3">

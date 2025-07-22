@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { MdPerson, MdMail, MdExpandLess, MdExpandMore } from 'react-icons/md';
 import { useFetcher } from '@remix-run/react';
-import { useContact } from '~/components/cta/contact/ContactContext';
+import { useContact } from './ContactContext';
 import { useTranslation } from '~/lib/i18n/useTranslation';
 
 interface ContactFormProps {
@@ -18,13 +18,12 @@ const ContactForm = ({ isExpanded, onExpandToggle, onSuccess }: ContactFormProps
 	const { selectedProducts } = useContact();
 	const [formData, setFormData] = useState({
 		name: '',
-		lastname: '',
 		email: '',
 		message: '',
 	});
 	const [showSuccess, setShowSuccess] = useState(false);
 
-	const isFormValid = formData.email.trim();
+	const isFormValid = formData.name.trim() && formData.email.trim();
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -32,8 +31,7 @@ const ContactForm = ({ isExpanded, onExpandToggle, onSuccess }: ContactFormProps
 
 		const form = new FormData();
 		form.append('_action', 'SUBMIT_CATALOG');
-		form.append('name', formData.name || '');
-		form.append('lastname', formData.lastname || '');
+		form.append('name', formData.name);
 		form.append('email', formData.email);
 		form.append('message', formData.message);
 
@@ -58,7 +56,6 @@ const ContactForm = ({ isExpanded, onExpandToggle, onSuccess }: ContactFormProps
 	useEffect(() => {
 		if (fetcher.data?.success) {
 			setShowSuccess(true);
-			setFormData({ name: '', lastname: '', email: '', message: '' });
 			setTimeout(() => {
 				setShowSuccess(false);
 				onSuccess?.();
@@ -81,87 +78,57 @@ const ContactForm = ({ isExpanded, onExpandToggle, onSuccess }: ContactFormProps
 			</button>
 
 			{/* Form Container with Flex Layout - Fixed Height Constraints */}
+			
 			<div
 				className={`relative transition-all duration-300 ease-in-out overflow-hidden 
-                   flex flex-col gap-3
-                   ${isExpanded ? 'min-h-64 max-h-80' : 'h-24'}`}
+                   flex flex-col gap-2
+                   ${isExpanded ? 'min-h-52 max-h-64' : 'h-24'}`}
 				onClick={() => !isExpanded && onExpandToggle()}
 			>
-				<form onSubmit={handleSubmit} className="flex flex-col gap-3 p-4 flex-1">
-					{/* Email Field - Primary/Required */}
+				<form onSubmit={handleSubmit} className="flex flex-col gap-2 p-4 flex-1">
 					<div className="relative">
-						<MdMail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 text-lg z-10" />
+						<MdPerson className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+						<input
+							type="text"
+							name="name"
+							placeholder={t('contact.form.name.placeholder')}
+							value={formData.name}
+							onChange={handleInputChange}
+							className="w-full border-black border-2 p-2 pl-10 rounded-xl 
+                       focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] 
+                       focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] 
+                       transition-all duration-200 font-semibold text-gray-800"
+							required
+						/>
+					</div>
+
+					<div className="relative">
+						<MdMail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
 						<input
 							type="email"
 							name="email"
 							placeholder={t('contact.form.email.placeholder')}
 							value={formData.email}
 							onChange={handleInputChange}
-							className="w-full border-black border-3 p-3 pl-10 rounded-xl 
-                       focus:outline-none shadow-[3px_3px_0px_rgba(0,0,0,1)] 
-                       focus:shadow-[5px_5px_0px_rgba(0,0,0,1)] focus:bg-[#39FF14] 
-                       transition-all duration-200 font-semibold text-gray-800 text-base
-                       bg-orange-300 focus:border-4 focus:ring-4 focus:ring-pink-500"
+							className="w-full border-black border-2 p-2 pl-10 rounded-xl 
+                       focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] 
+                       focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] 
+                       transition-all duration-200 font-semibold text-gray-800"
 							required
 						/>
 					</div>
 
-					{/* Optional Fields Container */}
 					{isExpanded && (
-						<div className="bg-neutral-300 border-2 border-black rounded-xl p-4 
-                       shadow-[2px_2px_0px_rgba(0,0,0,1)]">
-							<h4 className="text-black font-black uppercase text-sm mb-3 text-left">
-								OPTIONAL
-							</h4>
-
-							<div className="space-y-3">
-								{/* Name Fields - Side by Side */}
-								<div className="grid grid-cols-2 gap-3">
-									<div className="relative">
-										<MdPerson className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-lg z-10" />
-										<input
-											type="text"
-											name="name"
-											placeholder={t('contact.form.name.placeholder')}
-											value={formData.name}
-											onChange={handleInputChange}
-											className="w-full border-gray-500 border-2 p-2 pl-10 rounded-lg 
-                                 focus:outline-none shadow-[1px_1px_0px_rgba(0,0,0,0.3)] 
-                                 focus:shadow-[2px_2px_0px_rgba(0,0,0,0.5)] focus:bg-[#F0F0F0]
-                                 focus:border-black transition-all duration-200 font-medium text-gray-700 text-sm
-                                 bg-gray-100"
-										/>
-									</div>
-									<div className="relative">
-										<input
-											type="text"
-											name="lastname"
-											placeholder="Last name"
-											value={formData.lastname}
-											onChange={handleInputChange}
-											className="w-full border-gray-500 border-2 p-2 rounded-lg 
-                                 focus:outline-none shadow-[1px_1px_0px_rgba(0,0,0,0.3)] 
-                                 focus:shadow-[2px_2px_0px_rgba(0,0,0,0.5)] focus:bg-[#F0F0F0]
-                                 focus:border-black transition-all duration-200 font-medium text-gray-700 text-sm
-                                 bg-gray-100"
-										/>
-									</div>
-								</div>
-
-								{/* Message Field */}
-								<textarea
-									name="message"
-									placeholder={t('contact.form.message.placeholder')}
-									value={formData.message}
-									onChange={handleInputChange}
-									className="w-full h-20 border-gray-500 border-2 p-2 rounded-lg 
-                           focus:outline-none shadow-[1px_1px_0px_rgba(0,0,0,0.3)] 
-                           focus:shadow-[2px_2px_0px_rgba(0,0,0,0.5)] focus:bg-[#F0F0F0]
-                           focus:border-black transition-all duration-200 font-medium text-gray-700 text-sm
-                           resize-none bg-gray-100"
-								/>
-							</div>
-						</div>
+						<textarea
+							name="message"
+							placeholder={t('contact.form.message.placeholder')}
+							value={formData.message}
+							onChange={handleInputChange}
+							className="w-full flex-1 min-h-[4rem] max-h-20 border-black border-2 p-2 rounded-xl 
+                       focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] 
+                       focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] 
+                       transition-all duration-200 font-semibold text-gray-800 resize-none overflow-y-auto"
+						/>
 					)}
 				</form>
 			</div>

@@ -51,7 +51,7 @@ function HeaderCtas({
 const MENU_ITEMS = [
 	{ to: "/collections/all", label: "nav.menu.allYear" },
 	{ to: "/about", label: "nav.menu.about" },
-	// { to: "/contact", label: "nav.menu.contact" }
+	{ to: "/contact", label: "nav.menu.contact" }
 ];
 
 const HOLIDAY_ITEMS = [

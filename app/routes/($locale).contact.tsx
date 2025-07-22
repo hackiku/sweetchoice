@@ -26,6 +26,7 @@ export default function Contact() {
 	const { selectedProducts, clearCatalog, removeProduct } = useContact();
 	const [formData, setFormData] = useState({
 		name: '',
+		lastname: '',
 		email: '',
 		message: '',
 	});
@@ -35,7 +36,7 @@ export default function Contact() {
 	useEffect(() => {
 		if (fetcher.data?.success) {
 			setShowSuccess(true);
-			setFormData({ name: '', email: '', message: '' });
+			setFormData({ name: '', lastname: '', email: '', message: '' });
 			setTimeout(() => {
 				setShowSuccess(false);
 			}, 5000);
@@ -44,11 +45,12 @@ export default function Contact() {
 
 	const handleFormSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		if (!formData.name.trim() || !formData.email.trim()) return;
+		if (!formData.email.trim()) return;
 
 		const form = new FormData();
 		form.append('_action', 'SUBMIT_CATALOG');
-		form.append('name', formData.name);
+		form.append('name', formData.name || '');
+		form.append('lastname', formData.lastname || '');
 		form.append('email', formData.email);
 		form.append('message', formData.message);
 
@@ -58,10 +60,10 @@ export default function Contact() {
 		});
 	};
 
-	const isFormValid = formData.name.trim() && formData.email.trim();
+	const isFormValid = formData.email.trim();
 
 	return (
-		<div className="flex flex-col items-center relative min-h-screen">
+		<div className="flex flex-col items-center relative min-h-screen overflow-y-hidden">
 			{/* Background Pattern */}
 			<div className="w-full border-t-4 border-black bg-gradient-to-b from-[#AE7AFF] to-transparent pt-14 pb-[75vh] absolute top-0 left-0 z-0"
 				style={{
@@ -92,16 +94,13 @@ export default function Contact() {
 						}}>
 						{t('contactPage.page.heading')} <br></br> {t('contactPage.page.subheading')}
 					</h1>
-
 				</section>
+
 				{/* Intro Text */}
 				<section className="md:w-2/3 lg:w-3/5 px-6 sm:px-8 md:px-12 mb-12">
 					<p className="text-2xl max-w-xl font-bold leading-tight sm-max:text-base mt-4">
 						{t('contactPage.page.intro.description')}
 					</p>
-					{/* <p className="text-2xl max-w-2xl font-bold leading-tight sm-max:text-base mt-4">
-						{t('contactPage.page.intro.secondary')}
-					</p> */}
 				</section>
 
 				<div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:mx-12"></div>
@@ -131,64 +130,96 @@ export default function Contact() {
 
 				<div className="lg:hidden border-t-4 border-black mt-16 mb-8 mx-6 sm:mx-8 md:mx-12"></div>
 
-				{/* Main Contact Section */}
+				{/* Main Contact & Catalog Section */}
 				<section className="w-full px-6 sm:px-8 md:px-12 mb-16">
 					<div className="max-w-6xl mx-auto">
-						
-						{/* Desktop: Form Left, Products Right */}
-						<div className="hidden md:grid md:grid-cols-2 md:gap-8">
-							{/* Left Column - Contact Form */}
-							<div className="md:col-span-1">
-								<h2 className="text-4xl font-bold mb-6 text-black">
-									{t('contact.form.title')}
+						<div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+							{/* Left Column - Title, Description */}
+							<div className="flex flex-col justify-center">
+								<h2 className="text-5xl font-bold mb-6 text-black uppercase">
+									Get Our Catalog
 								</h2>
 
-								<div className="bg-white border-4 border-black rounded-xl p-6 h-5/6 flex flex-col
+								<div className="space-y-4 mb-8">
+									<p className="text-xl font-semibold leading-relaxed">
+										Get a personalized catalog tailored to your business needs. Select products you're interested in and we'll create a custom offering just for you.
+									</p>
+								</div>
+							</div>
+
+							{/* Right Column - Contact Form */}
+							<div className="flex flex-col">
+								<div className="bg-white border-4 border-black rounded-xl p-8 h-full flex flex-col
                          shadow-[8px_8px_0px_rgba(0,0,0,1)]">
 									<form onSubmit={handleFormSubmit} className="flex-1 flex flex-col">
-										<div className="space-y-4 flex-1">
+										<div className="space-y-6 flex-1">
+											{/* Email Field - Primary/Required */}
 											<div className="relative">
-												<MdPerson className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
-												<input
-													type="text"
-													name="name"
-													placeholder={t('contact.form.name.placeholder')}
-													value={formData.name}
-													onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-													className="w-full border-black border-2 p-4 pl-12 rounded-xl 
-                                     focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] 
-                                     focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] 
-                                     transition-all duration-200 font-semibold text-gray-800 text-lg"
-													required
-												/>
-											</div>
-
-											<div className="relative">
-												<MdMail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+												<MdMail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600 text-xl" />
 												<input
 													type="email"
 													name="email"
-													placeholder={t('contact.form.email.placeholder')}
+													placeholder="your.email@business.com"
 													value={formData.email}
 													onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
 													className="w-full border-black border-2 p-4 pl-12 rounded-xl 
                                      focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] 
-                                     focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] 
-                                     transition-all duration-200 font-semibold text-gray-800 text-lg"
+                                     focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#39FF14] 
+                                     transition-all duration-200 font-semibold text-gray-800 text-lg
+                                     bg-[#E8F5E8] focus:border-4"
 													required
 												/>
 											</div>
 
+											{/* Optional Fields Separator */}
+											<div className="text-center">
+												<span className="text-gray-600 font-medium">Want to tell us more? (optional)</span>
+											</div>
+
+											{/* Name Fields - Side by Side */}
+											<div className="grid grid-cols-2 gap-4">
+												<div className="relative">
+													<MdPerson className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl" />
+													<input
+														type="text"
+														name="name"
+														placeholder="First name (optional)"
+														value={formData.name}
+														onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+														className="w-full border-gray-400 border-2 p-4 pl-12 rounded-xl 
+                                         focus:outline-none shadow-[2px_2px_0px_rgba(0,0,0,0.3)] 
+                                         focus:shadow-[4px_4px_0px_rgba(0,0,0,0.5)] focus:bg-[#F0F0F0]
+                                         focus:border-black transition-all duration-200 font-medium text-gray-700 text-base
+                                         bg-gray-50"
+													/>
+												</div>
+												<div className="relative">
+													<input
+														type="text"
+														name="lastname"
+														placeholder="Last name (optional)"
+														value={formData.lastname || ''}
+														onChange={(e) => setFormData(prev => ({ ...prev, lastname: e.target.value }))}
+														className="w-full border-gray-400 border-2 p-4 rounded-xl 
+                                         focus:outline-none shadow-[2px_2px_0px_rgba(0,0,0,0.3)] 
+                                         focus:shadow-[4px_4px_0px_rgba(0,0,0,0.5)] focus:bg-[#F0F0F0]
+                                         focus:border-black transition-all duration-200 font-medium text-gray-700 text-base
+                                         bg-gray-50"
+													/>
+												</div>
+											</div>
+
+											{/* Message Field */}
 											<textarea
 												name="message"
-												placeholder={t('contact.form.message.placeholder')}
+												placeholder="Tell us about your business and what you're looking for... (optional)"
 												value={formData.message}
 												onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
-												className="w-full flex-1 border-black border-2 p-4 rounded-xl 
-                                 focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] 
-                                 focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] 
-                                 transition-all duration-200 font-semibold text-gray-800 text-lg 
-                                 resize-none min-h-[120px]"
+												className="w-full flex-1 border-gray-400 border-2 p-4 rounded-xl 
+                                 focus:outline-none shadow-[2px_2px_0px_rgba(0,0,0,0.3)] 
+                                 focus:shadow-[4px_4px_0px_rgba(0,0,0,0.5)] focus:bg-[#F0F0F0]
+                                 focus:border-black transition-all duration-200 font-medium text-gray-700 text-base
+                                 resize-none min-h-[100px] bg-gray-50"
 											/>
 										</div>
 
@@ -200,9 +231,7 @@ export default function Contact() {
 
 										{showSuccess && (
 											<div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-4">
-												{selectedProducts.length > 0
-													? t('contact.form.success.withProducts')
-													: t('contact.form.success.noProducts')}
+												Thanks! We'll send you a personalized catalog soon.
 											</div>
 										)}
 
@@ -219,287 +248,8 @@ export default function Contact() {
                                disabled:opacity-50 disabled:cursor-not-allowed"
 										>
 											{fetcher.state === 'submitting'
-												? t('contact.buttons.submitting')
-												: t('contact.buttons.getCatalog')}
-										</button>
-									</form>
-								</div>
-							</div>
-
-							{/* Right Column - Selected Products */}
-							<div className="md:col-span-1">
-								<div className="flex justify-between items-center mb-6">
-									<h2 className="text-4xl font-bold text-black">
-										{t('contact.catalog.title')}
-									</h2>
-									{selectedProducts.length > 0 && (
-										<button
-											onClick={clearCatalog}
-											className="px-3 py-2 bg-red-400 text-black font-bold 
-                               border-2 border-black rounded-xl 
-                               hover:bg-red-500 transition-colors
-                               shadow-[2px_2px_0px_rgba(0,0,0,1)]
-                               hover:shadow-[4px_4px_0px_rgba(0,0,0,1)]"
-										>
-											{t('contact.buttons.removeAll')}
-										</button>
-									)}
-								</div>
-
-								{/* Products Container */}
-								<div className="bg-[#FFF59F] border-4 border-black rounded-xl p-6 h-96 flex flex-col
-                         shadow-[8px_8px_0px_rgba(0,0,0,1)]">
-									{selectedProducts.length > 0 ? (
-										<div className="space-y-3 overflow-y-auto scrollbar-hide flex-1">
-											{selectedProducts.map((product) => (
-												<div
-													key={product.id}
-													className="flex items-center gap-3 bg-white 
-                                     rounded-xl border-2 border-black p-3
-                                     shadow-[2px_2px_0px_rgba(0,0,0,1)]
-                                     hover:shadow-[4px_4px_0px_rgba(0,0,0,1)]
-                                     transition-all duration-200"
-												>
-													{product.featuredImage && (
-														<img
-															src={product.featuredImage.url}
-															alt={product.title}
-															className="w-16 h-16 object-cover rounded-lg border border-black"
-														/>
-													)}
-													<span className="flex-1 font-bold text-lg">{product.title}</span>
-													<button
-														onClick={() => removeProduct(product.id)}
-														className="p-2 bg-red-400 text-black rounded-lg 
-                                       border-2 border-black hover:bg-red-500 
-                                       transition-colors font-bold text-lg
-                                       shadow-[2px_2px_0px_rgba(0,0,0,1)]
-                                       hover:shadow-[4px_4px_0px_rgba(0,0,0,1)]"
-													>
-														<MdClose size={18} />
-													</button>
-												</div>
-											))}
-										</div>
-									) : (
-										<div className="flex-1 flex flex-col items-center justify-center text-center">
-											<p className="text-black font-bold mb-4 text-2xl">{t('contact.catalog.empty')}</p>
-											<p className="text-black mb-6 text-lg leading-relaxed">
-												{t('contact.catalog.emptyDesc')}
-											</p>
-											<Link
-												to="/collections/all"
-												className="bg-[#FF6B6B] text-black font-bold py-4 px-8 
-                                 border-2 border-black rounded-xl 
-                                 hover:bg-[#FF5A1F] transition-colors
-                                 shadow-[4px_4px_0px_rgba(0,0,0,1)]
-                                 hover:shadow-[6px_6px_0px_rgba(0,0,0,1)]
-                                 text-xl"
-											>
-												{t('nav.menu.allYear')}
-											</Link>
-										</div>
-									)}
-								</div>
-
-								{/* Action Buttons */}
-								<div className="grid grid-cols-1 gap-4 mt-6">
-									<Link
-										to="/collections/all"
-										className="w-full bg-white text-black font-bold py-4 px-6 
-                               border-2 border-black rounded-xl 
-                               shadow-[4px_4px_0px_rgba(0,0,0,1)] 
-                               hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] 
-                               active:shadow-[2px_2px_0px_rgba(0,0,0,1)] 
-                               active:translate-x-[2px] active:translate-y-[2px] 
-                               transition-all duration-200 text-xl text-center
-                               hover:bg-[#FFF59F] flex items-center justify-center"
-									>
-										{t('nav.menu.allYear')}
-									</Link>
-								</div>
-							</div>
-						</div>
-
-						{/* Mobile: Products First, Then Form */}
-						<div className="md:hidden space-y-8">
-							{/* Mobile - Selected Products First */}
-							<div>
-								<div className="flex justify-between items-center mb-6">
-									<h2 className="text-3xl font-bold text-black">
-										{t('contact.catalog.title')}
-									</h2>
-									{selectedProducts.length > 0 && (
-										<button
-											onClick={clearCatalog}
-											className="px-3 py-2 bg-red-400 text-black font-bold 
-                               border-2 border-black rounded-xl 
-                               hover:bg-red-500 transition-colors
-                               shadow-[2px_2px_0px_rgba(0,0,0,1)]
-                               hover:shadow-[4px_4px_0px_rgba(0,0,0,1)]"
-										>
-											{t('contact.buttons.removeAll')}
-										</button>
-									)}
-								</div>
-
-								{/* Mobile Products Container */}
-								<div className="bg-[#FFF59F] border-4 border-black rounded-xl p-6 h-64 flex flex-col
-                         shadow-[8px_8px_0px_rgba(0,0,0,1)]">
-									{selectedProducts.length > 0 ? (
-										<div className="space-y-3 overflow-y-auto scrollbar-hide flex-1">
-											{selectedProducts.map((product) => (
-												<div
-													key={product.id}
-													className="flex items-center gap-3 bg-white 
-                                     rounded-xl border-2 border-black p-3
-                                     shadow-[2px_2px_0px_rgba(0,0,0,1)]
-                                     hover:shadow-[4px_4px_0px_rgba(0,0,0,1)]
-                                     transition-all duration-200"
-												>
-													{product.featuredImage && (
-														<img
-															src={product.featuredImage.url}
-															alt={product.title}
-															className="w-12 h-12 object-cover rounded-lg border border-black"
-														/>
-													)}
-													<span className="flex-1 font-bold">{product.title}</span>
-													<button
-														onClick={() => removeProduct(product.id)}
-														className="p-2 bg-red-400 text-black rounded-lg 
-                                       border-2 border-black hover:bg-red-500 
-                                       transition-colors font-bold
-                                       shadow-[2px_2px_0px_rgba(0,0,0,1)]
-                                       hover:shadow-[4px_4px_0px_rgba(0,0,0,1)]"
-													>
-														<MdClose size={16} />
-													</button>
-												</div>
-											))}
-										</div>
-									) : (
-										<div className="flex-1 flex flex-col items-center justify-center text-center">
-											<p className="text-black font-bold mb-3 text-xl">{t('contact.catalog.empty')}</p>
-											<p className="text-black mb-4 leading-relaxed">
-												{t('contact.catalog.emptyDesc')}
-											</p>
-											<Link
-												to="/collections/all"
-												className="bg-[#FF6B6B] text-black font-bold py-3 px-6 
-                                 border-2 border-black rounded-xl 
-                                 hover:bg-[#FF5A1F] transition-colors
-                                 shadow-[4px_4px_0px_rgba(0,0,0,1)]
-                                 hover:shadow-[6px_6px_0px_rgba(0,0,0,1)]"
-											>
-												{t('nav.menu.allYear')}
-											</Link>
-										</div>
-									)}
-								</div>
-
-								{/* Mobile Action Buttons */}
-								<div className="grid grid-cols-1 gap-4 mt-6">
-									<Link
-										to="/collections/all"
-										className="w-full bg-white text-black font-bold py-4 px-6 
-                               border-2 border-black rounded-xl 
-                               shadow-[4px_4px_0px_rgba(0,0,0,1)] 
-                               hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] 
-                               active:shadow-[2px_2px_0px_rgba(0,0,0,1)] 
-                               active:translate-x-[2px] active:translate-y-[2px] 
-                               transition-all duration-200 text-xl text-center
-                               hover:bg-[#FFF59F] flex items-center justify-center"
-									>
-										{t('nav.menu.allYear')}
-									</Link>
-								</div>
-							</div>
-
-							{/* Mobile - Contact Form Second */}
-							<div>
-								<h2 className="text-3xl font-bold mb-6 text-black">
-									{t('contact.form.title')}
-								</h2>
-
-								<div className="bg-white border-4 border-black rounded-xl p-6 flex flex-col
-                         shadow-[8px_8px_0px_rgba(0,0,0,1)]">
-									<form onSubmit={handleFormSubmit} className="flex flex-col">
-										<div className="space-y-4">
-											<div className="relative">
-												<MdPerson className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
-												<input
-													type="text"
-													name="name"
-													placeholder={t('contact.form.name.placeholder')}
-													value={formData.name}
-													onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-													className="w-full border-black border-2 p-4 pl-12 rounded-xl 
-                                     focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] 
-                                     focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] 
-                                     transition-all duration-200 font-semibold text-gray-800 text-lg"
-													required
-												/>
-											</div>
-
-											<div className="relative">
-												<MdMail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
-												<input
-													type="email"
-													name="email"
-													placeholder={t('contact.form.email.placeholder')}
-													value={formData.email}
-													onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-													className="w-full border-black border-2 p-4 pl-12 rounded-xl 
-                                     focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] 
-                                     focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] 
-                                     transition-all duration-200 font-semibold text-gray-800 text-lg"
-													required
-												/>
-											</div>
-
-											<textarea
-												name="message"
-												placeholder={t('contact.form.message.placeholder')}
-												value={formData.message}
-												onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
-												className="w-full h-32 border-black border-2 p-4 rounded-xl 
-                                 focus:outline-none shadow-[4px_4px_0px_rgba(0,0,0,1)] 
-                                 focus:shadow-[6px_6px_0px_rgba(0,0,0,1)] focus:bg-[#90EE90] 
-                                 transition-all duration-200 font-semibold text-gray-800 text-lg 
-                                 resize-none"
-											/>
-										</div>
-
-										{fetcher.data?.error && (
-											<div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4">
-												{fetcher.data.error}
-											</div>
-										)}
-
-										{showSuccess && (
-											<div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-4">
-												{selectedProducts.length > 0
-													? t('contact.form.success.withProducts')
-													: t('contact.form.success.noProducts')}
-											</div>
-										)}
-
-										<button
-											type="submit"
-											disabled={!isFormValid || fetcher.state === 'submitting'}
-											className="w-full bg-[#FF6B6B] text-black font-bold py-4 px-6 
-                               border-2 border-black rounded-xl 
-                               shadow-[4px_4px_0px_rgba(0,0,0,1)] 
-                               hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] 
-                               active:shadow-[2px_2px_0px_rgba(0,0,0,1)] 
-                               active:translate-x-[2px] active:translate-y-[2px] 
-                               transition-all duration-200 text-xl mt-6
-                               disabled:opacity-50 disabled:cursor-not-allowed"
-										>
-											{fetcher.state === 'submitting'
-												? t('contact.buttons.submitting')
-												: t('contact.buttons.getCatalog')}
+												? 'Sending...'
+												: 'Get My Personalized Catalog →'}
 										</button>
 									</form>
 								</div>
@@ -507,18 +257,88 @@ export default function Contact() {
 						</div>
 					</div>
 				</section>
-			</div>
 
-			{/* Hide scrollbar globally */}
-			<style jsx global>{`
-				.scrollbar-hide {
-					-ms-overflow-style: none;
-					scrollbar-width: none;
-				}
-				.scrollbar-hide::-webkit-scrollbar {
-					display: none;
-				}
-			`}</style>
+				{/* Full Width Selected Products Section */}
+				<section className="w-full px-6 sm:px-8 md:px-12 mb-16">
+					<div className="max-w-6xl mx-auto">
+						<div className="flex justify-between items-center mb-8">
+							<h2 className="text-4xl font-bold text-black">
+								Your Selected Products
+							</h2>
+							{selectedProducts.length > 0 && (
+								<button
+									onClick={clearCatalog}
+									className="px-6 py-3 bg-red-400 text-black font-bold 
+                           border-2 border-black rounded-xl 
+                           hover:bg-red-500 transition-colors
+                           shadow-[2px_2px_0px_rgba(0,0,0,1)]
+                           hover:shadow-[4px_4px_0px_rgba(0,0,0,1)]
+                           text-lg"
+								>
+									Clear All ({selectedProducts.length})
+								</button>
+							)}
+						</div>
+
+						{/* Products Grid */}
+						<div className="bg-[#FFF59F] border-4 border-black rounded-xl p-8 min-h-[300px] flex flex-col
+                     shadow-[8px_8px_0px_rgba(0,0,0,1)]">
+							{selectedProducts.length > 0 ? (
+								<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+									{selectedProducts.map((product) => (
+										<div
+											key={product.id}
+											className="bg-white rounded-xl border-2 border-black p-4
+                               shadow-[4px_4px_0px_rgba(0,0,0,1)]
+                               hover:shadow-[6px_6px_0px_rgba(0,0,0,1)]
+                               transition-all duration-200 relative"
+										>
+											{product.featuredImage && (
+												<img
+													src={product.featuredImage.url}
+													alt={product.title}
+													className="w-full h-32 object-cover rounded-lg border border-black mb-3"
+												/>
+											)}
+											<h3 className="font-bold text-lg mb-2 pr-8">{product.title}</h3>
+											<button
+												onClick={() => removeProduct(product.id)}
+												className="absolute top-2 right-2 p-2 bg-red-400 text-black rounded-lg 
+                                 border-2 border-black hover:bg-red-500 
+                                 transition-colors font-bold
+                                 shadow-[2px_2px_0px_rgba(0,0,0,1)]
+                                 hover:shadow-[4px_4px_0px_rgba(0,0,0,1)]"
+											>
+												<MdClose size={18} />
+											</button>
+										</div>
+									))}
+								</div>
+							) : (
+								<div className="flex-1 flex flex-col items-center justify-center text-center">
+									<div className="max-w-md">
+										<h3 className="text-3xl font-bold mb-4 text-black">No Products Selected Yet</h3>
+										<p className="text-xl text-black mb-6 leading-relaxed">
+											Browse our catalog and click "Add to Catalog" on products you're interested in. We'll use your selections to personalize your offering!
+										</p>
+										<Link
+											to="/collections/all"
+											className="bg-[#FF6B6B] text-black font-bold py-4 px-8 
+                               border-2 border-black rounded-xl 
+                               hover:bg-[#FF5A1F] transition-colors
+                               shadow-[4px_4px_0px_rgba(0,0,0,1)]
+                               hover:shadow-[6px_6px_0px_rgba(0,0,0,1)]
+                               text-xl"
+										>
+											Start Browsing Products →
+										</Link>
+									</div>
+								</div>
+							)}
+						</div>
+					</div>
+				</section>
+			</div>
 		</div>
 	);
 }
