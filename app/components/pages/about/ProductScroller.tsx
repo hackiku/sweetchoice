@@ -194,7 +194,7 @@ const ProductScroller: React.FC<ProductScrollerProps> = ({ products }) => {
 
 					<Link
 						to="/collections/all"
-						className="w-full px-6 py-3 text-xl font-semibold border-2 border-black 
+						className="rounded-lg w-full px-6 py-3 text-xl font-semibold border-2 border-black 
               bg-transparent text-black
               shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] 
               hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] 

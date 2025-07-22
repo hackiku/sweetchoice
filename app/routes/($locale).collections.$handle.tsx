@@ -200,10 +200,20 @@ export default function Collection() {
 								))}
 							</div>
 							<div className="flex justify-between items-center mt-8">
-								<PreviousLink>
+								<PreviousLink className="px-6 py-3 text-xl font-bold border-4 border-black bg-[#D8B3F8] text-black 
+                       shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] 
+                       hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
+                       hover:bg-[#C8A3E8] active:translate-x-[2px] active:translate-y-[2px]
+                       active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]
+                       transition-all duration-200 rounded-xl">
 									{isLoading ? 'Loading...' : '← Previous'}
 								</PreviousLink>
-								<NextLink>
+								<NextLink className="px-6 py-3 text-xl font-bold border-4 border-black bg-[#D8B3F8] text-black 
+                       shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] 
+                       hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
+                       hover:bg-[#C8A3E8] active:translate-x-[2px] active:translate-y-[2px]
+                       active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]
+                       transition-all duration-200 rounded-xl">
 									{isLoading ? 'Loading...' : 'Next →'}
 								</NextLink>
 							</div>

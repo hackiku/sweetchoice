@@ -141,7 +141,7 @@ export default function Homepage() {
         </div>
       )}
 
-      <div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:px-12"></div>
+      <div className="border-t-4 border-black my-8 mx-6 sm:mx-8 md:px-12"> </div>
 
       <section ref={blurbsSection} className="px-6 sm:px-8 md:px-12 mb-4">
         <h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-8">{t('home.blurbs.title')}</h2>
@@ -150,7 +150,7 @@ export default function Homepage() {
 						<Link
               key={index}
               to="/about"
-              className={`p-6 border-4 border-black bg-[${item.bgColor}] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]
+              className={`p-6 border-4 rounded-lg border-black bg-[${item.bgColor}] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]
                 hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] transition-all duration-200
                 transform hover:-translate-y-1 hover:-translate-x-1 hover:rotate-1`}
             >
