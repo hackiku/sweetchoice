@@ -1,4 +1,4 @@
-// app/components/pages/about/MobileVideo.tsx
+// app/components/ui/media/MobileVideo.tsx
 
 import React, { useState, useRef } from 'react';
 

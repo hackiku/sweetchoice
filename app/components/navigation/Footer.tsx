@@ -121,7 +121,7 @@ function FooterContent({
 					</div>
 
 					<div className=" col-span-1 md:col-span-2 lg:col-span-3 space-y-4 bg-white p-4 rounded-lg border-black border-4  shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] ">
-						<h4 className="text-2xl font-black text-black uppercase">Shop</h4>
+						<h4 className="text-2xl font-black text-black uppercase">Info</h4>
 						<nav className="space-y-2">
 							{shopItems.map((item) => (
 								<NavLink

@@ -1,6 +1,6 @@
 // app/components/navigation/NavButtons.tsx
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { EnvelopeIcon } from '@heroicons/react/24/outline'; 
 import { useNavigate, useSearchParams } from '@remix-run/react';
 import { useContact } from '~/components/cta/contact/ContactContext';
@@ -89,9 +89,9 @@ const NavButtons = () => {
 					{/* {currentLocale === 'sr' ? 'SRB' : 'ENG'} */}
 					{/* {currentLocale === 'sr' ? '<img>' : '🇬🇧'} */}
 					{currentLocale === 'sr' ? (
-						<img src="/assets/flags/rs.svg" alt="Switch to English" className="w-full h-full" />
+						<img src="/assets/flags/rs.svg" alt="Switch to English" className="w-full h-full __p-1.5" />
 					) : (
-						<img src="/assets/flags/gb.svg" alt="Switch to English" className="w-full h-full" />
+							<img src="/assets/flags/gb.svg" alt="Switch to English" className="w-full h-full __p-1.5" />
 					)}
 				</button>
 			)}

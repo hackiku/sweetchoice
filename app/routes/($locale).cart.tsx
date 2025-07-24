@@ -1,3 +1,5 @@
+// app/routes/($locale).cart.tsx
+
 import {Await, type MetaFunction, useRouteLoaderData} from '@remix-run/react';
 import {Suspense} from 'react';
 import type {CartQueryDataReturn} from '@shopify/hydrogen';
@@ -5,6 +7,11 @@ import {CartForm} from '@shopify/hydrogen';
 import {json, type ActionFunctionArgs} from '@shopify/remix-oxygen';
 import {CartMain} from '~/components/Cart';
 import type {RootLoader} from '~/root';
+
+// tests
+import SmartphoneWrapper from '~/components/ui/media/SmartphoneWrapper';
+import PolaroidPicture from '~/components/ui/media/PolaroidPicture';
+import ImageStripedCutout from '~/components/ui/media/ImageStripedCutout';
 
 export const meta: MetaFunction = () => {
   return [{title: `Hydrogen | Cart`}];
@@ -86,19 +93,72 @@ export default function Cart() {
   const rootData = useRouteLoaderData<RootLoader>('root');
   if (!rootData) return null;
 
+	// const picNumber = 4; // polaroid
+	const picNumber = 11;
+	// const picNumber = Math.floor(Math.random() * 13) + 1; // 1-13
+
+
   return (
     <div className="cart">
-      <h1>Cart</h1>
-      <Suspense fallback={<p>Loading cart ...</p>}>
-        <Await
-          resolve={rootData.cart}
-          errorElement={<div>An error occurred</div>}
-        >
-          {(cart) => {
-            return <CartMain layout="page" cart={cart} />;
-          }}
-        </Await>
-      </Suspense>
+			
+			<div className="flex gap-12 px-20 border-2 border-black py-12">
+				<ImageStripedCutout />
+			</div>
+			
+			
+			<div className="flex gap-12 px-20 border-2 border-black py-12">
+
+				<div className="w-1/7">
+					<PolaroidPicture
+						imageSrc={`/assets/images/palette-${picNumber}.jpeg`}
+						caption="Sweet Choice 2024"
+						rotation="-rotate-12"
+						size="medium"
+					/>
+				</div>
+				
+				<div className="w-1/7">
+					<PolaroidPicture
+						imageSrc="/assets/images/palette-14.png"
+						caption="Sweets 2025"
+						rotation="-rotate-12"
+						size="medium"
+					/>
+				</div>
+				
+				<div className="w-1/3">
+					<SmartphoneWrapper
+						imageSrc="/assets/images/palette-11.jpeg"
+						// imageSrc="/assets/images/palette-5.jpeg"
+						rotation="rotate-6"
+						size="medium"
+					/>
+				</div>
+				
+				<div className="__w-1/3">
+					<SmartphoneWrapper
+						imageSrc="/assets/images/palette-5.jpeg"
+						rotation="rotate-6"
+						size="medium"
+					/>
+				</div>
+				
+			</div>
+
+
+			<div className='text-lg font-bold border-t-4 border-black p-2'>
+				<h1>Cart</h1>
+				<Suspense fallback={<p>Loading cart ...</p>}>
+					<Await
+						resolve={rootData.cart}
+						errorElement={<div>An error occurred</div>}
+						>
+						{(cart) => {
+							return <CartMain layout="page" cart={cart} />;
+						}}
+					</Await>
+				</Suspense>
+			</div>
     </div>
   );
 }

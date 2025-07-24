@@ -1,0 +1,1 @@
+ls -v *.jpeg | cat -n | while read n f; do mv -- "$f" "palette-$n.jpeg"; done
