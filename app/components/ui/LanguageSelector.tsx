@@ -11,7 +11,7 @@ interface LanguageSelectorProps {
 export default function LanguageSelector({ className = '', variant = 'default' }: LanguageSelectorProps) {
 	const navigate = useNavigate();
 	const [searchParams] = useSearchParams();
-	const currentLocale = searchParams.get('locale') || 'sr';
+	const currentLocale = searchParams.get('locale') || 'en'; // Fixed: default to 'en'
 
 	const toggleLanguage = () => {
 		const newLocale = currentLocale === 'en' ? 'sr' : 'en';
@@ -20,7 +20,7 @@ export default function LanguageSelector({ className = '', variant = 'default' }
 		navigate(`?${newSearchParams.toString()}`, { replace: true });
 	};
 
-	const baseStyles = "__aspect-square bg-white border-2 border-black transition-all duration-200 font-semibold text-lg";
+	const baseStyles = "bg-white border-2 border-black transition-all duration-200 font-semibold text-lg flex items-center justify-center";
 
 	const variants = {
 		default: `rounded-full
@@ -28,7 +28,7 @@ export default function LanguageSelector({ className = '', variant = 'default' }
               hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]
               active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]
               active:translate-x-[2px] active:translate-y-[2px]`,
-		footer: `rounded-full w-12 h-12
+		footer: `rounded-full h-12 px-4
               shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
               hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]
               active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]
@@ -43,18 +43,20 @@ export default function LanguageSelector({ className = '', variant = 'default' }
         ${variants[variant]}
         ${className}
       `}
-			>
-			{/* <span className="text-2xl">🇺🇸</span> */}
-				{/* <span>| Eng</span> */}
-			<div className="w-auto items-center justify-start h-10">
-				{currentLocale === 'sr' ? (
-					<div className="flex gap-4 my-auto">
-						<img src="/assets/flags/rs.svg" alt="Switch to English" className="w-10 h-10" />
-						<span className='m-auto'>Srb</span>
-					</div>
+		>
+			<div className="flex items-center gap-2">
+				{currentLocale === 'en' ? (
+					<>
+						<img src="/assets/flags/gb.svg" alt="English" className="w-6 h-6" />
+						<span>English</span>
+					</>
 				) : (
-					<img src="/assets/flags/gb.svg" alt="Switch to English" className="w-full h-full" />
-			)} </div>
+					<>
+						<img src="/assets/flags/rs.svg" alt="Srpski" className="w-6 h-6" />
+						<span>Srpski</span>
+					</>
+				)}
+			</div>
 		</button>
 	);
 }

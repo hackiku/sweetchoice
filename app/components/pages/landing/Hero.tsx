@@ -1,5 +1,5 @@
 // app/components/pages/landing/Hero.tsx
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import ContactButton from '~/components/cta/contact/ContactButton';
 import ShopButton from '~/components/cta/buy/ShopButton';
 import LogoMarquee from '~/components/proof/LogoMarquee';
@@ -11,6 +11,17 @@ import { useContact } from '~/components/cta/contact/ContactContext';
 const Hero: React.FC = () => {
 	const { t } = useTranslation();
 	const { openContact } = useContact();
+
+	const [paletteNumber, setPaletteNumber] = useState(Math.floor(Math.random() * 12) + 1);
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			setPaletteNumber(Math.floor(Math.random() * 12) + 1);
+		}, 3000); // Change every 3 seconds
+
+		return () => clearInterval(interval);
+	}, []);
+
 
 	return (
 		<section className="relative min-h-[85vh] overflow-hidden" style={{ zIndex: 1 }}>
@@ -68,7 +79,7 @@ const Hero: React.FC = () => {
 					{/* <div className="absolute top-16 right-20 " style={{ zIndex: 5 }}> */}
 						<div className="mt-44">
 							<PolaroidPicture
-								imageSrc="/assets/images/palette-4.jpeg"
+								imageSrc={`/assets/images/palette-${paletteNumber - 1}.jpeg`}
 								caption="🎄 '23"
 								rotation="-rotate-6"
 								size="small"
@@ -76,7 +87,7 @@ const Hero: React.FC = () => {
 						</div>
 						<div className="mt-20">
 							<SmartphoneWrapper
-								imageSrc="/assets/images/palette-5.jpeg"
+								imageSrc={`/assets/images/palette-${paletteNumber}.jpeg`}
 								rotation="rotate-6"
 								size="small"
 							/>
@@ -98,7 +109,7 @@ const Hero: React.FC = () => {
 						{/* Smartphone - primary position */}
 						<div className="relative" style={{ zIndex: 7 }}>
 							<SmartphoneWrapper
-								imageSrc="/assets/images/palette-5.jpeg"
+								imageSrc={`/assets/images/palette-${paletteNumber}.jpeg`}
 								rotation="rotate-12"
 								size="medium"
 							/>
@@ -107,8 +118,9 @@ const Hero: React.FC = () => {
 						{/* Polaroid - overlapping behind and to the left */}
 						<div className="absolute -bottom-0 right-[90%]" style={{ zIndex: 6 }}>
 							<PolaroidPicture
-								imageSrc="/assets/images/palette-4.jpeg"
-								caption="🎄 '23"
+								// imageSrc={`/assets/images/palette-${paletteNumber - 1}.jpeg`}
+								imageSrc={`/assets/images/palette-${Math.floor(Math.random() * 12) + 1}.jpeg`}
+								caption="🎄🎅"
 								rotation="-rotate-12"
 								size="medium"
 							/>

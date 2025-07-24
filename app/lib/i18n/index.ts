@@ -14,6 +14,7 @@ import {holidays} from './translations/pages/holidays';
 import {collections} from './translations/pages/collections';
 import {comingsoon} from './translations/pages/comingsoon';
 import {contactPage} from './translations/pages/contactPage';
+import {cartPage} from './translations/pages/cartPage';
 
 export const translations = {
   en: {
@@ -30,6 +31,7 @@ export const translations = {
     contact: contact.en,
     statBlurbs: statBlurbs.en,
     comingsoon: comingsoon.en,
+		cartPage: cartPage.en,
   },
   sr: {
     common: common.sr,
@@ -45,6 +47,7 @@ export const translations = {
     contact: contact.sr,
     statBlurbs: statBlurbs.sr,
     comingsoon: comingsoon.sr,
+		cartPage: cartPage.sr,
   }
 } as const;
 
