@@ -8,6 +8,8 @@ import { Image, Money } from '@shopify/hydrogen';
 import type { RecommendedProductsQuery } from 'storefrontapi.generated';
 import { FEATURED_COLLECTION_QUERY, RECOMMENDED_PRODUCTS_QUERY } from '../graphql/queries';
 
+import ViewportSize from '~/components/dev/ViewportSize';
+
 import { useTranslation } from '~/lib/i18n/useTranslation';
 
 import Hero from '~/components/pages/landing/Hero';
@@ -126,6 +128,8 @@ export default function Homepage() {
 
   return (
     <main className="overflow-x-hidden">
+
+			<ViewportSize />
 
       <Hero />
 

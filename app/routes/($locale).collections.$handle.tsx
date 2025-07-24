@@ -163,7 +163,15 @@ export default function Collection() {
 					</h1>
 
 					<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-6 pb-4">
-						<ContactButton size="large" shrinkOnMobile={false} />
+						<ContactButton
+							onClick={openContact}
+							text={t('collections.cta.getCatalog') || 'Get Catalog →'}
+							bgColor="bg-[#39FF14]"
+							hoverBgColor="hover:bg-[#00FFFF]"
+							textColor="text-black"
+							hoverTextColor="hover:text-black"
+							className="text-xl font-bold px-8 py-4"
+						/>
 						<div className="flex justify-end">
 							<HolidaySelector />
 						</div>

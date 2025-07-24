@@ -13,7 +13,7 @@ interface PolaroidPictureProps {
 
 const PolaroidPicture: React.FC<PolaroidPictureProps> = ({
 	imageSrc = "/assets/images/palette-3.jpeg",
-	imageAlt = "Polaroid photo",
+	imageAlt = "Polaroid style photo",
 	caption = "",
 	rotation = "",
 	size = "medium",
@@ -42,7 +42,7 @@ const PolaroidPicture: React.FC<PolaroidPictureProps> = ({
 				{/* Caption area - bottom white space */}
 				{caption && (
 					<div className="absolute bottom-4 left-4 right-4 text-center">
-						<p className="text-sm font-medium text-gray-800 leading-tight">
+						<p className="text-lg font-semibold text-indigo-800">
 							{caption}
 						</p>
 					</div>
