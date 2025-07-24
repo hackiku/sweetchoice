@@ -34,7 +34,7 @@ export const footer = {
 			disclaimer: "By subscribing, you accept our Privacy Policy"
 		},
 		legal: {
-			copyright: "© Sweetchoice 2025",
+			copyright: "© SweetChoice 2025",
 			terms: "Terms",
 			privacy: "Privacy"
 		},
@@ -76,7 +76,7 @@ export const footer = {
 			disclaimer: "Pretplatom prihvatate našu Politiku privatnosti"
 		},
 		legal: {
-			copyright: "© Sweetchoice 2024.",
+			copyright: "© SweetChoice 2025",
 			terms: "Uslovi Korišćenja",
 			privacy: "Privatnost"
 		},
