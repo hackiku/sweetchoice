@@ -67,6 +67,24 @@ export const links: LinksFunction = () => [
 	{ rel: 'icon', type: 'image/svg+xml', href: favicon },
 ];
 
+
+
+// browser has language check
+// function getPreferredLanguage(request: Request): 'sr' | 'en' {
+// 	const cookieHeader = request.headers.get('Cookie');
+// 	const localeCookie = cookieHeader?.match(/locale=([^;]+)/)?.[1];
+// 	if (localeCookie === 'sr' || localeCookie === 'en') {
+// 		return localeCookie;
+// 	}
+
+// 	// Only check browser language for Serbian
+// 	const acceptLanguage = request.headers.get('Accept-Language') || '';
+// 	const hasSerbian = acceptLanguage.toLowerCase().includes('sr');
+
+// 	return hasSerbian ? 'sr' : 'en';
+// }
+
+// ------ ORIGINAL SERBIAN DEFAULT ------
 function getPreferredLanguage(request: Request): 'sr' | 'en' {
 	const cookieHeader = request.headers.get('Cookie');
 	const localeCookie = cookieHeader?.match(/locale=([^;]+)/)?.[1];
@@ -77,7 +95,7 @@ function getPreferredLanguage(request: Request): 'sr' | 'en' {
 	if (acceptLanguage && (acceptLanguage.includes('sr') || acceptLanguage.includes('sr-RS'))) {
 		return 'sr';
 	}
-	return 'sr';
+	return 'en';
 }
 
 export async function loader(args: LoaderFunctionArgs) {

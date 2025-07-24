@@ -1,6 +1,8 @@
 // app/components/ui/LanguageButton.tsx
 
+import React from 'react';
 import { useNavigate, useSearchParams } from '@remix-run/react';
+import { useTranslation } from '~/lib/i18n/useTranslation';
 
 interface LanguageButtonProps {
 	variant?: 'minimal' | 'full';
@@ -10,7 +12,7 @@ interface LanguageButtonProps {
 export default function LanguageButton({ variant = 'minimal', className = '' }: LanguageButtonProps) {
 	const navigate = useNavigate();
 	const [searchParams] = useSearchParams();
-	const currentLocale = searchParams.get('locale') || 'en';
+	const { locale: currentLocale } = useTranslation(); // Use actual locale from hook
 	const oppositeLocale = currentLocale === 'sr' ? 'en' : 'sr';
 
 	const toggleLanguage = () => {
