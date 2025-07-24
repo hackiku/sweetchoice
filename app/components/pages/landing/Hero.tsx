@@ -16,13 +16,13 @@ const Hero: React.FC = () => {
 		<section className="relative min-h-[85vh] overflow-hidden" style={{ zIndex: 1 }}>
 			{/* Background gradient with dot pattern */}
 			<div
-				className="absolute inset-0 bg-gradient-to-b from-[#FFE135] to-transparent"
+				className="absolute inset-0 mt-[20vh] mb-8  bg-gradient-to-b from-transparent to-[#FFE135]"
 				style={{
 					backgroundImage: 'radial-gradient(#000 1px, transparent 1px)',
 					backgroundSize: '20px 20px',
 					backgroundPosition: '0 0',
-					maskImage: 'linear-gradient(to bottom, black 75%, transparent)',
-					WebkitMaskImage: 'linear-gradient(to bottom, black 75%, transparent)',
+					maskImage: 'linear-gradient(to top, black 25%, transparent)',
+					WebkitMaskImage: 'linear-gradient(to top, black 25%, transparent)',
 					zIndex: 1
 				}}>
 			</div>
@@ -105,7 +105,7 @@ const Hero: React.FC = () => {
 						</div>
 
 						{/* Polaroid - overlapping behind and to the left */}
-						<div className="absolute bottom-4 right-[90%]" style={{ zIndex: 6 }}>
+						<div className="absolute -bottom-0 right-[90%]" style={{ zIndex: 6 }}>
 							<PolaroidPicture
 								imageSrc="/assets/images/palette-4.jpeg"
 								caption="🎄 '23"
@@ -141,13 +141,11 @@ const Hero: React.FC = () => {
 							onClick={openContact}
 							text={t('home.hero.ctaText')}
 							bgColor="bg-orange-500"
-							hoverBgColor="hover:bg-black"
-							hoverTextColor="hover:text-white"
-							className="text-[2vw] lg:text-xl font-bold px-8 py-4"
+							hoverBgColor="hover:bg-pink-500"
+							hoverTextColor="hover:text-black"
 						/>
 						<ShopButton
 							size="large"
-							className="w-16 h-16"
 						/>
 					</div>
 				</div>

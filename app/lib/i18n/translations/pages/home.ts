@@ -9,7 +9,7 @@ export const home = {
 			headingTop: 'Sweet holidays',
 			headingBottom: 'all year long',
 			// subheading: 'We wholesale wholesome holiday treats to supermarkets large and small.',
-			subheading: 'Specialized holiday gifts & treats. From Serbia, access to whole SEE.',
+			subheading: 'Southeast Europe\'s specialists for holiday treats & gifts. Your shelves, our sweets, every season.',
 			ctaText: 'Get Catalog →',
 			ctaLink: '/collections/all',
 			secondaryButtonText: 'Shop all →',
@@ -56,7 +56,8 @@ export const home = {
 		hero: {
 			headingTop: 'Slatki praznici',
 			headingBottom: 'cele godine',
-			subheading: 'Veleprodaja zdravih prazničnih poslastica za velike i male supermarkete.',
+			// subheading: 'Veleprodaja zdravih prazničnih poslastica za velike i male supermarkete.',
+			subheading: 'Specijalisti za praznične slatkiše i poklone. Vaše police, naši slatkiši, svaku sezonu.',
 			ctaText: 'Preuzmi katalog →',
 			ctaLink: '/collections/all',
 			secondaryButtonText: 'Prodavnica →',
