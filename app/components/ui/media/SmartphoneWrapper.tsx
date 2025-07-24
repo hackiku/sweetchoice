@@ -19,8 +19,8 @@ const SmartphoneWrapper: React.FC<SmartphoneWrapperProps> = ({
 }) => {
 	const sizeClasses = {
 		small: "w-[200px]",
-		medium: "w-[280px]",
-		large: "w-[320px]"
+		medium: "w-[240px]",
+		large: "w-[300px]"
 	};
 
 	return (

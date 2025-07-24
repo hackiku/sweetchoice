@@ -63,7 +63,7 @@ export default function HolidaySection({ holidayCollections }) {
 							<div className="mt-8 flex justify-center">
 								<Link
 									to={`/collections/${holiday.id}`}
-									className="text-xl font-semibold px-6 py-3 border-2 border-black
+									className="text-xl font-semibold px-6 py-3 border-2 border-black rounded-lg
 										shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
 										transition-all duration-200 w-full sm:w-auto sm:text-2xl sm:px-8"
 									style={{ backgroundColor: holiday.secondaryColor }}

@@ -94,7 +94,7 @@ export function HeaderMenu({
 			role="navigation"
 			style={{ zIndex: 51 }}
 		>
-			<div className="hidden md:flex items-start space-x-6 text-xl font-bold">
+			<div className="hidden lg:flex items-start space-x-6 text-xl font-bold">
 				<Dropdown
 					className="bg-transparent p-0"
 					label={

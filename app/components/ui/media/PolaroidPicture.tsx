@@ -20,8 +20,8 @@ const PolaroidPicture: React.FC<PolaroidPictureProps> = ({
 	className = ""
 }) => {
 	const sizeClasses = {
-		small: "w-[200px]",
-		medium: "w-[250px]",
+		small: "w-[180px]",
+		medium: "w-[220px]",
 		large: "w-[300px]"
 	};
 
