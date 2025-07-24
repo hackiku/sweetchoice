@@ -157,7 +157,7 @@ const Hero: React.FC = () => {
 							hoverTextColor="hover:text-black"
 						/>
 						<ShopButton
-							size="large"
+							size="medium"
 						/>
 					</div>
 				</div>

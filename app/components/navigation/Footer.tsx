@@ -9,7 +9,7 @@ import { useContact } from '~/components/cta/contact/ContactContext';
 import EmailSignup from '~/components/cta/email/EmailSignup';
 
 import { useTranslation } from '~/lib/i18n/useTranslation';
-import LanguageSelector from '~/components/ui/LanguageSelector';
+import LanguageButton from '~/components/ui/LanguageButton';
 
 interface FooterProps {
 	footer: Promise<FooterQuery | null>;
@@ -97,7 +97,7 @@ function FooterContent({
 					{/* Logo & language toggle */}
 					<div className="col-span-2 md:col-span-1 lg:col-span-2 flex md:flex-col justify-between md:max-w-1/5 gap-4">
 						<img src="/assets/logos/sc-logo.svg" alt="Sweetchoice Logo" className="w-20 md:w-28 mb-auto" />
-						<LanguageSelector variant="footer" className="mb-4 max-h-12 w-32" />
+						<LanguageButton variant="full" className="mb-4 max-h-12 w-32" />
 					</div>					
 
 

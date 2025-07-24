@@ -13,11 +13,17 @@ export default function LanguageSelector({ className = '', variant = 'default' }
 	const [searchParams] = useSearchParams();
 	const currentLocale = searchParams.get('locale') || 'en'; // Fixed: default to 'en'
 
+	// const toggleLanguage = () => {
+	// 	const newLocale = currentLocale === 'en' ? 'sr' : 'en';
+	// 	const newSearchParams = new URLSearchParams(searchParams);
+	// 	newSearchParams.set('locale', newLocale);
+	// 	navigate(`?${newSearchParams.toString()}`, { replace: true });
+	// };
+
 	const toggleLanguage = () => {
 		const newLocale = currentLocale === 'en' ? 'sr' : 'en';
-		const newSearchParams = new URLSearchParams(searchParams);
-		newSearchParams.set('locale', newLocale);
-		navigate(`?${newSearchParams.toString()}`, { replace: true });
+		document.cookie = `locale=${newLocale}; path=/; max-age=31536000`;
+		window.location.search = newLocale === 'en' ? '' : `?locale=${newLocale}`;
 	};
 
 	const baseStyles = "bg-white border-2 border-black transition-all duration-200 font-semibold text-lg flex items-center justify-center";
