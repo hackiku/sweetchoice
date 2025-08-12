@@ -1,169 +1,136 @@
 // app/routes/($locale).api.contact.tsx
-import { ActionFunction, json } from '@shopify/remix-oxygen';
 
-interface CatalogProduct {
+import { json, type ActionFunctionArgs } from '@shopify/remix-oxygen';
+
+// Define the shape of a product from the frontend
+interface SelectedProduct {
 	id: string;
 	title: string;
 	handle: string;
-	featuredImage?: {
-		url: string;
-		altText?: string;
-	};
 }
 
-interface CatalogState {
-	products: CatalogProduct[];
-	lastUpdated: string;
-}
-
-export const action: ActionFunction = async ({ request, context }) => {
-	const { storefront, session } = context;
+export async function action({ request, context }: ActionFunctionArgs) {
+	const { storefront, env } = context;
 	const formData = await request.formData();
-	const action = formData.get('_action');
 
-	// Get existing catalog state
-	let catalogState: CatalogState = await session.get('catalog') || {
-		products: [],
-		lastUpdated: new Date().toISOString()
-	};
+	const action = formData.get('_action');
+	if (action !== 'SUBMIT_CATALOG') {
+		return json({ ok: false, error: 'Invalid action' }, { status: 400 });
+	}
 
 	try {
-		switch (action) {
-			case 'ADD_PRODUCT': {
-				const product = JSON.parse(formData.get('product') as string);
-				// Only add if not already in the catalog
-				if (!catalogState.products.some(p => p.id === product.id)) {
-					catalogState.products = [...catalogState.products, product];
-					await session.set('catalog', catalogState);
-				}
-				return json({ success: true, catalog: catalogState });
-			}
+		const email = formData.get('email') as string;
+		const name = formData.get('name') as string;
+		const message = formData.get('message') as string;
+		const productsJSON = formData.get('products') as string;
 
-			case 'REMOVE_PRODUCT': {
-				const productId = formData.get('productId') as string;
-				catalogState.products = catalogState.products.filter(p => p.id !== productId);
-				await session.set('catalog', catalogState);
-				return json({ success: true, catalog: catalogState });
-			}
-
-			case 'SUBMIT_CATALOG': {
-				const email = formData.get('email') as string;
-				const name = formData.get('name') as string;
-				const message = formData.get('message') as string;
-
-				// Subscribe to newsletter
-				await storefront.mutate(NEWSLETTER_SUBSCRIBE_MUTATION, {
-					variables: {
-						email,
-						acceptsMarketing: true
-					}
-				});
-
-				// Format selected products for email
-				const productsList = catalogState.products
-					.map(p => `- ${p.title} (https://${context.env.PUBLIC_STORE_DOMAIN}/products/${p.handle})`)
-					.join('\n');
-
-				// Prepare email content based on whether products were selected
-				const emailContent = catalogState.products.length > 0
-					? `
-Hello ${name},
-
-Thank you for your interest in our wholesale catalog! Here are the products you've selected:
-
-${productsList}
-
-You can view our complete catalog at: https://${context.env.PUBLIC_STORE_DOMAIN}/collections/all
-
-${message ? `\nYour message:\n${message}` : ''}
-
-Best regards,
-The Sweetchoice Team
-          `
-					: `
-Hello ${name},
-
-Thank you for your interest in our wholesale catalog! You can view our complete collection at:
-https://${context.env.PUBLIC_STORE_DOMAIN}/collections/all
-
-${message ? `\nYour message:\n${message}` : ''}
-
-Best regards,
-The Sweetchoice Team
-          `;
-
-				// Send email via Shopify's customer contact API
-				await storefront.mutate(CUSTOMER_CONTACT_MUTATION, {
-					variables: {
-						input: {
-							email,
-							message: emailContent,
-							phone: "",
-							subject: "Your Sweetchoice Wholesale Catalog"
-						}
-					}
-				});
-
-				// Clear catalog after successful submission
-				catalogState.products = [];
-				await session.set('catalog', catalogState);
-
-				return json({ success: true, catalog: catalogState });
-			}
-
-			case 'CLEAR_CATALOG': {
-				catalogState.products = [];
-				await session.set('catalog', catalogState);
-				return json({ success: true, catalog: catalogState });
-			}
-
-			default:
-				throw new Error('Unknown action');
+		if (!email || !name) {
+			return json({ ok: false, error: 'Name and email are required.' }, { status: 400 });
 		}
-	} catch (error) {
-		console.error('Contact Error:', error);
-		return json(
-			{
-				error: 'Failed to process request',
-				details: error instanceof Error ? error.message : 'Unknown error'
-			},
-			{ status: 400 }
-		);
-	}
-};
 
-// Loader to get catalog state
-export async function loader({ context }) {
-	const catalog = await context.session.get('catalog');
-	return json({ catalog });
+		const selectedProducts: SelectedProduct[] = productsJSON ? JSON.parse(productsJSON) : [];
+
+		// --- GOAL #1: Create customer with marketing consent ---
+		const customerResponse = await storefront.mutate(CUSTOMER_CREATE_MUTATION, {
+			variables: {
+				input: {
+					email: email,
+					firstName: name,
+					acceptsMarketing: true,
+				},
+			},
+		});
+
+		console.log('Customer creation response:', customerResponse);
+
+		// --- GOAL #2: Send contact form submission ---
+		const productsList = selectedProducts.length > 0
+			? selectedProducts
+				.map(p => `- ${p.title} (https://${env.PUBLIC_STORE_DOMAIN}/products/${p.handle})`)
+				.join('\n')
+			: 'No specific products were selected. The customer is requesting the general catalog.';
+
+		const contactMessage = `
+B2B Catalog Request from: ${name}
+Email: ${email}
+${message ? `\nMessage:\n${message}\n` : ''}
+---
+Selected Products:
+${productsList}
+---
+		`;
+
+		// Submit contact form - this logs in Shopify admin
+		const contactResponse = await storefront.mutate(CUSTOMER_CONTACT_MUTATION, {
+			variables: {
+				input: {
+					email: email,
+					message: contactMessage,
+				},
+			},
+		});
+
+		console.log('Contact form response:', contactResponse);
+
+		// Check for errors in both operations
+		const customerErrors = customerResponse.customerCreate?.customerUserErrors || [];
+		const contactErrors = contactResponse.customerContact?.userErrors || [];
+
+		// Log any errors but don't fail the request unless critical
+		if (customerErrors.length > 0) {
+			console.log('Customer creation had errors (might be existing customer):', customerErrors);
+		}
+
+		if (contactErrors.length > 0) {
+			console.error('Contact form had errors:', contactErrors);
+			return json({
+				ok: false,
+				error: `Contact form failed: ${contactErrors[0].message}`
+			}, { status: 500 });
+		}
+
+		return json({
+			ok: true,
+			success: true,
+			message: 'Catalog request sent! Our team will contact you soon.'
+		});
+
+	} catch (error) {
+		console.error('Contact API Error:', error);
+		const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred.';
+		return json({
+			ok: false,
+			error: `Failed to process request: ${errorMessage}`
+		}, { status: 500 });
+	}
 }
 
-const CUSTOMER_CONTACT_MUTATION = `#graphql
-  mutation customerContact($input: CustomerContactInput!) {
-    customerContact(input: $input) {
-      success
-      errors {
-        field
-        message
-      }
-    }
-  }
+// Create customer with marketing consent
+const CUSTOMER_CREATE_MUTATION = `#graphql
+	mutation customerCreate($input: CustomerCreateInput!) {
+		customerCreate(input: $input) {
+			customer {
+				id
+				email
+				firstName
+				acceptsMarketing
+			}
+			customerUserErrors {
+				field
+				message
+			}
+		}
+	}
 `;
 
-const NEWSLETTER_SUBSCRIBE_MUTATION = `#graphql
-  mutation NewsletterSubscribe($email: String!, $acceptsMarketing: Boolean!) {
-    customerUpdate(input: {
-      email: $email,
-      acceptsMarketing: $acceptsMarketing
-    }) {
-      customer {
-        id
-        acceptsMarketing
-      }
-      userErrors {
-        field
-        message
-      }
-    }
-  }
+// Submit contact form - logs in Shopify admin
+const CUSTOMER_CONTACT_MUTATION = `#graphql
+	mutation customerContact($input: CustomerContactInput!) {
+		customerContact(input: $input) {
+			userErrors {
+				field
+				message
+			}
+		}
+	}
 `;

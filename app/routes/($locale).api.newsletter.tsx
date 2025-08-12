@@ -15,62 +15,30 @@ export async function action({ request, context }: ActionFunctionArgs) {
 			return json({ error: 'Email is required' }, { status: 400 });
 		}
 
-		// Use the Customer Account API
-		const response = await context.customerAccount.mutate(
-			`mutation customerCreate($input: CustomerInput!) {
-        customerCreate(input: $input) {
-          customer {
-            id
-            email
-          }
-          userErrors {
-            field
-            message
-          }
-        }
-      }`,
+		// Use contact form approach for newsletter signups
+		const response = await context.storefront.mutate(
+			CUSTOMER_CONTACT_MUTATION,
 			{
 				variables: {
 					input: {
 						email,
-						emailMarketingConsent: {
-							marketingState: "SUBSCRIBED",
-							marketingOptInLevel: "SINGLE_OPT_IN"
-						}
+						message: `Newsletter signup request from: ${email}\n\nThis customer wants to receive marketing emails about holiday confectionery products.`,
 					}
 				},
 			}
 		);
 
-		console.log('API Response:', response);
+		console.log('Newsletter API Response:', response);
 
-		if (response.error) {
-			// Check if it's because customer already exists
-			if (response.error.message?.includes('already exists')) {
-				return json({
-					success: true,
-					message: "Thanks for subscribing!"
-				});
-			}
+		const { customerContact } = response;
+		const userErrors = customerContact?.userErrors || [];
 
-			console.error('API Error:', response.error);
+		if (userErrors.length > 0) {
+			console.error('Newsletter contact errors:', userErrors);
 			return json({
-				error: response.error.message || 'Something went wrong',
+				error: userErrors[0].message || 'Something went wrong',
 				success: false
 			}, { status: 400 });
-		}
-
-		const { data, errors } = response;
-
-		if (errors?.length) {
-			console.error('GraphQL Errors:', errors);
-			return json({ error: errors[0].message }, { status: 400 });
-		}
-
-		const userErrors = data?.customerCreate?.userErrors;
-		if (userErrors?.length) {
-			console.error('User Errors:', userErrors);
-			return json({ error: userErrors[0].message }, { status: 400 });
 		}
 
 		// Success case
@@ -88,3 +56,14 @@ export async function action({ request, context }: ActionFunctionArgs) {
 		}, { status: 500 });
 	}
 }
+
+const CUSTOMER_CONTACT_MUTATION = `#graphql
+	mutation customerContact($input: CustomerContactInput!) {
+		customerContact(input: $input) {
+			userErrors {
+				field
+				message
+			}
+		}
+	}
+`;
