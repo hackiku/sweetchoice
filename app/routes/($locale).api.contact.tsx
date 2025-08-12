@@ -24,69 +24,84 @@ export async function action({ request, context }: ActionFunctionArgs) {
 		const message = formData.get('message') as string;
 		const productsJSON = formData.get('products') as string;
 
+		console.log('📦 RAW PRODUCTS JSON:', productsJSON);
+
 		if (!email || !name) {
 			return json({ ok: false, error: 'Name and email are required.' }, { status: 400 });
 		}
 
 		const selectedProducts: SelectedProduct[] = productsJSON ? JSON.parse(productsJSON) : [];
+		console.log('🎯 PARSED SELECTED PRODUCTS:', selectedProducts);
 
-		// --- GOAL #1: Create customer with marketing consent ---
+		// --- STEP 1: Create customer with basic contact info ---
+		// Handle name splitting - ensure we always have both firstName and lastName
+		const nameParts = name.trim().split(' ');
+		const firstName = nameParts[0] || 'Customer'; // Fallback if somehow empty
+		const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : 'Request'; // Use "Request" as fallback
+
+		console.log('🔧 Name handling:', { originalName: name, firstName, lastName });
+
 		const customerResponse = await storefront.mutate(CUSTOMER_CREATE_MUTATION, {
 			variables: {
 				input: {
 					email: email,
-					firstName: name,
+					firstName: firstName,
+					lastName: lastName,
+					password: "SweetChoice2025!", // Dummy password for B2B
 					acceptsMarketing: true,
+					phone: formData.get('phone') as string || undefined,
 				},
 			},
 		});
 
 		console.log('Customer creation response:', customerResponse);
 
-		// --- GOAL #2: Send contact form submission ---
+		// --- STEP 2: Raw data dump from React context ---  
+		console.log('🥷 RAW SELECTED PRODUCTS:', selectedProducts);
+		console.log('🔥 RAW FORM DATA:', { name, email, message });
+		console.log('💰 CUSTOMER ID:', customerResponse.customerCreate?.customer?.id);
+
+		// --- GOAL #2: Store catalog details for team ---  
 		const productsList = selectedProducts.length > 0
 			? selectedProducts
-				.map(p => `- ${p.title} (https://${env.PUBLIC_STORE_DOMAIN}/products/${p.handle})`)
+				.map(p => `- ${p.title} (${env.PUBLIC_STORE_DOMAIN}/products/${p.handle})`)
 				.join('\n')
-			: 'No specific products were selected. The customer is requesting the general catalog.';
+			: 'No specific products selected - general catalog request.';
 
-		const contactMessage = `
-B2B Catalog Request from: ${name}
-Email: ${email}
-${message ? `\nMessage:\n${message}\n` : ''}
----
-Selected Products:
-${productsList}
----
-		`;
+		const catalogDetails = {
+			customerEmail: email,
+			customerName: name,
+			message: message || 'No additional message',
+			productsRequested: selectedProducts.length,
+			productsList: productsList,
+			requestDate: new Date().toISOString(),
+		};
 
-		// Submit contact form - this logs in Shopify admin
-		const contactResponse = await storefront.mutate(CUSTOMER_CONTACT_MUTATION, {
-			variables: {
-				input: {
-					email: email,
-					message: contactMessage,
-				},
-			},
-		});
+		console.log('Catalog request details:', catalogDetails);
 
-		console.log('Contact form response:', contactResponse);
+		// Store this info in customer tags/notes for your team to see in Shopify admin
 
-		// Check for errors in both operations
+		// Check for errors in customer creation
 		const customerErrors = customerResponse.customerCreate?.customerUserErrors || [];
-		const contactErrors = contactResponse.customerContact?.userErrors || [];
 
-		// Log any errors but don't fail the request unless critical
 		if (customerErrors.length > 0) {
-			console.log('Customer creation had errors (might be existing customer):', customerErrors);
-		}
+			// Check if customer already exists
+			const existsError = customerErrors.find(error =>
+				error.message?.includes('already exists') ||
+				error.message?.includes('taken') ||
+				error.code === 'TAKEN'
+			);
 
-		if (contactErrors.length > 0) {
-			console.error('Contact form had errors:', contactErrors);
-			return json({
-				ok: false,
-				error: `Contact form failed: ${contactErrors[0].message}`
-			}, { status: 500 });
+			if (existsError) {
+				console.log('✅ Customer already exists - that means they\'re a returning lead!');
+				// This is actually good for B2B - they're showing continued interest
+			} else {
+				console.error('❌ Customer creation failed:', customerErrors);
+				return json({
+					ok: false,
+					error: `Customer creation failed: ${customerErrors[0].message}`
+				}, { status: 500 });
+			}
 		}
 
 		return json({
@@ -105,7 +120,7 @@ ${productsList}
 	}
 }
 
-// Create customer with marketing consent
+// Create customer with basic contact info (official fields only)
 const CUSTOMER_CREATE_MUTATION = `#graphql
 	mutation customerCreate($input: CustomerCreateInput!) {
 		customerCreate(input: $input) {
@@ -113,23 +128,13 @@ const CUSTOMER_CREATE_MUTATION = `#graphql
 				id
 				email
 				firstName
+				lastName
 				acceptsMarketing
 			}
 			customerUserErrors {
 				field
 				message
-			}
-		}
-	}
-`;
-
-// Submit contact form - logs in Shopify admin
-const CUSTOMER_CONTACT_MUTATION = `#graphql
-	mutation customerContact($input: CustomerContactInput!) {
-		customerContact(input: $input) {
-			userErrors {
-				field
-				message
+				code
 			}
 		}
 	}

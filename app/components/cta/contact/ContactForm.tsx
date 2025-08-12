@@ -27,6 +27,8 @@ const ContactForm = ({ isExpanded, onExpandToggle, onSuccess, showGetCatalogButt
 
 	const isFormValid = formData.name.trim() && formData.email.trim();
 
+	// Update the handleSubmit function in ContactForm.tsx
+
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (!isFormValid) return;
@@ -37,12 +39,14 @@ const ContactForm = ({ isExpanded, onExpandToggle, onSuccess, showGetCatalogButt
 		form.append('email', formData.email);
 		form.append('message', formData.message);
 
+		// Pass selected products from context
+		form.append('products', JSON.stringify(selectedProducts));
+
 		fetcher.submit(form, {
 			method: 'post',
 			action: '/api/contact',
 		});
 	};
-
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 		setFormData(prev => ({
 			...prev,
