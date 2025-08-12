@@ -1,119 +1,66 @@
 // app/components/ecom/product/ProductInfo.tsx
-import { ClockIcon } from '@heroicons/react/24/solid';
-import type { SelectedOption } from '@shopify/hydrogen';
-import { Link } from '@remix-run/react';
+
+import React from 'react';
+import { ClockIcon, CubeIcon } from '@heroicons/react/24/solid';
 
 interface ProductInfoProps {
-	product: {
-		title: string;
-		options: Array<{
-			name: string;
-			values: string[];
-		}>;
-		variants: {
-			nodes: Array<{
-				id: string;
-				selectedOptions: Array<SelectedOption>;
-				availableForSale: boolean;
-			}>;
-		};
-		rok_trajanja?: {
-			value: string;
-		};
-	};
-	selectedVariant: {
-		id: string;
-		selectedOptions: Array<SelectedOption>;
-	} | null;
+	product: any;
+	selectedVariant: any;
+}
+
+// Utility function to convert days to months
+function daysToMonths(days: number): number {
+	return Math.round(days / 30.44); // Average days per month
 }
 
 export function ProductInfo({ product, selectedVariant }: ProductInfoProps) {
-	const shelfLife = product.rok_trajanja?.value || '630';
+	// Extract weight from variant or product title
+	const getWeight = () => {
+		if (selectedVariant?.weight) {
+			return `${selectedVariant.weight}${selectedVariant.weightUnit || 'g'}`;
+		}
+		// Fallback to extract from title
+		const weightMatch = product.title.match(/(\d+)g/);
+		return weightMatch ? weightMatch[0] : '80g';
+	};
+
+	// Extract shelf life and convert to months
+	const shelfLifeDays = product.rok_trajanja?.value ? parseInt(product.rok_trajanja.value) : null;
+	const shelfLifeMonths = shelfLifeDays ? daysToMonths(shelfLifeDays) : null;
+
+	const weight = getWeight();
 
 	return (
-		<div className="flex flex-col gap-4">
-			{/* Shelf Life Card */}
-			<div className="bg-yellow-100 rounded-xl border-2 border-black p-3 
-                    shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] 
-                    transition-all duration-200 w-fit">
-				<div className="flex items-center gap-2">
-					<ClockIcon className="w-5 h-5" />
-					<span className="text-md font-semibold">
-						{shelfLife} days
-					</span>
+		<div className="grid grid-cols-2 gap-4">
+			{/* Package Size Card */}
+			<div className="bg-[#FFD700] border-4 border-black rounded-xl p-6 
+                      shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_rgba(0,0,0,1)]
+                      transition-all duration-200 flex items-center gap-4">
+				<CubeIcon className="w-8 h-8 text-black flex-shrink-0" />
+				<div className="flex flex-col">
+					<div className="text-3xl font-black text-black leading-none">
+						{weight}
+					</div>
+					<div className="text-lg font-bold text-black opacity-70">
+						per box
+					</div>
 				</div>
 			</div>
 
-			{/* Variant Options */}
-			<div className="w-full">
-				{product.options.map((option) => {
-					if (option.values.length === 1) {
-						return null;
-					}
-					return (
-						<div key={option.name} className="flex flex-col gap-2 mb-4">
-							<legend className="text-sm font-medium text-gray-700">
-								{option.name}
-							</legend>
-							<div className="flex flex-wrap gap-3">
-								{option.values.map((value) => {
-									const optionIsSelected =
-										selectedVariant?.selectedOptions?.find(
-											(opt) => opt.name === option.name
-										)?.value === value;
-
-									const isAvailable = product.variants.nodes.some(
-										(variant) =>
-											variant.selectedOptions.find(
-												(opt) => opt.name === option.name
-											)?.value === value && variant.availableForSale
-									);
-
-									return (
-										<Link
-											key={value}
-											to={getVariantUrl(product, selectedVariant, option.name, value)}
-											preventScrollReset
-											replace
-											className={`px-4 py-2 border-2 border-black rounded-lg 
-                        transition-all duration-200
-                        ${optionIsSelected
-													? 'bg-black text-white shadow-[4px_4px_0px_rgba(255,255,255,1)]'
-													: isAvailable
-														? 'hover:shadow-[4px_4px_0px_rgba(0,0,0,1)]'
-														: 'opacity-50 cursor-not-allowed'
-												}`}
-										>
-											{value}
-										</Link>
-									);
-								})}
-							</div>
-						</div>
-					);
-				})}
+			{/* Shelf Life Card */}
+			<div className="bg-[#90EE90] border-4 border-black rounded-xl p-6 
+                     shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_rgba(0,0,0,1)]
+                     transition-all duration-200 flex items-center gap-4">
+				<ClockIcon className="w-8 h-8 text-black flex-shrink-0" />
+				<div className="flex flex-col">
+					<div className="text-3xl font-black text-black leading-none">
+						{shelfLifeMonths || 21}
+					</div>
+					<div className="text-lg font-bold text-black opacity-70">
+						months
+					</div>
+				</div>
 			</div>
-
 		</div>
 	);
-}
-
-function getVariantUrl(
-	product: ProductInfoProps['product'],
-	selectedVariant: ProductInfoProps['selectedVariant'],
-	optionName: string,
-	optionValue: string
-) {
-	const currentOptions = selectedVariant?.selectedOptions || [];
-	const searchParams = new URLSearchParams();
-
-	currentOptions.forEach((opt) => {
-		if (opt.name === optionName) {
-			searchParams.set(optionName, optionValue);
-		} else {
-			searchParams.set(opt.name, opt.value);
-		}
-	});
-
-	return `?${searchParams.toString()}`;
 }

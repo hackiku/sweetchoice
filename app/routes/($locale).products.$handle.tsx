@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { defer, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { Await, useLoaderData, Link } from '@remix-run/react';
 import { getSelectedProductOptions, Image } from '@shopify/hydrogen';
-import { PlusIcon, CheckIcon, ClockIcon, CubeIcon } from '@heroicons/react/24/solid';
+import { PlusIcon, CheckIcon } from '@heroicons/react/24/solid';
 
 import { ProductGallery } from '~/components/ecom/product/ProductGallery';
 import { ProductInfo } from '~/components/ecom/product/ProductInfo';
@@ -13,11 +13,6 @@ import { PackagingTable, extractPackagingInfo } from '~/components/ecom/product/
 export const meta = ({ data }) => {
 	return [{ title: `Sweetchoice | ${data?.product?.title ?? ''}` }];
 };
-
-// Utility function to convert days to months
-function daysToMonths(days: number): number {
-	return Math.round(days / 30.44); // Average days per month
-}
 
 export async function loader({ params, context, request }: LoaderFunctionArgs) {
 	const { handle } = params;
@@ -68,10 +63,6 @@ export default function Product() {
 		});
 	};
 
-	// Extract shelf life and convert to months
-	const shelfLifeDays = product.rok_trajanja?.value ? parseInt(product.rok_trajanja.value) : null;
-	const shelfLifeMonths = shelfLifeDays ? daysToMonths(shelfLifeDays) : null;
-
 	// Placeholder description - remove when real descriptions are available
 	const placeholderDescription = `
 		<p><strong>Premium Quality Seasonal Treats</strong></p>
@@ -96,52 +87,11 @@ export default function Product() {
 							{product.title}
 						</h1>
 
-						{/* Enhanced Product Stats Cards */}
-						<div className="grid grid-cols-2 gap-4">
-							{/* Shelf Life Card */}
-							{shelfLifeMonths && (
-								<div className="bg-[#90EE90] border-2 border-black rounded-xl p-4 
-                           shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_rgba(0,0,0,1)]
-                           transition-all duration-200">
-									<div className="flex items-center gap-2 mb-2">
-										<ClockIcon className="w-5 h-5 text-gray-700" />
-										<span className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
-											Shelf Life
-										</span>
-									</div>
-									<div className="text-2xl font-black text-gray-900">
-										{shelfLifeMonths}
-										<span className="text-lg font-semibold text-gray-600 ml-1">months</span>
-									</div>
-								</div>
-							)}
-
-							{/* Weight/Size Card */}
-							<div className="bg-[#FFD700] border-2 border-black rounded-xl p-4 
-                         shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_rgba(0,0,0,1)]
-                         transition-all duration-200">
-								<div className="flex items-center gap-2 mb-2">
-									<CubeIcon className="w-5 h-5 text-gray-700" />
-									<span className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
-										Package Size
-									</span>
-								</div>
-								<div className="text-2xl font-black text-gray-900">
-									{product.title.match(/\d+g/) || '80g'}
-									<span className="text-lg font-semibold text-gray-600 ml-1">per pack</span>
-								</div>
-							</div>
-						</div>
-
-						{/* Enhanced Product Info Component */}
-						<div className="bg-white/80 backdrop-blur-sm rounded-xl border-2 border-black p-6
-                          shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_rgba(0,0,0,1)]
-                          transition-all duration-200">
-							<ProductInfo
-								product={product}
-								selectedVariant={product.selectedVariant}
-							/>
-						</div>
+						{/* Simplified Product Info - Just 2 Brutalist Cards */}
+						<ProductInfo
+							product={product}
+							selectedVariant={product.selectedVariant}
+						/>
 
 						{/* Packaging Table */}
 						<PackagingTable metafields={extractPackagingInfo(product)} />
@@ -188,16 +138,16 @@ export default function Product() {
 							</button>
 						</div>
 
+						<hr />
 						{/* Enhanced Description Section */}
-						<div className="bg-white/60 backdrop-blur-sm rounded-xl border-2 border-black p-6
-                          shadow-[4px_4px_0px_rgba(0,0,0,1)]">
-							<h3 className="text-2xl font-bold mb-4 text-gray-900">Product Details</h3>
+						{/* <div className="bg-white/60 backdrop-blur-sm rounded-xl border-2 border-black p-6
+                          shadow-[4px_4px_0px_rgba(0,0,0,1)]"> */}
 							<div className="prose prose-lg max-w-none text-gray-800 leading-relaxed">
 								<div dangerouslySetInnerHTML={{
 									__html: product.descriptionHtml || placeholderDescription
 								}} />
 							</div>
-						</div>
+						{/* </div> */}
 					</div>
 
 					{/* RIGHT COLUMN - Gallery (was left column) */}
