@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { defer, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { Await, useLoaderData, Link } from '@remix-run/react';
 import { getSelectedProductOptions, Image } from '@shopify/hydrogen';
-import { PlusIcon, CheckIcon } from '@heroicons/react/24/solid';
+import { PlusIcon, CheckIcon, ClockIcon, CubeIcon } from '@heroicons/react/24/solid';
 
 import { ProductGallery } from '~/components/ecom/product/ProductGallery';
 import { ProductInfo } from '~/components/ecom/product/ProductInfo';
@@ -13,6 +13,11 @@ import { PackagingTable, extractPackagingInfo } from '~/components/ecom/product/
 export const meta = ({ data }) => {
 	return [{ title: `Sweetchoice | ${data?.product?.title ?? ''}` }];
 };
+
+// Utility function to convert days to months
+function daysToMonths(days: number): number {
+	return Math.round(days / 30.44); // Average days per month
+}
 
 export async function loader({ params, context, request }: LoaderFunctionArgs) {
 	const { handle } = params;
@@ -63,46 +68,95 @@ export default function Product() {
 		});
 	};
 
+	// Extract shelf life and convert to months
+	const shelfLifeDays = product.rok_trajanja?.value ? parseInt(product.rok_trajanja.value) : null;
+	const shelfLifeMonths = shelfLifeDays ? daysToMonths(shelfLifeDays) : null;
+
+	// Placeholder description - remove when real descriptions are available
+	const placeholderDescription = `
+		<p><strong>Premium Quality Seasonal Treats</strong></p>
+		<p>Our ${product.title.toLowerCase()} represents the perfect blend of traditional confectionery craftsmanship and modern production standards. Each piece is carefully crafted to deliver exceptional taste and visual appeal that delights customers season after season.</p>
+		<p><strong>Key Features:</strong></p>
+		<ul>
+			<li>Premium ingredients sourced from trusted suppliers</li>
+			<li>Vibrant colors and engaging packaging</li>
+			<li>Perfect for retail displays and seasonal promotions</li>
+			<li>Long shelf life for optimal inventory management</li>
+		</ul>
+		<p>Ideal for supermarkets, specialty stores, and seasonal retail displays. Contact us for bulk pricing and custom packaging options.</p>
+	`;
+
 	return (
-		<div className="pt-12 border-y-4 border-black bg-indigo-200 bg-opacity-70">
+		<div className="pt-12 border-y-4 border-black bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100">
 			<div className="mx-auto px-4 md:px-28">
 				<div className="md:grid md:grid-cols-2 md:gap-12 md:gap-28">
-					{/* Left Column - Gallery */}
-					<div className="mb-8 md:mb-0">
-						<h1 className="text-5xl font-bold md:hidden mb-10">{product.title}</h1>
-						<ProductGallery
-							images={product.images.nodes}
-							title={product.title}
-						/>
-					</div>
-
-					{/* Right Column - Product Info */}
-					<div className="flex flex-col gap-6">
-						<h1 className="text-4xl md:text-5xl font-bold hidden md:block">
+					{/* LEFT COLUMN - Product Info (was right column) */}
+					<div className="flex flex-col gap-6 md:order-1">
+						<h1 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
 							{product.title}
 						</h1>
 
-						{/* Product Info Component */}
-						<ProductInfo
-							product={product}
-							selectedVariant={product.selectedVariant}
-						/>
+						{/* Enhanced Product Stats Cards */}
+						<div className="grid grid-cols-2 gap-4">
+							{/* Shelf Life Card */}
+							{shelfLifeMonths && (
+								<div className="bg-[#90EE90] border-2 border-black rounded-xl p-4 
+                           shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_rgba(0,0,0,1)]
+                           transition-all duration-200">
+									<div className="flex items-center gap-2 mb-2">
+										<ClockIcon className="w-5 h-5 text-gray-700" />
+										<span className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
+											Shelf Life
+										</span>
+									</div>
+									<div className="text-2xl font-black text-gray-900">
+										{shelfLifeMonths}
+										<span className="text-lg font-semibold text-gray-600 ml-1">months</span>
+									</div>
+								</div>
+							)}
+
+							{/* Weight/Size Card */}
+							<div className="bg-[#FFD700] border-2 border-black rounded-xl p-4 
+                         shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_rgba(0,0,0,1)]
+                         transition-all duration-200">
+								<div className="flex items-center gap-2 mb-2">
+									<CubeIcon className="w-5 h-5 text-gray-700" />
+									<span className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
+										Package Size
+									</span>
+								</div>
+								<div className="text-2xl font-black text-gray-900">
+									{product.title.match(/\d+g/) || '80g'}
+									<span className="text-lg font-semibold text-gray-600 ml-1">per pack</span>
+								</div>
+							</div>
+						</div>
+
+						{/* Enhanced Product Info Component */}
+						<div className="bg-white/80 backdrop-blur-sm rounded-xl border-2 border-black p-6
+                          shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_rgba(0,0,0,1)]
+                          transition-all duration-200">
+							<ProductInfo
+								product={product}
+								selectedVariant={product.selectedVariant}
+							/>
+						</div>
 
 						{/* Packaging Table */}
 						<PackagingTable metafields={extractPackagingInfo(product)} />
 
-						{/* Add to Catalog & Contact Buttons */}
+						{/* Enhanced Add to Catalog & Contact Buttons */}
 						<div className="flex flex-col gap-4">
 							<button
 								onClick={handleAddToCatalog}
-								className={`flex items-center justify-center gap-2 py-3 px-6 text-xl font-semibold 
+								className={`flex items-center justify-center gap-3 py-4 px-6 text-xl font-bold rounded-xl
                          border-4 border-black transition-all duration-200
                          ${isProductSelected(product.id)
-										? 'bg-black text-white'
-										: 'bg-[#FF6B6B] hover:bg-[#FF8787]'}
-                         shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
-                         hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]
-                         active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]
+										? 'bg-black text-white shadow-[4px_4px_0px_rgba(0,255,0,1)]'
+										: 'bg-[#FF6B6B] hover:bg-[#FF8787] shadow-[4px_4px_0px_rgba(0,0,0,1)]'}
+                         hover:shadow-[8px_8px_0px_rgba(0,0,0,1)]
+                         active:shadow-[2px_2px_0px_rgba(0,0,0,1)]
                          active:translate-x-[2px] active:translate-y-[2px]`}
 							>
 								{isProductSelected(product.id) ? (
@@ -117,7 +171,7 @@ export default function Product() {
 									</>
 								)}
 								{selectedProducts.length > 0 && (
-									<span className="ml-4 px-2.5 py-1 py-0.5 bg-black border-2 border-black text-black bg-white rounded-full text-sm">
+									<span className="ml-2 px-3 py-1 bg-white border-2 border-black text-black rounded-full text-sm font-black">
 										{selectedProducts.length}
 									</span>
 								)}
@@ -125,17 +179,35 @@ export default function Product() {
 
 							<button
 								onClick={openContact}
-								className="text-xl font-semibold py-2 text-black hover:underline 
-                       transition-all duration-200 flex items-center justify-center"
+								className="text-xl font-bold py-3 px-6 text-black bg-[#39FF14] rounded-xl 
+                       border-2 border-black hover:bg-[#00FF00] transition-all duration-200
+                       shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_rgba(0,0,0,1)]
+                       flex items-center justify-center gap-2"
 							>
-								Get Catalog →
+								Get Full Catalog →
 							</button>
 						</div>
 
-						<div className="border-t-4 border-black my-4"></div>
+						{/* Enhanced Description Section */}
+						<div className="bg-white/60 backdrop-blur-sm rounded-xl border-2 border-black p-6
+                          shadow-[4px_4px_0px_rgba(0,0,0,1)]">
+							<h3 className="text-2xl font-bold mb-4 text-gray-900">Product Details</h3>
+							<div className="prose prose-lg max-w-none text-gray-800 leading-relaxed">
+								<div dangerouslySetInnerHTML={{
+									__html: product.descriptionHtml || placeholderDescription
+								}} />
+							</div>
+						</div>
+					</div>
 
-						<div className="font-semibold prose prose-xl">
-							<div dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
+					{/* RIGHT COLUMN - Gallery (was left column) */}
+					<div className="mb-8 md:mb-0 md:order-2">
+						<h1 className="text-5xl font-bold md:hidden mb-10 text-gray-900">{product.title}</h1>
+						<div className="sticky top-8">
+							<ProductGallery
+								images={product.images.nodes}
+								title={product.title}
+							/>
 						</div>
 					</div>
 				</div>
@@ -144,8 +216,8 @@ export default function Product() {
 			{/* Recommended Products */}
 			<div className="mt-16 px-4 pb-12 md:px-28">
 				<div className="border-t-4 border-black my-8"></div>
-				<h2 className="text-4xl font-semibold mb-8">Recommended</h2>
-				<Suspense fallback={<div>Loading...</div>}>
+				<h2 className="text-4xl font-semibold mb-8 text-gray-900">You Might Also Like</h2>
+				<Suspense fallback={<div className="text-center py-8">Loading recommendations...</div>}>
 					<Await resolve={recommendedProducts}>
 						{(data) => <RecommendedProducts products={data.products.nodes} />}
 					</Await>
@@ -164,18 +236,18 @@ function RecommendedProducts({ products }) {
 				<Link
 					key={product.id}
 					to={`/products/${product.handle}`}
-					className="group block border-4 border-black p-4 bg-white 
-                     hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
-                     transition-all duration-200"
+					className="group block border-4 border-black p-4 bg-white rounded-xl
+                     hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] 
+                     transition-all duration-200 hover:bg-[#FFF9E5]"
 				>
-					<div className="aspect-square w-full overflow-hidden border-2 border-black mb-4">
+					<div className="aspect-square w-full overflow-hidden border-2 border-black mb-4 rounded-lg">
 						<Image
 							data={product.images.nodes[0]}
 							className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
 							sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, 50vw"
 						/>
 					</div>
-					<h4 className="text-lg font-bold truncate">{product.title}</h4>
+					<h4 className="text-lg font-bold truncate text-gray-900">{product.title}</h4>
 				</Link>
 			))}
 		</div>
