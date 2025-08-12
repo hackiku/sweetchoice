@@ -15,14 +15,15 @@ export async function action({ request, context }: ActionFunctionArgs) {
 			return json({ error: 'Email is required' }, { status: 400 });
 		}
 
-		// Use contact form approach for newsletter signups
+		// Use customerCreate with dummy password (B2B newsletter signup)
 		const response = await context.storefront.mutate(
-			CUSTOMER_CONTACT_MUTATION,
+			CUSTOMER_CREATE_MUTATION,
 			{
 				variables: {
 					input: {
 						email,
-						message: `Newsletter signup request from: ${email}\n\nThis customer wants to receive marketing emails about holiday confectionery products.`,
+						password: "SweetChoice2025!", // Dummy password for B2B contacts
+						acceptsMarketing: true,
 					}
 				},
 			}
@@ -30,11 +31,25 @@ export async function action({ request, context }: ActionFunctionArgs) {
 
 		console.log('Newsletter API Response:', response);
 
-		const { customerContact } = response;
-		const userErrors = customerContact?.userErrors || [];
+		const { customerCreate } = response;
+		const userErrors = customerCreate?.customerUserErrors || [];
 
 		if (userErrors.length > 0) {
-			console.error('Newsletter contact errors:', userErrors);
+			// Check if it's because customer already exists
+			const existsError = userErrors.find(error =>
+				error.message?.includes('already exists') ||
+				error.message?.includes('taken') ||
+				error.code === 'TAKEN'
+			);
+
+			if (existsError) {
+				return json({
+					success: true,
+					message: "Thanks for subscribing!"
+				});
+			}
+
+			console.error('Customer creation errors:', userErrors);
 			return json({
 				error: userErrors[0].message || 'Something went wrong',
 				success: false
@@ -57,12 +72,18 @@ export async function action({ request, context }: ActionFunctionArgs) {
 	}
 }
 
-const CUSTOMER_CONTACT_MUTATION = `#graphql
-	mutation customerContact($input: CustomerContactInput!) {
-		customerContact(input: $input) {
-			userErrors {
+const CUSTOMER_CREATE_MUTATION = `#graphql
+	mutation customerCreate($input: CustomerCreateInput!) {
+		customerCreate(input: $input) {
+			customer {
+				id
+				email
+				acceptsMarketing
+			}
+			customerUserErrors {
 				field
 				message
+				code
 			}
 		}
 	}
