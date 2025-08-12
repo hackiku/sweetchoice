@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Image } from '@shopify/hydrogen';
+import { useTranslation } from '~/lib/i18n/useTranslation';
 
 interface ProductImage {
 	id: string;
@@ -17,13 +18,14 @@ interface ProductGalleryProps {
 }
 
 export function ProductGallery({ images, title }: ProductGalleryProps) {
+	const { t } = useTranslation();
 	const [selectedImage, setSelectedImage] = useState(0);
 
 	if (!images?.length) {
 		return (
 			<div className="product-image border-4 border-black rounded-xl shadow-[8px_8px_0px_rgba(0,0,0,1)] 
                     bg-gradient-to-br from-[#FFF9E5] to-[#FFE4E1] min-h-[400px] flex items-center justify-center">
-				<span className="text-2xl font-bold text-gray-600">No Image Available</span>
+				<span className="text-2xl font-bold text-gray-600">{t('product.gallery.noImage')}</span>
 			</div>
 		);
 	}
@@ -47,7 +49,9 @@ export function ProductGallery({ images, title }: ProductGalleryProps) {
 				{images.length > 1 && (
 					<div className="absolute top-4 right-4 bg-black text-white px-3 py-1 rounded-full
                             text-sm font-bold border-2 border-white shadow-lg">
-						{selectedImage + 1} / {images.length}
+						{t('product.gallery.imageCounter')
+							.replace('{{current}}', String(selectedImage + 1))
+							.replace('{{total}}', String(images.length))}
 					</div>
 				)}
 			</div>
@@ -67,7 +71,9 @@ export function ProductGallery({ images, title }: ProductGalleryProps) {
 							>
 								<Image
 									data={image}
-									alt={`View ${index + 1} of ${images.length}`}
+									alt={t('product.gallery.viewImage')
+										.replace('{{index}}', String(index + 1))
+										.replace('{{total}}', String(images.length))}
 									className="w-full h-full object-cover hover:scale-110 transition-transform duration-200"
 								/>
 							</button>

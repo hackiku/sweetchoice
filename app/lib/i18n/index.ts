@@ -6,6 +6,8 @@ import {footer} from './translations/components/footer';
 import {header} from './translations/components/header';
 import {contact} from './translations/components/contact';
 import {statBlurbs} from './translations/components/statBlurbs';
+import {product} from './translations/components/product';
+
 // pages
 import {about} from './translations/pages/about';
 import {home} from './translations/pages/home';
@@ -30,6 +32,7 @@ export const translations = {
     header: header.en,
     contact: contact.en,
     statBlurbs: statBlurbs.en,
+		product: product.en,
     comingsoon: comingsoon.en,
 		cartPage: cartPage.en,
   },
@@ -46,6 +49,7 @@ export const translations = {
     header: header.sr,
     contact: contact.sr,
     statBlurbs: statBlurbs.sr,
+		product: product.sr,
     comingsoon: comingsoon.sr,
 		cartPage: cartPage.sr,
   }

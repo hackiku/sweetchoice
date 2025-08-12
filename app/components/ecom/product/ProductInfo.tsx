@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { ClockIcon, CubeIcon } from '@heroicons/react/24/solid';
+import { useTranslation } from '~/lib/i18n/useTranslation';
 
 interface ProductInfoProps {
 	product: any;
@@ -14,6 +15,7 @@ function daysToMonths(days: number): number {
 }
 
 export function ProductInfo({ product, selectedVariant }: ProductInfoProps) {
+	const { t } = useTranslation();
 	// Extract weight from variant or product title
 	const getWeight = () => {
 		if (selectedVariant?.weight) {
@@ -42,7 +44,7 @@ export function ProductInfo({ product, selectedVariant }: ProductInfoProps) {
 						{weight}
 					</div>
 					<div className="text-lg font-bold text-black opacity-70">
-						per box
+						{t('product.info.packageSize.unit')}
 					</div>
 				</div>
 			</div>
@@ -52,12 +54,12 @@ export function ProductInfo({ product, selectedVariant }: ProductInfoProps) {
                      shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_rgba(0,0,0,1)]
                      transition-all duration-200 flex items-center gap-4">
 				<ClockIcon className="w-8 h-8 text-black flex-shrink-0" />
-				<div className="flex flex-col">
+				<div className="flex flex-col gap-1">
 					<div className="text-3xl font-black text-black leading-none">
 						{shelfLifeMonths || 21}
 					</div>
 					<div className="text-lg font-bold text-black opacity-70">
-						months
+						{t('product.info.shelfLife.unit')}
 					</div>
 				</div>
 			</div>

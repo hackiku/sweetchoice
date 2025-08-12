@@ -1,4 +1,5 @@
 // app/routes/($locale).products.$handle.tsx
+import { useTranslation } from '~/lib/i18n/useTranslation';
 import { Suspense } from 'react';
 import { defer, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { Await, useLoaderData, Link } from '@remix-run/react';
@@ -11,7 +12,11 @@ import { useContact } from '~/components/cta/contact/ContactContext';
 import { PackagingTable, extractPackagingInfo } from '~/components/ecom/product/PackagingTable';
 
 export const meta = ({ data }) => {
-	return [{ title: `Sweetchoice | ${data?.product?.title ?? ''}` }];
+	const { t } = useTranslation();
+	const productTitle = data?.product?.title || 'Product';
+	return [{
+		title: t('product.meta.title').replace('{{productTitle}}', productTitle)
+	}];
 };
 
 export async function loader({ params, context, request }: LoaderFunctionArgs) {
@@ -47,6 +52,7 @@ export async function loader({ params, context, request }: LoaderFunctionArgs) {
 }
 
 export default function Product() {
+	const { t } = useTranslation();
 	const { product, recommendedProducts } = useLoaderData<typeof loader>();
 	const { toggleProduct, isProductSelected, selectedProducts, openContact } = useContact();
 
@@ -65,16 +71,13 @@ export default function Product() {
 
 	// Placeholder description - remove when real descriptions are available
 	const placeholderDescription = `
-		<p><strong>Premium Quality Seasonal Treats</strong></p>
-		<p>Our ${product.title.toLowerCase()} represents the perfect blend of traditional confectionery craftsmanship and modern production standards. Each piece is carefully crafted to deliver exceptional taste and visual appeal that delights customers season after season.</p>
-		<p><strong>Key Features:</strong></p>
+		<p><strong>${t('product.description.placeholder.title')}</strong></p>
+		<p>${t('product.description.placeholder.intro').replace('{{productName}}', product.title.toLowerCase())}</p>
+		<p><strong>${t('product.description.placeholder.features.title')}</strong></p>
 		<ul>
-			<li>Premium ingredients sourced from trusted suppliers</li>
-			<li>Vibrant colors and engaging packaging</li>
-			<li>Perfect for retail displays and seasonal promotions</li>
-			<li>Long shelf life for optimal inventory management</li>
+			${t('product.description.placeholder.features.list').map((feature: string) => `<li>${feature}</li>`).join('')}
 		</ul>
-		<p>Ideal for supermarkets, specialty stores, and seasonal retail displays. Contact us for bulk pricing and custom packaging options.</p>
+		<p>${t('product.description.placeholder.conclusion')}</p>
 	`;
 
 	return (
@@ -112,12 +115,12 @@ export default function Product() {
 								{isProductSelected(product.id) ? (
 									<>
 										<CheckIcon className="w-6 h-6" />
-										Added to Catalog
+										{t('product.actions.addedToCatalog')}
 									</>
 								) : (
 									<>
 										<PlusIcon className="w-6 h-6" />
-										Add to Catalog
+										{t('product.actions.addToCatalog')}
 									</>
 								)}
 								{selectedProducts.length > 0 && (
@@ -134,20 +137,20 @@ export default function Product() {
                        shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_rgba(0,0,0,1)]
                        flex items-center justify-center gap-2"
 							>
-								Get Full Catalog →
+								{t('product.actions.getFullCatalog')}
 							</button>
 						</div>
 
-						<hr />
 						{/* Enhanced Description Section */}
-						{/* <div className="bg-white/60 backdrop-blur-sm rounded-xl border-2 border-black p-6
-                          shadow-[4px_4px_0px_rgba(0,0,0,1)]"> */}
+						<div className="bg-white/60 backdrop-blur-sm rounded-xl border-2 border-black p-6
+                          shadow-[4px_4px_0px_rgba(0,0,0,1)]">
+							<h3 className="text-2xl font-bold mb-4 text-gray-900">{t('product.description.title')}</h3>
 							<div className="prose prose-lg max-w-none text-gray-800 leading-relaxed">
 								<div dangerouslySetInnerHTML={{
 									__html: product.descriptionHtml || placeholderDescription
 								}} />
 							</div>
-						{/* </div> */}
+						</div>
 					</div>
 
 					{/* RIGHT COLUMN - Gallery (was left column) */}
@@ -166,8 +169,8 @@ export default function Product() {
 			{/* Recommended Products */}
 			<div className="mt-16 px-4 pb-12 md:px-28">
 				<div className="border-t-4 border-black my-8"></div>
-				<h2 className="text-4xl font-semibold mb-8 text-gray-900">You Might Also Like</h2>
-				<Suspense fallback={<div className="text-center py-8">Loading recommendations...</div>}>
+				<h2 className="text-4xl font-semibold mb-8 text-gray-900">{t('product.recommendations.title')}</h2>
+				<Suspense fallback={<div className="text-center py-8">{t('product.recommendations.loading')}</div>}>
 					<Await resolve={recommendedProducts}>
 						{(data) => <RecommendedProducts products={data.products.nodes} />}
 					</Await>
