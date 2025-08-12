@@ -114,7 +114,7 @@ const NavButtons = () => {
 							<span className="w-12 h-12 flex items-center justify-center text-2xl relative">
 								<EnvelopeIcon className="h-6" />
 								{selectedProducts.length > 0 && (
-									<span className="absolute -top-3 left-1 w-6 h-6 bg-green-500 text-white text-xs font-bold rounded-full flex items-center justify-center border-2 border-white">
+									<span className="absolute -top-2 -left-2 w-6 h-6 bg-green-500 text-white text-xs font-bold rounded-full flex items-center justify-center border-2 border-white">
 										{selectedProducts.length}
 									</span>
 								)}

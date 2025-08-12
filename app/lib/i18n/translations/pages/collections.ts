@@ -4,7 +4,7 @@ export const collections = {
 	en: {
 		header: {
 			productsLabel: "HOLIDAY COLLECTION",
-			allProductsLabel: "PRODUCTS",
+			allProductsLabel: "ALL PRODUCTS",
 			allProductsTitle: "All Sweets, All Seasons, All Year",
 			allProductsSpans: {
 				line1: "All Products",
@@ -69,7 +69,7 @@ export const collections = {
 	sr: {
 		header: {
 			productsLabel: "PRAZNIČNA KOLEKCIJA",
-			allProductsLabel: "PROIZVODI",
+			allProductsLabel: "SVI PROIZVODI",
 			allProductsTitle: "Svi Slatkiši, Svako Doba, Cele Godine",
 			allProductsSpans: {
 				line1: "Svi Proizvodi",

@@ -55,9 +55,11 @@ export default function LanguageButton({ variant = 'minimal', className = '' }: 
 				aria-label={`Switch to ${oppositeLocale.toUpperCase()}`}
 			>
 				{currentLocale === 'sr' ? (
-					<img src="/assets/flags/rs.svg" alt="Switch to English" className="w-full h-full" />
+					// <img src="/assets/flags/rs.svg" alt="Switch to English" className="w-full h-full" />
+					<span>SR</span>
 				) : (
-					<img src="/assets/flags/gb.svg" alt="Switch to Serbian" className="w-full h-full" />
+					// <img src="/assets/flags/gb.svg" alt="Switch to Serbian" className="w-full h-full" />
+					<span>EN</span>
 				)}
 			</button>
 		);
