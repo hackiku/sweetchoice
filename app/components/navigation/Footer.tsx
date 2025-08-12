@@ -44,7 +44,14 @@ function FooterContent({
 	publicStoreDomain: string;
 }) {
 	const { t } = useTranslation();
-	const { isOpen, openContact, closeContact } = useContact();
+	
+	const contact = useContact()
+
+	if (!contact) {
+		return <div>Loading...</div>; 
+	}
+
+	const { isOpen, openContact, closeContact } = contact;
 
 	const handleClick = () => {
 		if (isOpen) {

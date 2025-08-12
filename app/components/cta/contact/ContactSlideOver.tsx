@@ -1,7 +1,7 @@
 // app/components/cta/contact/ContactSlideOver.tsx
 
 import React, { useRef, useState, useEffect } from 'react';
-import { MdClose } from 'react-icons/md';
+import { MdClose, MdArrowForward } from 'react-icons/md';
 import { Link } from '@remix-run/react';
 import { useContact } from './ContactContext';
 import { ContactDetails } from './ContactDetails';
@@ -74,10 +74,10 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 						</div>
 
 						{/* Two Column Layout - Full Height */}
-						<div className="flex-1 grid grid-cols-2 gap-6">
+						<div className="flex-1 grid grid-cols-2 gap-6 overflow-hidden">
 							{/* Left Column - Selected Products */}
-							<div className="flex flex-col h-full">
-								<div className="flex justify-between items-center mb-4">
+							<div className="flex flex-col h-full min-h-0">
+								<div className="flex justify-between items-center mb-4 flex-shrink-0">
 									<h3 className="text-3xl font-bold text-black">
 										{t('contact.catalog.title')}
 									</h3>
@@ -96,10 +96,18 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 									)}
 								</div>
 
-								{/* Products List - Fills remaining space */}
-								<div className="flex-1 bg-[#FFF59F] border-2 border-black rounded-xl p-4 flex flex-col">
+								{/* Products List - Scrollable with clipped bottom */}
+								<div className="flex-1 bg-[#FFF59F] border-2 border-black rounded-xl p-4 flex flex-col min-h-0">
 									{selectedProducts.length > 0 ? (
-										<div className="space-y-2 overflow-y-auto scrollbar-hide flex-1">
+										<div className="space-y-2 overflow-y-auto flex-1 min-h-0" style={{
+											scrollbarWidth: 'none',
+											msOverflowStyle: 'none'
+										}}>
+											<style jsx>{`
+												div::-webkit-scrollbar {
+													display: none;
+												}
+											`}</style>
 											{selectedProducts.map((product) => (
 												<div
 													key={product.id}
@@ -117,28 +125,45 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 														/>
 													)}
 													<span className="flex-1 font-medium truncate">{product.title}</span>
-													<button
-														onClick={() => removeProduct(product.id)}
-														className="p-1 bg-red-400 text-black rounded-lg 
+													<div className="flex gap-2">
+														{/* Green arrow button to product */}
+														<Link
+															to={`/products/${product.handle}`}
+															onClick={onClose}
+															className="p-1 bg-[#39FF14] text-black rounded-lg 
+                                       border-2 border-black hover:bg-[#00FF00] 
+                                       transition-colors flex items-center justify-center
+                                       shadow-[2px_2px_0px_rgba(0,0,0,1)]
+                                       hover:shadow-[4px_4px_0px_rgba(0,0,0,1)]"
+															disabled={isSubmitting}
+														>
+															<MdArrowForward size={20} />
+														</Link>
+														{/* Red X button */}
+														<button
+															onClick={() => removeProduct(product.id)}
+															className="p-1 bg-red-400 text-black rounded-lg 
                                        border-2 border-black hover:bg-red-500 
                                        transition-colors
                                        shadow-[2px_2px_0px_rgba(0,0,0,1)]
                                        hover:shadow-[4px_4px_0px_rgba(0,0,0,1)]"
-														disabled={isSubmitting}
-													>
-														<MdClose size={20} />
-													</button>
+															disabled={isSubmitting}
+														>
+															<MdClose size={20} />
+														</button>
+													</div>
 												</div>
 											))}
 										</div>
 									) : (
-										<div className="flex-1 flex flex-col items-center justify-center text-center">
+										<div className="flex-1 flex flex-col items-center justify-center text-center min-h-0">
 											<p className="text-black font-bold mb-2 text-xl">{t('contact.catalog.empty')}</p>
 											<p className="text-black mb-4 text-lg">
 												{t('contact.catalog.emptyDesc')}
 											</p>
 											<Link
 												to="/collections/all"
+												onClick={onClose}
 												className="bg-[#FF6B6B] text-black font-bold py-3 px-6 
                                  border-2 border-black rounded-xl 
                                  hover:bg-[#FF5A1F] transition-colors
@@ -152,10 +177,11 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 									)}
 								</div>
 
-								{/* Desktop Action Buttons */}
-								<div className="grid grid-cols-2 gap-3 mt-4">
+								{/* Desktop Action Buttons - Fixed Position */}
+								<div className="grid grid-cols-2 gap-3 mt-4 flex-shrink-0">
 									<Link
 										to="/collections/all"
+										onClick={onClose}
 										className="bg-white text-black font-bold py-3 px-4 
                                border-2 border-black rounded-xl 
                                shadow-[4px_4px_0px_rgba(0,0,0,1)] 
@@ -170,6 +196,7 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 
 									<Link
 										to="/contact"
+										onClick={onClose}
 										className="bg-[#90EE90] text-black font-bold py-3 px-4 
                                border-2 border-black rounded-xl 
                                shadow-[4px_4px_0px_rgba(0,0,0,1)] 
@@ -192,13 +219,14 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 										isExpanded={true}
 										onExpandToggle={() => { }}
 										onSuccess={onClose}
+										showGetCatalogButton={false}
 									/>
 								</div>
 							</div>
 						</div>
 					</div>
 
-					{/* Mobile Layout - Unchanged */}
+					{/* Mobile Layout - Simplified */}
 					<div className="md:hidden flex flex-col h-full">
 						{/* Scrollable Content Area */}
 						<div className="flex-grow overflow-y-auto relative">
@@ -254,7 +282,15 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 										)}
 									</div>
 
-									<div className="space-y-2 max-h-32 overflow-y-auto scrollbar-hide">
+									<div className="space-y-2 max-h-32 overflow-y-auto" style={{
+										scrollbarWidth: 'none',
+										msOverflowStyle: 'none'
+									}}>
+										<style jsx>{`
+											div::-webkit-scrollbar {
+												display: none;
+											}
+										`}</style>
 										{selectedProducts.length > 0 ? (
 											selectedProducts.map((product) => (
 												<div
@@ -273,17 +309,33 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 														/>
 													)}
 													<span className="flex-1 font-medium truncate">{product.title}</span>
-													<button
-														onClick={() => removeProduct(product.id)}
-														className="p-1 bg-red-400 text-black rounded-lg 
+													<div className="flex gap-1">
+														{/* Green arrow button to product */} 
+														<Link
+															to={`/products/${product.handle}`}
+															onClick={onClose}
+															className="p-1 bg-[#39FF14] text-black rounded-lg 
+                                       border-2 border-black hover:bg-[#00FF00] 
+                                       transition-colors flex items-center justify-center
+                                       shadow-[2px_2px_0px_rgba(0,0,0,1)]
+                                       hover:shadow-[4px_4px_0px_rgba(0,0,0,1)]"
+															disabled={isSubmitting}
+														>
+															<MdArrowForward size={20} />
+														</Link>
+														{/* Red X button */}
+														<button
+															onClick={() => removeProduct(product.id)}
+															className="p-1 bg-red-400 text-black rounded-lg 
                                        border-2 border-black hover:bg-red-500 
                                        transition-colors
                                        shadow-[2px_2px_0px_rgba(0,0,0,1)]
                                        hover:shadow-[4px_4px_0px_rgba(0,0,0,1)]"
-														disabled={isSubmitting}
-													>
-														<MdClose size={20} />
-													</button>
+															disabled={isSubmitting}
+														>
+															<MdClose size={20} />
+														</button>
+													</div>
 												</div>
 											))
 										) : (
@@ -294,6 +346,7 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 												</p>
 												<Link
 													to="/collections/all"
+													onClick={onClose}
 													className="inline-block bg-[#FF6B6B] text-black font-bold py-2 px-4 
                                      border-2 border-black rounded-xl 
                                      hover:bg-[#FF5A1F] transition-colors
@@ -309,12 +362,13 @@ const ContactSlideOver: React.FC<ContactSlideOverProps> = ({ onClose }) => {
 							</div>
 						</div>
 
-						{/* Contact Form - Mobile Only */}
+						{/* Contact Form - Mobile - Simplified */}
 						<div className="sticky bottom-0 w-full">
 							<ContactForm
 								isExpanded={isFormExpanded}
 								onExpandToggle={() => setIsFormExpanded(!isFormExpanded)}
 								onSuccess={onClose}
+								showGetCatalogButton={true}
 							/>
 						</div>
 					</div>

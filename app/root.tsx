@@ -39,7 +39,7 @@ import logosStyles from '~/styles/ui/logos.css?url';
 import { FOOTER_QUERY, HEADER_QUERY } from '~/lib/fragments';
 import { createTransformStream } from '~/lib/translations/serverTransform';
 import { Footer } from '~/components/navigation/Footer';
-import { SimpleFooter } from '~/components/navigation/SimpleFooter';
+
 
 export type RootLoader = typeof loader;
 
