@@ -3,20 +3,25 @@
 import React from 'react';
 
 interface SmartphoneWrapperProps {
-	imageSrc: string;
+	imageSrc?: string;
 	imageAlt?: string;
 	rotation?: string; // e.g., "rotate-6", "-rotate-12"
 	size?: 'small' | 'medium' | 'large';
 	className?: string;
+	paletteNumber?: number; // 1-13 for your palette images
 }
 
 const SmartphoneWrapper: React.FC<SmartphoneWrapperProps> = ({
-	imageSrc = "/assets/images/palette-3.jpeg",
+	imageSrc,
 	imageAlt = "Smartphone display",
 	rotation = "",
 	size = "medium",
-	className = ""
+	className = "",
+	paletteNumber = 3
 }) => {
+	// Use paletteNumber if no imageSrc provided
+	const finalImageSrc = imageSrc || `/assets/images/palette-${paletteNumber}.jpeg`;
+
 	const sizeClasses = {
 		small: "w-[200px]",
 		medium: "w-[240px]",
@@ -30,7 +35,7 @@ const SmartphoneWrapper: React.FC<SmartphoneWrapperProps> = ({
 				{/* Screen container with mobile aspect ratio (16:9 rotated = 9:16) */}
 				<div className="relative pt-[177.78%]">
 					<img
-						src={imageSrc}
+						src={finalImageSrc}
 						alt={imageAlt}
 						className="absolute top-0 left-0 w-full h-full object-cover rounded-lg"
 					/>

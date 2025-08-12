@@ -1,5 +1,5 @@
 // app/components/pages/landing/Hero.tsx
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import ContactButton from '~/components/cta/contact/ContactButton';
 import ShopButton from '~/components/cta/buy/ShopButton';
 import LogoMarquee from '~/components/proof/LogoMarquee';
@@ -12,16 +12,45 @@ const Hero: React.FC = () => {
 	const { t } = useTranslation();
 	const { openContact } = useContact();
 
-	const [paletteNumber, setPaletteNumber] = useState(Math.floor(Math.random() * 12) + 1);
+	// Separate state for each image component - prevents SSR mismatch
+	const [phonePaletteNumber, setPhonePaletteNumber] = useState(3); // Safe default
+	const [polaroidPaletteNumber, setPolaroidPaletteNumber] = useState(7); // Different default
+	const [isClientMounted, setIsClientMounted] = useState(false);
 
+	// Safe random generator for palette numbers (1-13)
+	const getRandomPalette = () => Math.floor(Math.random() * 13) + 1;
+
+	// Client-side only randomization to prevent SSR mismatch
 	useEffect(() => {
-		const interval = setInterval(() => {
-			setPaletteNumber(Math.floor(Math.random() * 12) + 1);
-		}, 3000); // Change every 3 seconds
+		setIsClientMounted(true);
+		// Set initial random values only on client
+		setPhonePaletteNumber(getRandomPalette());
+		setPolaroidPaletteNumber(getRandomPalette());
 
-		return () => clearInterval(interval);
+		// Auto-cycle phone image every 3 seconds
+		const phoneInterval = setInterval(() => {
+			setPhonePaletteNumber(getRandomPalette());
+		}, 3000);
+
+		// Auto-cycle polaroid image every 4.5 seconds (different timing)
+		const polaroidInterval = setInterval(() => {
+			setPolaroidPaletteNumber(getRandomPalette());
+		}, 4500);
+
+		return () => {
+			clearInterval(phoneInterval);
+			clearInterval(polaroidInterval);
+		};
 	}, []);
 
+	// Click handlers for manual image changes
+	const handlePhoneClick = () => {
+		setPhonePaletteNumber(getRandomPalette());
+	};
+
+	const handlePolaroidClick = () => {
+		setPolaroidPaletteNumber(getRandomPalette());
+	};
 
 	return (
 		<section className="relative min-h-[85vh] overflow-hidden" style={{ zIndex: 1 }}>
@@ -76,21 +105,24 @@ const Hero: React.FC = () => {
 				{/* Assets below - scaled down by default */}
 				<div className="px-6 sm:px-8 mb-2" style={{ zIndex: 5 }}>
 					<div className="relative flex justify-center -gap-4 -mt-6  sm:-mt-[15vh] md:-mt-[20vh] sm:-mr-[30vw]">
-					{/* <div className="absolute top-16 right-20 " style={{ zIndex: 5 }}> */}
 						<div className="mt-44">
-							<PolaroidPicture
-								imageSrc={`/assets/images/palette-${paletteNumber - 1}.jpeg`}
-								caption="🎄 '23"
-								rotation="-rotate-6"
-								size="small"
-							/>
+							<div onClick={handlePolaroidClick} className="cursor-pointer transform hover:scale-105 transition-transform duration-200">
+								<PolaroidPicture
+									paletteNumber={polaroidPaletteNumber}
+									caption="🎄 '23"
+									rotation="-rotate-6"
+									size="small"
+								/>
+							</div>
 						</div>
 						<div className="mt-20">
-							<SmartphoneWrapper
-								imageSrc={`/assets/images/palette-${paletteNumber}.jpeg`}
-								rotation="rotate-6"
-								size="small"
-							/>
+							<div onClick={handlePhoneClick} className="cursor-pointer transform hover:scale-105 transition-transform duration-200">
+								<SmartphoneWrapper
+									paletteNumber={phonePaletteNumber}
+									rotation="rotate-6"
+									size="small"
+								/>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -108,22 +140,25 @@ const Hero: React.FC = () => {
 					<div className="relative">
 						{/* Smartphone - primary position */}
 						<div className="relative" style={{ zIndex: 7 }}>
-							<SmartphoneWrapper
-								imageSrc={`/assets/images/palette-${paletteNumber}.jpeg`}
-								rotation="rotate-12"
-								size="medium"
-							/>
+							<div onClick={handlePhoneClick} className="cursor-pointer transform hover:scale-105 transition-transform duration-200">
+								<SmartphoneWrapper
+									paletteNumber={phonePaletteNumber}
+									rotation="rotate-12"
+									size="medium"
+								/>
+							</div>
 						</div>
 
 						{/* Polaroid - overlapping behind and to the left */}
 						<div className="absolute -bottom-0 right-[90%]" style={{ zIndex: 6 }}>
-							<PolaroidPicture
-								// imageSrc={`/assets/images/palette-${paletteNumber - 1}.jpeg`}
-								imageSrc={`/assets/images/palette-${Math.floor(Math.random() * 12) + 1}.jpeg`}
-								caption="🎄🎅"
-								rotation="-rotate-12"
-								size="medium"
-							/>
+							<div onClick={handlePolaroidClick} className="cursor-pointer transform hover:scale-105 transition-transform duration-200">
+								<PolaroidPicture
+									paletteNumber={polaroidPaletteNumber}
+									caption="🎄🎅"
+									rotation="-rotate-12"
+									size="medium"
+								/>
+							</div>
 						</div>
 					</div>
 				</div>

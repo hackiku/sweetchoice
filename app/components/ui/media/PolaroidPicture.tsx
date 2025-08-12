@@ -3,22 +3,27 @@
 import React from 'react';
 
 interface PolaroidPictureProps {
-	imageSrc: string;
+	imageSrc?: string;
 	imageAlt?: string;
 	caption?: string;
 	rotation?: string; // e.g., "rotate-6", "-rotate-12"
 	size?: 'small' | 'medium' | 'large';
 	className?: string;
+	paletteNumber?: number; // 1-13 for your palette images
 }
 
 const PolaroidPicture: React.FC<PolaroidPictureProps> = ({
-	imageSrc = "/assets/images/palette-3.jpeg",
+	imageSrc,
 	imageAlt = "Polaroid style photo",
 	caption = "",
 	rotation = "",
 	size = "medium",
-	className = ""
+	className = "",
+	paletteNumber = 3
 }) => {
+	// Use paletteNumber if no imageSrc provided
+	const finalImageSrc = imageSrc || `/assets/images/palette-${paletteNumber}.jpeg`;
+	
 	const sizeClasses = {
 		small: "w-[180px]",
 		medium: "w-[220px]",
@@ -33,7 +38,7 @@ const PolaroidPicture: React.FC<PolaroidPictureProps> = ({
 				{/* Photo area - square aspect ratio like real polaroids */}
 				<div className="relative w-full pt-[100%] bg-gray-100 border-2 border-gray-300 rounded-sm overflow-hidden">
 					<img
-						src={imageSrc}
+						src={finalImageSrc}
 						alt={imageAlt}
 						className="absolute top-0 left-0 w-full h-full object-cover"
 					/>

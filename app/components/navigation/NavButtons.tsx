@@ -45,6 +45,28 @@ const NavButtons = () => {
 		}
 	};
 
+	useEffect(() => {
+		const style = document.createElement('style');
+		style.textContent = `
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+      20%, 40%, 60%, 80% { transform: translateX(2px); }
+    }
+    
+    .animate-shake {
+      animation: shake 0.5s ease-in-out;
+    }
+  `;
+		document.head.appendChild(style);
+
+		return () => {
+			document.head.removeChild(style);
+		};
+	}, []);
+
+
+
 	const handleMenuClick = () => {
 		if (isMenuOpen) {
 			closeMenu();
@@ -128,7 +150,7 @@ const NavButtons = () => {
 			)}
 
 			{/* Add shake animation CSS */}
-			<style jsx>{`
+			{/* <style jsx>{`
 				@keyframes shake {
 					0%, 100% { transform: translateX(0); }
 					10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
@@ -138,7 +160,7 @@ const NavButtons = () => {
 				.animate-shake {
 					animation: shake 0.5s ease-in-out;
 				}
-			`}</style>
+			`}</style> */}
 		</div>
 	);
 };
