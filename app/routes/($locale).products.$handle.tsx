@@ -1,5 +1,4 @@
-// app/routes/($locale).products.$handle.tsx
-import { useTranslation } from '~/lib/i18n/useTranslation';
+import { useTranslation } from '~/lib/i18n/useTranslation';// app/routes/($locale).products.$handle.tsx
 import { Suspense } from 'react';
 import { defer, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { Await, useLoaderData, Link } from '@remix-run/react';
@@ -69,17 +68,6 @@ export default function Product() {
 		});
 	};
 
-	// Placeholder description - remove when real descriptions are available
-	const placeholderDescription = `
-		<p><strong>${t('product.description.placeholder.title')}</strong></p>
-		<p>${t('product.description.placeholder.intro').replace('{{productName}}', product.title.toLowerCase())}</p>
-		<p><strong>${t('product.description.placeholder.features.title')}</strong></p>
-		<ul>
-			${t('product.description.placeholder.features.list').map((feature: string) => `<li>${feature}</li>`).join('')}
-		</ul>
-		<p>${t('product.description.placeholder.conclusion')}</p>
-	`;
-
 	return (
 		<div className="pt-12 border-y-4 border-black bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100">
 			<div className="mx-auto px-4 md:px-28">
@@ -97,7 +85,7 @@ export default function Product() {
 						/>
 
 						{/* Packaging Table */}
-						<PackagingTable metafields={extractPackagingInfo(product)} />
+						{/* <PackagingTable metafields={extractPackagingInfo(product)} /> */}
 
 						{/* Enhanced Add to Catalog & Contact Buttons */}
 						<div className="flex flex-col gap-4">
@@ -141,16 +129,16 @@ export default function Product() {
 							</button>
 						</div>
 
-						{/* Enhanced Description Section */}
-						<div className="bg-white/60 backdrop-blur-sm rounded-xl border-2 border-black p-6
-                          shadow-[4px_4px_0px_rgba(0,0,0,1)]">
-							<h3 className="text-2xl font-bold mb-4 text-gray-900">{t('product.description.title')}</h3>
-							<div className="prose prose-lg max-w-none text-gray-800 leading-relaxed">
-								<div dangerouslySetInnerHTML={{
-									__html: product.descriptionHtml || placeholderDescription
-								}} />
+						{/* Product Description - Only show if exists */}
+						{product.descriptionHtml && (
+							<div className="bg-white/60 backdrop-blur-sm rounded-xl border-2 border-black p-6
+                              shadow-[4px_4px_0px_rgba(0,0,0,1)]">
+								<h3 className="text-2xl font-bold mb-4 text-gray-900">{t('product.description.title')}</h3>
+								<div className="prose prose-lg max-w-none text-gray-800 leading-relaxed">
+									<div dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
+								</div>
 							</div>
-						</div>
+						)}
 					</div>
 
 					{/* RIGHT COLUMN - Gallery (was left column) */}

@@ -46,7 +46,7 @@ export const product = {
 			addToCatalog: "Add to Catalog",
 			addedToCatalog: "Added to Catalog",
 			getCatalog: "Get Catalog",
-			getFullCatalog: "Get Full Catalog →"
+			getFullCatalog: "Get Catalog →"
 		},
 		packaging: {
 			title: "Packaging Options",
